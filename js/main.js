@@ -1,3 +1,34 @@
+function saveSplit(percentage) {
+    const isVerticalLayout = window.matchMedia('(orientation: portrait)').matches;
+    const orientation = isVerticalLayout ? 'vertical' : 'horizontal';
+    localStorage.setItem('split-' + orientation, percentage);
+}
+
+function loadSplit() {
+    const isVerticalLayout = window.matchMedia('(orientation: portrait)').matches;
+    const orientation = isVerticalLayout ? 'vertical' : 'horizontal';
+    return localStorage.getItem('split-' + orientation) || 50; // default to 50%
+}
+
+function applySplit() {
+    const percentage = loadSplit();
+    if (window.matchMedia('(orientation: portrait)').matches) {
+        document.querySelector('.top-panel').style.flex = `0 0 ${percentage}%`;
+        document.querySelector('.bottom-panel').style.flex = `0 0 ${100 - percentage}%`;
+    } else {
+        document.querySelector('.left-panel').style.flex = `0 0 ${percentage}%`;
+        document.querySelector('.right-panel').style.flex = `0 0 ${100 - percentage}%`;
+    }
+}
+
+function debounce(fn, delay) {
+    let timer = null;
+    return function(...args) {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn.apply(this, args), delay);
+    };
+}
+
 // Split view functionality
 document.addEventListener('DOMContentLoaded', () => {
     // Initially render content in panels
@@ -14,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Variables to track dragging state
     let isDragging = false;
+    let percentage = loadSplit(); // Load split percentage
 
     // Horizontal split functionality (side-by-side panels)
     splitHandle.addEventListener('mousedown', (e) => {
@@ -46,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let yPos = e.clientY - containerRect.top;
 
             // Calculate percentage and constrain to container bounds
-            const percentage = Math.min(Math.max((yPos / containerRect.height) * 100, 10), 90);
+            percentage = Math.min(Math.max((yPos / containerRect.height) * 100, 10), 90);
 
             // Apply new sizes
             topPanel.style.flex = `0 0 ${percentage}%`;
@@ -61,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let xPos = e.clientX - containerRect.left;
 
             // Calculate percentage and constrain to container bounds
-            const percentage = Math.min(Math.max((xPos / containerRect.width) * 100, 10), 90);
+            percentage = Math.min(Math.max((xPos / containerRect.width) * 100, 10), 90);
 
             // Apply new sizes
             leftPanel.style.flex = `0 0 ${percentage}%`;
@@ -74,6 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isDragging) {
             isDragging = false;
             document.body.style.cursor = 'default';
+            saveSplit(percentage);
         }
     });
 
@@ -110,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let yPos = e.touches[0].clientY - containerRect.top;
 
             // Calculate percentage and constrain to container bounds
-            const percentage = Math.min(Math.max((yPos / containerRect.height) * 100, 10), 90);
+            percentage = Math.min(Math.max((yPos / containerRect.height) * 100, 10), 90);
 
             // Apply new sizes
             topPanel.style.flex = `0 0 ${percentage}%`;
@@ -125,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let xPos = e.touches[0].clientX - containerRect.left;
 
             // Calculate percentage and constrain to container bounds
-            const percentage = Math.min(Math.max((xPos / containerRect.width) * 100, 10), 90);
+            percentage = Math.min(Math.max((xPos / containerRect.width) * 100, 10), 90);
 
             // Apply new sizes
             leftPanel.style.flex = `0 0 ${percentage}%`;
@@ -137,21 +170,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isDragging) {
             isDragging = false;
             document.body.style.cursor = 'default';
+            saveSplit(percentage);
         }
     });
 
     // Handle window resize to switch between layouts
-    window.addEventListener('resize', () => {
-        const isVerticalLayout = window.matchMedia('(orientation: portrait)').matches;
-
-        if (isVerticalLayout) {
-            // Reset to default sizes for vertical layout
-            document.querySelector('.top-panel').style.flex = '1';
-            document.querySelector('.bottom-panel').style.flex = '1';
-        } else {
-            // Reset to default sizes for horizontal layout
-            document.querySelector('.left-panel').style.flex = '1';
-            document.querySelector('.right-panel').style.flex = '1';
-        }
-    });
+    window.addEventListener('resize', debounce(() => {
+        applySplit();
+    }, 100)); // 100ms debounce
 });
