@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Split the main window from last saved ratio -->
-    <script src="js/split.js"></script>
+    <!-- Init the app -->
+    <script src="js/init.js"></script>
 
     <!-- Meta tags -->
     <meta charset="UTF-8">
@@ -20,12 +20,33 @@
     <!-- CSS files -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="manifest" href="manifest.json">
+
+    <!-- Google Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
 <body>
+    <!-- Settings panel -->
+    <div id="settings-panel">
+        <span class="material-symbols-outlined settings-close" id="settings-close">close</span>
+        <label for="language-select" locale-id="language">App Language:</label>
+        <select id="language-select"></select>
+    </div>
+
+    <!-- Main application container -->
     <div class="app-container">
         <!-- Top toolbar -->
         <header class="toolbar top-toolbar">
-            <h1>Top Toolbar</h1>
+            <div class="toolbar-left">
+                <span class="material-symbols-outlined icon-left" id="settings-icon">settings</span>
+                <span class="material-symbols-outlined icon-left">help</span>
+            </div>
+            <div class="toolbar-right">
+                <label for="book-select" locale-id="book">Book</label>
+                <select id="book-select" class="icon-right-half"></select>
+                <label for="chapter-select" class="icon-right" locale-id="chapter">Chapter</label>
+                <select id="chapter-select" class="icon-right-half"></select>
+                <span class="material-symbols-outlined icon-right">routine</span>
+            </div>
         </header>
         
         <!-- Main content area -->
@@ -68,5 +89,6 @@
     <script src="js/text.js"></script>
     <script src="js/chat.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/settings.js"></script>
 </body>
 </html>

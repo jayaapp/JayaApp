@@ -1,0 +1,12 @@
+{
+    "English": {
+        "language": "App Language:",
+        "book": "Book",
+        "chapter": "Chapter"
+    },
+    "Polish": {
+        "language": "Język Aplikacji:",
+        "book": "Księga",
+        "chapter": "Rozdział"
+    }
+}
