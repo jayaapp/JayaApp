@@ -1,10 +1,10 @@
 // Lowest latency initialization script
 (function() {
     // Determine orientation and retrieve saved split percentage
-    var isVertical = window.matchMedia('(orientation: portrait)').matches;
-    var orientation = isVertical ? 'vertical' : 'horizontal';
-    var percentage = localStorage.getItem('split-' + orientation) || 50;
     function setSplit() {
+        var isVertical = window.matchMedia('(orientation: portrait)').matches;
+        var orientation = isVertical ? 'vertical' : 'horizontal';
+        var percentage = localStorage.getItem('split-' + orientation) || 50;
         if (isVertical) {
             var top = document.querySelector('.top-panel');
             var bottom = document.querySelector('.bottom-panel');
@@ -22,9 +22,10 @@
         }
     }
 
+    // Load localization data and populate language select
     function setLocale() {
         fetch('data/locale.json')
-            .then(res => res.json())
+            .then(response => response.json())
             .then(data => {
                 window.localeData = data;
                 // Add keys of data object as options to language select
@@ -39,9 +40,25 @@
             });
     }
 
+    // Inject HTML modules stored in separate files
+    function injectHtml() {
+        fetch('html/settings.html')
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('settings-panel-container').innerHTML = html;
+
+            // After injecting all HTML modules, set up localization
+            setLocale();
+
+            // Then initialize individual modules
+            initSettingsPanel();
+        });
+    }
+
     function initApp() {
         setSplit();
-        setLocale();
+        injectHtml();
     }
+
     document.addEventListener('DOMContentLoaded', initApp);
 })();

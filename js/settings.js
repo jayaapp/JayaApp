@@ -13,7 +13,7 @@ function applyLocalization() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function initSettingsPanel() {
     const settingsPanel =  document.getElementById('settings-panel');
     document.getElementById('settings-icon').onclick = function() {
         if (settingsPanel.style.display === 'none' || settingsPanel.style.display === '') {
@@ -35,5 +35,5 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('appLang', this.value);
         applyLocalization();
     });
-});
+}
  
