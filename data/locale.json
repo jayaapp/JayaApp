@@ -2,11 +2,94 @@
     "English": {
         "app_language": "App Language",
         "book": "Book",
-        "chapter": "Chapter"
+        "chapter": "Chapter",
+
+        "verse_number_font_size": "Verse number font size",
+        "verse_font_size": "Verse font size",
+        "verse_font_family": "Verse font family",
+        "chat_font_size": "Chat font size",
+        "chat_font_family": "Chat font family",
+
+        "light_theme_colors": "Light Theme Colors",
+        "dark_theme_colors": "Dark Theme Colors",
+        "background_color": "Background:",
+        "text_color": "Text:",
+        "menu_bg_color": "Menu BG:",
+        "menu_text_color": "Menu Text:",
+
+        "enable_ornamented_background": "Enable ornamented background image",
+        "background_opacity": "Background opacity",
+        "background_zoom": "Background zoom-in",
+
+        "original_text": "Original text",
+        "first_translation": "First translation",
+        "second_translation": "Second translation",
+
+        "crowdsourcing_section": "Crowdsourcing",
+        "crowdsourcing_checkbox": "Contribute AI analyses to improve the app",
+        "crowdsourcing_description": "By enabling this, your AI-generated word and verse analyses will be securely submitted for review and potential inclusion in the app's static dataset, helping future users benefit from high-quality cloud-based analysis.",
+        "crowdsourcing_available_note": "Only available when using Ollama Cloud models",
+
+        "server_type": "Server Type",
+        "local_server": "Ollama Local Server",
+        "cloud_server": "Ollama Cloud Server",
+        "select_model": "Select a model...",
+        "ollama_server_url": "Server URL",
+        "api_key": "API Key",
+        "enter_api_key_placeholder": "Enter your Ollama API key",
+        "save_key": "Save Key Securely",
+        "delete_key": "Delete Key",
+        "ollama_model": "Model",
+        "ollama_system_prompt": "System Prompt",
+        "ollama_test_connection": "Test Connection",
+        "ollama_save_settings": "Save Settings",
+        "security_policy": "🔒 Your API key is encrypted and stored securely on our backend server. It is only retrieved when making cloud API calls and is never exposed in logs or browser storage."
     },
+
     "Polish": {
         "app_language": "Język Aplikacji",
         "book": "Księga",
-        "chapter": "Rozdział"
+        "chapter": "Rozdział",
+
+        "verse_number_font_size": "Rozmiar czcionki numerów wersów",
+        "verse_font_size": "Rozmiar czcionki wersów",
+        "verse_font_family": "Rodzina czcionki wersów",
+        "chat_font_size": "Rozmiar czcionki czatu",
+        "chat_font_family": "Rodzina czcionki czatu",
+
+        "light_theme_colors": "Kolory Jasnego Motywu",
+        "dark_theme_colors": "Kolory Ciemnego Motywu",
+        "background_color": "Tło:",
+        "text_color": "Tekst:",
+        "menu_bg_color": "Tło Menu:",
+        "menu_text_color": "Tekst Menu:",
+
+        "enable_ornamented_background": "Włącz ozdobny obraz tła",
+        "background_opacity": "Przezroczystość tła",
+        "background_zoom": "Powiększenie tła",
+
+        "original_text": "Tekst oryginalny",
+        "first_translation": "Pierwszy przekład",
+        "second_translation": "Drugi przekład",
+
+        "crowdsourcing_section": "Crowdsourcing",
+        "crowdsourcing_checkbox": "Przyczyń się do poprawy aplikacji poprzez analizy AI",
+        "crowdsourcing_description": "Włączając tę opcję, Twoje analizy słów i wersetów generowane przez AI będą bezpiecznie przesyłane do weryfikacji i potencjalnego włączenia do statycznego zestawu danych aplikacji, pomagając przyszłym użytkownikom korzystać z wysokiej jakości analiz w chmurze.",
+        "crowdsourcing_available_note": "Dostępne tylko przy użyciu modeli Ollama Cloud",
+
+        "server_type": "Typ Serwera",
+        "local_server": "Lokalny Serwer Ollama",
+        "cloud_server": "Serwer Ollama w Chmurze",
+        "select_model": "Wybierz model...",
+        "ollama_server_url": "URL serwera",
+        "api_key": "Klucz API",
+        "enter_api_key_placeholder": "Wprowadź swój klucz API Ollama",
+        "save_key": "Zapisz Klucz Bezpiecznie",
+        "delete_key": "Usuń Klucz",
+        "ollama_model": "Model",
+        "ollama_system_prompt": "Prompt Systemowy",
+        "ollama_test_connection": "Testuj Połączenie",
+        "ollama_save_settings": "Zapisz Ustawienia",
+        "security_policy": "🔒 Twój klucz API jest zaszyfrowany i bezpiecznie przechowywany na naszym serwerze. Jest pobierany tylko podczas wykonywania połączeń API w chmurze i nigdy nie jest ujawniany w logach ani pamięci przeglądarki."
     }
 }
