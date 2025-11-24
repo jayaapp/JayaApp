@@ -6,7 +6,6 @@
     --menu-bg-color: #333333;
     --menu-text-color: #ffffff;
     --panel-border-color: color-mix(in srgb, var(--bg-color) 80%, var(--text-color) 20%);
-    --background-opacity: 0.3;
 }
 
 body.dark-theme {

@@ -20,17 +20,7 @@ class OrnamentedBackground {
         this.imageCache = null;
         this.tileCache = new Map();
         this.isUpdating = false; // Prevent recursive updates
-        
-        // Save defaults to localStorage if they don't exist
-        if (localStorage.getItem('ornamentedBackgroundEnabled') === null) {
-            localStorage.setItem('ornamentedBackgroundEnabled', this.settings.enabled);
-        }
-        if (localStorage.getItem('backgroundOpacity') === null) {
-            localStorage.setItem('backgroundOpacity', this.settings.opacity);
-        }
-        if (localStorage.getItem('backgroundZoom') === null) {
-            localStorage.setItem('backgroundZoom', this.settings.zoom);
-        }
+        this.panelIds = ['text-panel-horizontal', 'text-panel-vertical', 'chat-panel-horizontal', 'chat-panel-vertical'];
         
         this.init();
     }
@@ -46,9 +36,6 @@ class OrnamentedBackground {
         
         // Set up event listeners
         this.setupEventListeners();
-        
-        // Initialize CSS custom properties
-        this.updateCSSProperties();
     }
     
     async loadBackgroundImage() {
@@ -124,9 +111,6 @@ class OrnamentedBackground {
         localStorage.setItem('backgroundOpacity', this.settings.opacity);
         localStorage.setItem('backgroundZoom', this.settings.zoom);
         
-        // Update CSS properties
-        this.updateCSSProperties();
-        
         // Apply or remove backgrounds
         if (changed.enabled) {
             if (this.settings.enabled) {
@@ -146,18 +130,13 @@ class OrnamentedBackground {
         }
     }
     
-    updateCSSProperties() {
-        document.documentElement.style.setProperty('--background-opacity', this.settings.opacity);
-    }
-    
     updateBackgroundOpacity() {
         if (this.isUpdating) return; // Prevent recursive calls
         
         this.isUpdating = true;
         
         try {
-            const panels = ['text-panel-horizontal', 'text-panel-vertical', 'chat-panel-horizontal', 'chat-panel-vertical'];
-            panels.forEach(panelId => {
+            this.panelIds.forEach(panelId => {
                 const panel = document.getElementById(panelId);
                 if (panel && panel.classList.contains('ornamented-background')) {
                     this.applyBackgroundOpacityToPanel(panel);
@@ -171,25 +150,28 @@ class OrnamentedBackground {
     }
     
     applyBackgroundOpacityToPanel(panel) {
-        // Get current background styles
-        const currentBgImage = panel.style.backgroundImage;
-        if (currentBgImage && currentBgImage !== 'none' && currentBgImage !== '') {
-            // Check if this already has an overlay (to prevent recursion)
-            if (currentBgImage.includes('linear-gradient')) {
-                // Extract just the image URLs part (after the overlay)
-                const imageUrlsPart = currentBgImage.substring(currentBgImage.indexOf('url('));
-                
-                // Create a new background with opacity applied via linear-gradient overlay
-                const opacityValue = this.settings.opacity;
-                const overlayOpacity = 1 - opacityValue; // Invert for overlay effect
-                
-                // Create overlay gradient based on theme
-                const isDarkTheme = document.body.classList.contains('dark-theme');
-                const overlayColor = isDarkTheme ? '0, 0, 0' : '255, 255, 255';
-                const overlayGradient = `linear-gradient(rgba(${overlayColor}, ${overlayOpacity}), rgba(${overlayColor}, ${overlayOpacity}))`;
-                
-                // Combine overlay with image URLs
-                panel.style.backgroundImage = `${overlayGradient}, ${imageUrlsPart}`;
+        // Prefer the stored tiled image (avoids parsing CSS text)
+        const tiled = panel.dataset._tiledImage;
+        if (tiled) {
+            const opacityValue = this.settings.opacity;
+            const overlayOpacity = 1 - opacityValue; // Invert for overlay effect
+            const isDarkTheme = document.body.classList.contains('dark-theme');
+            const overlayColor = isDarkTheme ? '0, 0, 0' : '255, 255, 255';
+            const overlayGradient = `linear-gradient(rgba(${overlayColor}, ${overlayOpacity}), rgba(${overlayColor}, ${overlayOpacity}))`;
+            panel.style.backgroundImage = `${overlayGradient}, ${tiled}`;
+        } else {
+            // Fallback: attempt to adjust existing background image (best-effort)
+            const currentBgImage = panel.style.backgroundImage;
+            if (currentBgImage && currentBgImage !== 'none' && currentBgImage !== '') {
+                if (currentBgImage.includes('url(')) {
+                    const imageUrlsPart = currentBgImage.substring(currentBgImage.indexOf('url('));
+                    const opacityValue = this.settings.opacity;
+                    const overlayOpacity = 1 - opacityValue;
+                    const isDarkTheme = document.body.classList.contains('dark-theme');
+                    const overlayColor = isDarkTheme ? '0, 0, 0' : '255, 255, 255';
+                    const overlayGradient = `linear-gradient(rgba(${overlayColor}, ${overlayOpacity}), rgba(${overlayColor}, ${overlayOpacity}))`;
+                    panel.style.backgroundImage = `${overlayGradient}, ${imageUrlsPart}`;
+                }
             }
         }
     }
@@ -200,8 +182,7 @@ class OrnamentedBackground {
         this.isUpdating = true;
         
         try {
-            const panels = ['text-panel-horizontal', 'text-panel-vertical', 'chat-panel-horizontal', 'chat-panel-vertical'];
-            panels.forEach(panelId => {
+            this.panelIds.forEach(panelId => {
                 const panel = document.getElementById(panelId);
                 if (panel && panel.style.display !== 'none') {
                     this.applyTiledBackground(panel);
@@ -215,8 +196,7 @@ class OrnamentedBackground {
     }
     
     removeBackgroundFromAllPanels() {
-        const panels = ['text-panel-horizontal', 'text-panel-vertical', 'chat-panel-horizontal', 'chat-panel-vertical'];
-        panels.forEach(panelId => {
+        this.panelIds.forEach(panelId => {
             const panel = document.getElementById(panelId);
             if (panel) {
                 panel.style.backgroundImage = '';
@@ -225,6 +205,7 @@ class OrnamentedBackground {
                 panel.style.backgroundRepeat = '';
                 panel.style.backgroundAttachment = '';
                 panel.classList.remove('ornamented-background');
+                delete panel.dataset._tiledImage;
             }
         });
     }
@@ -251,9 +232,9 @@ class OrnamentedBackground {
             backgroundStyles = this.tileCache.get(cacheKey);
         } else {
             backgroundStyles = this.generateTiledBackground(
-                panelRect.width, 
-                scrollHeight, 
-                scaledImageWidth, 
+                panelRect.width,
+                scrollHeight,
+                scaledImageWidth,
                 scaledImageHeight
             );
             this.tileCache.set(cacheKey, backgroundStyles);
@@ -268,9 +249,11 @@ class OrnamentedBackground {
         const overlayColor = isDarkTheme ? '0, 0, 0' : '255, 255, 255';
         const overlayGradient = `linear-gradient(rgba(${overlayColor}, ${overlayOpacity}), rgba(${overlayColor}, ${overlayOpacity}))`;
         
-        // Combine overlay with tiled background
+        // Store the tiled-image-only string on the element so we can reapply overlays later without parsing
+        panel.dataset._tiledImage = backgroundStyles.backgroundImage;
+
+        // Combine overlay with tiled background and apply
         const combinedBackgroundImage = `${overlayGradient}, ${backgroundStyles.backgroundImage}`;
-        
         panel.style.backgroundImage = combinedBackgroundImage;
         panel.style.backgroundSize = `auto, ${backgroundStyles.backgroundSize}`;
         panel.style.backgroundPosition = `0 0, ${backgroundStyles.backgroundPosition}`;
@@ -296,7 +279,7 @@ class OrnamentedBackground {
             const y = Math.random() * OVERLAP * IMH; // crop from top
             
             // Place tile at panel position (X, Y)
-            const imageUrl = this.getDarkThemeAwareImageUrl();
+            const imageUrl = this.backgroundImageUrl;
             images.push(`url(${imageUrl})`);
             sizes.push(`${IMW}px ${IMH}px`);
             positions.push(`${X - x}px ${Y - y}px`);
@@ -321,11 +304,6 @@ class OrnamentedBackground {
             backgroundSize: sizes.join(', '),
             backgroundPosition: positions.join(', ')
         };
-    }
-    
-    getDarkThemeAwareImageUrl() {
-        // Always return the original image - dark theme will be handled via CSS
-        return this.backgroundImageUrl;
     }
     
     // Public API methods
