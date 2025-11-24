@@ -13,6 +13,7 @@ function applyLocalization() {
     });
 }
 
+// Font controls: wire UI to localStorage and CSS variables
 function initFontControls() {
     const controls = [
         {
@@ -130,6 +131,7 @@ function initFontControls() {
     });
 }
 
+// Theme color controls: wire UI to localStorage and CSS variables
 function initThemeColorControls() {
     const defaults = {
         lightBg: '#ffffff',
@@ -280,6 +282,75 @@ function initThemeColorControls() {
     });
 }
 
+// Background controls: wire UI to localStorage and dispatch events for background renderer
+function initBackgroundControls() {
+    const checkbox = document.getElementById('ornamented-background-enabled');
+    const opacity = document.getElementById('background-opacity');
+    const opacityValue = document.getElementById('background-opacity-value');
+    const zoom = document.getElementById('background-zoom');
+    const zoomValue = document.getElementById('background-zoom-value');
+
+    if (!checkbox || !opacity || !zoom) return;
+
+    // initialize from localStorage (background.js also does its own defaults)
+    try {
+        const storedEnabled = localStorage.getItem('ornamentedBackgroundEnabled');
+        if (storedEnabled !== null) checkbox.checked = storedEnabled === 'true';
+    } catch (e) { /* silent */ }
+
+    try {
+        const storedOpacity = localStorage.getItem('backgroundOpacity');
+        if (storedOpacity !== null) opacity.value = storedOpacity;
+    } catch (e) { /* silent */ }
+    if (opacityValue) opacityValue.textContent = Math.round(parseFloat(opacity.value) * 100) + '%';
+
+    try {
+        const storedZoom = localStorage.getItem('backgroundZoom');
+        if (storedZoom !== null) zoom.value = storedZoom;
+    } catch (e) { /* silent */ }
+    if (zoomValue) zoomValue.textContent = zoom.value + '%';
+
+    function emitSettings() {
+        const detail = {
+            enabled: checkbox.checked,
+            opacity: parseFloat(opacity.value),
+            zoom: parseFloat(zoom.value)
+        };
+        document.dispatchEvent(new CustomEvent('backgroundSettingsChanged', { detail }));
+    }
+
+    checkbox.addEventListener('change', () => {
+        try { localStorage.setItem('ornamentedBackgroundEnabled', checkbox.checked); } catch (e) { }
+        emitSettings();
+    });
+
+    opacity.addEventListener('input', () => {
+        if (opacityValue) opacityValue.textContent = Math.round(parseFloat(opacity.value) * 100) + '%';
+        try { localStorage.setItem('backgroundOpacity', opacity.value); } catch (e) { }
+        emitSettings();
+    });
+
+    opacity.addEventListener('change', () => {
+        try { localStorage.setItem('backgroundOpacity', opacity.value); } catch (e) { }
+        emitSettings();
+    });
+
+    zoom.addEventListener('input', () => {
+        if (zoomValue) zoomValue.textContent = zoom.value + '%';
+        try { localStorage.setItem('backgroundZoom', zoom.value); } catch (e) { }
+        emitSettings();
+    });
+
+    zoom.addEventListener('change', () => {
+        try { localStorage.setItem('backgroundZoom', zoom.value); } catch (e) { }
+        emitSettings();
+    });
+
+    // emit initial settings once so background can initialize accordingly
+    emitSettings();
+}
+
+
 function initSettingsPanel() {
     const settingsPanel =  document.getElementById('settings-panel');
     document.getElementById('settings-icon').onclick = function() {
@@ -306,5 +377,7 @@ function initSettingsPanel() {
     initFontControls();
 
     initThemeColorControls();
-}
+
+    initBackgroundControls();
+ }
  

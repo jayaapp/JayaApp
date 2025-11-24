@@ -25,6 +25,8 @@
         "first_translation": "First translation",
         "second_translation": "Second translation",
 
+        "ollama_settings" : "Ollama Settings",
+
         "crowdsourcing_section": "Crowdsourcing",
         "crowdsourcing_checkbox": "Contribute AI analyses to improve the app",
         "crowdsourcing_description": "By enabling this, your AI-generated word and verse analyses will be securely submitted for review and potential inclusion in the app's static dataset, helping future users benefit from high-quality cloud-based analysis.",
@@ -71,6 +73,8 @@
         "original_text": "Tekst oryginalny",
         "first_translation": "Pierwszy przekład",
         "second_translation": "Drugi przekład",
+
+        "ollama_settings" : "Ustawienia Ollama",
 
         "crowdsourcing_section": "Crowdsourcing",
         "crowdsourcing_checkbox": "Przyczyń się do poprawy aplikacji poprzez analizy AI",
