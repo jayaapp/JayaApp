@@ -228,6 +228,56 @@ function initThemeColorControls() {
 
     // initial apply
     applyThemeValues();
+
+    // Folding / unfolding for theme sections using the expand icon (keyboard accessible)
+    document.querySelectorAll('.theme-header .theme-expand-icon').forEach(icon => {
+        const header = icon.closest('.theme-header');
+        if (!header) return;
+        const section = header.parentElement; // .settings-group
+        if (!section || !section.id) return;
+        const colors = section.querySelector('.theme-colors');
+        if (!colors) return;
+
+        const storageKey = 'settings.' + section.id + '.expanded';
+
+        function setExpanded(expanded) {
+            icon.textContent = expanded ? 'expand_less' : 'expand_more';
+            icon.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+            try { localStorage.setItem(storageKey, expanded ? 'true' : 'false'); } catch (e) { /* silent */ }
+            if (expanded) {
+                colors.classList.remove('collapsed');
+                colors.style.display = '';
+            } else {
+                colors.classList.add('collapsed');
+                colors.style.display = 'none';
+            }
+        }
+
+        // initialize state from storage (fall back to computed display)
+        let initiallyVisible = null;
+        try { initiallyVisible = localStorage.getItem(storageKey); } catch (e) { initiallyVisible = null; }
+        if (initiallyVisible !== null) {
+            setExpanded(initiallyVisible === 'true');
+        } else {
+            const computed = window.getComputedStyle(colors).display !== 'none';
+            setExpanded(computed);
+        }
+
+        const toggle = (e) => {
+            if (e) e.preventDefault();
+            const currentlyVisible = window.getComputedStyle(colors).display !== 'none';
+            setExpanded(!currentlyVisible);
+        };
+
+        icon.tabIndex = 0;
+        icon.addEventListener('click', toggle);
+        icon.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggle(e);
+            }
+        });
+    });
 }
 
 function initSettingsPanel() {
