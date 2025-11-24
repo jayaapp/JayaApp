@@ -350,6 +350,108 @@ function initBackgroundControls() {
     emitSettings();
 }
 
+function initTextRenderingControls()
+{
+    // Get current locale
+    const localeData = window.localeData || {};
+    if (!localeData) return;
+
+    // Get current language
+    let currentLang = localStorage.getItem('appLang') || 'English';
+
+    // Update translation dropdown options
+    const originalText = document.getElementById('original-text');
+    const firstTranslation = document.getElementById('first-translation');
+    const secondTranslation = document.getElementById('second-translation');
+
+    if (!originalText || !firstTranslation || !secondTranslation) return;
+
+    // storage keys
+    const storageKeys = {
+        original: 'originalTextOption',
+        first: 'firstTranslationOption',
+        second: 'secondTranslationOption'
+    };
+
+    // Safe accessor with fallback
+    const L = (key, fallback) => (localeData[currentLang] && localeData[currentLang][key]) ? localeData[currentLang][key] : (fallback || key);
+
+    // Original text options
+    const originalOptions = [
+        { value: 'disable', text: L('disable', 'Disable') },
+        { value: 'sanskrit-multi', text: L('sanskrit_multi', 'Devanagari and IAST multi-line') },
+        { value: 'sanskrit-single', text: L('sanskrit_single', 'Devanagari and IAST single-line') },
+        { value: 'devanagari-multi', text: L('devanagari_multi', 'Devanagari only multi-line') },
+        { value: 'devanagari-single', text: L('devanagari_single', 'Devanagari only single-line') },
+        { value: 'iast-multi', text: L('iast_multi', 'IAST only multi-line') },
+        { value: 'iast-single', text: L('iast_single', 'IAST only single-line') }
+    ];
+
+    // First/Second translation options (AI strings may be present)
+    const firstOptions = [
+        { value: 'disable', text: L('disable', 'Disable') },
+        { value: 'maha_en.json', text: L('ai_en', 'AI English Translation') },
+        { value: 'maha_pl.json', text: L('ai_pl', 'AI Polish Translation') }
+    ];
+
+    const secondOptions = [
+        { value: 'disable', text: L('disable', 'Disable') },
+        { value: 'maha_en.json', text: L('ai_en', 'AI English Translation') },
+        { value: 'maha_pl.json', text: L('ai_pl', 'AI Polish Translation') }
+    ];
+
+    // helper to populate select and set stored/default value
+    function populateSelect(selectEl, options, storedKey, defaultValue) {
+        selectEl.innerHTML = options.map(opt => `<option value="${opt.value}">${opt.text}</option>`).join('');
+        let stored = null;
+        try { stored = localStorage.getItem(storedKey); } catch (e) { stored = null; }
+        const values = options.map(o => o.value);
+        if (stored && values.includes(stored)) {
+            selectEl.value = stored;
+        } else if (defaultValue && values.includes(defaultValue)) {
+            selectEl.value = defaultValue;
+            try { localStorage.setItem(storedKey, defaultValue); } catch (e) { /* silent */ }
+        } else {
+            // pick first option as fallback
+            selectEl.value = values[0];
+            try { localStorage.setItem(storedKey, values[0]); } catch (e) { /* silent */ }
+        }
+    }
+
+    // Populate selects with safe defaults and persisted values
+    populateSelect(originalText, originalOptions, storageKeys.original, 'sanskrit-multi');
+    populateSelect(firstTranslation, firstOptions, storageKeys.first, 'disable');
+    populateSelect(secondTranslation, secondOptions, storageKeys.second, 'disable');
+
+    // Emit event with current selections
+    function emitTextRenderingChanged() {
+        const detail = {
+            original: originalText.value,
+            first: firstTranslation.value,
+            second: secondTranslation.value
+        };
+        document.dispatchEvent(new CustomEvent('textRenderingChanged', { detail }));
+    }
+
+    // Wire change listeners to persist and emit
+    originalText.addEventListener('change', function () {
+        try { localStorage.setItem(storageKeys.original, this.value); } catch (e) { /* silent */ }
+        emitTextRenderingChanged();
+    });
+
+    firstTranslation.addEventListener('change', function () {
+        try { localStorage.setItem(storageKeys.first, this.value); } catch (e) { /* silent */ }
+        emitTextRenderingChanged();
+    });
+
+    secondTranslation.addEventListener('change', function () {
+        try { localStorage.setItem(storageKeys.second, this.value); } catch (e) { /* silent */ }
+        emitTextRenderingChanged();
+    });
+
+    // initial emit so other modules can react
+    emitTextRenderingChanged();
+}
 
 function initSettingsPanel() {
     const settingsPanel =  document.getElementById('settings-panel');
@@ -379,5 +481,7 @@ function initSettingsPanel() {
     initThemeColorControls();
 
     initBackgroundControls();
+
+    initTextRenderingControls();
  }
  

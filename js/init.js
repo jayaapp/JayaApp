@@ -36,7 +36,11 @@
                     option.textContent = langName;
                     langSelect.appendChild(option);
                 }
+                // Apply localization after populating language select
                 applyLocalization();
+
+                // Then initialize individual modules
+                initSettingsPanel();
             });
     }
 
@@ -49,9 +53,6 @@
 
             // After injecting all HTML modules, set up localization
             setLocale();
-
-            // Then initialize individual modules
-            initSettingsPanel();
         });
     }
 
