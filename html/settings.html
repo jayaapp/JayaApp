@@ -1,5 +1,239 @@
 <div id="settings-panel">
-    <span class="material-symbols-outlined settings-close" id="settings-close">close</span>
-    <label for="language-select" locale-id="language">App Language:</label>
-    <select id="language-select"></select>
+    <!-- Sync settings placeholder -->
+    <!-- <div class="settings-group">
+       <div id="sync-placeholder"></div>
+    </div> -->
+
+    <!-- Language selection -->
+    <div class="settings-group">
+        <span class="material-symbols-outlined settings-close" id="settings-close">close</span>
+        <label for="language-select" locale-id="language">App Language:</label>
+        <select id="language-select"></select>
+    </div>
+
+    <!-- Font settings -->
+    <div class="settings-group">
+        <div class="setting-item">
+            <label for="verse-number-font-size" locale-id="verse_number_font_size">Verse number font size</label>
+            <select id="verse-number-font-size">
+                <!-- Will be populated dynamically -->
+            </select>
+        </div>
+        <div class="setting-item">
+            <label for="verse-font-size" locale-id="verse_font_size">Verse font size</label>
+            <select id="verse-font-size">
+                <!-- Will be populated dynamically -->
+            </select>
+        </div>
+        <div class="setting-item">
+            <label for="verse-font-family" locale-id="verse_font_family">Verse font family</label>
+            <select id="verse-font-family">
+                <!-- Will be populated dynamically -->
+            </select>
+        </div>
+        <div class="setting-item">
+            <label for="chat-font-size" locale-id="chat_font_size">Chat font size</label>
+            <select id="chat-font-size">
+                <!-- Will be populated dynamically -->
+            </select>
+        </div>
+        <div class="setting-item">
+            <label for="chat-font-family" locale-id="chat_font_family">Chat font family</label>
+            <select id="chat-font-family">
+                <!-- Will be populated dynamically -->
+            </select>
+        </div>
+    </div>
+    
+    <!-- Light Theme Colors -->
+    <div class="settings-group" id="light-theme-section">
+        <div class="theme-header">
+            <div class="theme-title">
+                <span locale-id="light_theme_colors">Light Theme Colors</span>
+                <i class="material-symbols-outlined theme-expand-icon">expand_more</i>
+            </div>
+            <div class="theme-reset" id="light-theme-reset" title="Restore defaults">
+                <i class="material-symbols-outlined">refresh</i>
+            </div>
+        </div>
+        <div class="theme-colors">
+            <div class="color-row">
+                <div class="color-setting">
+                    <label locale-id="background_color">Background:</label>
+                    <input type="color" id="light-bg-color">
+                </div>
+                <div class="color-setting">
+                    <label locale-id="text_color">Text:</label>
+                    <input type="color" id="light-text-color">
+                </div>
+            </div>
+            <div class="color-row">
+                <div class="color-setting">
+                    <label locale-id="menu_bg_color">Menu BG:</label>
+                    <input type="color" id="light-menu-bg-color">
+                </div>
+                <div class="color-setting">
+                    <label locale-id="menu_text_color">Menu Text:</label>
+                    <input type="color" id="light-menu-text-color">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Dark Theme Colors -->
+    <div class="settings-group" id="dark-theme-section">
+        <div class="theme-header">
+            <div class="theme-title">
+                <span locale-id="dark_theme_colors">Dark Theme Colors</span>
+                <i class="material-symbols-outlined theme-expand-icon">expand_more</i>
+            </div>
+            <div class="theme-reset" id="dark-theme-reset" title="Restore defaults">
+                <i class="material-symbols-outlined">refresh</i>
+            </div>
+        </div>
+        <div class="theme-colors">
+            <div class="color-row">
+                <div class="color-setting">
+                    <label locale-id="background_color">Background:</label>
+                    <input type="color" id="dark-bg-color">
+                </div>
+                <div class="color-setting">
+                    <label locale-id="text_color">Text:</label>
+                    <input type="color" id="dark-text-color">
+                </div>
+            </div>
+            <div class="color-row">
+                <div class="color-setting">
+                    <label locale-id="menu_bg_color">Menu BG:</label>
+                    <input type="color" id="dark-menu-bg-color">
+                </div>
+                <div class="color-setting">
+                    <label locale-id="menu_text_color">Menu Text:</label>
+                    <input type="color" id="dark-menu-text-color">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Background settings -->
+    <div class="settings-group">
+        <div class="setting-item" id="ornamented-background-container">
+                <label for="ornamented-background-enabled" locale-id="enable_ornamented_background">Enable ornamented background image</label>
+                <input type="checkbox" id="ornamented-background-enabled" checked>
+        </div>
+        
+        <div class="setting-item" id="background-opacity-container">
+            <label for="background-opacity" locale-id="background_opacity">Background opacity</label>
+            <input type="range" id="background-opacity" min="0" max="1" step="0.1" value="0.5">
+            <span id="background-opacity-value">50%</span>
+        </div>
+        
+        <div class="setting-item" id="background-zoom-container">
+            <label for="background-zoom" locale-id="background_zoom">Background zoom-in</label>
+            <input type="range" id="background-zoom" min="10" max="200" step="5" value="100">
+            <span id="background-zoom-value">100%</span>
+        </div>
+    </div>
+  
+    <!-- Text display settings -->
+    <div class="settings-group">
+        <div class="setting-item" id="original-text-container">
+            <label for="original-text" locale-id="original_text">Original text</label>
+            <select id="original-text">
+                <option value="disable" locale-id="disable">Disable</option>
+                <option value="sanskrit-multi" locale-id="sanskrit_multi">Sanskrit multi-line</option>
+                <option value="sanskrit-single" locale-id="sanskrit_single">Sanskrit single-line</option>
+            </select>
+        </div>
+        <div class="setting-item" id="first-translation-container">
+            <label for="first-translation" locale-id="first_translation">First translation</label>
+            <select id="first-translation">
+                <option value="disable" locale-id="disable">Disable</option>
+                <option value="ai_en.json" locale-id="ai_en">ai English Translation</option>
+                <option value="ai_pl.json" locale-id="ai_pl">ai Polish Translation</option>
+            </select>
+        </div>
+        <div class="setting-item" id="second-translation-container">
+            <label for="second-translation" locale-id="second_translation">Second translation</label>
+            <select id="second-translation">
+                <option value="disable" locale-id="disable">Disable</option>
+                <option value="ai_en.json" locale-id="ai_en">ai English Translation</option>
+                <option value="ai_pl.json" locale-id="ai_pl">ai Polish Translation</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- AI access settings -->
+    <div class="settings-group">
+        <div class="ai-settings-header">
+            <h3>Ollama Settings</h3>
+        </div>
+        <div class="ai-settings-content">
+            <div class="crowdsourcing-section">
+                <h4 data-locale-field="crowdsourcing_section">Crowdsourcing</h4>
+                <div class="crowdsourcing-content" id="crowdsourcing-content">
+                    <label class="crowdsourcing-checkbox-label">
+                        <input type="checkbox" id="crowdsource-analyses">
+                        <span data-locale-field="crowdsourcing_checkbox">Contribute AI analyses to improve the app</span>
+                    </label>
+                    <p class="crowdsourcing-description" data-locale-field="crowdsourcing_description">
+                        By enabling this, your AI-generated word and verse analyses will be securely submitted for review and potential inclusion in the app's static dataset, helping future users benefit from high-quality cloud-based analysis.
+                    </p>
+                    <p class="crowdsourcing-note" id="crowdsourcing-note" data-locale-field="crowdsourcing_available_note">
+                        Only available when using Ollama Cloud models
+                    </p>
+                </div>
+            </div>
+            <div class="settings-divider"></div>
+            <div class="settings-field">
+                <label for="ollama-server-type" data-locale-field="server_type">Server Type</label>
+                <select id="ollama-server-type">
+                    <option value="local" data-locale-field="local_server">Ollama Local Server</option>
+                    <option value="cloud" data-locale-field="cloud_server">Ollama Cloud Server</option>
+                </select>
+            </div>
+            <div class="settings-field" id="local-server-config">
+                <label for="ollama-server-url" data-locale-field="ollama_server_url">Server URL</label>
+                <input type="text" id="ollama-server-url" placeholder="http://localhost:11434">
+            </div>
+            <div class="settings-field-group" id="cloud-server-config" style="display: none;">
+                <div class="settings-field">
+                    <label data-locale-field="ollama_server_url">Server URL</label>
+                    <div class="read-only-value">https://ollama.com</div>
+                </div>
+                <div class="settings-field">
+                    <label for="ollama-api-key" data-locale-field="api_key">API Key</label>
+                    <input type="password" id="ollama-api-key" data-locale-field="enter_api_key_placeholder" placeholder="Enter your Ollama API key">
+                </div>
+                <div class="api-key-actions">
+                    <button class="ai-save-key-btn" id="save-api-key-btn" data-locale-field="save_key">Save Key Securely</button>
+                    <button class="ai-delete-key-btn" id="delete-api-key-btn" data-locale-field="delete_key" style="display: none;">Delete Key</button>
+                </div>
+                <div class="key-status-message" id="key-status-message"></div>
+                <div class="security-policy-note" data-locale-field="security_policy">
+                    🔒 Your API key is encrypted and stored securely on our backend server. It is only retrieved when making cloud API calls and is never exposed in logs or browser storage.
+                </div>
+            </div>
+            <div class="settings-field">
+                <label for="ollama-model" data-locale-field="ollama_model">Model</label>
+                <select id="ollama-model">
+                    <option value="">Select a model...</option>
+                </select>
+            </div>
+            <div class="settings-field">
+                <label for="ollama-system-prompt" data-locale-field="ollama_system_prompt">System Prompt</label>
+                <textarea id="ollama-system-prompt" placeholder="You are an assistant helping with the Mahabharata and Sanskrit studies."></textarea>
+            </div>
+            <div class="settings-actions">
+                <div class="ai-status-container">
+                    <div class="ai-status-indicator" id="ollama-status-indicator"></div>
+                    <span class="ai-status-label" id="ollama-status-label"></span>
+                </div>
+                <div class="ai-settings-buttons">
+                    <button class="ai-test-btn" data-locale-field="ollama_test_connection">Test Connection</button>
+                    <button class="ai-save-btn" data-locale-field="ollama_save_settings">Save Settings</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

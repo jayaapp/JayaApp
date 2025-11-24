@@ -10,6 +10,9 @@
     /* border-radius: 8px; */
     z-index: 100;
     border: 1px solid #2c3e50;
+    /* scroll if content exceeds max height */
+    max-height: calc(100vh - 88px);
+    overflow-y: auto;
 }
 
 .settings-close {
@@ -34,4 +37,506 @@
     color: #2c3e50;
     font-weight: 500;
     margin-right: 8px;
+}
+
+/* Individual setting item styles */
+
+.setting-item {
+    margin-top: 12px;
+}
+
+/* Settings group styles */
+
+.settings-group {
+    background: #f5f5f5;
+    border-radius: 8px;
+    margin-top: 20px;
+    padding: 16px 20px;
+    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.06);
+    border: 1.5px solid #ecf0f1;
+}
+
+/* Theme selection styles */
+
+.theme-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.theme-title {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    color: #2c3e50;
+    font-size: 17px;
+    gap: 8px;
+}
+
+.theme-expand-icon {
+    font-size: 22px;
+    color: #34495e;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.theme-expand-icon:hover {
+    color: #2c3e50;
+}
+
+.theme-reset {
+    cursor: pointer;
+    color: #95a5a6;
+    font-size: 22px;
+    transition: color 0.2s;
+}
+.theme-reset:hover {
+    color: #2c3e50;
+}
+
+.theme-colors {
+    margin-top: 8px;
+}
+
+.color-row {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 10px;
+}
+
+.color-setting {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #ecf0f1;
+    border-radius: 6px;
+    padding: 8px 12px;
+}
+
+.color-setting label {
+    color: #34495e;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.color-setting input[type="color"] {
+    border: none;
+    background: transparent;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    padding: 0;
+}
+
+/* AI settings styles */
+
+.ai-settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.ai-settings-header h3 {
+    margin: 0;
+    font-size: 16px;
+    color: var(--menu-text-color);
+}
+
+.settings-field {
+    margin-bottom: 12px;
+}
+
+.settings-field label {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--menu-text-color);
+    font-size: 14px;
+}
+
+.settings-field input,
+.settings-field textarea,
+.settings-field select {
+    width: 100%;
+    padding: 6px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--panel-border-color);
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.settings-field select {
+    height: calc(1.4em + 12px + 2px); /* Match the height of input/textarea with padding and border */
+    line-height: 1.4em;
+}
+
+.settings-field textarea {
+    min-height: 60px;
+    resize: none; /* Remove all resize handles */
+    max-height: 150px; /* Increased height to use the extra space */
+    overflow-y: auto; /* Allow scrolling within the textarea if needed */
+}
+
+.settings-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.ai-test-btn, 
+.ai-save-btn {
+    padding: 6px 12px;
+    border: 1px solid var(--panel-border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.ai-test-btn {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.ai-save-btn {
+    background-color: var(--menu-bg-color);
+    color: var(--menu-text-color);
+}
+
+.ai-test-btn:hover, 
+.ai-save-btn:hover {
+    opacity: 0.8;
+}
+
+.ai-settings-status {
+    margin-top: 12px;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 13px;
+    min-height: 20px; /* Ensure minimum height for visibility */
+}
+
+.ai-settings-status.success {
+    background-color: rgba(0, 128, 0, 0.2);
+    color: #4caf50;
+}
+
+.ai-settings-status.error {
+    background-color: rgba(255, 0, 0, 0.2);
+    color: #f44336;
+}
+
+.ai-settings-status.info {
+    background-color: rgba(0, 0, 128, 0.2);
+    color: #2196f3;
+}
+
+.ai-settings-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.ai-settings-content .settings-field:last-child {
+    flex: 1;
+    min-height: 0;
+}
+
+.ai-settings-content .settings-actions {
+    margin-top: auto;
+}
+
+.ai-settings-content .ai-status-container {
+    min-width: 0; /* Ensure it can shrink when needed */
+}
+
+.ai-settings-content .ai-settings-status {
+    margin-top: 8px;
+}
+
+.settings-actions {
+    display: flex;
+    align-items: flex-start; /* Align to top instead of center */
+    justify-content: space-between; /* Space between status container (left) and buttons (right) */
+}
+
+.ai-status-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px; /* Space between indicator and label */
+    flex: 1; /* Take available space but allow wrapping */
+    min-width: 0; /* Allow flex item to shrink below content size */
+}
+
+.ai-settings-buttons {
+    display: flex;
+    gap: 8px; /* Space between the buttons */
+    flex-shrink: 0; /* Prevent buttons from shrinking */
+}
+
+.ai-status-indicator {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s;
+    flex-shrink: 0; /* Don't let indicator shrink */
+}
+
+.ai-status-indicator.success {
+    background-color: #4caf50;
+    opacity: 1;
+}
+
+.ai-status-indicator.error {
+    background-color: #f44336;
+    opacity: 1;
+}
+
+.ai-status-indicator.info {
+    background-color: #2196f3;
+    opacity: 1;
+}
+
+.ai-status-label {
+    font-size: 13px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    flex: 1; /* Allow label to take available space */
+    word-wrap: break-word; /* Allow long words to break */
+    white-space: normal; /* Allow normal line breaks */
+    min-width: 0; /* Allow the element to shrink when needed */
+    padding-top: 1px; /* Small top adjustment for alignment */
+}
+
+.ai-status-label.success {
+    color: #4caf50;
+    opacity: 1;
+}
+
+.ai-status-label.error {
+    color: #f44336;
+    opacity: 1;
+}
+
+.ai-status-label.info {
+    color: #2196f3;
+    opacity: 1;
+}
+
+/* Dropdown menu for @ shortcuts */
+.ai-shortcut-dropdown {
+    position: absolute;
+    background-color: var(--menu-bg-color);
+    border: 1px solid var(--panel-border-color);
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+    min-width: 150px;
+    display: none;
+}
+
+.ai-shortcut-dropdown.visible {
+    display: block;
+}
+
+.ai-shortcut-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--panel-border-color);
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    transition: background-color 0.2s;
+    user-select: none;
+}
+
+.ai-shortcut-item:last-child {
+    border-bottom: none;
+}
+
+.ai-shortcut-item:hover,
+.ai-shortcut-item.selected {
+    background-color: var(--menu-bg-color);
+    color: var(--menu-text-color);
+}
+
+.ai-shortcut-item.touch-hold-active {
+    background-color: var(--hover-bg-color);
+    opacity: 0.8;
+}
+
+.ai-shortcut-item.touch-swipe-active {
+    background-color: var(--primary-color);
+    color: var(--bg-color);
+}
+
+/* Cloud server configuration styles */
+.settings-field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+    background-color: rgba(128, 128, 128, 0.05);
+    border-radius: 6px;
+    margin-bottom: 12px;
+}
+
+.read-only-value {
+    padding: 8px;
+    background-color: var(--bg-color);
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 13px;
+    color: var(--text-color);
+}
+
+.api-key-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.ai-save-key-btn,
+.ai-delete-key-btn {
+    padding: 6px 12px;
+    background-color: var(--menu-bg-color);
+    color: var(--menu-text-color);
+    border: 1px solid var(--panel-border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: opacity 0.2s;
+}
+
+.ai-save-key-btn:hover,
+.ai-delete-key-btn:hover {
+    opacity: 0.8;
+}
+
+.ai-delete-key-btn {
+    background-color: #d32f2f;
+    color: white;
+    border-color: #d32f2f;
+}
+
+.key-status-message {
+    font-size: 12px;
+    padding: 6px 8px;
+    border-radius: 4px;
+    margin-top: 6px;
+    display: none;
+}
+
+.key-status-message.visible {
+    display: block;
+}
+
+.key-status-message.success {
+    background-color: rgba(76, 175, 80, 0.1);
+    color: #4caf50;
+    border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.key-status-message.error {
+    background-color: rgba(244, 67, 54, 0.1);
+    color: #f44336;
+    border: 1px solid rgba(244, 67, 54, 0.3);
+}
+
+.key-status-message.info {
+    background-color: rgba(33, 150, 243, 0.1);
+    color: #2196f3;
+    border: 1px solid rgba(33, 150, 243, 0.3);
+}
+
+.key-status-message.warning {
+    background-color: rgba(255, 152, 0, 0.1);
+    color: #ff9800;
+    border: 1px solid rgba(255, 152, 0, 0.3);
+}
+
+.security-policy-note {
+    font-size: 11px;
+    color: var(--text-color);
+    opacity: 0.9;
+    line-height: 1.4;
+    margin-top: 8px;
+    padding: 8px;
+    background-color: var(--bg-color);
+    border-left: 3px solid rgba(33, 150, 243, 0.5);
+    border-radius: 3px;
+}
+
+/* Crowdsourcing section styles */
+.crowdsourcing-section {
+    margin-bottom: 16px;
+}
+
+.crowdsourcing-section h4 {
+    margin: 0 0 12px 0;
+    font-size: 15px;
+    color: var(--menu-text-color);
+    font-weight: 600;
+}
+
+.crowdsourcing-content {
+    padding: 12px;
+    background-color: var(--bg-color);
+    border-radius: 6px;
+    border: 1px solid var(--panel-border-color);
+}
+
+.crowdsourcing-content.disabled {
+    opacity: 0.6;
+}
+
+.crowdsourcing-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: var(--text-color);
+}
+
+.crowdsourcing-checkbox-label input[type="checkbox"] {
+    width: auto;
+    cursor: pointer;
+    margin: 0;
+}
+
+.crowdsourcing-checkbox-label input[type="checkbox"]:disabled {
+    cursor: not-allowed;
+}
+
+.crowdsourcing-description {
+    font-size: 12px;
+    color: var(--text-color);
+    opacity: 0.85;
+    line-height: 1.5;
+    margin: 8px 0;
+}
+
+.crowdsourcing-note {
+    font-size: 11px;
+    color: var(--text-color);
+    opacity: 0.7;
+    line-height: 1.4;
+    margin-top: 8px;
+    padding: 6px 8px;
+    background-color: rgba(33, 150, 243, 0.1);
+    border-left: 3px solid rgba(33, 150, 243, 0.5);
+    border-radius: 3px;
+}
+
+.settings-divider {
+    height: 1px;
+    background-color: var(--panel-border-color);
+    margin: 16px 0;
 }

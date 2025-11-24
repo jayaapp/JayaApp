@@ -1,4 +1,20 @@
-/* Reset and base styles */
+/* Global Styles and Layout */
+
+:root {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --menu-bg-color: #333333;
+    --menu-text-color: #ffffff;
+    --panel-border-color: rgba(0, 0, 0, 0.1);
+}
+
+body.dark-theme {
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --menu-bg-color: #1e1e1e;
+    --menu-text-color: #ffffff;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -9,7 +25,8 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     height: 100vh;
     overflow: hidden;
-    background-color: #f5f5f5;
+    background-color: var(--bg-color);
+    color: var(--text-color);
 }
 
 .app-container {
@@ -22,8 +39,8 @@ body {
 /* Toolbar styles */
 .toolbar {
     height: 44px;
-    background-color: #2c3e50;
-    color: white;
+    background-color: var(--menu-bg-color);
+    color: var(--menu-text-color);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -33,11 +50,11 @@ body {
 }
 
 .top-toolbar {
-    border-bottom: 1px solid #34495e;
+    border-bottom: 1px solid var(--menu-bg-color);
 }
 
 .bottom-toolbar {
-    border-top: 1px solid #34495e;
+    border-top: 1px solid var(--menu-bg-color);
 }
 
 .toolbar h1 {
@@ -68,21 +85,10 @@ body {
     overflow: auto;
 }
 
-.panel-content h2 {
-    margin-bottom: 12px;
-    color: #2c3e50;
-}
-
-.panel-content p {
-    margin-bottom: 12px;
-    line-height: 1.6;
-    color: #34495e;
-}
-
 /* Split handle styles */
 .split-handle {
     position: relative;
-    background-color: #bdc3c7;
+    background-color: var(--panel-border-color);
     z-index: 5;
     cursor: grab;
 }
