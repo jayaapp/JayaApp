@@ -5,7 +5,7 @@
     --text-color: #000000;
     --menu-bg-color: #333333;
     --menu-text-color: #ffffff;
-    --panel-border-color: rgba(0, 0, 0, 0.1);
+    --panel-border-color: color-mix(in srgb, var(--bg-color) 80%, var(--text-color) 20%);
 }
 
 body.dark-theme {
@@ -13,6 +13,7 @@ body.dark-theme {
     --text-color: #e0e0e0;
     --menu-bg-color: #1e1e1e;
     --menu-text-color: #ffffff;
+    --panel-border-color: color-mix(in srgb, var(--bg-color) 80%, var(--text-color) 20%);
 }
 
 * {
