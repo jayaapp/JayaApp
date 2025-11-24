@@ -1,6 +1,6 @@
 function applyLocalization() {
     let currentLang = localStorage.getItem('appLang') || 'English';
-    if (document.getElementById('language-select').value = currentLang) {
+    if (document.getElementById('language-select')) {
         document.getElementById('language-select').value = currentLang;
     }
     let elements = document.querySelectorAll('[locale-id]');

@@ -1,4 +1,7 @@
 <div id="settings-panel">
+    <!-- Close button -->
+    <span class="material-symbols-outlined settings-close" id="settings-close">close</span>
+
     <!-- Sync settings placeholder -->
     <!-- <div class="settings-group">
        <div id="sync-placeholder"></div>
@@ -6,9 +9,10 @@
 
     <!-- Language selection -->
     <div class="settings-group">
-        <span class="material-symbols-outlined settings-close" id="settings-close">close</span>
-        <label for="language-select" locale-id="language">App Language:</label>
-        <select id="language-select"></select>
+        <div class="setting-item">
+            <label for="language-select" locale-id="language">App Language</label>
+            <select id="language-select"></select>
+        </div> 
     </div>
 
     <!-- Font settings -->
@@ -140,25 +144,19 @@
         <div class="setting-item" id="original-text-container">
             <label for="original-text" locale-id="original_text">Original text</label>
             <select id="original-text">
-                <option value="disable" locale-id="disable">Disable</option>
-                <option value="sanskrit-multi" locale-id="sanskrit_multi">Sanskrit multi-line</option>
-                <option value="sanskrit-single" locale-id="sanskrit_single">Sanskrit single-line</option>
+                <!-- Will be populated dynamically -->
             </select>
         </div>
         <div class="setting-item" id="first-translation-container">
             <label for="first-translation" locale-id="first_translation">First translation</label>
             <select id="first-translation">
-                <option value="disable" locale-id="disable">Disable</option>
-                <option value="ai_en.json" locale-id="ai_en">ai English Translation</option>
-                <option value="ai_pl.json" locale-id="ai_pl">ai Polish Translation</option>
+                <!-- Will be populated dynamically -->
             </select>
         </div>
         <div class="setting-item" id="second-translation-container">
             <label for="second-translation" locale-id="second_translation">Second translation</label>
             <select id="second-translation">
-                <option value="disable" locale-id="disable">Disable</option>
-                <option value="ai_en.json" locale-id="ai_en">ai English Translation</option>
-                <option value="ai_pl.json" locale-id="ai_pl">ai Polish Translation</option>
+                <!-- Will be populated dynamically -->
             </select>
         </div>
     </div>
@@ -170,58 +168,58 @@
         </div>
         <div class="ai-settings-content">
             <div class="crowdsourcing-section">
-                <h4 data-locale-field="crowdsourcing_section">Crowdsourcing</h4>
+                <h4 locale-id="crowdsourcing_section">Crowdsourcing</h4>
                 <div class="crowdsourcing-content" id="crowdsourcing-content">
                     <label class="crowdsourcing-checkbox-label">
                         <input type="checkbox" id="crowdsource-analyses">
-                        <span data-locale-field="crowdsourcing_checkbox">Contribute AI analyses to improve the app</span>
+                        <span locale-id="crowdsourcing_checkbox">Contribute AI analyses to improve the app</span>
                     </label>
-                    <p class="crowdsourcing-description" data-locale-field="crowdsourcing_description">
+                    <p class="crowdsourcing-description" locale-id="crowdsourcing_description">
                         By enabling this, your AI-generated word and verse analyses will be securely submitted for review and potential inclusion in the app's static dataset, helping future users benefit from high-quality cloud-based analysis.
                     </p>
-                    <p class="crowdsourcing-note" id="crowdsourcing-note" data-locale-field="crowdsourcing_available_note">
+                    <p class="crowdsourcing-note" id="crowdsourcing-note" locale-id="crowdsourcing_available_note">
                         Only available when using Ollama Cloud models
                     </p>
                 </div>
             </div>
             <div class="settings-divider"></div>
             <div class="settings-field">
-                <label for="ollama-server-type" data-locale-field="server_type">Server Type</label>
+                <label for="ollama-server-type" locale-id="server_type">Server Type</label>
                 <select id="ollama-server-type">
-                    <option value="local" data-locale-field="local_server">Ollama Local Server</option>
-                    <option value="cloud" data-locale-field="cloud_server">Ollama Cloud Server</option>
+                    <option value="local" locale-id="local_server">Ollama Local Server</option>
+                    <option value="cloud" locale-id="cloud_server">Ollama Cloud Server</option>
                 </select>
             </div>
             <div class="settings-field" id="local-server-config">
-                <label for="ollama-server-url" data-locale-field="ollama_server_url">Server URL</label>
+                <label for="ollama-server-url" locale-id="ollama_server_url">Server URL</label>
                 <input type="text" id="ollama-server-url" placeholder="http://localhost:11434">
             </div>
             <div class="settings-field-group" id="cloud-server-config" style="display: none;">
                 <div class="settings-field">
-                    <label data-locale-field="ollama_server_url">Server URL</label>
+                    <label locale-id="ollama_server_url">Server URL</label>
                     <div class="read-only-value">https://ollama.com</div>
                 </div>
                 <div class="settings-field">
-                    <label for="ollama-api-key" data-locale-field="api_key">API Key</label>
-                    <input type="password" id="ollama-api-key" data-locale-field="enter_api_key_placeholder" placeholder="Enter your Ollama API key">
+                    <label for="ollama-api-key" locale-id="api_key">API Key</label>
+                    <input type="password" id="ollama-api-key" locale-id="enter_api_key_placeholder" placeholder="Enter your Ollama API key">
                 </div>
                 <div class="api-key-actions">
-                    <button class="ai-save-key-btn" id="save-api-key-btn" data-locale-field="save_key">Save Key Securely</button>
-                    <button class="ai-delete-key-btn" id="delete-api-key-btn" data-locale-field="delete_key" style="display: none;">Delete Key</button>
+                    <button class="ai-save-key-btn" id="save-api-key-btn" locale-id="save_key">Save Key Securely</button>
+                    <button class="ai-delete-key-btn" id="delete-api-key-btn" locale-id="delete_key" style="display: none;">Delete Key</button>
                 </div>
                 <div class="key-status-message" id="key-status-message"></div>
-                <div class="security-policy-note" data-locale-field="security_policy">
+                <div class="security-policy-note" locale-id="security_policy">
                     🔒 Your API key is encrypted and stored securely on our backend server. It is only retrieved when making cloud API calls and is never exposed in logs or browser storage.
                 </div>
             </div>
             <div class="settings-field">
-                <label for="ollama-model" data-locale-field="ollama_model">Model</label>
+                <label for="ollama-model" locale-id="ollama_model">Model</label>
                 <select id="ollama-model">
                     <option value="">Select a model...</option>
                 </select>
             </div>
             <div class="settings-field">
-                <label for="ollama-system-prompt" data-locale-field="ollama_system_prompt">System Prompt</label>
+                <label for="ollama-system-prompt" locale-id="ollama_system_prompt">System Prompt</label>
                 <textarea id="ollama-system-prompt" placeholder="You are an assistant helping with the Mahabharata and Sanskrit studies."></textarea>
             </div>
             <div class="settings-actions">
@@ -230,8 +228,8 @@
                     <span class="ai-status-label" id="ollama-status-label"></span>
                 </div>
                 <div class="ai-settings-buttons">
-                    <button class="ai-test-btn" data-locale-field="ollama_test_connection">Test Connection</button>
-                    <button class="ai-save-btn" data-locale-field="ollama_save_settings">Save Settings</button>
+                    <button class="ai-test-btn" locale-id="ollama_test_connection">Test Connection</button>
+                    <button class="ai-save-btn" locale-id="ollama_save_settings">Save Settings</button>
                 </div>
             </div>
         </div>

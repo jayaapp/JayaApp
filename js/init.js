@@ -33,7 +33,7 @@
                 for (const langName in data) {
                     const option = document.createElement('option');
                     option.value = langName;
-                    option.textContent = data[langName]['language-name'] || langName;
+                    option.textContent = langName;
                     langSelect.appendChild(option);
                 }
                 applyLocalization();
