@@ -22,7 +22,21 @@ class OrnamentedBackground {
         this.isUpdating = false; // Prevent recursive updates
         this.panelIds = ['text-panel-horizontal', 'text-panel-vertical', 'chat-panel-horizontal', 'chat-panel-vertical'];
         
-        this.init();
+        // Prefer preloaded cache from initApp if available
+        this.backgroundImageUrl = window.backgroundImageUrl || this.backgroundImageUrl;
+        if (window.backgroundImageCache && window.backgroundImageCache.url === this.backgroundImageUrl) {
+            this.imageCache = window.backgroundImageCache;
+
+            // Apply initial background if enabled
+            if (this.settings.enabled) {
+                this.applyBackgroundToAllPanels();
+            }
+
+            // Set up event listeners (synchronous path)
+            this.setupEventListeners();
+        } else {
+            this.init();
+        }
     }
     
     async init() {
@@ -47,6 +61,15 @@ class OrnamentedBackground {
                     width: img.naturalWidth,
                     height: img.naturalHeight
                 };
+                // Expose cache globally for reuse by other modules
+                try {
+                    window.backgroundImageCache = {
+                        element: img,
+                        width: img.naturalWidth,
+                        height: img.naturalHeight,
+                        url: this.backgroundImageUrl
+                    };
+                } catch (e) { /* ignore */ }
                 resolve();
             };
             img.onerror = reject;
@@ -332,7 +355,7 @@ class OrnamentedBackground {
     }
 }
 
-// Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
+// Initialize background module
+function initBackground() {
     window.ornamentedBackground = new OrnamentedBackground();
-});
+}

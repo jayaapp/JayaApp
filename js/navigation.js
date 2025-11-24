@@ -95,7 +95,7 @@ document.addEventListener('localeChanged', function() {
     }
 });
 
-async function updateChapters() {
+function updateChapters() {
     const bookIndex = document.getElementById('book-select').value;
     const chapterSelect = document.getElementById('chapter-select');
 
@@ -124,71 +124,70 @@ async function loadJSON(file) {
 }
 
 function initNavigation() {
-    contentLoadedPromise = new Promise(async (resolve) => {
-        // Load data based on current view settings
-        try {
-            // If init.js already loaded resources, avoid re-fetching them.
-            if (!window.mahabharata) {
-                try {
-                    window.mahabharata = await loadJSON('data/maha_sa.json');
-                } catch (e) {
-                    console.error('Failed to load maha_sa.json in navigation init:', e);
-                    window.mahabharata = window.mahabharata || {};
+    // Ensure global containers exist
+    window.translation = window.translation || {};
+    window.mahabharata = window.mahabharata || {};
+
+    // If mahabharata isn't present, start background loading (non-blocking)
+    if (!Object.keys(window.mahabharata).length) {
+        loadJSON('data/maha_sa.json')
+            .then(json => {
+                window.mahabharata = json || {};
+                // If the book-select exists, populate/update it now that data arrived
+                const bookSelect = document.getElementById('book-select');
+                if (bookSelect) {
+                    const bookKeys = Object.keys(window.mahabharata).map(Number).sort((a, b) => a - b);
+                    bookSelect.innerHTML = bookKeys.map((key) => `<option value="${key}">${key}</option>`).join('');
+                    initBookSelectionPanel(bookKeys);
+                    updateChapters();
                 }
-            }
+            })
+            .catch(e => {
+                console.error('Failed to load maha_sa.json in navigation init:', e);
+            });
+    }
 
-            // Ensure translation container exists
-            window.translation = window.translation || {};
-            // Load any missing translations in parallel
-            const translationKeys = Object.keys(window.translations || {});
-            const missing = translationKeys.filter(k => !window.translation[k]);
-            if (missing.length > 0) {
-                await Promise.all(missing.map(async (k) => {
-                    try {
-                        window.translation[k] = await loadJSON(`data/${k}.json`);
-                    } catch (e) {
-                        console.error(`Failed to load translation ${k}:`, e);
-                        window.translation[k] = {};
-                    }
-                }));
-            }
+    // Load any missing translations in parallel (non-blocking)
+    const translationKeys = Object.keys(window.translations || {});
+    const missing = translationKeys.filter(k => !window.translation[k]);
+    if (missing.length > 0) {
+        Promise.all(missing.map(k =>
+            loadJSON(`data/${k}.json`)
+                .then(json => { window.translation[k] = json; })
+                .catch(e => { console.error(`Failed to load translation ${k}:`, e); window.translation[k] = {}; })
+        )).then(() => {
+            // Notify listeners (e.g., book panel) that translations may have changed
+            document.dispatchEvent(new Event('localeChanged'));
+        });
+    }
 
-            // Initialize book selection (numbers only)
-            const bookSelect = document.getElementById('book-select');
-            const bookKeys = Object.keys(window.mahabharata).map(Number).sort((a, b) => a - b);
-            
-            // Populate with numbers only
-            bookSelect.innerHTML = bookKeys.map((key) => {
-                return `<option value="${key}">${key}</option>`;
-            }).join('');
-            
-            // Initialize book selection panel
-            initBookSelectionPanel(bookKeys);
-            
-            // Replace dropdown behavior with panel
-            bookSelect.addEventListener('mousedown', function(e) {
-                e.preventDefault();
-                showBookSelectionPanel();
-            });
-            
-            // Prevent the dropdown from opening on click
-            bookSelect.addEventListener('click', function(e) {
-                e.preventDefault();
-            });
-            
-            bookSelect.addEventListener('change', function() {
-                updateChapters(true);
-            });
-            
-            await updateChapters(false);
-            resolve();
-        } catch (error) {
-            console.error('Error loading data:', error);
-            resolve();
-        }
-    });
-    
-    contentLoadedPromise.then(() => {
-        console.log('Navigation module initialized');
-    });
+    // Initialize book selection (numbers only) using whatever data is currently available
+    const bookSelect = document.getElementById('book-select');
+    const bookKeys = Object.keys(window.mahabharata).map(Number).sort((a, b) => a - b);
+
+    if (bookSelect) {
+        // Populate with numbers only
+        bookSelect.innerHTML = bookKeys.map((key) => `<option value=\"${key}\">${key}</option>`).join('');
+
+        // Initialize book selection panel
+        initBookSelectionPanel(bookKeys);
+
+        // Replace dropdown behavior with panel
+        bookSelect.addEventListener('mousedown', function(e) {
+            e.preventDefault();
+            showBookSelectionPanel();
+        });
+
+        // Prevent the dropdown from opening on click
+        bookSelect.addEventListener('click', function(e) {
+            e.preventDefault();
+        });
+
+        bookSelect.addEventListener('change', function() {
+            updateChapters();
+        });
+
+        // Initial chapters update (uses existing data)
+        updateChapters();
+    }
 }

@@ -78,8 +78,33 @@
         // Build promises for HTML modules
         const htmlPromises = htmlModules.map(fetchHtmlInject);
 
-        // Wait for everything (JSON + HTML) to settle
-        Promise.allSettled([ ...jsonPromises, ...htmlPromises ])
+        // Preload background image and expose a reusable cache to other modules
+        window.backgroundImageUrl = window.backgroundImageUrl || 'assets/background.png';
+        const bgImagePromise = new Promise((resolve) => {
+            try {
+                const img = new Image();
+                img.onload = () => {
+                    window.backgroundImageCache = {
+                        element: img,
+                        width: img.naturalWidth,
+                        height: img.naturalHeight,
+                        url: window.backgroundImageUrl
+                    };
+                    resolve({ ok: true });
+                };
+                img.onerror = (err) => {
+                    console.warn('Background preload failed:', err);
+                    resolve({ ok: false });
+                };
+                img.src = window.backgroundImageUrl;
+            } catch (e) {
+                console.warn('Background preload exception', e);
+                resolve({ ok: false });
+            }
+        });
+
+        // Wait for everything (JSON + HTML + background image) to settle
+        Promise.allSettled([ ...jsonPromises, ...htmlPromises, bgImagePromise ])
             .then((results) => {
                 // Populate language select from locale data (if present)
                 const langSelect = document.getElementById('language-select');
@@ -96,8 +121,7 @@
                 // Apply localization and initialize panels
                 try { applyLocalization(); } catch (e) { console.error('applyLocalization error', e); }
                 try { initSettingsPanel(); } catch (e) { console.error('initSettingsPanel error', e); }
-
-                // Initialize navigation after locale and data are (attempted) loaded
+                try { initBackground(); } catch (e) { console.error('initBackground error', e); }   
                 try { initNavigation(); } catch (e) { console.error('initNavigation error', e); }
 
                 // Optional: log any failures for debugging
