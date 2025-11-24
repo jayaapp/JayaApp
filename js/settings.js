@@ -130,6 +130,106 @@ function initFontControls() {
     });
 }
 
+function initThemeColorControls() {
+    const defaults = {
+        lightBg: '#ffffff',
+        lightText: '#000000',
+        lightMenuBg: '#333333',
+        lightMenuText: '#ffffff',
+        darkBg: '#121212',
+        darkText: '#e0e0e0',
+        darkMenuBg: '#1e1e1e',
+        darkMenuText: '#ffffff'
+    };
+
+    const mapping = [
+        { id: 'light-bg-color', key: 'lightBgColor', default: defaults.lightBg, cssVar: '--bg-color', target: 'root' },
+        { id: 'light-text-color', key: 'lightTextColor', default: defaults.lightText, cssVar: '--text-color', target: 'root' },
+        { id: 'light-menu-bg-color', key: 'lightMenuBgColor', default: defaults.lightMenuBg, cssVar: '--menu-bg-color', target: 'root' },
+        { id: 'light-menu-text-color', key: 'lightMenuTextColor', default: defaults.lightMenuText, cssVar: '--menu-text-color', target: 'root' },
+
+        { id: 'dark-bg-color', key: 'darkBgColor', default: defaults.darkBg, cssVar: '--bg-color', target: 'body' },
+        { id: 'dark-text-color', key: 'darkTextColor', default: defaults.darkText, cssVar: '--text-color', target: 'body' },
+        { id: 'dark-menu-bg-color', key: 'darkMenuBgColor', default: defaults.darkMenuBg, cssVar: '--menu-bg-color', target: 'body' },
+        { id: 'dark-menu-text-color', key: 'darkMenuTextColor', default: defaults.darkMenuText, cssVar: '--menu-text-color', target: 'body' }
+    ];
+
+    function applyThemeValues() {
+        // Apply light-theme values to :root
+        mapping.filter(m => m.target === 'root').forEach(m => {
+            const v = localStorage.getItem(m.key) || m.default;
+            try { document.documentElement.style.setProperty(m.cssVar, v); } catch (e) { /* silent */ }
+            const el = document.getElementById(m.id);
+            if (el) el.value = v;
+        });
+
+        // For dark-theme values, set them on body only when dark-theme class is active.
+        const darkActive = document.body.classList.contains('dark-theme');
+        mapping.filter(m => m.target === 'body').forEach(m => {
+            const v = localStorage.getItem(m.key) || m.default;
+            const el = document.getElementById(m.id);
+            if (el) el.value = v;
+            try {
+                if (darkActive) {
+                    document.body.style.setProperty(m.cssVar, v);
+                } else {
+                    document.body.style.removeProperty(m.cssVar);
+                }
+            } catch (e) { /* silent */ }
+        });
+    }
+
+    // initialize inputs and listeners
+    mapping.forEach(m => {
+        const input = document.getElementById(m.id);
+        if (!input) return;
+        const stored = localStorage.getItem(m.key) || m.default;
+        try { input.value = stored; } catch (e) { /* ignore */ }
+
+        input.addEventListener('input', function () {
+            try { localStorage.setItem(m.key, this.value); } catch (e) { /* silent */ }
+            applyThemeValues();
+        });
+
+        input.addEventListener('change', function () {
+            try { localStorage.setItem(m.key, this.value); } catch (e) { /* silent */ }
+            applyThemeValues();
+        });
+    });
+
+    // Reset buttons
+    const lightReset = document.getElementById('light-theme-reset');
+    const darkReset = document.getElementById('dark-theme-reset');
+
+    if (lightReset) {
+        lightReset.addEventListener('click', () => {
+            ['lightBgColor', 'lightTextColor', 'lightMenuBgColor', 'lightMenuTextColor'].forEach(key => localStorage.removeItem(key));
+            applyThemeValues();
+        });
+    }
+
+    if (darkReset) {
+        darkReset.addEventListener('click', () => {
+            ['darkBgColor', 'darkTextColor', 'darkMenuBgColor', 'darkMenuTextColor'].forEach(key => localStorage.removeItem(key));
+            applyThemeValues();
+        });
+    }
+
+    // Observe body class changes (theme toggle) and reapply theme vars accordingly
+    const observer = new MutationObserver((mutations) => {
+        for (const m of mutations) {
+            if (m.type === 'attributes' && m.attributeName === 'class') {
+                applyThemeValues();
+                break;
+            }
+        }
+    });
+    try { observer.observe(document.body, { attributes: true }); } catch (e) { /* silent */ }
+
+    // initial apply
+    applyThemeValues();
+}
+
 function initSettingsPanel() {
     const settingsPanel =  document.getElementById('settings-panel');
     document.getElementById('settings-icon').onclick = function() {
@@ -154,5 +254,7 @@ function initSettingsPanel() {
     });
 
     initFontControls();
+
+    initThemeColorControls();
 }
  
