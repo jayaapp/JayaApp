@@ -11,6 +11,9 @@ function applyLocalization() {
             el.textContent = window.localeData[currentLang][key];
         }
     });
+
+    // Notify navigation module about language change
+    document.dispatchEvent(new Event('localeChanged'));
 }
 
 // Font controls: wire UI to localStorage and CSS variables
@@ -390,15 +393,19 @@ function initTextRenderingControls()
     // First/Second translation options (AI strings may be present)
     const firstOptions = [
         { value: 'disable', text: L('disable', 'Disable') },
-        { value: 'maha_en.json', text: L('ai_en', 'AI English Translation') },
-        { value: 'maha_pl.json', text: L('ai_pl', 'AI Polish Translation') }
     ];
+    for (key in window.translations) {
+        const langName = window.translations[key];
+        firstOptions.push({ value: `data/${key}.json`, text: L(key, `AI ${langName} Translation`) });
+    }
 
     const secondOptions = [
         { value: 'disable', text: L('disable', 'Disable') },
-        { value: 'maha_en.json', text: L('ai_en', 'AI English Translation') },
-        { value: 'maha_pl.json', text: L('ai_pl', 'AI Polish Translation') }
     ];
+    for (key in window.translations) {
+        const langName = window.translations[key];
+        secondOptions.push({ value: `data/${key}.json`, text: L(key, `AI ${langName} Translation`) });
+    }
 
     // helper to populate select and set stored/default value
     function populateSelect(selectEl, options, storedKey, defaultValue) {

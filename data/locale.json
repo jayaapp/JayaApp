@@ -54,8 +54,8 @@
         "iast_multi": "IAST only multi-line",
         "iast_single": "IAST only single-line",
         "disable": "Disable",
-        "ai_en": "AI English Translation",
-        "ai_pl": "AI Polish Translation",
+        "maha_en": "AI English Translation",
+        "maha_pl": "AI Polish Translation",
         "missing_content": "No content available",
         "error_loading_data": "Error loading data. Please try again.",
 
@@ -274,8 +274,8 @@
         "iast_multi": "Tylko IAST wieloliniowy",
         "iast_single": "Tylko IAST jednoliniowy",
         "disable": "Wyłącz",
-        "ai_en": "Przekład SI na angielski",
-        "ai_pl": "Przekład SI na polski",
+        "maha_en": "Przekład SI na angielski",
+        "maha_pl": "Przekład SI na polski",
         "missing_content": "Brak dostępnej treści",
         "error_loading_data": "Błąd ładowania danych. Spróbuj ponownie.",
 
