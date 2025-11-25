@@ -1,0 +1,62 @@
+/* Note Editor Styles */
+.note-overlay, .notes-list-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    display: none;
+    pointer-events: none; /* Ensure no click blocking when hidden */
+}
+
+.note-overlay.active, .notes-list-overlay.active {
+    display: block;
+    pointer-events: auto; /* Re-enable click handling when active */
+}
+
+.note-editor-panel, .notes-list-panel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background-color: var(--bg-color);
+    border-radius: 10px;
+    width: 80%;
+    max-width: 500px;
+    max-height: 80vh;
+    z-index: 101;
+    display: none;
+    flex-direction: column;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+.notes-list-panel {
+    max-width: 500px;
+}
+
+.note-editor-panel.active, .notes-list-panel.active {
+    display: flex;
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+.note-editor-header, .notes-list-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    border-bottom: 1px solid var(--panel-border-color);
+}
+
+.note-editor-title, .notes-list-title {
+    margin: 0;
+    color: var(--text-color);
+}
+
+.note-editor-close, .notes-list-close {
+    cursor: pointer;
+    color: var(--text-color);
+}

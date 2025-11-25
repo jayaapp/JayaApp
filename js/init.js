@@ -25,14 +25,21 @@
     function initApp() {
         setSplit();
 
-        // Declare translation mapping early so other modules can see the keys
+        // Declare available translations 
         window.translations = {
             'maha_en': 'English',
             'maha_pl': 'Polish'
         };
-        window.translation = window.translation || {};
 
-        const htmlModules = [ 'settings', 'booksel' ];
+        // Declare available HTML modules
+        const htmlModules = [
+            'settings',
+            'booksel',
+            'notes'
+        ];
+
+        // Ensure translation object exists
+        window.translation = window.translation || {};
 
         // Helper to fetch JSON and assign a value safely
         function fetchJsonAssign(path, assignFn) {
@@ -123,6 +130,7 @@
                 try { initSettingsPanel(); } catch (e) { console.error('initSettingsPanel error', e); }
                 try { initBackground(); } catch (e) { console.error('initBackground error', e); }   
                 try { initNavigation(); } catch (e) { console.error('initNavigation error', e); }
+                try { initClicks(); } catch (e) { console.error('initClicks error', e); }
 
                 // Optional: log any failures for debugging
                 const failures = results.filter(r => r.status === 'rejected');
