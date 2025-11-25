@@ -84,6 +84,14 @@ body {
     flex: 1;
     padding: 16px;
     overflow: auto;
+    scrollbar-width: none;          /* Firefox */ /* Hide scrollbars */
+    -ms-overflow-style: none;       /* IE 10+ */ /* Hide scrollbars */
+}
+
+/* Hide scrollbars for panel content */
+.panel-content::-webkit-scrollbar { 
+    width: 0;                       /* Chrome, Edge, Safari */
+    height: 0;
 }
 
 /* Split handle styles */
