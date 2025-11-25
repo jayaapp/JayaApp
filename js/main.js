@@ -107,6 +107,8 @@ document.addEventListener('DOMContentLoaded', () => {
             isDragging = false;
             document.body.style.cursor = 'default';
             saveSplit(percentage);
+            // Notify other modules of resize
+            window.dispatchEvent(new Event('resize'));
         }
     });
 
@@ -171,6 +173,8 @@ document.addEventListener('DOMContentLoaded', () => {
             isDragging = false;
             document.body.style.cursor = 'default';
             saveSplit(percentage);
+            // Notify other modules of resize
+            window.dispatchEvent(new Event('resize'));
         }
     });
 
