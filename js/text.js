@@ -109,7 +109,32 @@ function renderWhenReady(container) {
             
             // Add final spacing
             lineDiv.appendChild(document.createElement('br'));
+            // Append verse container
             container.appendChild(lineDiv);
+            // If a note exists for this verse, render a small icon (minimal DOM change)
+            try {
+                if (window.notesAPI) {
+                    const note = window.notesAPI.getNote(bookKey, chapterKey, index + 1);
+                    if (note) {
+                        // ensure verse container is positioned so absolute icon can be placed
+                        lineDiv.style.position = lineDiv.style.position || 'relative';
+                        const noteIcon = document.createElement('span');
+                        noteIcon.className = 'verse-note-icon';
+                        noteIcon.title = 'Open note';
+                        noteIcon.textContent = '📝';
+                        noteIcon.setAttribute('data-book', bookKey);
+                        noteIcon.setAttribute('data-chapter', chapterKey);
+                        noteIcon.setAttribute('data-verse', String(index + 1));
+                        noteIcon.style.position = 'absolute';
+                        noteIcon.style.right = '6px';
+                        noteIcon.style.bottom = '6px';
+                        noteIcon.style.zIndex = '3';
+                        noteIcon.style.cursor = 'pointer';
+                        noteIcon.style.fontSize = '14px';
+                        lineDiv.appendChild(noteIcon);
+                    }
+                }
+            } catch (e) { /* ignore notes errors */ }
             lineElements.push(lineDiv);
         });
     }

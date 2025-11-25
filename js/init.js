@@ -131,6 +131,7 @@
                 try { initBackground(); } catch (e) { console.error('initBackground error', e); }   
                 try { initNavigation(); } catch (e) { console.error('initNavigation error', e); }
                 try { initClicks(); } catch (e) { console.error('initClicks error', e); }
+                try { if (window.initNotes) window.initNotes(); } catch (e) { console.error('initNotes error', e); }
 
                 // Optional: log any failures for debugging
                 const failures = results.filter(r => r.status === 'rejected');
