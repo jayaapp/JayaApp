@@ -396,7 +396,7 @@ function initTextRenderingControls()
     ];
     for (key in window.translations) {
         const langName = window.translations[key];
-        firstOptions.push({ value: `data/${key}.json`, text: L(key, `AI ${langName} Translation`) });
+        firstOptions.push({ value: key, text: L(key, `AI ${langName} Translation`) });
     }
 
     const secondOptions = [
@@ -404,7 +404,7 @@ function initTextRenderingControls()
     ];
     for (key in window.translations) {
         const langName = window.translations[key];
-        secondOptions.push({ value: `data/${key}.json`, text: L(key, `AI ${langName} Translation`) });
+        secondOptions.push({ value: key, text: L(key, `AI ${langName} Translation`) });
     }
 
     // helper to populate select and set stored/default value

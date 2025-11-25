@@ -95,6 +95,7 @@ document.addEventListener('localeChanged', function() {
     }
 });
 
+// Update chapters based on new selected book
 function updateChapters() {
     const bookIndex = document.getElementById('book-select').value;
     const chapterSelect = document.getElementById('chapter-select');
@@ -108,6 +109,9 @@ function updateChapters() {
     // Convert string keys to numbers and sort them in the ascending order
     const chapterKeys = Object.keys(window.mahabharata[bookIndex]).map(Number).sort((a, b) => a - b);
     chapterSelect.innerHTML = chapterKeys.map((key) => `<option value="${key}">${key}</option>`).join('');
+
+    // Notify text rendering module on book/chapter change
+    document.dispatchEvent(new Event('bookChapterChanged'));
 }
 
 async function loadJSON(file) {
@@ -155,10 +159,7 @@ function initNavigation() {
             loadJSON(`data/${k}.json`)
                 .then(json => { window.translation[k] = json; })
                 .catch(e => { console.error(`Failed to load translation ${k}:`, e); window.translation[k] = {}; })
-        )).then(() => {
-            // Notify listeners (e.g., book panel) that translations may have changed
-            document.dispatchEvent(new Event('localeChanged'));
-        });
+        )).then(() => { /* Silently complete */ });
     }
 
     // Initialize book selection (numbers only) using whatever data is currently available
@@ -189,5 +190,14 @@ function initNavigation() {
 
         // Initial chapters update (uses existing data)
         updateChapters();
+    }
+
+    const chapterSelect = document.getElementById('chapter-select');
+
+    if (chapterSelect) {
+        chapterSelect.addEventListener('change', function() {
+            // Notify text rendering module on book/chapter change
+            document.dispatchEvent(new Event('bookChapterChanged'));
+        });
     }
 }
