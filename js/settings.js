@@ -456,6 +456,41 @@ function initTextRenderingControls()
         emitTextRenderingChanged();
     });
 
+    // Prevent disabling all three; if only one non-disabled select remains,
+    // disable the "disable" option on that select so the user can't turn it off.
+    const allSelects = [originalText, firstTranslation, secondTranslation];
+    function updateDisableOptions() {
+        try {
+            const nonDisabled = allSelects.filter(s => s && s.value !== 'disable');
+            if (nonDisabled.length <= 1) {
+                // If there is exactly one non-disabled select, disable its 'disable' option
+                const last = nonDisabled[0];
+                allSelects.forEach(s => {
+                    if (!s) return;
+                    const opt = s.querySelector('option[value="disable"]');
+                    if (!opt) return;
+                    opt.disabled = (s === last);
+                });
+            } else {
+                // More than one non-disabled: make sure 'disable' option is enabled everywhere
+                allSelects.forEach(s => {
+                    if (!s) return;
+                    const opt = s.querySelector('option[value="disable"]');
+                    if (opt) opt.disabled = false;
+                });
+            }
+        } catch (e) { /* silent */ }
+    }
+
+    // Call update on change so UI reflects constraints immediately
+    allSelects.forEach(s => {
+        if (!s) return;
+        s.addEventListener('change', updateDisableOptions);
+    });
+
+    // Initial enforcement
+    updateDisableOptions();
+
     // initial emit so other modules can react
     emitTextRenderingChanged();
 }
