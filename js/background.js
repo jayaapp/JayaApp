@@ -92,7 +92,7 @@ class OrnamentedBackground {
                 clearTimeout(this.resizeTimeout);
                 this.resizeTimeout = setTimeout(() => {
                     this.applyBackgroundToAllPanels();
-                }, 250);
+                }, 355);
             }
         });
         
@@ -107,7 +107,7 @@ class OrnamentedBackground {
                 // Small delay to ensure layout is updated
                 setTimeout(() => {
                     this.applyBackgroundToAllPanels();
-                }, 100);
+                }, 355);
             }
         });
         

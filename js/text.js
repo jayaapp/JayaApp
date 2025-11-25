@@ -135,7 +135,7 @@ function renderText(container) {
             renderWhenReady(container);
             window.currentTextContainer = container;
         }
-    }, 100);
+    }, 355);
 }
 
 function updateText() {
