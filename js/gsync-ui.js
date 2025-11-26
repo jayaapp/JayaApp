@@ -431,28 +431,32 @@ class GoogleSyncUI {
                 this.button.disabled = true;
                 this.button.classList.add('state-initializing');
                 iconEl.textContent = 'cloud_off';
-                textEl.textContent = 'Initializing...';
+                if (window.getLocale) textEl.textContent = getLocale('initializing_sync') || 'Initializing...';
+                else textEl.textContent = 'Initializing...';
                 break;
 
             case 'ready':
                 this.button.disabled = false;
                 this.button.classList.add('state-ready');
                 iconEl.textContent = 'cloud';
-                textEl.textContent = 'Connect to Google Drive';
+                if (window.getLocale) textEl.textContent = getLocale('connect_to_google_drive') || 'Connect to Google Drive';
+                else textEl.textContent = 'Connect to Google Drive';
                 break;
 
             case 'connecting':
                 this.button.disabled = true;
                 this.button.classList.add('state-connecting');
                 iconEl.textContent = 'hourglass_empty';
-                textEl.textContent = 'Connecting...';
+                if (window.getLocale) textEl.textContent = getLocale('connecting') || 'Connecting...';
+                else textEl.textContent = 'Connecting...';
                 break;
 
             case 'connected':
                 this.button.disabled = false;
                 this.button.classList.add('state-connected');
                 iconEl.textContent = 'cloud_done';
-                textEl.textContent = 'Connected - Click to Sync';
+                if (window.getLocale) textEl.textContent = getLocale('connected_click_to_sync') || 'Connected - Click to Sync';
+                else textEl.textContent = 'Connected - Click to Sync';
                 break;
 
             case 'syncing':
@@ -460,21 +464,24 @@ class GoogleSyncUI {
                 this.button.classList.add('state-syncing');
                 iconEl.textContent = 'sync';
                 iconEl.classList.add('spinning');
-                textEl.textContent = 'Syncing...';
+                if (window.getLocale) textEl.textContent = getLocale('syncing') || 'Syncing...';
+                else textEl.textContent = 'Syncing...';
                 break;
 
             case 'disconnected':
                 this.button.disabled = false;
                 this.button.classList.add('state-disconnected');
                 iconEl.textContent = 'cloud_off';
-                textEl.textContent = 'Disconnected - Click to Reconnect';
+                if (window.getLocale) textEl.textContent = getLocale('coud_off') || 'Disconnected - Click to Reconnect';
+                else textEl.textContent = 'Disconnected - Click to Reconnect';
                 break;
 
             case 'error':
                 this.button.disabled = false;
                 this.button.classList.add('state-error');
                 iconEl.textContent = 'error';
-                textEl.textContent = 'Sync Error - Click to Retry';
+                if (window.getLocale) textEl.textContent = getLocale('sync_error') || 'Sync Error - Click to Retry';
+                else textEl.textContent = 'Sync Error - Click to Retry';
                 break;
         }
 
@@ -492,7 +499,8 @@ class GoogleSyncUI {
         if (lastSync) {
             const date = new Date(lastSync);
             const timeStr = date.toLocaleString();
-            this.lastSyncInfo.textContent = `Last sync: ${timeStr}`;
+            const prefix = window.getLocale ? getLocale('last_synced') || 'Last synced' : 'Last synced';
+            this.lastSyncInfo.textContent = `${prefix}: ${timeStr}`;
             this.lastSyncInfo.hidden = false;
         }
     }
