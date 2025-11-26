@@ -88,7 +88,7 @@
             if (notesList.length === 0) nview.innerHTML = `<div class="meta">${getLocale('no_notes')}</div>`;
             else notesList.forEach(item => {
                 const title = item.text ? (item.text.length > 60 ? item.text.slice(0,60)+'…' : item.text) : '';
-                const meta = `${getLocale('maha_en') || 'Translation'} | ${getLocale('book') || 'Book'}: ${item.book}, ${getLocale('chapter') || 'Chapter'}: ${item.chapter}, ${getLocale('verse') || 'Verse'} ${item.verse}`;
+                const meta = `${getLocale('book') || 'Book'}: ${item.book}, ${getLocale('chapter') || 'Chapter'}: ${item.chapter}, ${getLocale('verse') || 'Verse'} ${item.verse}`;
                 const row = renderListRow('notes', item, title, meta);
                 nview.appendChild(row);
             });
@@ -229,11 +229,9 @@
         // close handlers
         document.querySelectorAll('.lists-close, .lists-close-btn').forEach(el => el.addEventListener('click', hidePanel));
 
-        // delete
+        // delete (operate on selected rows across all tabs)
         deleteBtn?.addEventListener('click', () => {
-            const active = getActiveTab();
-            const container = views[active];
-            const selected = Array.from(container.querySelectorAll('.list-select:checked')).map(cb => cb.closest('.list-row'));
+            const selected = getSelectedRowsAcrossAll();
             if (selected.length === 0) return;
             selected.forEach(row => {
                 const type = row.dataset.type;
@@ -244,11 +242,47 @@
             });
             if (window.updateText) window.updateText();
             render();
+            updateActionButtonsState();
         });
 
-        // export
+        // export (export selected rows across all tabs)
         exportBtn?.addEventListener('click', () => {
-            const data = loadAll();
+            const selected = getSelectedRowsAcrossAll();
+            if (selected.length === 0) return;
+            const editsOut = {};
+            const notesOut = {};
+            const bookmarksOut = {};
+
+            selected.forEach(row => {
+                const type = row.dataset.type;
+                const b = row.dataset.book, c = row.dataset.chapter, v = row.dataset.verse, lang = row.dataset.lang;
+                if (type === 'notes' && window.notesAPI && window.notesAPI.getNote) {
+                    const noteVal = window.notesAPI.getNote(b, c, v);
+                    if (!notesOut[b]) notesOut[b] = {};
+                    if (!notesOut[b][c]) notesOut[b][c] = {};
+                    notesOut[b][c][v] = noteVal;
+                }
+                if (type === 'verses' && window.editsAPI && window.editsAPI.getEdit) {
+                    const editCell = window.editsAPI.getEdit(b, c, v) || {};
+                    if (!editsOut[b]) editsOut[b] = {};
+                    if (!editsOut[b][c]) editsOut[b][c] = {};
+                    if (lang) {
+                        editsOut[b][c][v] = editsOut[b][c][v] || {};
+                        editsOut[b][c][v][lang] = editCell[lang] || '';
+                    } else {
+                        // include whole cell
+                        editsOut[b][c][v] = Object.assign({}, editCell);
+                    }
+                }
+                if (type === 'bookmarks' && window.bookmarksAPI && window.bookmarksAPI.getBookmark) {
+                    const bm = window.bookmarksAPI.getBookmark(b, c, v);
+                    if (!bookmarksOut[b]) bookmarksOut[b] = {};
+                    if (!bookmarksOut[b][c]) bookmarksOut[b][c] = {};
+                    bookmarksOut[b][c][v] = bm;
+                }
+            });
+
+            const data = { edits: editsOut, notes: notesOut, bookmarks: bookmarksOut };
             const payload = { exportedAt: new Date().toISOString(), data };
             const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
@@ -262,7 +296,7 @@
             URL.revokeObjectURL(url);
         });
 
-        // import
+        // import (merge behavior)
         importBtn?.addEventListener('click', () => {
             const inp = document.createElement('input');
             inp.type = 'file';
@@ -274,16 +308,171 @@
                 reader.onload = (ev) => {
                     try {
                         const payload = JSON.parse(ev.target.result);
-                        if (payload && payload.data) {
-                            if (payload.data.edits) localStorage.setItem('jayaapp:edits', JSON.stringify(payload.data.edits));
-                            if (payload.data.notes) localStorage.setItem('jayaapp:notes', JSON.stringify(payload.data.notes));
-                            if (payload.data.bookmarks) localStorage.setItem('jayaapp:bookmarks', JSON.stringify(payload.data.bookmarks));
-                            if (window.updateText) window.updateText();
-                            render();
+                        if (!(payload && payload.data)) throw new Error('invalid payload');
+
+                        const srcName = f.name || 'import';
+                        const srcTime = payload.exportedAt || new Date().toISOString();
+                        const srcLabel = `${srcName} ${srcTime}`;
+
+                        // load existing using the module APIs when available
+                        const existingEdits = (window.editsAPI && window.editsAPI.loadEdits) ? window.editsAPI.loadEdits() : {};
+                        const existingNotes = (window.notesAPI && window.notesAPI.loadNotes) ? window.notesAPI.loadNotes() : {};
+                        const existingBookmarks = (window.bookmarksAPI && window.bookmarksAPI.loadBookmarks) ? window.bookmarksAPI.loadBookmarks() : {};
+
+                        let addedBookmarks = 0, addedNotes = 0, mergedNotes = 0, skippedNotes = 0;
+                        let addedEdits = 0, mergedEdits = 0, skippedEdits = 0;
+
+                        // merge bookmarks (union)
+                        if (payload.data.bookmarks) {
+                            const incoming = payload.data.bookmarks || {};
+                            for (const b of Object.keys(incoming)) {
+                                if (!existingBookmarks[b]) existingBookmarks[b] = {};
+                                for (const c of Object.keys(incoming[b] || {})) {
+                                    if (!existingBookmarks[b][c]) existingBookmarks[b][c] = {};
+                                    for (const v of Object.keys(incoming[b][c] || {})) {
+                                        if (!existingBookmarks[b][c][v]) {
+                                            existingBookmarks[b][c][v] = incoming[b][c][v];
+                                            addedBookmarks++;
+                                        }
+                                    }
+                                }
+                            }
+                            // save bookmarks
+                            if (window.bookmarksAPI && window.bookmarksAPI.loadBookmarks && window.bookmarksAPI.setBookmark) {
+                                // write per-bookmark to use existing API
+                                for (const b of Object.keys(existingBookmarks)) {
+                                    for (const c of Object.keys(existingBookmarks[b] || {})) {
+                                        for (const v of Object.keys(existingBookmarks[b][c] || {})) {
+                                            window.bookmarksAPI.setBookmark(b, c, v);
+                                        }
+                                    }
+                                }
+                            } else {
+                                localStorage.setItem('jayaapp:bookmarks', JSON.stringify(existingBookmarks));
+                            }
                         }
+
+                        // helper for imported-note label
+                        function importedLabel() {
+                            const pref = getLocale('imported_item') || 'Imported:';
+                            return `${pref} ${srcLabel}`;
+                        }
+
+                        // merge notes
+                        if (payload.data.notes) {
+                            const incoming = payload.data.notes || {};
+                            for (const b of Object.keys(incoming)) {
+                                if (!existingNotes[b]) existingNotes[b] = {};
+                                for (const c of Object.keys(incoming[b] || {})) {
+                                    if (!existingNotes[b][c]) existingNotes[b][c] = {};
+                                    for (const v of Object.keys(incoming[b][c] || {})) {
+                                        const incText = incoming[b][c][v];
+                                        const existText = (existingNotes[b] && existingNotes[b][c] && existingNotes[b][c][v]) ? existingNotes[b][c][v] : null;
+                                        if (existText == null) {
+                                            // new note
+                                            existingNotes[b][c][v] = incText;
+                                            if (window.notesAPI && window.notesAPI.setNote) window.notesAPI.setNote(b,c,v,incText);
+                                            else localStorage.setItem('jayaapp:notes', JSON.stringify(existingNotes));
+                                            addedNotes++;
+                                        } else if (String(existText) === String(incText)) {
+                                            // identical -> skip
+                                            skippedNotes++;
+                                        } else {
+                                            // merge: existing first, separator, imported label + timestamp, then imported text
+                                            const merged = String(existText)
+                                                + '\n------------------\n'
+                                                + importedLabel() + '\n'
+                                                + '------------------\n'
+                                                + String(incText);
+                                            existingNotes[b][c][v] = merged;
+                                            if (window.notesAPI && window.notesAPI.setNote) window.notesAPI.setNote(b,c,v,merged);
+                                            else localStorage.setItem('jayaapp:notes', JSON.stringify(existingNotes));
+                                            mergedNotes++;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        // merge edits (per-language)
+                        if (payload.data.edits) {
+                            const incoming = payload.data.edits || {};
+                            for (const b of Object.keys(incoming)) {
+                                if (!existingEdits[b]) existingEdits[b] = {};
+                                for (const c of Object.keys(incoming[b] || {})) {
+                                    if (!existingEdits[b][c]) existingEdits[b][c] = {};
+                                    for (const v of Object.keys(incoming[b][c] || {})) {
+                                        const incCell = incoming[b][c][v];
+                                        const existCell = (existingEdits[b] && existingEdits[b][c] && existingEdits[b][c][v]) ? existingEdits[b][c][v] : null;
+                                        // if both are objects -> per-language merge
+                                        if (existCell == null) {
+                                            // new verse edits
+                                            existingEdits[b][c][v] = incCell;
+                                            if (window.editsAPI && window.editsAPI.setEdit) window.editsAPI.setEdit(b,c,v,incCell);
+                                            else localStorage.setItem('jayaapp:edits', JSON.stringify(existingEdits));
+                                            addedEdits++;
+                                        } else if (typeof incCell === 'object' && typeof existCell === 'object') {
+                                            // merge languages
+                                            const mergedCell = Object.assign({}, existCell);
+                                            for (const lang of Object.keys(incCell || {})) {
+                                                const incText = incCell[lang];
+                                                const existText = mergedCell[lang];
+                                                if (existText == null) {
+                                                    mergedCell[lang] = incText;
+                                                    addedEdits++;
+                                                } else if (String(existText) === String(incText)) {
+                                                    skippedEdits++;
+                                                } else {
+                                                    // different -> merge with separator
+                                                    mergedCell[lang] = String(existText)
+                                                        + '\n------------------\n'
+                                                        + importedLabel() + '\n'
+                                                        + '------------------\n'
+                                                        + String(incText);
+                                                    mergedEdits++;
+                                                }
+                                            }
+                                            existingEdits[b][c][v] = mergedCell;
+                                            if (window.editsAPI && window.editsAPI.setEdit) window.editsAPI.setEdit(b,c,v,mergedCell);
+                                            else localStorage.setItem('jayaapp:edits', JSON.stringify(existingEdits));
+                                        } else if (String(existCell) === String(incCell)) {
+                                            skippedEdits++;
+                                        } else {
+                                            // different shapes or simple strings: replace with incoming but annotate by merging into a string
+                                            const merged = String(existCell)
+                                                + '\n------------------\n'
+                                                + importedLabel() + '\n'
+                                                + '------------------\n'
+                                                + String(incCell);
+                                            existingEdits[b][c][v] = merged;
+                                            if (window.editsAPI && window.editsAPI.setEdit) window.editsAPI.setEdit(b,c,v,merged);
+                                            else localStorage.setItem('jayaapp:edits', JSON.stringify(existingEdits));
+                                            mergedEdits++;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        // update UI and text
+                        if (window.updateText) window.updateText();
+                        render();
+
+                        // summary alert
+                        const parts = [];
+                        if (addedBookmarks) parts.push(`${addedBookmarks} bookmarks added`);
+                        if (addedNotes) parts.push(`${addedNotes} new notes`);
+                        if (mergedNotes) parts.push(`${mergedNotes} notes merged`);
+                        if (skippedNotes) parts.push(`${skippedNotes} notes skipped (identical)`);
+                        if (addedEdits) parts.push(`${addedEdits} edits added`);
+                        if (mergedEdits) parts.push(`${mergedEdits} edits merged`);
+                        if (skippedEdits) parts.push(`${skippedEdits} edits skipped (identical)`);
+                        if (parts.length === 0) parts.push('No changes imported');
+                        if (window.showAlert) window.showAlert(parts.join('\n'));
+
                     } catch (e) {
                         console.error('Import failed', e);
-                        alert('Import failed: invalid file');
+                        if (window.showAlert) window.showAlert('Import failed: invalid file', 3500, { location: 'bottom-left' });
                     }
                 };
                 reader.readAsText(f);
@@ -300,6 +489,7 @@
             const boxes = Array.from(container.querySelectorAll('.list-select'));
             const allChecked = boxes.every(b=>b.checked);
             boxes.forEach(b => b.checked = !allChecked);
+            updateActionButtonsState();
         });
 
         // wire lists-toggle icon (if present) to open the panel
@@ -313,6 +503,25 @@
                 hidePanel();
             }
         };
+        // delegate checkbox change events to update button states
+        if (panel) {
+            panel.addEventListener('change', (e) => {
+                const t = e.target;
+                if (t && t.classList && t.classList.contains('list-select')) {
+                    updateActionButtonsState();
+                }
+            });
+        }
+    }
+
+    function getSelectedRowsAcrossAll() {
+        return Array.from(document.querySelectorAll('.list-select:checked')).map(cb => cb.closest('.list-row')).filter(Boolean);
+    }
+
+    function updateActionButtonsState() {
+        const any = document.querySelector('.list-select:checked') !== null;
+        if (deleteBtn) deleteBtn.disabled = !any;
+        if (exportBtn) exportBtn.disabled = !any;
     }
 
     function setActiveTab(name) {
@@ -339,6 +548,8 @@
         // attach ESC key handler while panel is open
         if (escKeyHandler) document.addEventListener('keydown', escKeyHandler);
         render();
+        // ensure buttons reflect current selection state
+        updateActionButtonsState();
     }
 
     function hidePanel() {
