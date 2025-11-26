@@ -3,6 +3,7 @@
     const STORAGE_TAB_KEY = 'jayaapp:lists:activeTab';
 
     let overlay, panel, tabs, views, footer, closeBtn, deleteBtn, exportBtn, importBtn;
+    let escKeyHandler = null;
 
     function loadAll() {
         const edits = window.editsAPI?.loadEdits ? window.editsAPI.loadEdits() : {};
@@ -146,6 +147,8 @@
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.className = 'list-select';
+        // prevent checkbox clicks from triggering the row click
+        checkbox.addEventListener('click', (e) => { e.stopPropagation(); });
 
         const showEdit = !(opts && opts.showEdit === false);
         if (showEdit) right.appendChild(editBtn);
@@ -154,10 +157,21 @@
         row.appendChild(left);
         row.appendChild(right);
 
-        // clicking row opens / navigates
+        // clicking row opens / navigates to the verse
         row.addEventListener('click', () => {
-            // dispatch custom event to let main app navigate
-            const ev = new CustomEvent('listItemOpen', { detail: { book: row.dataset.book, chapter: row.dataset.chapter, verse: row.dataset.verse, lang: row.dataset.lang } });
+            const b = row.dataset.book;
+            const c = row.dataset.chapter;
+            const v = row.dataset.verse;
+            // prefer direct navigation helper if available
+            try {
+                if (typeof gotToBookChapterVerse === 'function') {
+                    gotToBookChapterVerse(b, c, v);
+                    hidePanel();
+                    return;
+                }
+            } catch (e) { /* ignore */ }
+            // fallback: dispatch custom event to let main app navigate
+            const ev = new CustomEvent('listItemOpen', { detail: { book: b, chapter: c, verse: v, lang: row.dataset.lang } });
             document.dispatchEvent(ev);
         });
 
@@ -291,6 +305,14 @@
         // wire lists-toggle icon (if present) to open the panel
         const toggle = document.getElementById('lists-toggle');
         if (toggle) toggle.addEventListener('click', (e) => { e.preventDefault(); showPanel(); });
+
+        // prepare ESC key handler (attached when panel shown)
+        escKeyHandler = (e) => {
+            if (!e) return;
+            if (e.key === 'Escape' || e.key === 'Esc') {
+                hidePanel();
+            }
+        };
     }
 
     function setActiveTab(name) {
@@ -314,12 +336,16 @@
     function showPanel() {
         overlay?.classList.add('active');
         panel?.classList.add('active');
+        // attach ESC key handler while panel is open
+        if (escKeyHandler) document.addEventListener('keydown', escKeyHandler);
         render();
     }
 
     function hidePanel() {
         overlay?.classList.remove('active');
         panel?.classList.remove('active');
+        // detach ESC key handler
+        if (escKeyHandler) document.removeEventListener('keydown', escKeyHandler);
     }
 
     function initLists(attempts = 6) {

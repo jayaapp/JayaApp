@@ -251,6 +251,72 @@ function renderText(container) {
     }, 355);
 }
 
+function gotToBookChapterVerse(book, chapter, verse) {
+    // Try to locate selects repeatedly until they're available, then navigate
+    function attempt() {
+        const bookSelect = document.getElementById('book-select');
+        const chapterSelect = document.getElementById('chapter-select');
+        if (!bookSelect || !chapterSelect) {
+            setTimeout(attempt, 120);
+            return;
+        }
+        try {
+            // Set book and chapter
+            bookSelect.value = String(Number(book));
+            chapterSelect.value = String(Number(chapter));
+            // Re-render text using the standard renderer so it reads the select values
+            if (window.currentTextContainer) {
+                renderWhenReady(window.currentTextContainer);
+            }
+            // Trigger re-render of both panels so verses exist in DOM
+            try { if (typeof updateText === 'function') updateText(); } catch (e) { if (window.updateText) window.updateText(); }
+            // Scroll to verse after a short delay to allow render to settle; retry a few times if necessary
+            let attempts = 0;
+            const maxAttempts = 8;
+            const tryScroll = () => {
+                attempts++;
+                // Prefer the actual verse elements rendered by renderWhenReady (they have class `line-entry`)
+                const selector = `.line-entry[data-book="${book}"][data-chapter="${chapter}"][data-verse="${verse}"]`;
+                let verseEl = document.querySelector(selector);
+                // Also try scoping to known text panel containers
+                if (!verseEl) {
+                    const h = document.querySelector('#text-panel-horizontal .line-entry' + `[data-book="${book}"][data-chapter="${chapter}"][data-verse="${verse}"]`);
+                    const v = document.querySelector('#text-panel-vertical .line-entry' + `[data-book="${book}"][data-chapter="${chapter}"][data-verse="${verse}"]`);
+                    verseEl = h || v || null;
+                }
+                if (verseEl) {
+                    verseEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // add a transient highlight via a temporary stylesheet rule so it survives re-renders
+                    try {
+                        const styleId = `verse-highlight-${book}-${chapter}-${verse}`;
+                        // remove existing if any
+                        const existing = document.getElementById(styleId);
+                        if (existing) existing.remove();
+                        const style = document.createElement('style');
+                        style.id = styleId;
+                        // use the same selector we used to find the element
+                        const cssSelector = `.line-entry[data-book="${book}"][data-chapter="${chapter}"][data-verse="${verse}"]`;
+                        style.textContent = `${cssSelector} { background: rgba(56, 161, 255, 0.12) !important; transition: background 0.4s ease; }`;
+                        document.head.appendChild(style);
+                        setTimeout(() => { const s = document.getElementById(styleId); if (s) s.remove(); }, 1200);
+                    } catch (err) {
+                        // fallback to class toggle
+                        try { verseEl.classList.add('verse-target-highlight'); setTimeout(() => verseEl.classList.remove('verse-target-highlight'), 1200); } catch (e) {}
+                    }
+                } else if (attempts < maxAttempts) {
+                    setTimeout(tryScroll, 150);
+                } else {
+                    console.warn('Target verse not found after retries', book, chapter, verse);
+                }
+            };
+            setTimeout(tryScroll, 160);
+        } catch (e) {
+            console.error('gotToBookChapterVerse error', e);
+        }
+    }
+    attempt();
+}
+
 function updateText() {
     for (const orientation of ['-horizontal', '-vertical']) {
         renderText(document.getElementById('text-panel' + orientation));
