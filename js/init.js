@@ -36,7 +36,8 @@
             'settings',
             'booksel',
             'notes',
-            'edits'
+            'edits',
+            'lists'
         ];
 
         // Ensure translation object exists
@@ -135,6 +136,7 @@
                 try { if (window.initNotes) window.initNotes(); } catch (e) { console.error('initNotes error', e); }
                 try { if (window.initEdits) window.initEdits(); } catch (e) { console.error('initEdits error', e); }
                 try { if (window.initBookmarks) window.initBookmarks(); } catch (e) { console.error('initBookmarks error', e); }
+                try { if (window.initLists) window.initLists(); } catch (e) { console.error('initLists error', e); }
 
                 // Optional: log any failures for debugging
                 const failures = results.filter(r => r.status === 'rejected');

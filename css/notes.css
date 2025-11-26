@@ -1,6 +1,11 @@
-/* Stylesheet used by notes.html / notes.js and the per-verse icon */
-/* Also used by edits.html / edits.js and the per-translation icon */
+/* Style sheet used by
+   notes.html / notes.js,
+   edits.html / edits.js,
+   lists.html / lists.js,
+   text.js (for the note and edit icons)
+*/
 
+.lists-overlay,
 .edit-overlay,
 .note-overlay {
     position: fixed;
@@ -11,6 +16,7 @@
     pointer-events: none;
 }
 
+.lists-overlay.active,
 .note-overlay.active,
 .edit-overlay.active {
     display: block;
@@ -18,7 +24,8 @@
 }
 
 .note-editor-panel,
-.edit-editor-panel {
+.edit-editor-panel,
+.lists-panel {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -37,14 +44,16 @@
 }
 
 .note-editor-panel.active,
-.edit-editor-panel.active {
+.edit-editor-panel.active,
+.lists-panel.active {
     display: flex;
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
 }
 
 .note-editor-header,
-.edit-editor-header {
+.edit-editor-header,
+.lists-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -53,20 +62,23 @@
 }
 
 .note-editor-title,
-.edit-editor-title {
+.edit-editor-title,
+.lists-title {
     margin: 0;
     font-size: 16px;
     color: var(--text-color, #222);
 }
 
 .note-editor-close,
-.edit-editor-close {
+.edit-editor-close,
+.lists-close {
     cursor: pointer;
     color: var(--text-color, #222);
 }
 
 .note-editor-content,
-.edit-editor-content {
+.edit-editor-content,
+.lists-content {
     padding: 12px 16px;
     flex: 1 1 auto;
     display: flex;
@@ -75,7 +87,8 @@
     overflow: hidden;
 }
 .note-editor-content textarea,
-.edit-editor-content textarea {
+.edit-editor-content textarea,
+.lists-content textarea {
     flex: 1 1 auto;
     width: 100%;
     min-height: 120px;
@@ -93,7 +106,8 @@
 }
 
 .note-editor-footer,
-.edit-editor-footer {
+.edit-editor-footer,
+.lists-footer {
     display: flex;
     justify-content: flex-end;
     gap: 8px;
@@ -102,12 +116,64 @@
 }
 
 .note-editor-footer button,
-.edit-editor-footer button {
+.edit-editor-footer button,
+.lists-footer button {
     padding: 8px 12px;
     border-radius: 6px;
     cursor: pointer;
     background: var(--bg-color, #fff);
     color: var(--text-color, #000);
+}
+
+/* Lists-specific small layout */
+.lists-tabs {
+    display: flex;
+    border-bottom: 2px solid var(--panel-border-color, #e6e6e6);
+}
+.lists-tab {
+    flex: 1 1 auto;
+    padding: 12px 16px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+}
+.lists-tab[aria-selected="true"], .lists-tab.active {
+    background: rgba(59,130,246,0.08);
+    border-bottom: 3px solid #2386f2;
+}
+.lists-content {
+    padding: 12px 20px;
+    flex: 1 1 auto;
+    overflow: auto;
+}
+.lists-filter {
+    display: block;
+    text-align: right;
+    margin-bottom: 8px;
+}
+.lists-view .list-row {
+    padding: 14px 8px;
+    border-bottom: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.list-row .meta {
+    color: #6b7280; /* gray-500 */
+    font-size: 13px;
+}
+.verse-bookmark-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background: #fff1c9;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+    font-size: 12px;
+    padding: 2px;
 }
 
 /* Note icon used in verses */
@@ -136,6 +202,20 @@
     box-shadow: 0 1px 2px rgba(0,0,0,0.08);
     font-size: 12px;
     padding: 2px;
+}
+
+/* Right column in list rows (edit button + checkbox) */
+.list-row-right {
+    width: var(--lists-right-width, 72px);
+    flex: 0 0 var(--lists-right-width, 72px);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.list-row-left {
+    min-width: 0; /* allow truncation */
 }
 
 /* Note mode cursor */

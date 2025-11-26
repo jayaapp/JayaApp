@@ -1,0 +1,32 @@
+<!-- Lists panel: Bookmarks / Notes / Edited Verses -->
+<div class="lists-overlay"></div>
+<div class="lists-panel">
+    <div class="lists-header">
+        <h2 class="lists-title" locale-id="lists">Lists</h2>
+        <div class="lists-close">
+            <i class="material-symbols-outlined">close</i>
+        </div>
+    </div>
+
+    <div class="lists-tabs" role="tablist">
+        <button class="lists-tab" data-tab="bookmarks" role="tab" aria-selected="false" locale-id="bookmarks">Bookmarks</button>
+        <button class="lists-tab" data-tab="notes" role="tab" aria-selected="true" locale-id="notes">Notes</button>
+        <button class="lists-tab" data-tab="verses" role="tab" aria-selected="false" locale-id="edited_verses">Edited Verses</button>
+    </div>
+
+    <div class="lists-content">
+        <a class="lists-filter" href="#" locale-id="select_all">All</a>
+
+        <div class="lists-view" id="lists-bookmarks" data-tab-content="bookmarks"></div>
+        <div class="lists-view" id="lists-notes" data-tab-content="notes" style="display:block;"></div>
+        <div class="lists-view" id="lists-verses" data-tab-content="verses" style="display:none;"></div>
+    </div>
+
+    <div class="lists-footer">
+        <button class="lists-delete-btn" locale-id="delete">Delete</button>
+        <button class="lists-export-btn" locale-id="export">Export</button>
+        <button class="lists-import-btn" locale-id="import">Import</button>
+        <div style="flex:1 1 auto"></div>
+        <button class="lists-close-btn" locale-id="close">Close</button>
+    </div>
+</div>
