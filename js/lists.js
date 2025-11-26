@@ -18,9 +18,11 @@
             for (const c of Object.keys(edits[b] || {})) {
                 for (const v of Object.keys(edits[b][c] || {})) {
                     const cell = edits[b][c][v];
-                    if (typeof cell === 'object') {
+                    if (cell && typeof cell === 'object') {
                         for (const lang of Object.keys(cell)) {
-                            out.push({ book: b, chapter: c, verse: v, lang, text: cell[lang] });
+                            const val = cell[lang];
+                            if (val && typeof val === 'object') out.push({ book: b, chapter: c, verse: v, lang, text: val.text, timestamp: val.timestamp });
+                            else out.push({ book: b, chapter: c, verse: v, lang, text: val });
                         }
                     } else {
                         // older format: string
@@ -37,7 +39,9 @@
         for (const b of Object.keys(notes || {})) {
             for (const c of Object.keys(notes[b] || {})) {
                 for (const v of Object.keys(notes[b][c] || {})) {
-                    out.push({ book: b, chapter: c, verse: v, text: notes[b][c][v] });
+                    const cell = notes[b][c][v];
+                    if (cell && typeof cell === 'object') out.push({ book: b, chapter: c, verse: v, text: cell.text, timestamp: cell.timestamp });
+                    else out.push({ book: b, chapter: c, verse: v, text: cell });
                 }
             }
         }
@@ -49,7 +53,9 @@
         for (const b of Object.keys(bm || {})) {
             for (const c of Object.keys(bm[b] || {})) {
                 for (const v of Object.keys(bm[b][c] || {})) {
-                    out.push({ book: b, chapter: c, verse: v });
+                    const val = bm[b][c][v];
+                    if (val && typeof val === 'object') out.push({ book: b, chapter: c, verse: v, timestamp: val.timestamp });
+                    else out.push({ book: b, chapter: c, verse: v });
                 }
             }
         }
@@ -282,29 +288,50 @@
             selected.forEach(row => {
                 const type = row.dataset.type;
                 const b = row.dataset.book, c = row.dataset.chapter, v = row.dataset.verse, lang = row.dataset.lang;
-                if (type === 'notes' && window.notesAPI && window.notesAPI.getNote) {
-                    const noteVal = window.notesAPI.getNote(b, c, v);
+                if (type === 'notes' && window.notesAPI) {
+                    let noteObj = null;
+                    if (window.notesAPI.getNoteObj) noteObj = window.notesAPI.getNoteObj(b, c, v);
+                    else if (window.notesAPI.getNote) {
+                        const txt = window.notesAPI.getNote(b, c, v);
+                        noteObj = { text: txt || '', timestamp: new Date().toISOString() };
+                    }
                     if (!notesOut[b]) notesOut[b] = {};
                     if (!notesOut[b][c]) notesOut[b][c] = {};
-                    notesOut[b][c][v] = noteVal;
+                    notesOut[b][c][v] = noteObj;
                 }
-                if (type === 'verses' && window.editsAPI && window.editsAPI.getEdit) {
-                    const editCell = window.editsAPI.getEdit(b, c, v) || {};
+                if (type === 'verses' && window.editsAPI) {
+                    let editCellObj = null;
+                    if (window.editsAPI.getEditObj) editCellObj = window.editsAPI.getEditObj(b, c, v) || {};
+                    else if (window.editsAPI.getEdit) editCellObj = window.editsAPI.getEdit(b, c, v) || {};
                     if (!editsOut[b]) editsOut[b] = {};
                     if (!editsOut[b][c]) editsOut[b][c] = {};
                     if (lang) {
                         editsOut[b][c][v] = editsOut[b][c][v] || {};
-                        editsOut[b][c][v][lang] = editCell[lang] || '';
+                        // if editCellObj has timestamped objects, extract text
+                        const val = editCellObj[lang];
+                        if (val && typeof val === 'object') editsOut[b][c][v][lang] = { text: val.text || '', timestamp: val.timestamp || new Date().toISOString() };
+                        else editsOut[b][c][v][lang] = { text: String(val || ''), timestamp: new Date().toISOString() };
                     } else {
-                        // include whole cell
-                        editsOut[b][c][v] = Object.assign({}, editCell);
+                        // include whole cell (normalize to objects per language)
+                        const outCell = {};
+                        for (const L of Object.keys(editCellObj || {})) {
+                            const vobj = editCellObj[L];
+                            if (vobj && typeof vobj === 'object') outCell[L] = { text: vobj.text || '', timestamp: vobj.timestamp || new Date().toISOString() };
+                            else outCell[L] = { text: String(vobj || ''), timestamp: new Date().toISOString() };
+                        }
+                        editsOut[b][c][v] = outCell;
                     }
                 }
-                if (type === 'bookmarks' && window.bookmarksAPI && window.bookmarksAPI.getBookmark) {
-                    const bm = window.bookmarksAPI.getBookmark(b, c, v);
+                if (type === 'bookmarks' && window.bookmarksAPI) {
+                    let bmObj = null;
+                    if (window.bookmarksAPI.getBookmarkObj) bmObj = window.bookmarksAPI.getBookmarkObj(b, c, v);
+                    else if (window.bookmarksAPI.getBookmark) {
+                        const present = window.bookmarksAPI.getBookmark(b, c, v);
+                        bmObj = present ? { timestamp: new Date().toISOString() } : null;
+                    }
                     if (!bookmarksOut[b]) bookmarksOut[b] = {};
                     if (!bookmarksOut[b][c]) bookmarksOut[b][c] = {};
-                    bookmarksOut[b][c][v] = bm;
+                    bookmarksOut[b][c][v] = bmObj;
                 }
             });
 
@@ -338,7 +365,6 @@
 
                         const srcName = f.name || 'import';
                         const srcTime = payload.exportedAt || new Date().toISOString();
-                        const srcLabel = `${srcName} ${srcTime}`;
 
                         // load existing using the module APIs when available
                         const existingEdits = (window.editsAPI && window.editsAPI.loadEdits) ? window.editsAPI.loadEdits() : {};
@@ -365,11 +391,13 @@
                             }
                             // save bookmarks
                             if (window.bookmarksAPI && window.bookmarksAPI.loadBookmarks && window.bookmarksAPI.setBookmark) {
-                                // write per-bookmark to use existing API
+                                // write per-bookmark to use existing API, preserve incoming timestamp when present
                                 for (const b of Object.keys(existingBookmarks)) {
                                     for (const c of Object.keys(existingBookmarks[b] || {})) {
                                         for (const v of Object.keys(existingBookmarks[b][c] || {})) {
-                                            window.bookmarksAPI.setBookmark(b, c, v);
+                                            const val = existingBookmarks[b][c][v];
+                                            if (val && typeof val === 'object' && val.timestamp) window.bookmarksAPI.setBookmark(b, c, v, val.timestamp);
+                                            else window.bookmarksAPI.setBookmark(b, c, v);
                                         }
                                     }
                                 }
@@ -380,11 +408,12 @@
 
                         // helper for imported-note label
                         function importedLabel() {
-                            const pref = getLocale('imported_item') || 'Imported:';
-                            return `${pref} ${srcLabel}`;
+                            const imported = getLocale('imported_item') || 'Imported:';
+                            const timestamp = getLocale('time_stamp') || 'Time stamp:';
+                            return `${imported} ${srcName}\n${timestamp} ${srcTime}`;
                         }
 
-                        // merge notes
+                        // merge notes (incoming values may be {text,timestamp} or raw string)
                         if (payload.data.notes) {
                             const incoming = payload.data.notes || {};
                             for (const b of Object.keys(incoming)) {
@@ -392,26 +421,31 @@
                                 for (const c of Object.keys(incoming[b] || {})) {
                                     if (!existingNotes[b][c]) existingNotes[b][c] = {};
                                     for (const v of Object.keys(incoming[b][c] || {})) {
-                                        const incText = incoming[b][c][v];
-                                        const existText = (existingNotes[b] && existingNotes[b][c] && existingNotes[b][c][v]) ? existingNotes[b][c][v] : null;
-                                        if (existText == null) {
-                                            // new note
-                                            existingNotes[b][c][v] = incText;
+                                        const incVal = incoming[b][c][v];
+                                        const incText = (incVal && typeof incVal === 'object') ? String(incVal.text || '') : String(incVal || '');
+                                        const existVal = (existingNotes[b] && existingNotes[b][c] && existingNotes[b][c][v]) ? existingNotes[b][c][v] : null;
+                                        const existText = (existVal && typeof existVal === 'object') ? String(existVal.text || '') : String(existVal || '');
+
+                                        if (existVal == null) {
+                                            // new note -> store as object
+                                            const obj = { text: incText, timestamp: (incVal && incVal.timestamp) ? incVal.timestamp : new Date().toISOString() };
+                                            existingNotes[b][c][v] = obj;
                                             if (window.notesAPI && window.notesAPI.setNote) window.notesAPI.setNote(b,c,v,incText);
                                             else localStorage.setItem('jayaapp:notes', JSON.stringify(existingNotes));
                                             addedNotes++;
-                                        } else if (String(existText) === String(incText)) {
+                                        } else if (existText === incText) {
                                             // identical -> skip
                                             skippedNotes++;
                                         } else {
-                                            // merge: existing first, separator, imported label + timestamp, then imported text
-                                            const merged = String(existText)
+                                            // merge texts
+                                            const mergedText = existText
                                                 + '\n------------------\n'
                                                 + importedLabel() + '\n'
                                                 + '------------------\n'
-                                                + String(incText);
-                                            existingNotes[b][c][v] = merged;
-                                            if (window.notesAPI && window.notesAPI.setNote) window.notesAPI.setNote(b,c,v,merged);
+                                                + incText;
+                                            const obj = { text: mergedText, timestamp: new Date().toISOString() };
+                                            existingNotes[b][c][v] = obj;
+                                            if (window.notesAPI && window.notesAPI.setNote) window.notesAPI.setNote(b,c,v,mergedText);
                                             else localStorage.setItem('jayaapp:notes', JSON.stringify(existingNotes));
                                             mergedNotes++;
                                         }
@@ -420,7 +454,7 @@
                             }
                         }
 
-                        // merge edits (per-language)
+                        // merge edits (per-language) - incoming cells may be language->object or language->string
                         if (payload.data.edits) {
                             const incoming = payload.data.edits || {};
                             for (const b of Object.keys(incoming)) {
@@ -430,50 +464,53 @@
                                     for (const v of Object.keys(incoming[b][c] || {})) {
                                         const incCell = incoming[b][c][v];
                                         const existCell = (existingEdits[b] && existingEdits[b][c] && existingEdits[b][c][v]) ? existingEdits[b][c][v] : null;
-                                        // if both are objects -> per-language merge
+
                                         if (existCell == null) {
-                                            // new verse edits
-                                            existingEdits[b][c][v] = incCell;
-                                            if (window.editsAPI && window.editsAPI.setEdit) window.editsAPI.setEdit(b,c,v,incCell);
+                                            // normalize incoming cell into language->{text,timestamp}
+                                            const norm = {};
+                                            if (incCell && typeof incCell === 'object') {
+                                                for (const L of Object.keys(incCell)) {
+                                                    const val = incCell[L];
+                                                    if (val && typeof val === 'object' && 'text' in val) norm[L] = { text: String(val.text || ''), timestamp: val.timestamp || new Date().toISOString() };
+                                                    else norm[L] = { text: String(val || ''), timestamp: new Date().toISOString() };
+                                                }
+                                            } else {
+                                                // single string cell
+                                                norm['default'] = { text: String(incCell || ''), timestamp: new Date().toISOString() };
+                                            }
+                                            existingEdits[b][c][v] = norm;
+                                            if (window.editsAPI && window.editsAPI.setEdit) window.editsAPI.setEdit(b,c,v,norm);
                                             else localStorage.setItem('jayaapp:edits', JSON.stringify(existingEdits));
                                             addedEdits++;
-                                        } else if (typeof incCell === 'object' && typeof existCell === 'object') {
-                                            // merge languages
+                                        } else {
+                                            // both exist -> merge per language
                                             const mergedCell = Object.assign({}, existCell);
-                                            for (const lang of Object.keys(incCell || {})) {
-                                                const incText = incCell[lang];
-                                                const existText = mergedCell[lang];
-                                                if (existText == null) {
-                                                    mergedCell[lang] = incText;
+                                            const incLangs = (incCell && typeof incCell === 'object') ? Object.keys(incCell) : ['default'];
+                                            for (const lang of incLangs) {
+                                                const incValRaw = (incCell && typeof incCell === 'object') ? incCell[lang] : incCell;
+                                                const incText = (incValRaw && typeof incValRaw === 'object') ? String(incValRaw.text || '') : String(incValRaw || '');
+                                                const existVal = mergedCell[lang];
+                                                const existText = (existVal && typeof existVal === 'object') ? String(existVal.text || '') : String(existVal || '');
+
+                                                if (existVal == null) {
+                                                    mergedCell[lang] = { text: incText, timestamp: new Date().toISOString() };
                                                     addedEdits++;
-                                                } else if (String(existText) === String(incText)) {
+                                                } else if (existText === incText) {
                                                     skippedEdits++;
                                                 } else {
-                                                    // different -> merge with separator
-                                                    mergedCell[lang] = String(existText)
+                                                    // merge differing translations similar to notes
+                                                    const mergedText = existText
                                                         + '\n------------------\n'
                                                         + importedLabel() + '\n'
                                                         + '------------------\n'
-                                                        + String(incText);
+                                                        + incText;
+                                                    mergedCell[lang] = { text: mergedText, timestamp: new Date().toISOString() };
                                                     mergedEdits++;
                                                 }
                                             }
                                             existingEdits[b][c][v] = mergedCell;
                                             if (window.editsAPI && window.editsAPI.setEdit) window.editsAPI.setEdit(b,c,v,mergedCell);
                                             else localStorage.setItem('jayaapp:edits', JSON.stringify(existingEdits));
-                                        } else if (String(existCell) === String(incCell)) {
-                                            skippedEdits++;
-                                        } else {
-                                            // different shapes or simple strings: replace with incoming but annotate by merging into a string
-                                            const merged = String(existCell)
-                                                + '\n------------------\n'
-                                                + importedLabel() + '\n'
-                                                + '------------------\n'
-                                                + String(incCell);
-                                            existingEdits[b][c][v] = merged;
-                                            if (window.editsAPI && window.editsAPI.setEdit) window.editsAPI.setEdit(b,c,v,merged);
-                                            else localStorage.setItem('jayaapp:edits', JSON.stringify(existingEdits));
-                                            mergedEdits++;
                                         }
                                     }
                                 }

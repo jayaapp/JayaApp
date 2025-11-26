@@ -76,6 +76,7 @@
         "export": "Export",
         "import": "Import",
         "imported_item": "Imported:",
+        "time_stamp": "Time stamp:",
         "click_delete_once_more_to_delete": "Click delete once more to delete",
         "deleted_num_items": "{0} items deleted",
 
@@ -268,6 +269,7 @@
         "export": "Eksportuj",
         "import": "Importuj",
         "imported_item": "Importowano:",
+        "time_stamp": "Znacznik czasu:",
         "click_delete_once_more_to_delete": "Kliknij ponownie usuń, aby potwierdzić usunięcie",
         "deleted_num_items": "Usunięto {0} elementów",
 

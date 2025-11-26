@@ -26,12 +26,17 @@
         return Boolean((b?.[String(book)]?.[String(chapter)] || {})[String(verse)]);
     }
 
-    function setBookmark(book, chapter, verse) {
+    function getBookmarkObj(book, chapter, verse) {
+        const b = loadBookmarks();
+        return (b?.[String(book)]?.[String(chapter)] || {})[String(verse)] || null;
+    }
+
+    function setBookmark(book, chapter, verse, timestamp) {
         const b = loadBookmarks();
         const B = String(book), C = String(chapter), V = String(verse);
         if (!b[B]) b[B] = {};
         if (!b[B][C]) b[B][C] = {};
-        b[B][C][V] = true;
+        b[B][C][V] = { timestamp: timestamp || new Date().toISOString() };
         saveBookmarks(b);
     }
 
@@ -48,6 +53,7 @@
 
     window.bookmarksAPI = {
         getBookmark,
+        getBookmarkObj,
         setBookmark,
         removeBookmark,
         loadBookmarks

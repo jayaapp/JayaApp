@@ -30,7 +30,14 @@
 
     function getNote(book, chapter, verse) {
         const notes = loadNotes();
-        return (notes?.[String(book)]?.[String(chapter)] || {})[String(verse)] || null;
+        const cell = (notes?.[String(book)]?.[String(chapter)] || {})[String(verse)];
+        return cell ? String(cell.text || '') : null;
+    }
+
+    function getNoteObj(book, chapter, verse) {
+        const notes = loadNotes();
+        const cell = (notes?.[String(book)]?.[String(chapter)] || {})[String(verse)];
+        return cell || null;
     }
 
     function setNote(book, chapter, verse, text) {
@@ -40,7 +47,7 @@
         const v = String(verse);
         if (!notes[b]) notes[b] = {};
         if (!notes[b][c]) notes[b][c] = {};
-        notes[b][c][v] = text;
+        notes[b][c][v] = { text: String(text || ''), timestamp: new Date().toISOString() };
         saveNotes(notes);
     }
 
@@ -60,6 +67,7 @@
     // expose API globally for text.js to query notes existence
     window.notesAPI = {
         getNote,
+        getNoteObj,
         setNote,
         removeNote,
         loadNotes,

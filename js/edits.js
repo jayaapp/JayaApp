@@ -30,17 +30,49 @@
 
     function getEdits(book, chapter, verse) {
         const edits = loadEdits();
+        const cell = (edits?.[String(book)]?.[String(chapter)] || {})[String(verse)] || null;
+        if (!cell) return null;
+        // return mapping lang -> text for compatibility
+        const out = {};
+        for (const lang of Object.keys(cell)) {
+            const val = cell[lang];
+            out[lang] = val && typeof val === 'object' ? String(val.text || '') : String(val || '');
+        }
+        return out;
+    }
+
+    function getEditObj(book, chapter, verse) {
+        const edits = loadEdits();
         return (edits?.[String(book)]?.[String(chapter)] || {})[String(verse)] || null;
     }
 
-    function setEdits(book, chapter, verse, text) {
+    function setEdits(book, chapter, verse, lang, text) {
         const edits = loadEdits();
         const b = String(book);
         const c = String(chapter);
         const v = String(verse);
         if (!edits[b]) edits[b] = {};
         if (!edits[b][c]) edits[b][c] = {};
-        edits[b][c][v] = text;
+        if (!edits[b][c][v]) edits[b][c][v] = {};
+        edits[b][c][v][String(lang)] = { text: String(text || ''), timestamp: new Date().toISOString() };
+        saveEdits(edits);
+    }
+
+    // set entire cell (lang -> {text,timestamp} or lang->text)
+    function setEditCell(book, chapter, verse, cell) {
+        const edits = loadEdits();
+        const b = String(book);
+        const c = String(chapter);
+        const v = String(verse);
+        if (!edits[b]) edits[b] = {};
+        if (!edits[b][c]) edits[b][c] = {};
+        const out = {};
+        for (const k of Object.keys(cell || {})) {
+            const val = cell[k];
+            if (val && typeof val === 'object' && 'text' in val) out[k] = { text: String(val.text || ''), timestamp: val.timestamp || new Date().toISOString() };
+            else out[k] = { text: String(val || ''), timestamp: new Date().toISOString() };
+        }
+        edits[b][c][v] = out;
         saveEdits(edits);
     }
 
@@ -60,10 +92,11 @@
     // expose API globally for text.js to query edits existence
     window.editsAPI = {
         getEdit: getEdits,
-        setEdit: setEdits,
+        getEditObj: getEditObj,
+        setEdit: setEditCell,
+        setEdits: setEdits,
         removeEdit: removeEdits,
-        loadEdits: loadEdits,
-        openEditor: openEditor
+        loadEdits: loadEdits
     };
 
     // Edits: HTML for the editor is injected by the app bootstrap (init.js).
@@ -98,7 +131,7 @@
             if (!edits[b][c]) edits[b][c] = {};
             if (!edits[b][c][v]) edits[b][c][v] = {};
             if (text.length) {
-                edits[b][c][v][lang] = text;
+                edits[b][c][v][lang] = { text: text, timestamp: new Date().toISOString() };
             } else {
                 // empty -> remove this language edit
                 if (edits[b][c][v] && edits[b][c][v][lang]) delete edits[b][c][v][lang];
