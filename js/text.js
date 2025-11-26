@@ -199,6 +199,30 @@ function renderWhenReady(container) {
                     }
                 }
             } catch (e) { /* ignore notes errors */ }
+
+            // If a bookmark exists for this verse, render a top-right bookmark icon
+            try {
+                if (window.bookmarksAPI) {
+                    const bm = window.bookmarksAPI.getBookmark(bookKey, chapterKey, index + 1);
+                    if (bm) {
+                        lineDiv.style.position = lineDiv.style.position || 'relative';
+                        const bmIcon = document.createElement('span');
+                        bmIcon.className = 'verse-bookmark-icon';
+                        bmIcon.title = 'Remove bookmark';
+                        bmIcon.textContent = '🔖';
+                        bmIcon.setAttribute('data-book', bookKey);
+                        bmIcon.setAttribute('data-chapter', chapterKey);
+                        bmIcon.setAttribute('data-verse', String(index + 1));
+                        bmIcon.style.position = 'absolute';
+                        bmIcon.style.right = '6px';
+                        bmIcon.style.top = '6px';
+                        bmIcon.style.zIndex = '4';
+                        bmIcon.style.cursor = 'pointer';
+                        bmIcon.style.fontSize = '14px';
+                        lineDiv.appendChild(bmIcon);
+                    }
+                }
+            } catch (e) { /* ignore bookmark errors */ }
             lineElements.push(lineDiv);
         });
     }

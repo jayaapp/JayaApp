@@ -133,7 +133,8 @@
                 try { initNavigation(); } catch (e) { console.error('initNavigation error', e); }
                 try { initClicks(); } catch (e) { console.error('initClicks error', e); }
                 try { if (window.initNotes) window.initNotes(); } catch (e) { console.error('initNotes error', e); }
-                try { if (window.initEdits) window.initEdits(); } catch (e) { console.error('initNotes error', e); }
+                try { if (window.initEdits) window.initEdits(); } catch (e) { console.error('initEdits error', e); }
+                try { if (window.initBookmarks) window.initBookmarks(); } catch (e) { console.error('initBookmarks error', e); }
 
                 // Optional: log any failures for debugging
                 const failures = results.filter(r => r.status === 'rejected');
