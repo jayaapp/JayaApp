@@ -62,7 +62,8 @@
         getNote,
         setNote,
         removeNote,
-        loadNotes
+        loadNotes,
+        openEditor
     };
 
     // Note: HTML for the editor is injected by the app bootstrap (init.js).

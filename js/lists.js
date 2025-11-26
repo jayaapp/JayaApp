@@ -170,24 +170,33 @@
                     return;
                 }
             } catch (e) { /* ignore */ }
-            // fallback: dispatch custom event to let main app navigate
-            const ev = new CustomEvent('listItemOpen', { detail: { book: b, chapter: c, verse: v, lang: row.dataset.lang } });
-            document.dispatchEvent(ev);
         });
 
         return row;
     }
 
     function openEditorForRow(type, item) {
+        const b = String(item.book), c = String(item.chapter), v = String(item.verse);
+        // Navigate to the verse first (if helper exists)
+        try {
+            if (typeof gotToBookChapterVerse === 'function') gotToBookChapterVerse(b, c, v);
+        } catch (e) { /* ignore */ }
+        // close the lists panel
+        try { hidePanel(); } catch (e) { /* ignore */ }
+
         if (type === 'notes') {
-            if (window.openEditor) window.openEditor(item.book, item.chapter, item.verse); // fallback
-            if (window.initNotes && window.notesAPI) window.initNotes();
+            // prefer a dedicated global opener
+            if (window.notesAPI && window.notesAPI.openEditor) {
+                window.notesAPI.openEditor(b, c, v);
+                return;
+            }
         } else if (type === 'verses') {
-            if (window.initEdits) window.initEdits();
-            if (window.openEditor) window.openEditor(item.book, item.chapter, item.verse, item.lang);
+            if (window.editsAPI && window.editsAPI.openEditor) {
+                window.editsAPI.openEditor(b, c, v, item.lang);
+                return;
+            }
         } else if (type === 'bookmarks') {
-            const ev = new CustomEvent('listItemOpen', { detail: { book: item.book, chapter: item.chapter, verse: item.verse } });
-            document.dispatchEvent(ev);
+            /* nothing to do here */
         }
     }
 
