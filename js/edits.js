@@ -96,7 +96,8 @@
         setEdit: setEditCell,
         setEdits: setEdits,
         removeEdit: removeEdits,
-        loadEdits: loadEdits
+        loadEdits: loadEdits,
+        openEditor: openEditor
     };
 
     // Edits: HTML for the editor is injected by the app bootstrap (init.js).
