@@ -238,20 +238,37 @@
         // close handlers
         document.querySelectorAll('.lists-close, .lists-close-btn').forEach(el => el.addEventListener('click', hidePanel));
 
+        // Get last delete click time
+        let last_delete_click_time = 0;
+
         // delete (operate on selected rows across all tabs)
         deleteBtn?.addEventListener('click', () => {
-            const selected = getSelectedRowsAcrossAll();
-            if (selected.length === 0) return;
-            selected.forEach(row => {
-                const type = row.dataset.type;
-                const b = row.dataset.book, c = row.dataset.chapter, v = row.dataset.verse, lang = row.dataset.lang;
-                if (type === 'notes' && window.notesAPI && window.notesAPI.removeNote) window.notesAPI.removeNote(b,c,v);
-                if (type === 'verses' && window.editsAPI && window.editsAPI.removeEdit) window.editsAPI.removeEdit(b,c,v);
-                if (type === 'bookmarks' && window.bookmarksAPI && window.bookmarksAPI.removeBookmark) window.bookmarksAPI.removeBookmark(b,c,v);
-            });
-            if (window.updateText) window.updateText();
-            render();
-            updateActionButtonsState();
+            if (window.showAlert && last_delete_click_time === 0) {
+                last_delete_click_time = Date.now();
+                window.showAlert(getLocale('click_delete_once_more_to_delete', 1500)
+                || 'Click delete once more to delete');
+                setTimeout(() => { last_delete_click_time = 0; }, 1550);
+            }
+            else if (Date.now() - last_delete_click_time <= 1500) {
+                const selected = getSelectedRowsAcrossAll();
+                if (selected.length === 0) return;
+                selected.forEach(row => {
+                    const type = row.dataset.type;
+                    const b = row.dataset.book, c = row.dataset.chapter, v = row.dataset.verse, lang = row.dataset.lang;
+                    if (type === 'notes' && window.notesAPI && window.notesAPI.removeNote) window.notesAPI.removeNote(b,c,v);
+                    if (type === 'verses' && window.editsAPI && window.editsAPI.removeEdit) window.editsAPI.removeEdit(b,c,v);
+                    if (type === 'bookmarks' && window.bookmarksAPI && window.bookmarksAPI.removeBookmark) window.bookmarksAPI.removeBookmark(b,c,v);
+                });
+                if (window.updateText) window.updateText();
+                render();
+                updateActionButtonsState();
+                last_delete_click_time = 0;
+                if (window.showAlert) {
+                    const msg_template = getLocale('deleted_num_items') || '{0} items deleted'; 
+                    const msg = msg_template.replace('{0}', String(selected.length));
+                    window.showAlert(msg);
+                }
+            }
         });
 
         // export (export selected rows across all tabs)
@@ -579,5 +596,6 @@
     }
 
     window.initLists = initLists;
+    window.getLocale = getLocale;
 
 })();

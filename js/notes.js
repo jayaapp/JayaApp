@@ -105,11 +105,23 @@
             hideEditor();
         });
 
+        // Get last delete click time
+        let last_delete_click_time = 0;
+
         deleteBtn?.addEventListener('click', () => {
-            if (!current) return;
-            removeNote(current.book, current.chapter, current.verse);
-            hideEditor();
-            if (window.updateText) window.updateText();
+            if (window.showAlert && window.getLocale && last_delete_click_time === 0) {
+                last_delete_click_time = Date.now();
+                window.showAlert(window.getLocale('click_delete_once_more_to_delete', 1500)
+                || 'Click delete once more to delete');
+                setTimeout(() => { last_delete_click_time = 0; }, 1550);
+            }
+            else if (Date.now() - last_delete_click_time <= 1500) {
+                if (!current) return;
+                removeNote(current.book, current.chapter, current.verse);
+                hideEditor();
+                if (window.updateText) window.updateText();
+                last_delete_click_time = 0;
+            }
         });
 
         // keyboard escape

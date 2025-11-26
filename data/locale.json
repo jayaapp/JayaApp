@@ -76,6 +76,8 @@
         "export": "Export",
         "import": "Import",
         "imported_item": "Imported:",
+        "click_delete_once_more_to_delete": "Click delete once more to delete",
+        "deleted_num_items": "{0} items deleted",
 
         "user_panel": "User Panel",
         "login_with_github": "Login with GitHub",
@@ -266,6 +268,8 @@
         "export": "Eksportuj",
         "import": "Importuj",
         "imported_item": "Importowano:",
+        "click_delete_once_more_to_delete": "Kliknij ponownie usuń, aby potwierdzić usunięcie",
+        "deleted_num_items": "Usunięto {0} elementów",
 
         "user_panel": "Panel Użytkownika",
         "login_with_github": "Zaloguj się przez GitHub",
