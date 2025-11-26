@@ -1,5 +1,6 @@
 /* Stylesheet used by notes.html / notes.js and the per-verse icon */
 
+.edit-overlay,
 .note-overlay {
     position: fixed;
     inset: 0;
@@ -9,12 +10,14 @@
     pointer-events: none;
 }
 
-.note-overlay.active {
+.note-overlay.active,
+.edit-overlay.active {
     display: block;
     pointer-events: auto;
 }
 
-.note-editor-panel {
+.note-editor-panel,
+.edit-editor-panel {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -32,13 +35,15 @@
     transition: transform 0.18s ease, opacity 0.18s ease;
 }
 
-.note-editor-panel.active {
+.note-editor-panel.active,
+.edit-editor-panel.active {
     display: flex;
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
 }
 
-.note-editor-header {
+.note-editor-header,
+.edit-editor-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -46,18 +51,21 @@
     border-bottom: 1px solid var(--panel-border-color, #e6e6e6);
 }
 
-.note-editor-title {
+.note-editor-title,
+.edit-editor-title {
     margin: 0;
     font-size: 16px;
     color: var(--text-color, #222);
 }
 
-.note-editor-close {
+.note-editor-close,
+.edit-editor-close {
     cursor: pointer;
     color: var(--text-color, #222);
 }
 
-.note-editor-content {
+.note-editor-content,
+.edit-editor-content {
     padding: 12px 16px;
     flex: 1 1 auto;
     display: flex;
@@ -65,8 +73,8 @@
     min-height: 120px;
     overflow: hidden;
 }
-
-.note-editor-content textarea {
+.note-editor-content textarea,
+.edit-editor-content textarea {
     flex: 1 1 auto;
     width: 100%;
     min-height: 120px;
@@ -83,7 +91,8 @@
     overflow: auto;
 }
 
-.note-editor-footer {
+.note-editor-footer,
+.edit-editor-footer {
     display: flex;
     justify-content: flex-end;
     gap: 8px;
@@ -91,7 +100,8 @@
     border-top: 1px solid var(--panel-border-color, #e6e6e6);
 }
 
-.note-editor-footer button {
+.note-editor-footer button,
+.edit-editor-footer button {
     padding: 8px 12px;
     border-radius: 6px;
     cursor: pointer;
@@ -113,7 +123,25 @@
     padding: 2px;
 }
 
+/* Edit icon for translations */
+.translation-edit-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background: #e6f3ff;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+    font-size: 12px;
+    padding: 2px;
+}
+
 /* Note mode cursor */
 body.note-mode {
+    cursor: crosshair;
+}
+
+body.edit-mode {
     cursor: crosshair;
 }

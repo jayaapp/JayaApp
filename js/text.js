@@ -86,9 +86,41 @@ function renderWhenReady(container) {
             if (firstTr !== null) {
                 const trSpan = document.createElement('span');
                 trSpan.className = 'verse-text';
-                trSpan.lang = (firstTranslation.value || '').slice(-2); // Last two letters indicate language code
-                trSpan.innerHTML = firstTr[String(index + 1)] || '';
+                const lang = (firstTranslation.value || '').slice(-2); // Last two letters indicate language code
+                trSpan.lang = lang;
+                // If an edited translation exists, display it instead of the default
+                let trText = firstTr[String(index + 1)] || '';
+                try {
+                    const edits = window.editsAPI?.getEdit ? window.editsAPI.getEdit(bookKey, chapterKey, String(index + 1)) || {} : {};
+                    if (edits && edits[lang]) trText = edits[lang];
+                } catch (e) { /* ignore edits errors */ }
+                trSpan.innerHTML = trText;
+                // ensure the translation span can position the edit icon in its own box
+                trSpan.style.display = trSpan.style.display || 'inline-block';
+                trSpan.style.position = trSpan.style.position || 'relative';
+                trSpan.style.paddingRight = trSpan.style.paddingRight || '28px';
                 lineDiv.appendChild(trSpan);
+                // render edit icon if an edit exists for this translation — place it inside the translation span (upper-right)
+                try {
+                    const edits = window.editsAPI?.getEdit ? window.editsAPI.getEdit(bookKey, chapterKey, String(index + 1)) || {} : {};
+                    if (edits && edits[lang]) {
+                        const editIcon = document.createElement('span');
+                        editIcon.className = 'translation-edit-icon';
+                        editIcon.title = 'Edit translation';
+                        editIcon.textContent = '✏️';
+                        editIcon.setAttribute('data-book', bookKey);
+                        editIcon.setAttribute('data-chapter', chapterKey);
+                        editIcon.setAttribute('data-verse', String(index + 1));
+                        editIcon.setAttribute('data-lang', lang);
+                        editIcon.style.position = 'absolute';
+                        editIcon.style.right = '6px';
+                        editIcon.style.top = '4px';
+                        editIcon.style.zIndex = '3';
+                        editIcon.style.cursor = 'pointer';
+                        editIcon.style.fontSize = '14px';
+                        trSpan.appendChild(editIcon);
+                    }
+                } catch (e) { /* ignore edits errors */ }
                 lineDiv.appendChild(document.createElement('br'));
             }
 
@@ -101,9 +133,41 @@ function renderWhenReady(container) {
             if (secondTr !== null) {
                 const trSpan = document.createElement('span');
                 trSpan.className = 'verse-text';
-                trSpan.lang = (secondTranslation.value || '').slice(-2); // Last two letters indicate language code
-                trSpan.innerHTML = secondTr[String(index + 1)] || '';
+                const lang = (secondTranslation.value || '').slice(-2); // Last two letters indicate language code
+                trSpan.lang = lang;
+                // If an edited translation exists, display it instead of the default
+                let trText = secondTr[String(index + 1)] || '';
+                try {
+                    const edits = window.editsAPI?.getEdit ? window.editsAPI.getEdit(bookKey, chapterKey, String(index + 1)) || {} : {};
+                    if (edits && edits[lang]) trText = edits[lang];
+                } catch (e) { /* ignore edits errors */ }
+                trSpan.innerHTML = trText;
+                // ensure the translation span can position the edit icon in its own box
+                trSpan.style.display = trSpan.style.display || 'inline-block';
+                trSpan.style.position = trSpan.style.position || 'relative';
+                trSpan.style.paddingRight = trSpan.style.paddingRight || '28px';
                 lineDiv.appendChild(trSpan);
+                // render edit icon if an edit exists for this translation — place it inside the translation span (upper-right)
+                try {
+                    const edits = window.editsAPI?.getEdit ? window.editsAPI.getEdit(bookKey, chapterKey, String(index + 1)) || {} : {};
+                    if (edits && edits[lang]) {
+                        const editIcon = document.createElement('span');
+                        editIcon.className = 'translation-edit-icon';
+                        editIcon.title = 'Edit translation';
+                        editIcon.textContent = '✏️';
+                        editIcon.setAttribute('data-book', bookKey);
+                        editIcon.setAttribute('data-chapter', chapterKey);
+                        editIcon.setAttribute('data-verse', String(index + 1));
+                        editIcon.setAttribute('data-lang', lang);
+                        editIcon.style.position = 'absolute';
+                        editIcon.style.right = '6px';
+                        editIcon.style.top = '4px';
+                        editIcon.style.zIndex = '3';
+                        editIcon.style.cursor = 'pointer';
+                        editIcon.style.fontSize = '14px';
+                        trSpan.appendChild(editIcon);
+                    }
+                } catch (e) { /* ignore edits errors */ }
                 lineDiv.appendChild(document.createElement('br'));
             }
             
