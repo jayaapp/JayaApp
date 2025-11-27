@@ -88,6 +88,57 @@
 .ai-save-btn, .ai-test-btn, .ai-save-key-btn, .ai-delete-key-btn { padding:6px 10px; border-radius:6px; border:1px solid var(--panel-border-color); cursor:pointer; }
 .ai-save-btn { background: var(--menu-bg-color); color: var(--menu-text-color); }
 
+/* Place status messages to the left and action buttons to the right */
+.settings-actions { justify-content: space-between; align-items: center; }
+
+.ai-status-container { display:flex; align-items:center; gap:8px; }
+.ai-status-indicator { width:10px; height:10px; border-radius:50%; background:transparent; border:1px solid rgba(0,0,0,0.08); }
+.ai-status-indicator.success { background: #4caf50; border-color: rgba(76,175,80,0.6); }
+.ai-status-indicator.error { background: #f44336; border-color: rgba(244,67,54,0.6); }
+.ai-status-indicator.info { background: #2196f3; border-color: rgba(33,150,243,0.6); }
+
+.ai-status-label { font-size:13px; color:var(--text-color); }
+.ai-status-label.success { color: #4caf50; }
+.ai-status-label.error { color: #f44336; }
+.ai-status-label.info { color: #2196f3; }
+
+/* Key status message styling (copied/adapted from original aichat.js styles) */
+.key-status-message {
+    font-size: 12px;
+    padding: 6px 8px;
+    border-radius: 4px;
+    margin-top: 6px;
+    display: none;
+}
+.key-status-message.visible { display: block; }
+.key-status-message.success {
+    background-color: rgba(76, 175, 80, 0.08);
+    color: #2e7d32;
+    border: 1px solid rgba(76, 175, 80, 0.25);
+}
+.key-status-message.error {
+    background-color: rgba(244, 67, 54, 0.06);
+    color: #c62828;
+    border: 1px solid rgba(244, 67, 54, 0.22);
+}
+.key-status-message.info {
+    background-color: rgba(33, 150, 243, 0.06);
+    color: #1565c0;
+    border: 1px solid rgba(33, 150, 243, 0.22);
+}
+
+/* Make security policy note visually distinct and compact */
+.security-policy-note {
+    font-size: 12px;
+    color: var(--text-color);
+    opacity: 0.95;
+    margin-top: 8px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    background-color: rgba(0,0,0,0.02);
+    border-left: 3px solid rgba(33,150,243,0.12);
+}
+
 /* Crowdsourcing block (refined geometry) */
 .crowdsourcing-section { margin-bottom: 16px; }
 .crowdsourcing-section h4 { margin: 0 0 12px 0; font-size: 15px; color: var(--text-color); font-weight: 600; }
