@@ -1,0 +1,93 @@
+<div class="user-overlay">
+    <div class="user-panel">
+        <div class="user-panel-header">
+            <h2 class="user-panel-title" locale-id="user_panel">User Panel</h2>
+            <div class="user-panel-close">
+                <i class="material-symbols-outlined">close</i>
+            </div>
+        </div>
+        <div class="user-panel-content">
+            <!-- Not logged in state -->
+            <div class="user-not-logged-in">
+                <div class="login-section">
+                    <button class="github-login-btn">
+                        <i class="material-symbols-outlined">login</i>
+                        <span locale-id="login_with_github">Login with GitHub</span>
+                    </button>
+                    <div class="create-account-section">
+                        <a href="https://github.com/join" target="_blank" class="create-account-link" locale-id="create_github_account">
+                            (or create GitHub account)
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- OAuth status section -->
+                <div class="oauth-status-section" style="display: none;">
+                    <div class="oauth-status-content">
+                        <div class="oauth-status-icon">
+                            <i class="material-symbols-outlined">hourglass_empty</i>
+                        </div>
+                        <p class="oauth-status-text" locale-id="waiting_for_auth">Waiting for authorization...</p>
+                        <p class="oauth-status-detail">Please complete the authorization in the opened window and return here.</p>
+                        <button class="oauth-cancel-btn" locale-id="cancel">Cancel</button>
+                    </div>
+                </div>
+
+                <div class="user-benefits">
+                    <h3 locale-id="as_logged_user">As a logged-in user you can:</h3>
+                    <ul>
+                        <li locale-id="benefit_report_bugs">• report bugs</li>
+                        <li locale-id="benefit_request_features">• request features</li>
+                        <li locale-id="benefit_submit_corrections">• submit verse translation corrections</li>
+                        <li locale-id="benefit_discussions">• participate in user discussions</li>
+                        <li locale-id="benefit_contribute">• co-develop app's source code</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Logged in state -->
+            <div class="user-logged-in" style="display: none;">
+                <div class="user-welcome">
+                    <div class="user-avatar-container">
+                        <img class="user-avatar-large" src="" alt="User Avatar">
+                    </div>
+                    <div class="user-info">
+                        <h3 class="user-greeting">
+                            <span locale-id="welcome">Welcome</span>, 
+                            <span class="username"></span>!
+                        </h3>
+                        <div class="user-details">
+                            <span class="user-fullname"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="user-actions">
+                    <button class="user-action-btn report-bug-btn">
+                        <i class="material-symbols-outlined">bug_report</i>
+                        <span locale-id="report_bug">Report Bug</span>
+                    </button>
+                    <button class="user-action-btn request-feature-btn">
+                        <i class="material-symbols-outlined">lightbulb</i>
+                        <span locale-id="request_feature">Request Feature</span>
+                    </button>
+                    <button class="user-action-btn view-discussions-btn">
+                        <i class="material-symbols-outlined">forum</i>
+                        <span locale-id="view_discussions">View Discussions</span>
+                    </button>
+                    <button class="user-action-btn submit-corrections-btn">
+                        <i class="material-symbols-outlined">edit_note</i>
+                        <span locale-id="submit_corrections">Submit Corrections</span>
+                    </button>
+                </div>
+
+                <div class="user-panel-footer">
+                    <button class="logout-btn">
+                        <i class="material-symbols-outlined">logout</i>
+                        <span locale-id="logout">Logout</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div> 
+</div>
