@@ -827,10 +827,10 @@ function initOllamaSettings() {
     if (testBtn) testBtn.addEventListener('click', testConnection);
     if (saveSettingsBtn) saveSettingsBtn.addEventListener('click', saveSettings);
 
-    // Listen for user login/logout changes so we can refresh cloud key UI
-    document.addEventListener('userChanged', () => {
+    // Refresh cloud key UI when settings panel opens
+    document.addEventListener('settingsOpened', () => {
         try {
-            if (getServerType() === 'cloud') {
+            if (getServerType && getServerType() === 'cloud') {
                 if (window.userManager && window.userManager.user) {
                     checkSavedApiKey();
                 } else {
@@ -851,6 +851,7 @@ function initSettingsPanel() {
     document.getElementById('settings-icon').onclick = function() {
         if (settingsPanel.style.display === 'none' || settingsPanel.style.display === '') {
             settingsPanel.style.display = 'block';
+            try { document.dispatchEvent(new Event('settingsOpened')); } catch (e) { /* silent */ }
         } else {
             settingsPanel.style.display = 'none';
         }

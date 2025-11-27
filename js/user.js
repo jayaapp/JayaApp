@@ -231,8 +231,6 @@ class UserManager {
                 this.updateUserIcon();
                 this.saveUserToStorage();
                 this.showAuthSuccess();
-                // Notify other modules that user state changed
-                try { document.dispatchEvent(new Event('userChanged')); } catch (e) { /* silent */ }
                 
                 // Clean up URL and open user panel to show successful login
                 this.cleanupOAuthUrl();
@@ -268,7 +266,6 @@ class UserManager {
         this.updateUserIcon();
         this.saveUserToStorage();
         this.showAuthSuccess();
-        try { document.dispatchEvent(new Event('userChanged')); } catch (e) { /* silent */ }
     }
 
     handleOAuthError(message) {
@@ -364,8 +361,6 @@ class UserManager {
                     
                     // Verify session is still valid
                     this.verifySession();
-                    // Notify other modules that a user is available (they may initialize earlier)
-                    try { document.dispatchEvent(new Event('userChanged')); } catch (e) { /* silent */ }
                 } else {
                     // Data too old, clear it
                     this.clearUserFromStorage();
@@ -427,7 +422,6 @@ class UserManager {
         this.updateUserIcon();
         this.updatePanelState();
         this.hideOAuthStatus();
-        try { document.dispatchEvent(new Event('userChanged')); } catch (e) { /* silent */ }
         
         // Visual feedback is provided by the user panel state change
     }
