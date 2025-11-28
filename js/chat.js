@@ -103,7 +103,8 @@ class ChatView {
         this.resetBtn.type = 'button';
         this.resetBtn.className = 'chat-btn reset-btn';
         this.resetBtn.title = 'Reset chat';
-        this.resetBtn.innerHTML = 'Reset';
+        this.resetBtn.innerHTML = window.getLocale ?
+            window.getLocale('reset') || 'Reset' : 'Reset';
 
         this.commandBtn = document.createElement('button');
         this.commandBtn.type = 'button';
@@ -127,7 +128,8 @@ class ChatView {
         this.input = document.createElement('textarea');
         this.input.className = 'chat-input';
         this.input.rows = 1;
-        this.input.placeholder = 'Type a message...';
+        this.input.placeholder = window.getLocale ?
+            window.getLocale('type_a_message') || 'Type a message...' : 'Type a message...';
         middle.appendChild(this.input);
 
         // Right: send
@@ -137,7 +139,8 @@ class ChatView {
         this.sendBtn.type = 'button';
         this.sendBtn.className = 'chat-btn send-btn';
         this.sendBtn.title = 'Send message';
-        this.sendBtn.innerHTML = 'Send';
+        this.sendBtn.innerHTML = window.getLocale ?
+            window.getLocale('send') || 'Send' : 'Send';
         rightControls.appendChild(this.sendBtn);
 
         this.toolbar.appendChild(leftControls);
@@ -172,6 +175,16 @@ class ChatView {
         this.input.addEventListener('input', () => {
             this.resizeInput();
             this.updateToolbarLayout();
+        });
+
+        document.addEventListener('localeChanged', () => {
+            this.input.placeholder = window.getLocale ?
+                window.getLocale('type_a_message') ||
+                    'Type a message...' : 'Type a message...';
+            this.resetBtn.innerHTML = window.getLocale ?
+                window.getLocale('reset') || 'Reset' : 'Reset';
+            this.sendBtn.innerHTML = window.getLocale ?
+                window.getLocale('send') || 'Send' : 'Send';
         });
     }
 

@@ -97,6 +97,10 @@
         "click_delete_once_more_to_delete": "Click delete once more to delete",
         "deleted_num_items": "{0} items deleted",
 
+        "reset" : "Reset",
+        "send" : "Send",
+        "type_a_message" : "Type a message...",
+
         "user_panel": "User Panel",
         "login_with_github": "Login with GitHub",
         "create_github_account": "(or create GitHub account)",
@@ -118,12 +122,7 @@
         "logging_in": "Logging in...",
         "login_error": "Login failed. Please try again.",
         "logged_out": "Logged out successfully",
-        "feature_coming_soon": "Feature coming soon",
-        "token_instructions": "For development testing, you can use a GitHub Personal Access Token:",
-        "token_step1": "Go to GitHub Settings → Developer settings → Personal access tokens",
-        "token_step2": "Generate a new token (classic) with 'public_repo' scope",
-        "token_step3": "Copy and paste the token below:",
-        "authenticate": "Authenticate",
+
         "donate": "I would like to give a gift",
         "support_jayaapp": "Support JayaApp Development",
         "translation_sponsorship": "AI Translation Sponsorship",
@@ -308,6 +307,10 @@
         "click_delete_once_more_to_delete": "Kliknij ponownie usuń, aby potwierdzić usunięcie",
         "deleted_num_items": "Usunięto {0} elementów",
 
+        "reset" : "Resetuj",
+        "send" : "Wyślij",
+        "type_a_message" : "Wpisz wiadomość...",
+
         "user_panel": "Panel Użytkownika",
         "login_with_github": "Zaloguj się przez GitHub",
         "create_github_account": "(lub utwórz konto GitHub)",
@@ -329,12 +332,7 @@
         "logging_in": "Logowanie...",
         "login_error": "Logowanie nieudane. Spróbuj ponownie.",
         "logged_out": "Wylogowano pomyślnie",
-        "feature_coming_soon": "Funkcja wkrótce dostępna",
-        "token_instructions": "Do testów deweloperskich możesz użyć Personal Access Token z GitHub:",
-        "token_step1": "Przejdź do GitHub Settings → Developer settings → Personal access tokens",
-        "token_step2": "Wygeneruj nowy token (klasyczny) z zakresem 'public_repo'",
-        "token_step3": "Skopiuj i wklej token poniżej:",
-        "authenticate": "Uwierzytelnij",
+
         "donate": "Pragnę podarować",
         "support_jayaapp": "Wspieraj rozwój JayaApp",
         "translation_sponsorship": "Sponsoring tłumaczeń SI",
