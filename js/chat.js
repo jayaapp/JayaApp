@@ -60,8 +60,8 @@ class ChatView {
         this.shortcutBtn = null;
         this.toolbar = null;
         this.session = ChatSession.get(sessionId);
-        this._forceCompact = false;
-        this._sessionCallback = (msg) => {
+        this.forceCompact = false;
+        this.sessionCallback = (msg) => {
             if (msg && msg.clear) {
                 // session cleared
                 this.conversation.innerHTML = '';
@@ -72,11 +72,11 @@ class ChatView {
         this.initDOM();
         // render existing session messages
         this.session.getMessages().forEach(m => this.addMessageElement(m.text, m.type));
-        this.session.subscribe(this._sessionCallback);
+        this.session.subscribe(this.sessionCallback);
         this.bindEvents();
         // Observe container size changes and update toolbar layout
-        this._resizeObserver = new ResizeObserver(() => this.updateToolbarLayout());
-        try { this._resizeObserver.observe(this.container); } catch (e) { /* silent */ }
+        this.resizeObserver = new ResizeObserver(() => this.updateToolbarLayout());
+        try { this.resizeObserver.observe(this.container); } catch (e) { /* silent */ }
         // Call once to set initial layout state
         this.updateToolbarLayout();
         // initial resize to ensure the textarea height fits single line
@@ -210,7 +210,7 @@ class ChatView {
             }
             // Decide whether input is multiline
             const isMultiline = (scrollH > lineHeight + extra + 1);
-            this._forceCompact = isMultiline;
+            this.forceCompact = isMultiline;
         } catch (e) { /* silent */ }
     }
 
@@ -256,19 +256,19 @@ class ChatView {
     addSystemMessage(text) { this.addMessageElement(text, 'system'); }
 
     addThinkingIndicator() {
-        if (this._thinkingEl) return;
-        this._thinkingEl = document.createElement('div');
-        this._thinkingEl.className = 'chat-message ai-message thinking';
+        if (this.thinkingEl) return;
+        this.thinkingEl = document.createElement('div');
+        this.thinkingEl.className = 'chat-message ai-message thinking';
         const bubble = document.createElement('div'); bubble.className = 'chat-bubble'; bubble.textContent = '…';
-        this._thinkingEl.appendChild(bubble);
-        this.conversation.appendChild(this._thinkingEl);
+        this.thinkingEl.appendChild(bubble);
+        this.conversation.appendChild(this.thinkingEl);
         this.conversation.scrollTop = this.conversation.scrollHeight;
     }
 
     removeThinkingIndicator() {
-        if (this._thinkingEl && this._thinkingEl.parentNode) {
-            this._thinkingEl.parentNode.removeChild(this._thinkingEl);
-            this._thinkingEl = null;
+        if (this.thinkingEl && this.thinkingEl.parentNode) {
+            this.thinkingEl.parentNode.removeChild(this.thinkingEl);
+            this.thinkingEl = null;
         }
     }
 
@@ -301,7 +301,7 @@ class ChatView {
             gapApprox = gapApprox + 16;
             const inputAvailableWidth = Math.max(0, containerWidth - leftWidth - rightWidth - gapApprox);
             const threshold = 0.7 * containerWidth;
-            const shouldCompact = (this._forceCompact === true) || (containerWidth > 0 && inputAvailableWidth < threshold);
+            const shouldCompact = (this.forceCompact === true) || (containerWidth > 0 && inputAvailableWidth < threshold);
             if (shouldCompact) this.toolbar.classList.add('compact');
             else this.toolbar.classList.remove('compact');
             const nowCompact = this.toolbar.classList.contains('compact');
