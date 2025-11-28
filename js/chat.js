@@ -147,9 +147,6 @@ class ChatView {
         // Put conversation and toolbar into container
         this.container.appendChild(this.conversation);
         this.container.appendChild(this.toolbar);
-
-        // Ensure conversation is ready
-        this.addSystemMessage('Chat ready.');
     }
 
     bindEvents() {
@@ -236,7 +233,7 @@ class ChatView {
         setTimeout(() => {
             this.removeThinkingIndicator();
             this.session.addMessage('ai', 'AI: ' + text);
-        }, 600);
+        }, 2000);
     }
 
     addMessageElement(text, type) {
@@ -251,15 +248,29 @@ class ChatView {
         this.conversation.scrollTop = this.conversation.scrollHeight;
     }
 
-    addUserMessage(text) { this.addMessageElement(text, 'user'); }
-    addAIMessage(text) { this.addMessageElement(text, 'ai'); }
-    addSystemMessage(text) { this.addMessageElement(text, 'system'); }
-
     addThinkingIndicator() {
         if (this.thinkingEl) return;
         this.thinkingEl = document.createElement('div');
         this.thinkingEl.className = 'chat-message ai-message thinking';
-        const bubble = document.createElement('div'); bubble.className = 'chat-bubble'; bubble.textContent = '…';
+        const bubble = document.createElement('div');
+        bubble.className = 'chat-bubble';
+        // Create animated dots container
+        const dots = document.createElement('div');
+        dots.className = 'thinking-dots';
+        for (let i = 0; i < 3; i++) {
+            const dot = document.createElement('span');
+            dot.className = 'thinking-dot';
+            dot.setAttribute('aria-hidden', 'true');
+            dots.appendChild(dot);
+        }
+        // Optional accessible status for screen readers
+        const sr = document.createElement('span');
+        sr.className = 'sr-only';
+        sr.textContent = 'Thinking';
+        // Mark bubble as status so screen readers are notified
+        bubble.setAttribute('aria-live', 'polite');
+        bubble.appendChild(dots);
+        bubble.appendChild(sr);
         this.thinkingEl.appendChild(bubble);
         this.conversation.appendChild(this.thinkingEl);
         this.conversation.scrollTop = this.conversation.scrollHeight;
@@ -275,8 +286,6 @@ class ChatView {
     reset() {
         // Clear shared session so all views clear
         this.session.clear();
-        // add a system message to the session (so listeners that re-render show it)
-        this.session.addMessage('system', 'Chat reset.');
     }
 
     // Layout update: detect when the input area is less than 70% of container width
