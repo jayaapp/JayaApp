@@ -231,6 +231,125 @@ function renderWhenReady(container) {
     document.dispatchEvent(new Event('versesRendered'));
 }
 
+// Persist last reading position helper (book, chapter, verse)
+function saveLastPosition(book, chapter, verse) {
+    try {
+        if (!book || !chapter || !verse) return;
+        const last = JSON.parse(localStorage.getItem('jayaapp:lastPosition') || 'null');
+        const newVal = { book: String(book), chapter: String(chapter), verse: Number(verse), ts: Date.now() };
+        if (!last || last.book !== newVal.book || last.chapter !== newVal.chapter || last.verse !== newVal.verse) {
+            localStorage.setItem('jayaapp:lastPosition', JSON.stringify(newVal));
+        }
+    } catch (e) { /* silent */ }
+}
+
+function loadLastPosition() {
+    try {
+        const val = localStorage.getItem('jayaapp:lastPosition');
+        if (!val) return null;
+        const parsed = JSON.parse(val);
+        if (!parsed || !parsed.book || !parsed.chapter || !parsed.verse) return null;
+        return { book: String(parsed.book), chapter: String(parsed.chapter), verse: Number(parsed.verse), ts: parsed.ts || 0 };
+    } catch (e) { return null; }
+}
+
+// Setup observers on verses to track current visible verse and persist minimal changes
+function setupReadingPositionObservers() {
+    window.readingPositionObservers = window.readingPositionObservers || {};
+    const panelIds = ['text-panel-horizontal', 'text-panel-vertical'];
+
+    // Helper: disconnect existing observer/handler for panel
+    function detachPanel(panelId) {
+        const existing = window.readingPositionObservers[panelId];
+        if (!existing) return;
+        try { if (existing.observer) existing.observer.disconnect(); } catch (e) { }
+        try { if (existing.scrollHandler && existing.panel) existing.panel.removeEventListener('scroll', existing.scrollHandler); } catch (e) { }
+        delete window.readingPositionObservers[panelId];
+    }
+
+    panelIds.forEach(panelId => {
+        const panel = document.getElementById(panelId);
+        if (!panel) return;
+        detachPanel(panelId);
+
+        const observeLines = () => {
+            const entries = panel.querySelectorAll('.line-entry');
+            if (!entries || entries.length === 0) return;
+            // IntersectionObserver path
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((ioEntries) => {
+                    // choose the entry with greatest intersectionRatio
+                    let best = null;
+                    for (const e of ioEntries) {
+                        if (!best || e.intersectionRatio > best.intersectionRatio) best = e;
+                    }
+                    if (best && best.target) {
+                        const line = best.target;
+                        const book = line.dataset.book || null;
+                        const chapter = line.dataset.chapter || null;
+                        const verse = Number(line.dataset.verse) || null;
+                        if (book && chapter && verse) {
+                            const last = loadLastPosition();
+                            if (!last || last.book !== String(book) || last.chapter !== String(chapter) || last.verse !== Number(verse)) {
+                                saveLastPosition(book, chapter, verse);
+                            }
+                        }
+                    }
+                }, { root: panel, threshold: [0.5] });
+                // Observe all current entries
+                entries.forEach(el => observer.observe(el));
+                window.readingPositionObservers[panelId] = { observer, panel };
+            } else {
+                // Fallback: debounced scroll handler -> check center element by elementFromPoint
+                const debounced = (fn, delay) => { let t = null; return function(...a){ clearTimeout(t); t = setTimeout(()=>fn.apply(this,a), delay); }; };
+                const handler = debounced(() => {
+                    const rect = panel.getBoundingClientRect();
+                    const cx = Math.round(rect.left + rect.width / 2);
+                    const cy = Math.round(rect.top + rect.height / 2);
+                    const elAt = document.elementFromPoint(cx, cy);
+                    if (!elAt) return;
+                    const found = elAt.closest('.line-entry');
+                    if (found && panel.contains(found)) {
+                        const book = found.dataset.book || null;
+                        const chapter = found.dataset.chapter || null;
+                        const verse = Number(found.dataset.verse) || null;
+                        const last = loadLastPosition();
+                        if (book && chapter && verse && (!last || last.book !== String(book) || last.chapter !== String(chapter) || last.verse !== Number(verse))) {
+                            saveLastPosition(book, chapter, verse);
+                        }
+                    }
+                }, 200);
+                panel.addEventListener('scroll', handler);
+                window.readingPositionObservers[panelId] = { panel, scrollHandler: handler };
+            }
+        };
+
+        // Ensure we always set up observers after re-render
+        observeLines();
+    });
+}
+
+// Restore last position once after versesRendered (only at initial load)
+function restoreLastPositionOnce() {
+    try {
+        const last = loadLastPosition();
+        if (!last) return;
+        if (!window.mahabharata || !window.mahabharata[last.book] || !window.mahabharata[last.book][last.chapter]) return;
+        // call the existing navigation function
+        try {
+            gotToBookChapterVerse(last.book, last.chapter, last.verse);
+        } catch (e) { /* ignore */ }
+    } catch (e) { /* ignore */ }
+}
+
+// Setup observers and restore after each render
+document.addEventListener('versesRendered', () => {
+    try { setupReadingPositionObservers(); } catch (e) { /* ignore */ }
+});
+
+// Restore position on first render only
+document.addEventListener('versesRendered', restoreLastPositionOnce, { once: true });
+
 function renderText(container) {
     let bookSelect = document.getElementById('book-select')
     let chapterSelect = document.getElementById('chapter-select')
@@ -241,7 +360,8 @@ function renderText(container) {
     // loop over sleep periods until all variables are defined
     setTimeout(() => {
         if (bookSelect === null || chapterSelect === null || originalText === null ||
-            firstTranslation === null || secondTranslation === null) {
+            firstTranslation === null || secondTranslation === null ||
+            !window.mahabharata || !window.translation) {
             renderText(container); // Retry after delay
             }
         else {
@@ -286,6 +406,8 @@ function gotToBookChapterVerse(book, chapter, verse) {
                 }
                 if (verseEl) {
                     verseEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // persist last position when we successfully navigated
+                    try { saveLastPosition(book, chapter, verse); } catch (e) { /* silent */ }
                     // add a transient highlight via a temporary stylesheet rule so it survives re-renders
                     try {
                         const styleId = `verse-highlight-${book}-${chapter}-${verse}`;
@@ -324,6 +446,35 @@ function updateText() {
 }
 
 document.addEventListener('bookChapterChanged', () => {
+    // Ensure that when the user (or app) transitions to a different book/chapter,
+    // the view starts at verse 1. We wait for the verses to be rendered and then
+    // scroll the first verse into view and persist verse=1 as the last position.
+    const onRendered = () => {
+        try {
+            const bookSelect = document.getElementById('book-select');
+            const chapterSelect = document.getElementById('chapter-select');
+            if (!bookSelect || !chapterSelect) return;
+            const book = String(Number(bookSelect.value));
+            const chapter = String(Number(chapterSelect.value));
+            const selector = `.line-entry[data-book="${book}"][data-chapter="${chapter}"][data-verse="1"]`;
+            const h = document.querySelector('#text-panel-horizontal ' + selector);
+            const v = document.querySelector('#text-panel-vertical ' + selector);
+            const verseEl = h || v || document.querySelector(selector) || null;
+            if (verseEl) {
+                try { verseEl.scrollIntoView({ behavior: 'auto', block: 'start' }); } catch(e) { verseEl.scrollIntoView(); }
+            } else {
+                // Fallback: scroll container to top
+                try { const ph = document.getElementById('text-panel-horizontal'); if (ph) ph.scrollTop = 0; } catch(e) {}
+                try { const pv = document.getElementById('text-panel-vertical'); if (pv) pv.scrollTop = 0; } catch(e) {}
+            }
+            // Persist the fact the user navigated to start of chapter
+            try { saveLastPosition(book, chapter, 1); } catch (e) { /* ignore */ }
+        } catch (e) { /* ignore */ }
+    };
+    // Wait for the next render completion
+    document.addEventListener('versesRendered', onRendered, { once: true });
+
+    // Trigger re-render of both panels so verses exist in DOM
     updateText();
 });
 
