@@ -88,6 +88,8 @@
 
 .chat-btn { cursor: pointer; padding:6px 8px; border-radius:6px; border: none; background: rgba(255,255,255,0.03); color: inherit; }
 .chat-btn:hover { background: rgba(255,255,255,0.06); }
+.reset-btn { background: rgba(152, 198, 236, 0.2); }
+.help-me-btn { background: rgba(189, 62, 185, 0.2); }
 .send-btn { background: rgba(0,120,215,0.2); }
 
 .thinking .chat-bubble { opacity: 0.6; font-style: italic; }

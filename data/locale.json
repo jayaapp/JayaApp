@@ -99,6 +99,7 @@
 
         "reset" : "Reset",
         "send" : "Send",
+        "help_me" : "Help me",
         "type_a_message" : "Type a message...",
 
         "user_panel": "User Panel",
@@ -309,6 +310,7 @@
 
         "reset" : "Resetuj",
         "send" : "Wyślij",
+        "help_me" : "Pomóż mi",
         "type_a_message" : "Wpisz wiadomość...",
 
         "user_panel": "Panel Użytkownika",

@@ -56,8 +56,7 @@ class ChatView {
         this.input = null;
         this.sendBtn = null;
         this.resetBtn = null;
-        this.commandBtn = null;
-        this.shortcutBtn = null;
+        this.helpMeBtn = null;
         this.toolbar = null;
         this.session = ChatSession.get(sessionId);
         this.forceCompact = false;
@@ -106,21 +105,15 @@ class ChatView {
         this.resetBtn.innerHTML = window.getLocale ?
             window.getLocale('reset') || 'Reset' : 'Reset';
 
-        this.commandBtn = document.createElement('button');
-        this.commandBtn.type = 'button';
-        this.commandBtn.className = 'chat-btn command-btn';
-        this.commandBtn.title = 'Commands (/ )';
-        this.commandBtn.innerHTML = '/';
-
-        this.shortcutBtn = document.createElement('button');
-        this.shortcutBtn.type = 'button';
-        this.shortcutBtn.className = 'chat-btn shortcut-btn';
-        this.shortcutBtn.title = 'Shortcuts (@ )';
-        this.shortcutBtn.innerHTML = '@';
+        this.helpMeBtn = document.createElement('button');
+        this.helpMeBtn.type = 'button';
+        this.helpMeBtn.className = 'chat-btn help-me-btn';
+        this.helpMeBtn.title = 'Help me';
+        this.helpMeBtn.innerHTML = window.getLocale ?
+            window.getLocale('help_me') || 'Help me' : 'Help me';
 
         leftControls.appendChild(this.resetBtn);
-        leftControls.appendChild(this.commandBtn);
-        leftControls.appendChild(this.shortcutBtn);
+        leftControls.appendChild(this.helpMeBtn);
 
         // Middle: input
         const middle = document.createElement('div');
@@ -167,10 +160,6 @@ class ChatView {
         // Reset
         this.resetBtn.addEventListener('click', () => this.reset());
 
-        // Command and shortcut buttons currently act as simple inserts
-        this.commandBtn.addEventListener('click', () => this.insertAtCursor('/'));
-        this.shortcutBtn.addEventListener('click', () => this.insertAtCursor('@'));
-
         // Auto-resize input and detect multiline -> force compact toolbar
         this.input.addEventListener('input', () => {
             this.resizeInput();
@@ -183,6 +172,8 @@ class ChatView {
                     'Type a message...' : 'Type a message...';
             this.resetBtn.innerHTML = window.getLocale ?
                 window.getLocale('reset') || 'Reset' : 'Reset';
+            this.helpMeBtn.innerHTML = window.getLocale ?
+                window.getLocale('help_me') || 'Help me' : 'Help me';
             this.sendBtn.innerHTML = window.getLocale ?
                 window.getLocale('send') || 'Send' : 'Send';
         });
