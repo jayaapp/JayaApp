@@ -82,7 +82,9 @@
             } else {
                 bmList.forEach(item => {
                     const localized = `${getLocale('book')} ${item.book}, ${getLocale('chapter')} ${item.chapter}, ${getLocale('verse')} ${item.verse}`;
-                    const row = renderListRow('bookmarks', item, localized, null, { showEdit: false });
+                    const meta = window.mahabharata ?
+                       window.mahabharata[item.book][item.chapter]['iast'][Number(item.verse)-1] : null;
+                    const row = renderListRow('bookmarks', item, localized, meta, { showEdit: false });
                     bview.appendChild(row);
                 });
             }
@@ -106,7 +108,14 @@
             if (editsList.length === 0) eview.innerHTML = `<div class="meta">${getLocale('no_edited_verses_available')}</div>`;
             else editsList.forEach(item => {
                 const label = `${getLocale('book') || 'Book'} ${item.book}, ${getLocale('chapter') || 'Chapter'} ${item.chapter}, ${getLocale('verse') || 'Verse'} ${item.verse}`;
-                const row = renderListRow('verses', item, label, null);
+                let meta = null;
+                if (window.editsAPI && window.editsAPI.getEdit) {
+                    const edits = window.editsAPI.getEdit(item.book, item.chapter, item.verse);
+                    if (item.lang) {
+                        meta = edits && edits[item.lang] ? edits[item.lang] : null;
+                    }
+                }
+                const row = renderListRow('verses', item, label, meta);
                 eview.appendChild(row);
             });
         }

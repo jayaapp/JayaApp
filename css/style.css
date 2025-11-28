@@ -182,6 +182,7 @@ body {
 }
 
 .toolbar-left,
+.toolbar-middle,
 .toolbar-right {
     display: flex;
     align-items: center;
@@ -189,6 +190,11 @@ body {
 
 .icon-left {
     float: left;
+    margin-right: 16px;
+}
+
+.icon-middle {
+    float: center;
     margin-right: 16px;
 }
 
