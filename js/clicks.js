@@ -20,20 +20,36 @@ function handleWordClick(e, container) {
     
     if (result) {
         const { verseNumber, wordIndex, wordText, lang, book, chapter } = result;
-        console.log(`Clicked word at verse ${verseNumber}, word index ${wordIndex}`, wordText, lang);
+        console.log(`Book ${book}, Chapter ${chapter}:`);
+        if (wordIndex === null) {
+            console.log(`Clicked verse ${verseNumber} (no specific word)`);
 
-        // Dispatch custom event with verse and word information
-        const event = new CustomEvent('wordClicked', {
-            detail: {
-                book: book,
-                chapter: chapter,
-                verse: verseNumber,
-                word: wordIndex,
-                text: wordText,
-                lang: lang
-            }
-        });
-        document.dispatchEvent(event);
+            // Dispatch custom event with verse and word information
+            const event = new CustomEvent('verseClicked', {
+                detail: {
+                    book: book,
+                    chapter: chapter,
+                    verse: verseNumber
+                }
+            });
+            document.dispatchEvent(event);
+
+        } else {
+            console.log(`Clicked word ${wordIndex} in verse ${verseNumber}: ${wordText} in ${lang}`);
+
+            // Dispatch custom event with verse and word information
+            const event = new CustomEvent('wordClicked', {
+                detail: {
+                    book: book,
+                    chapter: chapter,
+                    verse: verseNumber,
+                    word: wordIndex,
+                    text: wordText,
+                    lang: lang
+                }
+            });
+            document.dispatchEvent(event);
+        }
     }
 }
 
@@ -102,6 +118,8 @@ function findClosestWord(x, y, container) {
     // If the pointer is over a translation span (non-Sanskrit), try to resolve the exact
     // translation word under the pointer and return that information. This prevents
     // falling back to a nearest Sanskrit word when the user actually clicked a translation.
+    let verseElements = null;
+    let foundVerse = null;
     try {
         const elAt = document.elementFromPoint(x, y);
         if (elAt) {
@@ -128,7 +146,8 @@ function findClosestWord(x, y, container) {
             const found = elAt.closest('[data-verse]');
             if (found && container.contains(found)) {
                 // Use only the verse that contains the pointer
-                var verseElements = [found];
+                foundVerse = found;
+                verseElements = [foundVerse];
             }
         }
     } catch (e) {
@@ -168,5 +187,12 @@ function findClosestWord(x, y, container) {
     }
 
     // No exact match found
+    // If the click was inside a verse container but not on any word, return a partial result
+    if (foundVerse) {
+        const verseNumber = parseInt(foundVerse.dataset.verse);
+        const book = foundVerse.dataset.book || null;
+        const chapter = foundVerse.dataset.chapter || null;
+        return { verseNumber: verseNumber, wordIndex: null, wordText: null, lang: null, book: book, chapter: chapter };
+    }
     return null;
 }
