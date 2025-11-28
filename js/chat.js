@@ -158,7 +158,19 @@ class ChatView {
         });
 
         // Reset
-        this.resetBtn.addEventListener('click', () => this.reset());
+        let last_reset_click_time = 0;
+        this.resetBtn.addEventListener('click', () => {
+            if (window.showAlert && last_reset_click_time === 0) {
+                last_reset_click_time = Date.now();
+                window.showAlert(getLocale('click_reset_once_more_to_reset', 1500)
+                || 'Click reset once more to confirm reset');
+                setTimeout(() => { last_reset_click_time = 0; }, 1550);
+            }
+            else if (Date.now() - last_reset_click_time <= 1500) {
+                this.reset();
+                last_reset_click_time = 0;
+            }
+        });
 
         // Auto-resize input and detect multiline -> force compact toolbar
         this.input.addEventListener('input', () => {
