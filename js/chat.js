@@ -60,6 +60,7 @@ class ChatView {
         this.shortcutBtn = null;
         this.toolbar = null;
         this.session = ChatSession.get(sessionId);
+        this._forceCompact = false;
         this._sessionCallback = (msg) => {
             if (msg && msg.clear) {
                 // session cleared
@@ -73,6 +74,13 @@ class ChatView {
         this.session.getMessages().forEach(m => this.addMessageElement(m.text, m.type));
         this.session.subscribe(this._sessionCallback);
         this.bindEvents();
+        // Observe container size changes and update toolbar layout
+        this._resizeObserver = new ResizeObserver(() => this.updateToolbarLayout());
+        try { this._resizeObserver.observe(this.container); } catch (e) { /* silent */ }
+        // Call once to set initial layout state
+        this.updateToolbarLayout();
+        // initial resize to ensure the textarea height fits single line
+        this.resizeInput();
     }
 
     initDOM() {
@@ -162,6 +170,48 @@ class ChatView {
         // Command and shortcut buttons currently act as simple inserts
         this.commandBtn.addEventListener('click', () => this.insertAtCursor('/'));
         this.shortcutBtn.addEventListener('click', () => this.insertAtCursor('@'));
+
+        // Auto-resize input and detect multiline -> force compact toolbar
+        this.input.addEventListener('input', () => {
+            this.resizeInput();
+            this.updateToolbarLayout();
+        });
+    }
+
+    resizeInput() {
+        try {
+            const el = this.input;
+            if (!el) return;
+            // Reset to compute scrollHeight correctly
+            el.style.height = 'auto';
+            const cs = window.getComputedStyle(el);
+            // Determine line height in px
+            let lineHeight = parseFloat(cs.lineHeight);
+            if (!lineHeight || Number.isNaN(lineHeight)) {
+                const fontSize = parseFloat(cs.fontSize) || 14;
+                lineHeight = Math.round(fontSize * 1.2);
+            }
+            // padding (top+bottom)
+            const paddingTop = parseFloat(cs.paddingTop) || 0;
+            const paddingBottom = parseFloat(cs.paddingBottom) || 0;
+            const borderTop = parseFloat(cs.borderTopWidth) || 0;
+            const borderBottom = parseFloat(cs.borderBottomWidth) || 0;
+            const extra = paddingTop + paddingBottom + borderTop + borderBottom;
+            // compute maxHeight for 5 lines
+            const maxHeight = Math.round(lineHeight * 5 + extra);
+            const scrollH = el.scrollHeight;
+            const desiredH = Math.min(scrollH, maxHeight);
+            el.style.height = desiredH + 'px';
+            // toggle vertical overflow only when content exceeds max height
+            if (scrollH > maxHeight - 1) {
+                el.style.overflowY = 'auto';
+            } else {
+                el.style.overflowY = 'hidden';
+            }
+            // Decide whether input is multiline
+            const isMultiline = (scrollH > lineHeight + extra + 1);
+            this._forceCompact = isMultiline;
+        } catch (e) { /* silent */ }
     }
 
     insertAtCursor(text) {
@@ -227,6 +277,42 @@ class ChatView {
         this.session.clear();
         // add a system message to the session (so listeners that re-render show it)
         this.session.addMessage('system', 'Chat reset.');
+    }
+
+    // Layout update: detect when the input area is less than 70% of container width
+    updateToolbarLayout() {
+        try {
+            if (!this.container || !this.toolbar || !this.input) return;
+            const containerWidth = this.container.clientWidth || 0;
+            // To avoid layout oscillation, compute the available width for the input under normal (non-compact) layout.
+            const wasCompact = this.toolbar.classList.contains('compact');
+            if (wasCompact) this.toolbar.classList.remove('compact');
+            const left = this.toolbar.querySelector('.chat-toolbar-left');
+            const right = this.toolbar.querySelector('.chat-toolbar-right');
+            const leftWidth = left ? left.getBoundingClientRect().width : 0;
+            const rightWidth = right ? right.getBoundingClientRect().width : 0;
+            // compute gap from CSS if available
+            const cs = window.getComputedStyle(this.toolbar);
+            let gapApprox = 0;
+            try {
+                gapApprox = parseFloat(cs.columnGap || cs.gap || cs.gridColumnGap) || 0;
+            } catch (e) { gapApprox = 0; }
+            // add some padding safety margin
+            gapApprox = gapApprox + 16;
+            const inputAvailableWidth = Math.max(0, containerWidth - leftWidth - rightWidth - gapApprox);
+            const threshold = 0.7 * containerWidth;
+            const shouldCompact = (this._forceCompact === true) || (containerWidth > 0 && inputAvailableWidth < threshold);
+            if (shouldCompact) this.toolbar.classList.add('compact');
+            else this.toolbar.classList.remove('compact');
+            const nowCompact = this.toolbar.classList.contains('compact');
+            if (nowCompact !== wasCompact) {
+                // layout changed - recompute input sizing after layout settles
+                setTimeout(() => { this.resizeInput(); }, 0);
+            }
+            if (wasCompact && !shouldCompact) {
+                // restored to non-compact: make sure input still fits / update scroll
+            }
+        } catch (e) { /* silent */ }
     }
 
     escapeHtml(unsafe) {

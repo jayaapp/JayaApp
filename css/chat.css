@@ -41,13 +41,41 @@
 .chat-toolbar-left, .chat-toolbar-right { display:flex; gap:6px; align-items:center; }
 .chat-toolbar-middle { flex: 1 1 auto; display:flex; }
 
-.chat-input { width:100%; resize: none; padding:8px; border-radius:6px; border:1px solid rgba(0,0,0,0.08); background: rgba(255,255,255,0.02); color: var(--text-color, #fff); }
+/* When toolbar is compact (input width falls below threshold), layout becomes 2 rows:
+   top row: left controls aligned left + send button aligned right
+   bottom row: full-width input text area
+*/
+.chat-toolbar.compact {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    grid-column-gap: 8px;
+    align-items: center;
+}
+.chat-toolbar.compact .chat-toolbar-left {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+}
+.chat-toolbar.compact .chat-toolbar-right {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    justify-self: end; /* ensure right alignment */
+}
+.chat-toolbar.compact .chat-toolbar-middle {
+    grid-column: 1 / -1;
+    grid-row: 2 / 3;
+    width: 100%;
+}
+
+.chat-input { width:100%; resize: none; padding:8px; border-radius:6px; border:1px solid rgba(0,0,0,0.08); background: rgba(255,255,255,0.02); color: var(--text-color, #fff); box-sizing: border-box; overflow-y: hidden; min-height: 1.4em; }
 
 .chat-btn { cursor: pointer; padding:6px 8px; border-radius:6px; border: none; background: rgba(255,255,255,0.03); color: inherit; }
 .chat-btn:hover { background: rgba(255,255,255,0.06); }
 .send-btn { background: rgba(0,120,215,0.2); }
 
 .thinking .chat-bubble { opacity: 0.6; font-style: italic; }
+
+.chat-input { transition: height 0.08s ease; }
 
 /* small responsive tweaks */
 @media (max-width: 600px) {
