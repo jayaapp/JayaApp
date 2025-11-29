@@ -384,10 +384,12 @@ function gotToBookChapterVerse(book, chapter, verse) {
             // Set book and chapter
             bookSelect.value = String(Number(book));
             chapterSelect.value = String(Number(chapter));
-            // Re-render text using the standard renderer so it reads the select values
-            if (window.currentTextContainer) {
-                renderWhenReady(window.currentTextContainer);
-            }
+            // Do not call `renderWhenReady` directly here; use the standard
+            // `updateText()` path below to avoid triggering an immediate render
+            // followed by another render from `renderText()` (which schedules a
+            // delayed render). Double-rendering can reorder the DOM and make
+            // a previously-scrolled position get lost. Let `updateText()` drive
+            // the render cycle so `tryScroll` can reliably find the final DOM.
             // Trigger re-render of both panels so verses exist in DOM
             try { if (typeof updateText === 'function') updateText(); } catch (e) { if (window.updateText) window.updateText(); }
             // Scroll to verse after a short delay to allow render to settle; retry a few times if necessary

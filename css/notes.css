@@ -146,6 +146,7 @@
     border: none;
     cursor: pointer;
     text-align: center;
+    color: var(--text-color, #7d7d7d);
 }
 .lists-tab[aria-selected="true"], .lists-tab.active {
     background: rgba(59,130,246,0.08);
