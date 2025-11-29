@@ -276,44 +276,86 @@ function setupReadingPositionObservers() {
             const entries = panel.querySelectorAll('.line-entry');
             if (!entries || entries.length === 0) return;
             // IntersectionObserver path
-            // Attach a debounced scroll handler that records the verse whose
-            // `.verse-number` bounding box crosses the top edge of the panel.
-            // This strictly follows the rule: only a verse-number span touching
-            // and crossing the panel top will be treated as the current reading
-            // location and persisted.
+            // Use an IntersectionObserver to reliably detect verse-number spans
+            // crossing the panel top. IntersectionObserver will report entries
+            // as elements intersect the root (the panel) even during fast
+            // scrolling, which makes this robust. Keep a debounced scroll-end
+            // fallback that selects the nearest verse-number to the top if the
+            // IO couldn't report a crossing for any reason.
             const debounced = (fn, delay) => { let t = null; return function(...a){ clearTimeout(t); t = setTimeout(()=>fn.apply(this,a), delay); }; };
-            const handler = debounced(() => {
+
+            let lastSaved = null;
+
+            const ioCallback = (entries) => {
                 try {
-                    const rect = panel.getBoundingClientRect();
-                    const topEdge = rect.top;
-                    const verseNumberNodes = panel.querySelectorAll('.line-entry .verse-number');
-                    if (!verseNumberNodes || verseNumberNodes.length === 0) return;
-                    // Find the first verse-number that crosses the top edge
-                    let crossingLine = null;
-                    for (const num of verseNumberNodes) {
-                        const r = num.getBoundingClientRect();
-                        // Consider it crossing if its top is at or above the panel top
-                        // and its bottom is below the panel top. A tiny tolerance is allowed.
-                        if (r.top <= topEdge + 1 && r.bottom > topEdge) {
-                            crossingLine = num.closest('.line-entry');
+                    const panelTop = panel.getBoundingClientRect().top;
+                    for (const entry of entries) {
+                        const el = entry.target; // the .verse-number span
+                        if (!el) continue;
+                        const r = el.getBoundingClientRect();
+                        // Crossing condition: top at or above panel top and bottom below it
+                        if (r.top <= panelTop + 1 && r.bottom > panelTop) {
+                            const line = el.closest('.line-entry');
+                            if (!line || !panel.contains(line)) continue;
+                            const book = line.dataset.book || null;
+                            const chapter = line.dataset.chapter || null;
+                            const verse = Number(line.dataset.verse) || null;
+                            const last = loadLastPosition();
+                            if (book && chapter && verse && (!last || last.book !== String(book) || last.chapter !== String(chapter) || last.verse !== Number(verse))) {
+                                saveLastPosition(book, chapter, verse);
+                                lastSaved = { book: String(book), chapter: String(chapter), verse: Number(verse) };
+                            }
+                            // We can stop after finding the first crossing for this batch
                             break;
                         }
                     }
-                    if (crossingLine && panel.contains(crossingLine)) {
-                        const book = crossingLine.dataset.book || null;
-                        const chapter = crossingLine.dataset.chapter || null;
-                        const verse = Number(crossingLine.dataset.verse) || null;
-                        const last = loadLastPosition();
-                        if (book && chapter && verse && (!last || last.book !== String(book) || last.chapter !== String(chapter) || last.verse !== Number(verse))) {
-                            saveLastPosition(book, chapter, verse);
+                } catch (e) { /* ignore */ }
+            };
+
+            const observer = new IntersectionObserver(ioCallback, { root: panel, threshold: [0] });
+            const numberNodes = panel.querySelectorAll('.line-entry .verse-number');
+            numberNodes.forEach(n => observer.observe(n));
+
+            const isVisiblePanel = (p) => {
+                try { return p && p.offsetParent !== null && window.getComputedStyle(p).display !== 'none'; } catch (e) { return false; }
+            };
+
+            // Fallback: on scroll-end, pick the verse-number whose top is
+            // nearest the panel top (ensures we always persist a sensible value)
+            const scrollEndHandler = debounced(() => {
+                try {
+                    if (!isVisiblePanel(panel)) return; // don't seed/save from hidden panels
+                    const panelTop = panel.getBoundingClientRect().top;
+                    const nodes = panel.querySelectorAll('.line-entry .verse-number');
+                    if (!nodes || nodes.length === 0) return;
+                    let best = null;
+                    let bestDist = Infinity;
+                    for (const n of nodes) {
+                        const r = n.getBoundingClientRect();
+                        const dist = Math.abs(r.top - panelTop);
+                        if (dist < bestDist) { bestDist = dist; best = n; }
+                    }
+                    if (best) {
+                        const line = best.closest('.line-entry');
+                        if (line && panel.contains(line)) {
+                            const book = line.dataset.book || null;
+                            const chapter = line.dataset.chapter || null;
+                            const verse = Number(line.dataset.verse) || null;
+                            const last = loadLastPosition();
+                            if (book && chapter && verse && (!last || last.book !== String(book) || last.chapter !== String(chapter) || last.verse !== Number(verse))) {
+                                saveLastPosition(book, chapter, verse);
+                                lastSaved = { book: String(book), chapter: String(chapter), verse: Number(verse) };
+                            }
                         }
                     }
                 } catch (e) { /* ignore */ }
             }, 120);
-            panel.addEventListener('scroll', handler);
-            // Run once to seed initial state
-            try { handler(); } catch (e) { /* ignore */ }
-            window.readingPositionObservers[panelId] = { panel, scrollHandler: handler };
+
+            panel.addEventListener('scroll', scrollEndHandler);
+            // seed initial state (run fallback once) only for visible panels
+            try { if (isVisiblePanel(panel)) scrollEndHandler(); } catch (e) { /* ignore */ }
+
+            window.readingPositionObservers[panelId] = { panel, observer, scrollHandler: scrollEndHandler };
         };
 
         // Ensure we always set up observers after re-render
