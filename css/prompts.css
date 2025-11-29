@@ -1,0 +1,66 @@
+/* Prompts panel styling — design aligned with notes.css but distinct */
+.prompts-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 50; display:none; }
+.prompts-overlay.active { display:block; }
+.prompts-panel { position: fixed; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 820px; max-width: 94%; background: var(--bg-color); border-radius: 10px; box-shadow: 0 8px 30px rgba(0,0,0,0.25); z-index: 51; display:none; overflow: auto; max-height: calc(100vh - 40px); }
+.prompts-panel.active { display:flex; flex-direction: column; }
+.prompts-header { display:flex; align-items:center; justify-content:space-between; padding: 10px 14px; border-bottom: 1px solid var(--panel-border-color); }
+.prompts-tabs { display:flex; gap:8px; }
+.prompts-tab { background: transparent; border: none; padding:8px 12px; cursor:pointer; border-radius:6px; font-weight:600; }
+.prompts-tab.active { background: rgba(0,0,0,0.06); }
+.prompts-close { cursor:pointer; font-size:18px; }
+.prompts-body { padding: 14px; display:flex; flex:1 1 auto; overflow: auto; flex-direction: column; }
+.prompts-design { width:100%; display:flex; flex-direction:column; gap:10px; flex: 1 1 auto; overflow: auto; }
+.prompts-row { display:flex; gap:10px; align-items:center; }
+.prompts-row label { width:80px; font-weight:600; }
+.prompts-input { flex:1; padding:8px 10px; border:1px solid var(--panel-border-color); border-radius:6px; }
+.prompts-name-container { display:flex; gap:8px; align-items:center; }
+.prompts-name-container input[type="color"], .prompts-row input[type="color"], #prompt-color {
+	/* compact filled color swatch */
+	flex: 0 0 auto;
+	width: 36px;
+	height: 28px;
+	padding: 0;
+	border-radius: 6px;
+	border: 1px solid var(--panel-border-color);
+	-webkit-appearance: none;
+	appearance: none;
+	background-color: transparent; /* the control will show its value */
+}
+
+/* Remove inner padding in color input on webkit */
+.prompts-name-container input[type="color"]::-webkit-color-swatch-wrapper {
+	padding: 0;
+}
+.prompts-name-container input[type="color"]::-webkit-color-swatch {
+	border-radius: 6px;
+	border: none;
+}
+.prompts-textarea-row { flex:1; display:flex; }
+.prompts-textarea { width:100%; resize: vertical; min-height:160px; padding:12px; border-radius:8px; border:1px solid var(--panel-border-color); box-sizing: border-box; }
+.prompts-actions-top { display:flex; gap:8px; align-items:center; }
+.prompts-actions-top .discard { margin-left: auto; }
+.prompts-footer { padding:10px 14px; border-top:1px solid var(--panel-border-color); display:flex; justify-content:space-between; }
+.prompts-help { overflow:auto; padding:8px; flex: 1 1 auto; }
+.prompts-help-content { overflow:auto; }
+.hidden { display:none !important; }
+
+/* Button styles consistent with notes.css */
+.prompts-panel button,
+.prompts-actions-top button,
+.prompts-footer button {
+	padding: 8px 12px;
+	border-radius: 6px;
+	cursor: pointer;
+	background: var(--bg-color);
+	color: var(--text-color);
+	border: 1px solid var(--panel-border-color);
+}
+
+/* Disabled state — match notes.css disabled look */
+.prompts-panel button:disabled,
+.prompts-actions-top button:disabled,
+.prompts-footer button:disabled {
+	color: #9ca3af;
+	opacity: 0.7;
+	cursor: not-allowed;
+}
