@@ -1,21 +1,24 @@
 .init-progress {
-    position: fixed;
-    inset: 0;
-    background-color: rgb(240 233 214);
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: none;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
-}
-
-.init-progress.visible {
+  position: fixed;
+  inset: 0;
+  background-color: rgb(240 233 214);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Make the init overlay visible by default to avoid a flash
+     where the app is briefly shown before the overlay is applied. */
+  pointer-events: auto;
   opacity: 1;
   visibility: visible;
-  pointer-events: auto;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+/* Hide state (applied when initialization completes) */
+.init-progress.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .init-progress img {
@@ -46,5 +49,3 @@
   50%  { transform: rotate(180deg) scale(1.06); opacity: 0.82; }
   100% { transform: rotate(360deg) scale(1); opacity: 0.95; }
 }
-
-/* (animation applied above in the main #clock_loader rule) */

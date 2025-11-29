@@ -2,16 +2,16 @@
 (function() {
     // Show or hide initialization progress
     function showInitProgress(show) {
-        var appContainer = document.getElementById('app-container');
-        if (appContainer) {
-            appContainer.style.display = show ? 'none' : 'flex';
-        }
+        // Do not toggle main app container display here — keep overlay on top
+        // to avoid layout flashes. The overlay uses pointer-events to block
+        // interaction when visible.
 
         var initElem = document.querySelector('.init-progress');
         if (initElem) {
             // Toggle visible class so CSS handles fade in/out (minimal change)
             try {
-                if (show) initElem.classList.add('visible'); else initElem.classList.remove('visible');
+                // Overlay is visible by default; add the `hidden` class to hide it.
+                if (show) initElem.classList.remove('hidden'); else initElem.classList.add('hidden');
             } catch (e) {}
         }
 
