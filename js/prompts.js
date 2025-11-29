@@ -67,6 +67,15 @@
         saveBtn = document.getElementById('prompts-save');
         tabs = document.querySelectorAll('.prompts-tab');
 
+        // populate placeholder texts from locale (placeholders are not covered by simple textContent replacement)
+        try {
+            if (window.getLocale) {
+                if (nameInput) nameInput.placeholder = window.getLocale('prompt_name_placeholder') || 'Enter prompt name';
+                if (textArea) textArea.placeholder = window.getLocale('prompt_text_placeholder') || 'Prompt text... (use placeholders like {Word}, {Verse}, {Sanskrit_Verse})';
+                // Do not set a localized title on the cross icon; keep it as a simple decorative control.
+            }
+        } catch (e) { /* ignore */ }
+
         // wire events
         document.querySelector('.prompts-close')?.addEventListener('click', hidePanel);
         overlay?.addEventListener('click', hidePanel);

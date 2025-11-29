@@ -2,8 +2,8 @@
 <div class="prompts-panel">
   <div class="prompts-header">
     <div class="prompts-tabs">
-      <button class="prompts-tab active" data-tab="design">Prompt Design</button>
-      <button class="prompts-tab" data-tab="help">Help</button>
+      <button class="prompts-tab active" data-tab="design" locale-id="prompts_tab_design">Prompt Design</button>
+      <button class="prompts-tab" data-tab="help" locale-id="prompts_tab_help">Help</button>
     </div>
     <div class="prompts-close">✖</div>
   </div>
@@ -11,69 +11,69 @@
   <div class="prompts-body">
     <div class="prompts-design" data-panel="design">
       <div class="prompts-row">
-        <label>Name</label>
+        <label locale-id="prompt_name_label">Name</label>
         <div class="prompts-name-container">
           <select id="prompt-name-select" class="prompts-input"></select>
-          <input id="prompt-name-input" class="prompts-input hidden" type="text" placeholder="Enter prompt name" />
+          <input id="prompt-name-input" class="prompts-input hidden" type="text" locale-id="prompt_name_placeholder" />
         </div>
       </div>
 
       <div class="prompts-row">
-        <label>Type</label>
+        <label locale-id="prompt_type_label">Type</label>
         <select id="prompt-type" class="prompts-input" disabled>
-          <option value="Verse">Verse</option>
-          <option value="Word">Word</option>
+          <option value="Verse" locale-id="prompt_option_verse">Verse</option>
+          <option value="Word" locale-id="prompt_option_word">Word</option>
         </select>
       </div>
 
       <div class="prompts-row">
-        <label>Language</label>
+        <label locale-id="prompt_language_label">Language</label>
         <select id="prompt-language" class="prompts-input" disabled>
-          <option value="Sanskrit">Sanskrit</option>
-          <option value="Translation">Translation</option>
+          <option value="Sanskrit" locale-id="prompt_option_sanskrit">Sanskrit</option>
+          <option value="Translation" locale-id="prompt_option_translation">Translation</option>
         </select>
       </div>
 
       <div class="prompts-row">
-        <label>Color</label>
+        <label locale-id="prompt_color_label">Color</label>
         <input id="prompt-color" class="prompts-input" type="color" />
       </div>
 
       <div class="prompts-textarea-row">
-        <textarea id="prompt-text" class="prompts-textarea" placeholder="Prompt text... (use placeholders like {Word}, {Verse}, {Sanskrit_Verse})"></textarea>
+        <textarea id="prompt-text" class="prompts-textarea" locale-id="prompt_text_placeholder"></textarea>
       </div>
 
       <div class="prompts-actions-top">
-        <button id="prompts-export">Export</button>
-        <button id="prompts-import">Import</button>
-        <button id="prompts-restore" class="restore">Restore</button>
-        <button id="prompts-new">New</button>
-        <button id="prompts-delete" class="delete">Delete</button>
-        <button id="prompts-discard" class="discard hidden">Discard</button>
+        <button id="prompts-export" locale-id="export">Export</button>
+        <button id="prompts-import" locale-id="import">Import</button>
+        <button id="prompts-restore" class="restore" locale-id="prompts_restore">Restore</button>
+        <button id="prompts-new" locale-id="prompts_new">New</button>
+        <button id="prompts-delete" class="delete" locale-id="delete">Delete</button>
+        <button id="prompts-discard" class="discard hidden" locale-id="prompts_discard">Discard</button>
       </div>
     </div>
 
     <div class="prompts-help hidden" data-panel="help">
       <div class="prompts-help-content">
-        <h3>Placeholders</h3>
+        <h3 locale-id="prompts_placeholders_heading">Placeholders</h3>
         <ul>
-          <li><strong>{Word}</strong> — the clicked word (Sanskrit or translation depending on context)</li>
-          <li><strong>{Verse}</strong> — the full verse text currently visible</li>
-          <li><strong>{Sanskrit_Verse}</strong> — the Sanskrit text of the verse</li>
-          <li><strong>{Lang}</strong> — the translation language code or name</li>
+          <li><strong>{Word}</strong> <span locale-id="placeholder_word_desc">— the clicked word (Sanskrit or translation depending on context)</span></li>
+          <li><strong>{Verse}</strong> <span locale-id="placeholder_verse_desc">— the full verse text currently visible</span></li>
+          <li><strong>{Sanskrit_Verse}</strong> <span locale-id="placeholder_sanskrit_verse_desc">— the Sanskrit text of the verse</span></li>
+          <li><strong>{Lang}</strong> <span locale-id="placeholder_lang_desc">— the translation language code or name</span></li>
         </ul>
-        <p>When importing, prompts are matched by Name+Type+Language and will overwrite existing prompts.</p>
+        <p locale-id="prompts_import_note">When importing, prompts are matched by Name+Type+Language and will overwrite existing prompts.</p>
       </div>
     </div>
   </div>
 
   <div class="prompts-footer">
     <div class="prompts-left">
-      <small>Tip: Use placeholders inside the prompt text. Preview in Help tab.</small>
+      <small locale-id="prompts_tip">Tip: Use placeholders inside the prompt text. Preview in Help tab.</small>
     </div>
     <div class="prompts-right">
-      <button id="prompts-cancel">Cancel</button>
-      <button id="prompts-save">Save</button>
+      <button id="prompts-cancel" locale-id="cancel">Cancel</button>
+      <button id="prompts-save" locale-id="save">Save</button>
     </div>
   </div>
 </div>
