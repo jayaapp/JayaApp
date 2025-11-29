@@ -73,39 +73,10 @@
         cancelBtn?.addEventListener('click', hidePanel);
 
         tabs.forEach(t => t.addEventListener('click', (e)=>{
-            // Prevent the modal from resizing when switching tabs by locking panel+body height briefly
-            const body = document.querySelector('.prompts-body');
-            let locked = {};
-            if (body && panel && panel.classList.contains('active')) {
-                const bodyRect = body.getBoundingClientRect();
-                const panelRect = panel.getBoundingClientRect();
-                // lock both body and panel heights so the outer modal doesn't shrink
-                locked.bodyHeight = Math.round(bodyRect.height);
-                locked.panelHeight = Math.round(panelRect.height);
-                body.style.height = locked.bodyHeight + 'px';
-                body.style.overflow = 'hidden';
-                panel.style.height = locked.panelHeight + 'px';
-                panel.style.maxHeight = locked.panelHeight + 'px';
-                panel.style.overflow = 'hidden';
-            }
             tabs.forEach(x=>x.classList.remove('active'));
             t.classList.add('active');
             const tab = t.dataset.tab;
             document.querySelectorAll('[data-panel]').forEach(p => { p.classList.toggle('hidden', p.dataset.panel !== tab); });
-            // ensure help content starts at top and allow inner panels to scroll; then release locks
-            setTimeout(()=>{
-                const help = document.querySelector('.prompts-help');
-                if (help) { help.scrollTop = 0; }
-                if (body) {
-                    body.style.height = '';
-                    body.style.overflow = 'auto';
-                }
-                if (panel) {
-                    panel.style.height = '';
-                    panel.style.maxHeight = '';
-                    panel.style.overflow = 'auto';
-                }
-            }, 80);
         }));
 
         nameSelect?.addEventListener('change', onSelectChange);
@@ -258,37 +229,15 @@
                     const h = Math.round(textArea.getBoundingClientRect().height);
                     textArea.style.minHeight = h + 'px';
                 }
-                // Compute and lock panel/body heights so switching tabs won't resize the modal
-                try {
-                    const header = panel.querySelector('.prompts-header');
-                    const footer = panel.querySelector('.prompts-footer');
-                    const body = panel.querySelector('.prompts-body');
-                    // ensure panel uses its visible computed height as a fixed height while open
-                    const panelRect = panel.getBoundingClientRect();
-                    panel.style.height = Math.round(panelRect.height) + 'px';
-                    panel.style.maxHeight = Math.round(panelRect.height) + 'px';
-                    panel.style.overflow = 'hidden';
-                    // set body height to available space inside panel
-                    const headerH = header ? header.getBoundingClientRect().height : 0;
-                    const footerH = footer ? footer.getBoundingClientRect().height : 0;
-                    const available = Math.max(Math.round(panelRect.height - headerH - footerH - 4), 120);
-                    if (body) {
-                        body.style.height = available + 'px';
-                        body.style.overflow = 'auto';
-                    }
-                } catch (e) { /* ignore layout locking errors */ }
+                // also ensure panel does not exceed viewport
+                if (panel) {
+                    const maxH = Math.max(window.innerHeight - 40, 200);
+                    panel.style.maxHeight = maxH + 'px';
+                }
             }, 60);
         } catch (e) { /* ignore */ }
     }
-    function hidePanel() {
-        overlay.classList.remove('active'); panel.classList.remove('active');
-        try {
-            // clear any locked heights/styles applied on open
-            const body = panel && panel.querySelector('.prompts-body');
-            if (body) { body.style.height = ''; body.style.overflow = ''; }
-            if (panel) { panel.style.height = ''; panel.style.maxHeight = ''; panel.style.overflow = ''; }
-        } catch (e) { /* ignore */ }
-    }
+    function hidePanel() { overlay.classList.remove('active'); panel.classList.remove('active'); }
 
     function onNew() {
         // switch to new mode: show input, enable type/lang selects

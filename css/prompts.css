@@ -8,8 +8,8 @@
 .prompts-tab { background: transparent; border: none; padding:8px 12px; cursor:pointer; border-radius:6px; font-weight:600; }
 .prompts-tab.active { background: rgba(0,0,0,0.06); }
 .prompts-close { cursor:pointer; font-size:18px; }
-.prompts-body { padding: 14px; display:flex; flex:1 1 auto; overflow: auto; flex-direction: column; }
-.prompts-design { width:100%; display:flex; flex-direction:column; gap:10px; flex: 1 1 auto; overflow: auto; }
+.prompts-body { padding: 14px; display:flex; flex:1 1 auto; overflow: auto; }
+.prompts-design { width:100%; display:flex; flex-direction:column; gap:10px; }
 .prompts-row { display:flex; gap:10px; align-items:center; }
 .prompts-row label { width:80px; font-weight:600; }
 .prompts-input { flex:1; padding:8px 10px; border:1px solid var(--panel-border-color); border-radius:6px; }
@@ -40,8 +40,7 @@
 .prompts-actions-top { display:flex; gap:8px; align-items:center; }
 .prompts-actions-top .discard { margin-left: auto; }
 .prompts-footer { padding:10px 14px; border-top:1px solid var(--panel-border-color); display:flex; justify-content:space-between; }
-.prompts-help { overflow:auto; padding:8px; flex: 1 1 auto; }
-.prompts-help-content { overflow:auto; }
+.prompts-help { overflow:auto; padding:8px; }
 .hidden { display:none !important; }
 
 /* Button styles consistent with notes.css */
