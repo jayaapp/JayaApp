@@ -71,7 +71,7 @@
         try {
             if (window.getLocale) {
                 if (nameInput) nameInput.placeholder = window.getLocale('prompt_name_placeholder') || 'Enter prompt name';
-                if (textArea) textArea.placeholder = window.getLocale('prompt_text_placeholder') || 'Prompt text... (use placeholders like {Word}, {Verse}, {Sanskrit_Verse})';
+                if (textArea) textArea.placeholder = window.getLocale('prompt_text_placeholder') || 'Prompt text... (use placeholders like {Word}, {Verse} — check help)';
                 // Do not set a localized title on the cross icon; keep it as a simple decorative control.
             }
         } catch (e) { /* ignore */ }
@@ -101,6 +101,25 @@
             f.addEventListener('input', () => { evaluateSaveState(); });
             f.addEventListener('change', () => { evaluateSaveState(); });
         });
+
+        // show a one-time warning when the user types a long prompt name (>=70 chars)
+        if (nameInput) {
+            nameInput.addEventListener('input', () => {
+                try {
+                    const v = nameInput.value || '';
+                    // Only warn when creating a new prompt (name input visible)
+                    if (nameInput.classList.contains('hidden') && !isNewMode) { nameLengthWarnShown = false; return; }
+                    if (!nameLengthWarnShown && v.length >= 70) {
+                        nameLengthWarnShown = true;
+                        const tpl = (window.getLocale ? window.getLocale('prompt_name_length_warning') : null) || 'Prompt name is getting long ({0}/80 characters)';
+                        const msg = tpl.replace('{0}', String(v.length));
+                        if (window.showAlert) window.showAlert(msg);
+                    } else if (v.length < 70) {
+                        nameLengthWarnShown = false;
+                    }
+                } catch (e) { /* ignore */ }
+            });
+        }
 
         // double click delete/restore pattern
         let last_delete_click_time = 0;
@@ -278,6 +297,7 @@
     // state for new/discard behavior
     let prevState = null;
     let isNewMode = false;
+    let nameLengthWarnShown = false;
 
     function onDiscard() {
         // revert to previous state if available
@@ -322,6 +342,12 @@
         const color = colorInput.value;
         const text = textArea.value || '';
         if (!name) { if (window.showAlert) window.showAlert('Prompt must have a name'); return; }
+        // Enforce name length limit for new prompts
+        if (isNew && name.length > 80) {
+            const tooLongMsg = (window.getLocale ? window.getLocale('prompt_name_too_long') : null) || 'Prompt name must be 80 characters or fewer';
+            if (window.showAlert) window.showAlert(tooLongMsg);
+            return;
+        }
         const key = `${name}||${type}||${language}`;
         // If this matches a predefined prompt exactly, do not save an override.
         const foundPre = PREDEFINED.find(p => p.name === name && p.type === type && p.language === language);
