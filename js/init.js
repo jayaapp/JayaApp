@@ -9,33 +9,17 @@
 
         var initElem = document.querySelector('.init-progress');
         if (initElem) {
-            initElem.style.display = show ? 'flex' : 'none';
+            // Toggle visible class so CSS handles fade in/out (minimal change)
+            try {
+                if (show) initElem.classList.add('visible'); else initElem.classList.remove('visible');
+            } catch (e) {}
         }
 
-        if (show) {
-            let frame = 0;
-            const frames = [10,20,40,60,80,90];
+        // Loader animation is CSS-only now; ensure the static icon text is present
+        try {
             const loaderElem = document.getElementById('clock_loader');
-            if (loaderElem) {
-                // Prevent starting multiple intervals accidentally
-                if (!loaderElem.dataset.intervalId) {
-                    const intervalId = setInterval(() => {
-                        loaderElem.textContent = `clock_loader_${frames[frame]}`;
-                        frame = (frame + 1) % frames.length;
-                    }, 200);
-                    // Store intervalId (as string) so we can clear it later
-                    loaderElem.dataset.intervalId = String(intervalId);
-                }
-            }
-        } else {
-            const loaderElem = document.getElementById('clock_loader');
-            if (loaderElem && loaderElem.dataset.intervalId) {
-                try { clearInterval(Number(loaderElem.dataset.intervalId)); } catch (e) { clearInterval(loaderElem.dataset.intervalId); }
-                delete loaderElem.dataset.intervalId;
-                // Reset loader text to a sensible default
-                try { loaderElem.textContent = 'clock_loader_10'; } catch (e) {}
-            }
-        }
+            if (loaderElem) loaderElem.textContent = 'progress_activity';
+        } catch (e) { /* ignore */ }
     }
 
     // Determine orientation and retrieve saved split percentage

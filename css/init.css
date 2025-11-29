@@ -3,8 +3,19 @@
     inset: 0;
     background-color: rgb(240 233 214);
     z-index: 9999;
-    display: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.init-progress.visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 .init-progress img {
@@ -16,15 +27,24 @@
     max-height: 90%;
 }
 
-/* loader scales nicely and is semi-transparent */
+/* Center via the parent flex container (.init-progress) so animations don't
+   override positioning transforms. Keep color and size responsive. */
 #clock_loader {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 200vmin;
-  color: rgba(240, 233, 214, 0.3);
+  position: relative;
+  font-size: 110vmin;
+  color: rgba(240, 233, 214, 0.25);
   pointer-events: none;
   line-height: 1;
   z-index: 10000;
+  transform-origin: center center;
+  animation: clockSpinPulse 10s linear infinite;
 }
+
+/* Smooth combined spin + subtle pulse for the clock loader */
+@keyframes clockSpinPulse {
+  0%   { transform: rotate(0deg) scale(1); opacity: 0.95; }
+  50%  { transform: rotate(180deg) scale(1.06); opacity: 0.82; }
+  100% { transform: rotate(360deg) scale(1); opacity: 0.95; }
+}
+
+/* (animation applied above in the main #clock_loader rule) */
