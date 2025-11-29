@@ -1,5 +1,43 @@
 // Lowest latency initialization script
 (function() {
+    // Show or hide initialization progress
+    function showInitProgress(show) {
+        var appContainer = document.getElementById('app-container');
+        if (appContainer) {
+            appContainer.style.display = show ? 'none' : 'flex';
+        }
+
+        var initElem = document.querySelector('.init-progress');
+        if (initElem) {
+            initElem.style.display = show ? 'flex' : 'none';
+        }
+
+        if (show) {
+            let frame = 0;
+            const frames = [10,20,40,60,80,90];
+            const loaderElem = document.getElementById('clock_loader');
+            if (loaderElem) {
+                // Prevent starting multiple intervals accidentally
+                if (!loaderElem.dataset.intervalId) {
+                    const intervalId = setInterval(() => {
+                        loaderElem.textContent = `clock_loader_${frames[frame]}`;
+                        frame = (frame + 1) % frames.length;
+                    }, 200);
+                    // Store intervalId (as string) so we can clear it later
+                    loaderElem.dataset.intervalId = String(intervalId);
+                }
+            }
+        } else {
+            const loaderElem = document.getElementById('clock_loader');
+            if (loaderElem && loaderElem.dataset.intervalId) {
+                try { clearInterval(Number(loaderElem.dataset.intervalId)); } catch (e) { clearInterval(loaderElem.dataset.intervalId); }
+                delete loaderElem.dataset.intervalId;
+                // Reset loader text to a sensible default
+                try { loaderElem.textContent = 'clock_loader_10'; } catch (e) {}
+            }
+        }
+    }
+
     // Determine orientation and retrieve saved split percentage
     function setSplit() {
         var isVertical = window.matchMedia('(orientation: portrait)').matches;
@@ -23,6 +61,22 @@
     }
 
     function initApp() {
+        // If a reload was initiated from the previous page, ensure progress is shown
+        try {
+            const showFlag = localStorage.getItem('jayaapp:showInitOnLoad');
+            if (showFlag) {
+                showInitProgress(true);
+                try { localStorage.removeItem('jayaapp:showInitOnLoad'); } catch (e) {}
+            } else {
+                // Normal startup: show initialization progress
+                showInitProgress(true);
+            }
+        } catch (e) {
+            // fallback to normal behavior
+            try { showInitProgress(true); } catch (e) {}
+        }
+
+        // Set initial split based on orientation
         setSplit();
 
         // Declare available translations 
@@ -143,8 +197,18 @@
                 // Optional: log any failures for debugging
                 const failures = results.filter(r => r.status === 'rejected');
                 if (failures.length) console.warn('Some startup resources failed to load', failures.length);
+
+                // Hide initialization progress now that startup tasks have settled
+                try { showInitProgress(false); } catch (e) { /* ignore */ }
             });
     }
 
     document.addEventListener('DOMContentLoaded', initApp);
+
+    // When the user triggers a reload/navigate away, try to display the init overlay
+    // immediately and set a flag so the next load shows it too.
+    window.addEventListener('beforeunload', () => {
+        try { showInitProgress(true); } catch (e) {}
+        try { localStorage.setItem('jayaapp:showInitOnLoad', '1'); } catch (e) {}
+    });
 })();

@@ -1,0 +1,30 @@
+.init-progress {
+    position: fixed;
+    inset: 0;
+    background-color: rgb(240 233 214);
+    z-index: 9999;
+    display: none;
+    pointer-events: none;
+}
+
+.init-progress img {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90%;
+    max-height: 90%;
+}
+
+/* loader scales nicely and is semi-transparent */
+#clock_loader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 200vmin;
+  color: rgba(240, 233, 214, 0.3);
+  pointer-events: none;
+  line-height: 1;
+  z-index: 10000;
+}
