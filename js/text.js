@@ -276,52 +276,44 @@ function setupReadingPositionObservers() {
             const entries = panel.querySelectorAll('.line-entry');
             if (!entries || entries.length === 0) return;
             // IntersectionObserver path
-            if ('IntersectionObserver' in window) {
-                const observer = new IntersectionObserver((ioEntries) => {
-                    // choose the entry with greatest intersectionRatio
-                    let best = null;
-                    for (const e of ioEntries) {
-                        if (!best || e.intersectionRatio > best.intersectionRatio) best = e;
-                    }
-                    if (best && best.target) {
-                        const line = best.target;
-                        const book = line.dataset.book || null;
-                        const chapter = line.dataset.chapter || null;
-                        const verse = Number(line.dataset.verse) || null;
-                        if (book && chapter && verse) {
-                            const last = loadLastPosition();
-                            if (!last || last.book !== String(book) || last.chapter !== String(chapter) || last.verse !== Number(verse)) {
-                                saveLastPosition(book, chapter, verse);
-                            }
+            // Attach a debounced scroll handler that records the verse whose
+            // `.verse-number` bounding box crosses the top edge of the panel.
+            // This strictly follows the rule: only a verse-number span touching
+            // and crossing the panel top will be treated as the current reading
+            // location and persisted.
+            const debounced = (fn, delay) => { let t = null; return function(...a){ clearTimeout(t); t = setTimeout(()=>fn.apply(this,a), delay); }; };
+            const handler = debounced(() => {
+                try {
+                    const rect = panel.getBoundingClientRect();
+                    const topEdge = rect.top;
+                    const verseNumberNodes = panel.querySelectorAll('.line-entry .verse-number');
+                    if (!verseNumberNodes || verseNumberNodes.length === 0) return;
+                    // Find the first verse-number that crosses the top edge
+                    let crossingLine = null;
+                    for (const num of verseNumberNodes) {
+                        const r = num.getBoundingClientRect();
+                        // Consider it crossing if its top is at or above the panel top
+                        // and its bottom is below the panel top. A tiny tolerance is allowed.
+                        if (r.top <= topEdge + 1 && r.bottom > topEdge) {
+                            crossingLine = num.closest('.line-entry');
+                            break;
                         }
                     }
-                }, { root: panel, threshold: [0.5] });
-                // Observe all current entries
-                entries.forEach(el => observer.observe(el));
-                window.readingPositionObservers[panelId] = { observer, panel };
-            } else {
-                // Fallback: debounced scroll handler -> check center element by elementFromPoint
-                const debounced = (fn, delay) => { let t = null; return function(...a){ clearTimeout(t); t = setTimeout(()=>fn.apply(this,a), delay); }; };
-                const handler = debounced(() => {
-                    const rect = panel.getBoundingClientRect();
-                    const cx = Math.round(rect.left + rect.width / 2);
-                    const cy = Math.round(rect.top + rect.height / 2);
-                    const elAt = document.elementFromPoint(cx, cy);
-                    if (!elAt) return;
-                    const found = elAt.closest('.line-entry');
-                    if (found && panel.contains(found)) {
-                        const book = found.dataset.book || null;
-                        const chapter = found.dataset.chapter || null;
-                        const verse = Number(found.dataset.verse) || null;
+                    if (crossingLine && panel.contains(crossingLine)) {
+                        const book = crossingLine.dataset.book || null;
+                        const chapter = crossingLine.dataset.chapter || null;
+                        const verse = Number(crossingLine.dataset.verse) || null;
                         const last = loadLastPosition();
                         if (book && chapter && verse && (!last || last.book !== String(book) || last.chapter !== String(chapter) || last.verse !== Number(verse))) {
                             saveLastPosition(book, chapter, verse);
                         }
                     }
-                }, 200);
-                panel.addEventListener('scroll', handler);
-                window.readingPositionObservers[panelId] = { panel, scrollHandler: handler };
-            }
+                } catch (e) { /* ignore */ }
+            }, 120);
+            panel.addEventListener('scroll', handler);
+            // Run once to seed initial state
+            try { handler(); } catch (e) { /* ignore */ }
+            window.readingPositionObservers[panelId] = { panel, scrollHandler: handler };
         };
 
         // Ensure we always set up observers after re-render
@@ -421,7 +413,28 @@ function gotToBookChapterVerse(book, chapter, verse) {
                     verseEl = document.querySelector(selector) || null;
                 }
                 if (verseEl) {
-                    verseEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // Align the verse-number span so it is adjacent to the top edge
+                    // of the visible panel. This ensures the recorded reading
+                    // location (which is defined by the verse-number crossing the
+                    // panel top) is restored exactly.
+                    try {
+                        const container = (verseEl.closest('#text-panel-horizontal') || verseEl.closest('#text-panel-vertical') || document.getElementById('text-panel-horizontal') || document.getElementById('text-panel-vertical'));
+                        const numSpan = verseEl.querySelector('.verse-number') || verseEl;
+                        if (container && numSpan) {
+                            const cRect = container.getBoundingClientRect();
+                            const eRect = numSpan.getBoundingClientRect();
+                            // adjust scrollTop by the difference so the verse-number
+                            // top aligns with the container top
+                            const delta = eRect.top - cRect.top;
+                            // Use direct assignment for strict adjacency
+                            container.scrollTop = Math.round(container.scrollTop + delta);
+                        } else {
+                            // fallback
+                            verseEl.scrollIntoView({ behavior: 'auto', block: 'start' });
+                        }
+                    } catch (e) {
+                        try { verseEl.scrollIntoView({ behavior: 'auto', block: 'start' }); } catch (e2) { verseEl.scrollIntoView(); }
+                    }
                     // persist last position when we successfully navigated
                     try { saveLastPosition(book, chapter, verse); } catch (e) { /* silent */ }
                     // add a transient highlight via a temporary stylesheet rule so it survives re-renders
@@ -486,7 +499,21 @@ document.addEventListener('bookChapterChanged', () => {
                 verseEl = document.querySelector(selector) || null;
             }
             if (verseEl) {
-                try { verseEl.scrollIntoView({ behavior: 'auto', block: 'start' }); } catch(e) { verseEl.scrollIntoView(); }
+                // Align verse-number to top of visible panel (strict adjacency)
+                try {
+                    const container = (verseEl.closest('#text-panel-horizontal') || verseEl.closest('#text-panel-vertical') || document.getElementById('text-panel-horizontal') || document.getElementById('text-panel-vertical'));
+                    const numSpan = verseEl.querySelector('.verse-number') || verseEl;
+                    if (container && numSpan) {
+                        const cRect = container.getBoundingClientRect();
+                        const eRect = numSpan.getBoundingClientRect();
+                        const delta = eRect.top - cRect.top;
+                        container.scrollTop = Math.round(container.scrollTop + delta);
+                    } else {
+                        try { verseEl.scrollIntoView({ behavior: 'auto', block: 'start' }); } catch(e) { verseEl.scrollIntoView(); }
+                    }
+                } catch (e) {
+                    try { verseEl.scrollIntoView({ behavior: 'auto', block: 'start' }); } catch(e) { verseEl.scrollIntoView(); }
+                }
             } else {
                 // Fallback: scroll container to top
                 try { const ph = document.getElementById('text-panel-horizontal'); if (ph) ph.scrollTop = 0; } catch(e) {}
