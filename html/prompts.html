@@ -56,12 +56,18 @@
     <div class="prompts-help hidden" data-panel="help">
       <div class="prompts-help-content">
         <h3 locale-id="prompts_placeholders_heading">Placeholders</h3>
+        <br>
         <ul>
           <li><strong>{Word}</strong> <span locale-id="placeholder_word_desc">— the clicked word (Sanskrit or translation depending on context)</span></li>
-          <li><strong>{Verse}</strong> <span locale-id="placeholder_verse_desc">— the full verse text currently visible</span></li>
-          <li><strong>{Sanskrit_Verse}</strong> <span locale-id="placeholder_sanskrit_verse_desc">— the Sanskrit text of the verse</span></li>
-          <li><strong>{Lang}</strong> <span locale-id="placeholder_lang_desc">— the translation language code or name</span></li>
+          <li><strong>{Verse}</strong> <span locale-id="placeholder_verse_desc">— the clicked verse (Sanskrit or translation depending on context)</span></li>
+          <li><strong>{Devanagari_Verse}</strong> <span locale-id="placeholder_devanagari_verse_desc">— the Sanskrit Devanagari verse text corresponding to the currently clicked word or verse</span></li>
+          <li><strong>{IAST_Verse}</strong> <span locale-id="placeholder_iast_verse_desc">— the Sanskrit IAST verse text corresponding to the currently clicked word or verse</span></li>
+          <li><strong>{BCV}</strong> <span locale-id="placeholder_bcv_desc">— the resolved Book Number, Chapter Number, Verse number of the clicked element</span></li>
+          <li><strong>{BCVW}</strong> <span locale-id="placeholder_bcvw_desc">— the resolved Book Number, Chapter Number, Verse number and Word number of the clicked Sanskrit word</span></li>
+          <li><strong>{Lang_Code}</strong> <span locale-id="placeholder_lang_code_desc">— the language code of the clicked element (sa - Devanagari, sa-Latn - IAST, en - English, pl - Polish, etc.)</span></li>
+          <li><strong>{Language}</strong> <span locale-id="placeholder_language_desc">— the resolved language name of the clicked element</span></li>
         </ul>
+        <br>
         <p locale-id="prompts_import_note">When importing, prompts are matched by Name+Type+Language and will overwrite existing prompts.</p>
       </div>
     </div>
