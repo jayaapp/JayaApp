@@ -178,8 +178,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Handle window resize to switch between layouts
+    // Track current orientation so we can detect swaps (horizontal <-> vertical)
+    let isVerticalLayout = window.matchMedia('(orientation: portrait)').matches;
+
+    // Handle window resize to switch between layouts and restore reading position on orientation swap
     window.addEventListener('resize', debounce(() => {
         applySplit();
+        try {
+            const nowVertical = window.matchMedia('(orientation: portrait)').matches;
+            if (nowVertical !== isVerticalLayout) {
+                isVerticalLayout = nowVertical;
+                // On orientation swap, restore last reading position into the newly visible panel
+                try {
+                    const last = typeof loadLastPosition === 'function' ? loadLastPosition() : null;
+                    if (last && typeof gotToBookChapterVerse === 'function') {
+                        // Delay slightly to allow layout to settle
+                        setTimeout(() => { gotToBookChapterVerse(last.book, last.chapter, last.verse); }, 160);
+                    }
+                } catch (e) { /* ignore */ }
+            }
+        } catch (e) { /* ignore */ }
     }, 100)); // 100ms debounce
 });

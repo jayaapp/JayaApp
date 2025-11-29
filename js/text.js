@@ -399,12 +399,26 @@ function gotToBookChapterVerse(book, chapter, verse) {
                 attempts++;
                 // Prefer the actual verse elements rendered by renderWhenReady (they have class `line-entry`)
                 const selector = `.line-entry[data-book="${book}"][data-chapter="${chapter}"][data-verse="${verse}"]`;
-                let verseEl = document.querySelector(selector);
-                // Also try scoping to known text panel containers
-                if (!verseEl) {
-                    const h = document.querySelector('#text-panel-horizontal .line-entry' + `[data-book="${book}"][data-chapter="${chapter}"][data-verse="${verse}"]`);
-                    const v = document.querySelector('#text-panel-vertical .line-entry' + `[data-book="${book}"][data-chapter="${chapter}"][data-verse="${verse}"]`);
-                    verseEl = h || v || null;
+                // Prefer the element inside the currently-visible panel to avoid
+                // scrolling hidden/offscreen elements (horizontal/vertical panels
+                // both exist in the DOM but one may be display:none via CSS).
+                let verseEl = null;
+                try {
+                    const ph = document.getElementById('text-panel-horizontal');
+                    const pv = document.getElementById('text-panel-vertical');
+                    const selSuffix = `[data-book="${book}"][data-chapter="${chapter}"][data-verse="${verse}"]`;
+                    // simple visibility check: offsetParent is null when hidden via display:none
+                    const isVisible = el => el && el.offsetParent !== null;
+                    if (isVisible(ph)) {
+                        verseEl = ph.querySelector('.line-entry' + selSuffix);
+                    }
+                    if (!verseEl && isVisible(pv)) {
+                        verseEl = pv.querySelector('.line-entry' + selSuffix);
+                    }
+                    // fallback to any match in document
+                    if (!verseEl) verseEl = document.querySelector(selector) || null;
+                } catch (e) {
+                    verseEl = document.querySelector(selector) || null;
                 }
                 if (verseEl) {
                     verseEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -459,9 +473,18 @@ document.addEventListener('bookChapterChanged', () => {
             const book = String(Number(bookSelect.value));
             const chapter = String(Number(chapterSelect.value));
             const selector = `.line-entry[data-book="${book}"][data-chapter="${chapter}"][data-verse="1"]`;
-            const h = document.querySelector('#text-panel-horizontal ' + selector);
-            const v = document.querySelector('#text-panel-vertical ' + selector);
-            const verseEl = h || v || document.querySelector(selector) || null;
+            // Prefer the element inside the visible text panel (horizontal/vertical)
+            let verseEl = null;
+            try {
+                const ph = document.getElementById('text-panel-horizontal');
+                const pv = document.getElementById('text-panel-vertical');
+                const isVisible = el => el && el.offsetParent !== null;
+                if (isVisible(ph)) verseEl = ph.querySelector(selector);
+                if (!verseEl && isVisible(pv)) verseEl = pv.querySelector(selector);
+                if (!verseEl) verseEl = document.querySelector(selector) || null;
+            } catch (e) {
+                verseEl = document.querySelector(selector) || null;
+            }
             if (verseEl) {
                 try { verseEl.scrollIntoView({ behavior: 'auto', block: 'start' }); } catch(e) { verseEl.scrollIntoView(); }
             } else {
