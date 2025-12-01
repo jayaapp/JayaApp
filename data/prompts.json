@@ -1,0 +1,92 @@
+[
+  {
+    "name": "Meaning of word",
+    "type": "Word",
+    "language": "Sanskrit",
+    "text": "Explain the meaning of the Sanskrit word **{Word}**, which appears as word **{Word_Index}** in Mahabharata **{BCV}**.\n\n**Devanagari:**\n{Devanagari_Verse}\n\n**IAST:**\n{IAST_Verse}\n\nGive a clear explanation suitable for a **{Lesson_Level} level** Sanskrit student. Include:\n- Basic morphological notes\n- Grammatical role in this verse\n- Core dictionary senses relevant here\n- Any subtle poetic or contextual nuance\n\nUse Markdown if helpful."
+  },
+  {
+    "name": "Language lesson from verse",
+    "type": "Verse",
+    "language": "Sanskrit",
+    "text": "I am a **{Lesson_Level} level** Sanskrit learner. Using this Mahabharata **{BCV}**:\n\n**Devanagari:**\n{Devanagari_Verse}\n\n**IAST:**\n{IAST_Verse}\n\nProvide an engaging Sanskrit language lesson based on this verse. Highlight:\n- Key grammar patterns\n- Compounds, sandhi, inflections, and syntax\n- Important vocabulary items\n\nMake the lesson incremental — later verses in the same chat should build on concepts introduced here. Add light Q&A checks and interesting micro-facts to maintain motivation."
+  },
+  {
+    "name": "Explain verse translation",
+    "type": "Verse",
+    "language": "Translation",
+    "text": "Below is Mahabharata **{BCV}** with its **{Language}** translation:\n\n**Devanagari:**\n{Devanagari_Verse}\n\n**IAST:**\n{IAST_Verse}\n\n**Translation ({Language}):**\n{Verse}\n\nExplain how **each part of the translation** corresponds to the Sanskrit verse. Discuss:\n- Word-to-word or phrase-to-phrase alignment\n- Grammar or syntax enabling the translation\n- Interesting alternatives or translator choices\n\nMake your explanation an enjoyable Sanskrit lesson suitable for a **{Lesson_Level} level** student."
+  },
+  {
+    "name": "Explain word translation",
+    "type": "Word",
+    "language": "Translation",
+    "text": "Below is Mahabharata **{BCV}** with its **{Language}** translation:\n\n**Devanagari:**\n{Devanagari_Verse}\n\n**IAST:**\n{IAST_Verse}\n\n**Translation ({Language}):**\n{Verse}\n\nI am interested in the translated word **{Word}** (word index {Word_Index}). Explain how this translation corresponds to the Sanskrit original. Include dictionary and grammatical cues, and make the explanation appropriate for a **{Lesson_Level} level** Sanskrit student."
+  },
+  {
+    "name": "Complete word analysis",
+    "type": "Word",
+    "language": "Sanskrit",
+    "text": "Perform a **complete Sanskrit word analysis** for **{Word}**, appearing as word {Word_Index} in Mahabharata **{BCVW}**.\n\n**Devanagari:**\n{Devanagari_Verse}\n\n**IAST:**\n{IAST_Verse}\n\nInclude:\n- Full morphological breakdown (root, derivation, case/number/gender or verb-class/tense/mood/person)\n- Sandhi explanation if relevant\n- Syntactic function\n- Core and contextual dictionary meanings\n- Possible alternative interpretations\n- A small mnemonic or learning tip for a **{Lesson_Level} level** student"
+  },
+  {
+    "name": "Complete verse analysis",
+    "type": "Verse",
+    "language": "Sanskrit",
+    "text": "Provide a **complete analysis** of the Sanskrit verse in Mahabharata **{BCV}**:\n\n{Devanagari_Verse}\n{IAST_Verse}\n\nInclude:\n- Overall meaning\n- Main syntactic structure (who does what, to whom, how)\n- Compounds and sandhi\n- Key grammatical patterns\n- Vocabulary highlights\n- Optional: brief notes on style, meter, or poetic effect\n- A mini self-test suitable for a **{Lesson_Level} level** learner"
+  },
+  {
+    "name": "Comparative gloss mapping",
+    "type": "Word",
+    "language": "Sanskrit",
+    "text": "Map the Sanskrit word **{Word}** from Mahabharata **{BCVW}** to all plausible glosses in the target **{Language}**. Explain nuances, alternative senses, and how translators choose among them. Provide small comparative examples to support a **{Lesson_Level} level** learner."
+  },
+  {
+    "name": "Sandhi breakdown & rebuild",
+    "type": "Word",
+    "language": "Sanskrit",
+    "text": "Explain all sandhi operations that produce the form **{Word}** in Mahabharata **{BCVW}**.\n\n1. Show the unsandhied components.\n2. Show step-by-step sandhi formation.\n3. Provide a small reconstruction exercise for a **{Lesson_Level} level** learner.\n\nUse Markdown for clarity."
+  },
+  {
+    "name": "Samāsa analysis",
+    "type": "Word",
+    "language": "Sanskrit",
+    "text": "If **{Word}** in Mahabharata **{BCVW}** is a compound, analyze it completely:\n- Type of compound (samāsa)\n- Components\n- Literal meaning\n- Contextual interpretation\n\nIf it is not a compound, briefly confirm this and analyze a nearby compound from the verse. Adapt the explanation for a **{Lesson_Level} level** learner."
+  },
+  {
+    "name": "Verse meter & rhythm",
+    "type": "Verse",
+    "language": "Sanskrit",
+    "text": "Identify the meter (chandas) of this Mahabharata verse **{BCV}** and explain:\n- Meter structure\n- Rhythm and cadence\n- Any stylistic or expressive effects\n- A simple chanting or rhythmic reading guide\n\nUse a tone accessible to a **{Lesson_Level} level** learner."
+  },
+  {
+    "name": "Alternative translation paths",
+    "type": "Verse",
+    "language": "Sanskrit",
+    "text": "Give 3–5 alternative translation approaches for Mahabharata **{BCV}**:\n- Literal\n- Idiomatic\n- Poetic/literary\n- Concise scholarly gloss\n\nExplain how different grammatical or semantic choices lead to these variations."
+  },
+  {
+    "name": "Guided parsing trainer",
+    "type": "Verse",
+    "language": "Sanskrit",
+    "text": "Guide me through a step-by-step parsing of Mahabharata **{BCV}**:\n\n{Devanagari_Verse}\n{IAST_Verse}\n\nLet me attempt micro-steps (e.g., identifying the verb, deriving cases, locating compounds). Provide immediate feedback and adapt to a **{Lesson_Level} level** learner."
+  },
+  {
+    "name": "Semantic field explorer",
+    "type": "Word",
+    "language": "Sanskrit",
+    "text": "Explore the semantic field of the Sanskrit word **{Word}** as used in Mahabharata **{BCVW}**. Include related roots, synonyms, antonyms, conceptual associations, and context-dependent variations. Present it at a level suitable for a **{Lesson_Level} level** student."
+  },
+  {
+    "name": "Metaphysics insights for word",
+    "type": "Word",
+    "language": "Sanskrit",
+    "text": "The word **{Word}** appears in Mahabharata **{BCVW}**:\n\n{Devanagari_Verse}\n{IAST_Verse}\n\nProvide metaphysical, philosophical, or cultural insights connected with this word in the context of the verse. You may draw from Vedic, epic, Puranic, and classical thinking. Keep the explanation grounded, respectful, and educational."
+  },
+  {
+    "name": "Metaphysics insights for verse",
+    "type": "Verse",
+    "language": "Sanskrit",
+    "text": "Provide metaphysical or philosophical insights based on Mahabharata **{BCV}**:\n\n{Devanagari_Verse}\n{IAST_Verse}\n\nDiscuss:\n- Key concepts expressed or implied\n- Cultural and spiritual resonances\n- Traditional interpretive connections\n- Broader thematic links in the Mahabharata\n\nKeep it educational and reflective."
+  }
+]

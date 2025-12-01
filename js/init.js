@@ -123,6 +123,9 @@
                 jsonPromises.push(fetchJsonAssign(`data/${key}.json`, json => { window.translation[key] = json; }));
             }
         }
+        if (!window.promptsData) {
+            jsonPromises.push(fetchJsonAssign('data/prompts.json', json => { window.promptsData = json; }));
+        }
 
         // Build promises for HTML modules
         const htmlPromises = htmlModules.map(fetchHtmlInject);

@@ -1,10 +1,28 @@
 (function(){
     const STORAGE_KEY = 'jayaapp:prompts';
-    const PREDEFINED = [
-        { name: 'Analyze word', type: 'Word', language: 'Sanskrit', color: '#ff7f50', text: 'Analyze Sanskrit word {Word}' },
-        { name: 'Analyze verse', type: 'Verse', language: 'Sanskrit', color: '#6a5acd', text: 'Analyze Sanskrit verse {Verse}' },
-        { name: 'Explain word', type: 'Word', language: 'Translation', color: '#20b2aa', text: 'Explain why word {Word} in this {Lang} translation of verse {Sanskrit_Verse} is what it is.' }
-    ];
+    let PREDEFINED = [];
+
+    function pickRainbowColor(index, total) {
+        const frequency = 2 * Math.PI / total;
+        const r = Math.round(Math.sin(frequency * index + 0) * 127 + 128);
+        const g = Math.round(Math.sin(frequency * index + 2) * 127 + 128);
+        const b = Math.round(Math.sin(frequency * index + 4) * 127 + 128);
+        return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
+    }
+
+    function loadPredefinedPrompts() {
+        if (window.promptsData) {
+            window.promptsData.forEach(p => {
+                PREDEFINED.push({
+                    name: p.name,
+                    type: p.type,
+                    language: p.language,
+                    color: pickRainbowColor(PREDEFINED.length, window.promptsData.length),
+                    text: p.text
+                });
+            });
+        }
+    }
 
     // helper: load user prompts from localStorage
     function loadUserPrompts() {
@@ -439,6 +457,7 @@
     };
 
     function initPrompts(attempts=6) {
+        loadPredefinedPrompts();
         bind();
         const ok = document.querySelector('.prompts-overlay') && document.querySelector('.prompts-panel');
         if (!ok && attempts > 0) setTimeout(()=>initPrompts(attempts-1), 100);
