@@ -17,6 +17,10 @@ class ChatSession {
         this.id = id;
         this.messages = []; // { type: 'user'|'ai'|'system', text, timestamp }
         this.subscribers = new Set();
+
+        document.addEventListener('runHelpMePrompt', (e) => {
+            console.log('runHelpMePrompt event received', e);
+        });
     }
 
     static get(id = 'default') {
@@ -25,12 +29,137 @@ class ChatSession {
         return window.chatSessions[id];
     }
 
-    addMessage(type, text) {
+    async fetchResponse(userMessage, caller) {
+        // Ollama server communication (local or cloud proxy).
+        // This implementation accumulates the response and emits a single
+        // AI message when complete. It mirrors the basic request/stream
+        // pattern used in the legacy aichat implementation.
+        try {
+            if (caller && typeof caller.addThinkingIndicator === 'function') caller.addThinkingIndicator();
+
+            // Resolve settings (prefer window.ollamaSettings if available)
+            const settings = window.ollamaSettingsAPI || {};
+            const serverType = (typeof settings.getServerType === 'function') ? settings.getServerType() : (localStorage.getItem('ollamaServerType') || 'local');
+            const serverUrl = (typeof settings.getServerUrl === 'function') ? settings.getServerUrl() : (localStorage.getItem('ollamaServerUrl') || 'http://localhost:11434');
+            const model = (typeof settings.getModel === 'function') ? settings.getModel() : (localStorage.getItem('ollamaModel') || '');
+            const systemPrompt = (typeof settings.getSystemPrompt === 'function') ? settings.getSystemPrompt() : (localStorage.getItem('ollamaSystemPrompt') || 'You are an assistant helping with the Mahabharata and Sanskrit studies. Respond in the language of the user\'s query.');
+
+            if (!model) {
+                throw new Error('Ollama model not configured');
+            }
+
+            // Build request body similar to legacy implementation
+            const requestBody = {
+                model: model,
+                messages: [
+                    { role: 'system', content: systemPrompt },
+                    { role: 'user', content: userMessage }
+                ],
+                stream: true
+            };
+
+            // Determine API URL & headers
+            let apiUrl;
+            const headers = { 'Content-Type': 'application/json' };
+
+            if (serverType === 'cloud') {
+                // Use backend proxy
+                apiUrl = `${GITHUB_CONFIG.serverURL}/api/ollama/proxy-chat`;
+                if (typeof settings.getAuthHeaders === 'function') {
+                    const auth = await settings.getAuthHeaders();
+                    Object.assign(headers, auth);
+                } else if (window.userManager && window.userManager.sessionToken) {
+                    headers['Authorization'] = `Bearer ${window.userManager.sessionToken}`;
+                    try {
+                        if (typeof window.userManager.getCSRFToken === 'function') {
+                            const csrf = await window.userManager.getCSRFToken();
+                            if (csrf) headers['X-CSRF-Token'] = csrf;
+                        }
+                    } catch (e) { /* ignore */ }
+                }
+            } else {
+                apiUrl = `${serverUrl}/api/chat`;
+            }
+
+            const resp = await fetch(apiUrl, { method: 'POST', headers, body: JSON.stringify(requestBody) });
+            if (!resp.ok) {
+                const errText = await resp.text();
+                throw new Error(`Server error ${resp.status}: ${errText}`);
+            }
+
+            // If server streams JSON lines, read and accumulate; otherwise fallback to text/json
+            let fullResponse = '';
+            try {
+                if (resp.body && typeof resp.body.getReader === 'function') {
+                    const reader = resp.body.getReader();
+                    const decoder = new TextDecoder();
+                    let buffer = '';
+                    while (true) {
+                        const { done, value } = await reader.read();
+                        if (done) break;
+                        buffer += decoder.decode(value, { stream: true });
+                        const lines = buffer.split('\n');
+                        buffer = lines.pop();
+                        for (const line of lines) {
+                            if (!line || !line.trim()) continue;
+                            try {
+                                const parsed = JSON.parse(line);
+                                if (parsed.message && parsed.message.content) {
+                                    fullResponse += parsed.message.content;
+                                } else if (typeof parsed === 'string') {
+                                    fullResponse += parsed;
+                                }
+                            } catch (e) {
+                                // not JSON -> append raw
+                                fullResponse += line + '\n';
+                            }
+                        }
+                    }
+                    // append any remaining buffer (attempt parse or raw)
+                    if (buffer) {
+                        try {
+                            const parsed = JSON.parse(buffer);
+                            if (parsed.message && parsed.message.content) fullResponse += parsed.message.content;
+                            else if (typeof parsed === 'string') fullResponse += parsed;
+                        } catch (e) { fullResponse += buffer; }
+                    }
+                } else {
+                    // Non-streaming fallback
+                    try {
+                        const j = await resp.json();
+                        if (j && j.message && j.message.content) fullResponse = j.message.content;
+                        else if (typeof j === 'string') fullResponse = j;
+                        else fullResponse = JSON.stringify(j);
+                    } catch (e) {
+                        fullResponse = await resp.text();
+                    }
+                }
+            } catch (err) {
+                console.warn('Error while reading response stream:', err);
+            }
+
+            // Deliver AI message
+            this.addMessage('ai', fullResponse || '');
+        } catch (error) {
+            console.error('fetchResponse error:', error);
+            // emit an error AI message so UI can show it
+            this.addMessage('ai', `Error: ${error.message}`);
+        } finally {
+            if (caller && typeof caller.removeThinkingIndicator === 'function') caller.removeThinkingIndicator();
+        }
+    }
+
+    addMessage(type, text, caller) {
         const msg = { type, text, timestamp: Date.now() };
         this.messages.push(msg);
         this.subscribers.forEach(cb => {
             try { cb(msg); } catch (e) { console.error('chat subscriber error', e); }
         });
+
+        if (type === 'user') {
+            this.fetchResponse(text, caller);
+        }
+
         return msg;
     }
 
@@ -240,10 +369,6 @@ class ChatView {
             }
         });
 
-        document.addEventListener('runHelpMePrompt', (e) => {
-            console.log('runHelpMePrompt event received', e);
-        });
-
         // Auto-resize input and detect multiline -> force compact toolbar
         this.input.addEventListener('input', () => {
             this.resizeInput();
@@ -314,14 +439,8 @@ class ChatView {
         const text = (this.input.value || '').trim();
         if (!text) return;
         // Add to shared session so all views receive the message
-        this.session.addMessage('user', text);
+        this.session.addMessage('user', text, this);
         this.input.value = '';
-        // Placeholder for AI response: add AI message to session after small delay
-        this.addThinkingIndicator();
-        setTimeout(() => {
-            this.removeThinkingIndicator();
-            this.session.addMessage('ai', 'AI: ' + text);
-        }, 2000);
     }
 
     addMessageElement(text, type) {

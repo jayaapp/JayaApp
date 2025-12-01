@@ -844,6 +844,34 @@ function initOllamaSettings() {
     // Populate initial state
     loadSettingsToForm();
     updateLocalizedUI();
+
+    // Expose a small runtime helper for other modules to read Ollama settings
+    // and obtain auth headers for cloud proxy requests. Functions read
+    // current storage/UI state so callers don't need to watch events.
+    window.ollamaSettingsAPI = {
+        getServerType: () => getServerType(),
+        getServerUrl: () => getServerUrl(),
+        getModel: () => (localStorage.getItem('ollamaModel') || ''),
+        getSystemPrompt: () => (localStorage.getItem('ollamaSystemPrompt') ||
+            'You are an assistant helping with the Mahabharata and Sanskrit studies. Respond in the language of the user\'s query.'),
+        // Returns headers (may include Authorization and X-CSRF-Token) for cloud proxy calls
+        getAuthHeaders: async () => {
+            const headers = {};
+            const st = getServerType();
+            if (st === 'cloud') {
+                if (window.userManager && window.userManager.sessionToken) {
+                    headers['Authorization'] = `Bearer ${window.userManager.sessionToken}`;
+                    try {
+                        if (typeof window.userManager.getCSRFToken === 'function') {
+                            const csrf = await window.userManager.getCSRFToken();
+                            if (csrf) headers['X-CSRF-Token'] = csrf;
+                        }
+                    } catch (e) { /* ignore */ }
+                }
+            }
+            return headers;
+        }
+    };
 }
 
 function initSettingsPanel() {
