@@ -77,6 +77,7 @@
             'edits',
             'lists',
             'user',
+            'helpme',
             'prompts'
         ];
 

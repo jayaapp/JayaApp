@@ -100,6 +100,7 @@
         "reset" : "Reset",
         "send" : "Send",
         "help_me" : "Help me",
+        "help_me_hint" : "Click a word or a verse area next",
         "type_a_message" : "Type a message...",
         "click_reset_once_more_to_reset": "Click reset once more to confirm reset",
 
@@ -344,6 +345,7 @@
         "reset" : "Resetuj",
         "send" : "Wyślij",
         "help_me" : "Pomóż mi",
+        "help_me_hint" : "Kliknij teraz słowo lub obszar wersetu",
         "type_a_message" : "Wpisz wiadomość...",
         "click_reset_once_more_to_reset": "Kliknij ponownie reset, aby potwierdzić reset",
 

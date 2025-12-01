@@ -60,6 +60,8 @@ class ChatView {
         this.toolbar = null;
         this.session = ChatSession.get(sessionId);
         this.forceCompact = false;
+        this.help_me_hint_duration = 5000;
+        this.last_helpme_click_time = 0;
         this.sessionCallback = (msg) => {
             if (msg && msg.clear) {
                 // session cleared
@@ -162,14 +164,70 @@ class ChatView {
         this.resetBtn.addEventListener('click', () => {
             if (window.showAlert && last_reset_click_time === 0) {
                 last_reset_click_time = Date.now();
-                window.showAlert(getLocale('click_reset_once_more_to_reset', 1500)
-                || 'Click reset once more to confirm reset');
+                window.showAlert(
+                window.getLocale('click_reset_once_more_to_reset')
+                    || 'Click reset once more to confirm reset', 1500);
                 setTimeout(() => { last_reset_click_time = 0; }, 1550);
             }
             else if (Date.now() - last_reset_click_time <= 1500) {
                 this.reset();
                 last_reset_click_time = 0;
             }
+        });
+
+        // Help me
+        this.helpMeBtn.addEventListener('click', () => {
+            if (window.showAlert) {
+                this.last_helpme_click_time = Date.now();
+                window.showAlert(
+                    window.getLocale('help_me_hint')
+                    || 'Click a word or a verse area next', this.help_me_hint_duration);
+                setTimeout(() => { this.last_helpme_click_time = 0; }, this.help_me_hint_duration+50);
+            }
+        });
+
+        document.addEventListener('verseClicked', (e) => {
+            if (this.last_helpme_click_time > 0 &&
+                Date.now() - this.last_helpme_click_time <= this.help_me_hint_duration) {
+                const detail = e.detail || {};
+                if (window.promptsAPI) {
+                    const all = window.promptsAPI.getAllPrompts();
+                    // Find prompts that have type property
+                    // "Verse" and language property "Sanskrit"
+                    const matchingPrompts = all.filter(p => {
+                        return p.type === 'Verse' && p.language === 'Sanskrit';
+                    });
+                    if (matchingPrompts.length > 0
+                        && window.helpmeAPI) {
+                        window.helpmeAPI.open(matchingPrompts);
+                    }
+                }
+            }
+        });
+
+        document.addEventListener('wordClicked', (e) => {
+            if (this.last_helpme_click_time > 0 &&
+                Date.now() - this.last_helpme_click_time <= this.help_me_hint_duration) {
+                const detail = e.detail || {};
+                const word_language  = detail.lang == 'sa' ||
+                    detail.lang == 'sa-Latn' ? 'Sanskrit' : 'Translation';
+                if (window.promptsAPI) {
+                    const all = window.promptsAPI.getAllPrompts();
+                    // Find prompts that have type property
+                    // "Word" and language property matching clicked word lang
+                    const matchingPrompts = all.filter(p => {
+                        return p.type === 'Word' && p.language === word_language;
+                    });
+                    if (matchingPrompts.length > 0
+                        && window.helpmeAPI) {
+                        window.helpmeAPI.open(matchingPrompts);
+                    }
+                }
+            }
+        });
+
+        document.addEventListener('runHelpMePrompt', (e) => {
+            console.log('runHelpMePrompt event received', e);
         });
 
         // Auto-resize input and detect multiline -> force compact toolbar
