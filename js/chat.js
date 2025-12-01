@@ -152,7 +152,19 @@ class ChatSession {
         // Capture caller at the moment of invocation to ensure correct association
         const caller = this.current_caller;
         const requestId = ++this.requestCounter;
-        this.fetchResponse(finalPromptText, { caller, requestId });
+        // Build minimal client_meta for help-me flows
+        const promptObj = prompt || {};
+        let promptSource = 'helpme_user';
+        try {
+            if (promptObj.predefined && !promptObj.overridden) promptSource = 'helpme_predefined';
+        } catch (e) { /* ignore */ }
+        const promptKey = `${promptObj.name || ''}||${promptObj.type || ''}||${promptObj.language || ''}`;
+        const clientMeta = { prompt_source: promptSource, prompt_key: promptKey, help_level: help_level || 'beginner' };
+        // include clicked identifiers if available
+        if (placeholderMap['BCVW']) clientMeta.clicked = { BCVW: placeholderMap['BCVW'] };
+        else if (placeholderMap['BCV']) clientMeta.clicked = { BCV: placeholderMap['BCV'] };
+
+        this.fetchResponse(finalPromptText, { caller, requestId, meta: clientMeta });
     }
 
     // fetchResponse sends a request to the backend. It accepts an optional
@@ -228,6 +240,9 @@ class ChatSession {
             }
 
             const requestBody = { model: model, messages: apiMessages, stream: true };
+            // attach client_meta (from options.meta when provided) so backend and debug mode can see context
+            const clientMeta = (options && options.meta) ? options.meta : { prompt_source: 'free_text' };
+            requestBody.client_meta = clientMeta;
 
             // DEBUG mode: skip real network call, wait 2000ms and show the prompt/request body as the AI response
             try {
@@ -382,7 +397,9 @@ class ChatSession {
             // capture caller immediately
             const caller = this.current_caller;
             const requestId = ++this.requestCounter;
-            this.fetchResponse(text, { caller, requestId });
+            // allow callers to pass meta via opts.meta; otherwise default to free_text
+            const meta = (opts && opts.meta) ? opts.meta : { prompt_source: 'free_text' };
+            this.fetchResponse(text, { caller, requestId, meta });
         }
 
         return msg;
