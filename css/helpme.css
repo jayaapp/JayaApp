@@ -27,8 +27,12 @@
   z-index: 1510;
   display: flex;
   flex-direction: column;
+  pointer-events: none;
+  touch-action: none;
 }
 .helpme-panel.active { opacity: 1; transform: translateY(0) scale(1); }
+/* When active, the panel must accept pointer/touch events */
+.helpme-panel.active { pointer-events: auto; touch-action: auto; }
 
 .helpme-header {
   display: flex;
