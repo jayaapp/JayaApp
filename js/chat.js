@@ -19,10 +19,12 @@ class ChatSession {
         this.subscribers = new Set();
         this.current_caller = null;
 
-        document.addEventListener('runHelpMePrompt', (e) => {
-            const d = (e && e.detail) ? e.detail : {};
-            this.handleHelpMePrompt(d.prompt, d.clicked_detail, d.help_level);
-        });
+        // Request tracking and concurrency
+        this.requestCounter = 0;
+        this.pendingRequests = new Map(); // requestId -> { caller, controller }
+        this.concurrent = true; // allow concurrent requests by default
+        this.queue = [];
+        this.isProcessingQueue = false;
     }
 
     static get(id = 'default') {
@@ -144,16 +146,30 @@ class ChatSession {
         console.log('Final prompt:', finalPromptText);
 
         // Finally fetch response using the fully expanded prompt text
-        this.fetchResponse(finalPromptText);
+        // Capture caller at the moment of invocation to ensure correct association
+        const caller = this.current_caller;
+        const requestId = ++this.requestCounter;
+        this.fetchResponse(finalPromptText, { caller, requestId });
     }
 
-    async fetchResponse(userMessage, caller) {
+    // fetchResponse sends a request to the backend. It accepts an optional
+    // options object { caller, requestId, controller }.
+    async fetchResponse(userMessage, options = {}) {
         // Ollama server communication (local or cloud proxy).
         // This implementation accumulates the response and emits a single
         // AI message when complete. It mirrors the basic request/stream
         // pattern used in the legacy aichat implementation.
+        // Capture caller and request metadata
+        const caller = (options && options.caller) ? options.caller : this.current_caller;
+        const requestId = (options && options.requestId) ? options.requestId : (++this.requestCounter);
+        const controller = (options && options.controller) ? options.controller : new AbortController();
+
+        // register pending request
+        this.pendingRequests.set(requestId, { caller, controller });
+
         try {
-            const caller = this.current_caller;
+            // create AI placeholder message for this request so UI has a stable bubble to update
+            this.addMessage('ai', '', false, { requestId });
             if (caller && typeof caller.addThinkingIndicator === 'function') caller.addThinkingIndicator();
 
             // Resolve settings (prefer window.ollamaSettings if available)
@@ -200,7 +216,7 @@ class ChatSession {
                 apiUrl = `${serverUrl}/api/chat`;
             }
 
-            const resp = await fetch(apiUrl, { method: 'POST', headers, body: JSON.stringify(requestBody) });
+            const resp = await fetch(apiUrl, { method: 'POST', headers, body: JSON.stringify(requestBody), signal: controller.signal });
             if (!resp.ok) {
                 const errText = await resp.text();
                 throw new Error(`Server error ${resp.status}: ${errText}`);
@@ -223,14 +239,17 @@ class ChatSession {
                             if (!line || !line.trim()) continue;
                             try {
                                 const parsed = JSON.parse(line);
-                                if (parsed.message && parsed.message.content) {
-                                    fullResponse += parsed.message.content;
-                                } else if (typeof parsed === 'string') {
-                                    fullResponse += parsed;
+                                let chunk = '';
+                                if (parsed.message && parsed.message.content) chunk = parsed.message.content;
+                                else if (typeof parsed === 'string') chunk = parsed;
+                                if (chunk) {
+                                    fullResponse += chunk;
+                                    this.updateMessage(requestId, fullResponse);
                                 }
                             } catch (e) {
                                 // not JSON -> append raw
                                 fullResponse += line + '\n';
+                                this.updateMessage(requestId, fullResponse);
                             }
                         }
                     }
@@ -240,7 +259,8 @@ class ChatSession {
                             const parsed = JSON.parse(buffer);
                             if (parsed.message && parsed.message.content) fullResponse += parsed.message.content;
                             else if (typeof parsed === 'string') fullResponse += parsed;
-                        } catch (e) { fullResponse += buffer; }
+                            this.updateMessage(requestId, fullResponse);
+                        } catch (e) { fullResponse += buffer; this.updateMessage(requestId, fullResponse); }
                     }
                 } else {
                     // Non-streaming fallback
@@ -252,25 +272,59 @@ class ChatSession {
                     } catch (e) {
                         fullResponse = await resp.text();
                     }
+                    // deliver final
+                    this.updateMessage(requestId, fullResponse);
                 }
             } catch (err) {
                 console.warn('Error while reading response stream:', err);
+                this.updateMessage(requestId, fullResponse || ('Error: ' + (err && err.message ? err.message : String(err))));
             }
-
-            // Deliver AI message
-            this.addMessage('ai', fullResponse || '');
         } catch (error) {
             console.error('fetchResponse error:', error);
-            // emit an error AI message so UI can show it
-            this.addMessage('ai', `Error: ${error.message}`);
+            this.updateMessage(requestId, `Error: ${error.message}`);
         } finally {
-            const caller = this.current_caller;
-            if (caller && typeof caller.removeThinkingIndicator === 'function') caller.removeThinkingIndicator();
+            // Clean up pending request and thinking indicator
+            try {
+                const pending = this.pendingRequests.get(requestId);
+                if (pending) {
+                    if (pending.caller && typeof pending.caller.removeThinkingIndicator === 'function') pending.caller.removeThinkingIndicator();
+                    this.pendingRequests.delete(requestId);
+                } else if (caller && typeof caller.removeThinkingIndicator === 'function') {
+                    // fallback
+                    caller.removeThinkingIndicator();
+                }
+            } catch (e) { /* ignore */ }
         }
     }
 
-    addMessage(type, text, fetchResponse = false) {
+    // Update an existing AI placeholder message identified by requestId.
+    updateMessage(requestId, text) {
+        // Find the message with matching requestId
+        const msg = this.messages.find(m => m && m.requestId === requestId);
+        if (msg) {
+            msg.text = text;
+            // notify subscribers with an update envelope
+            this.subscribers.forEach(cb => {
+                try { cb({ update: true, requestId, text }); } catch (e) { console.error('chat subscriber error', e); }
+            });
+        } else {
+            // fallback: append a new AI message
+            this.addMessage('ai', text);
+        }
+    }
+
+    // Cancel a pending request
+    cancelRequest(requestId) {
+        const pending = this.pendingRequests.get(requestId);
+        if (pending && pending.controller) {
+            try { pending.controller.abort(); } catch (e) { /* ignore */ }
+            this.pendingRequests.delete(requestId);
+        }
+    }
+
+    addMessage(type, text, fetchResponse = true, opts = {}) {
         const msg = { type, text, timestamp: Date.now() };
+        if (opts && opts.requestId) msg.requestId = opts.requestId;
         this.messages.push(msg);
         this.subscribers.forEach(cb => {
             try { cb(msg); } catch (e) { console.error('chat subscriber error', e); }
@@ -278,7 +332,10 @@ class ChatSession {
 
         // For user messages, use the session's current caller (if any)
         if (type === 'user' && fetchResponse) {
-            this.fetchResponse(text);
+            // capture caller immediately
+            const caller = this.current_caller;
+            const requestId = ++this.requestCounter;
+            this.fetchResponse(text, { caller, requestId });
         }
 
         return msg;
@@ -317,7 +374,21 @@ class ChatView {
                 // session cleared
                 this.conversation.innerHTML = '';
             } else if (msg) {
-                this.addMessageElement(msg.text, msg.type);
+                // support update envelopes from session.updateMessage
+                if (msg.update && msg.requestId) {
+                    // find existing DOM element with matching requestId and update its content
+                    try {
+                        const el = this.conversation.querySelector(`[data-request-id="${msg.requestId}"]`);
+                        if (el) {
+                            const bubble = el.querySelector('.chat-bubble');
+                            if (bubble) bubble.innerHTML = this.escapeHtml(msg.text || '').replace(/\n/g, '<br>');
+                            // keep scroll bottom
+                            this.conversation.scrollTop = this.conversation.scrollHeight;
+                            return;
+                        }
+                    } catch (e) { /* ignore and fallthrough to add */ }
+                }
+                this.addMessageElement(msg.text, msg.type, msg.requestId);
             }
         };
         this.initDOM();
@@ -573,9 +644,10 @@ class ChatView {
         this.input.value = '';
     }
 
-    addMessageElement(text, type) {
+    addMessageElement(text, type, requestId) {
         const msg = document.createElement('div');
         msg.className = `chat-message ${type === 'user' ? 'user-message' : (type === 'ai' ? 'ai-message' : 'system-message')}`;
+        if (requestId) msg.setAttribute('data-request-id', String(requestId));
         const bubble = document.createElement('div');
         bubble.className = 'chat-bubble';
         bubble.innerHTML = this.escapeHtml(text).replace(/\n/g, '<br>');
@@ -675,6 +747,25 @@ class ChatView {
 }
 
 // main entry used by existing code
+
+// Global router for runHelpMePrompt events. Routes prompt requests to a single
+// authoritative session (default) unless `sessionId` is provided in event.detail.
+if (!window.chatHelpRouterInstalled) {
+    document.addEventListener('runHelpMePrompt', (e) => {
+        const d = (e && e.detail) ? e.detail : {};
+        const sessionId = d.sessionId || 'default';
+        try {
+            const session = ChatSession.get(sessionId);
+            if (session && typeof session.handleHelpMePrompt === 'function') {
+                session.handleHelpMePrompt(d.prompt, d.clicked_detail, d.help_level);
+            }
+        } catch (err) {
+            console.error('runHelpMePrompt router error', err);
+        }
+    });
+    window.chatHelpRouterInstalled = true;
+}
+
 function renderChat(container) {
     if (!container) return;
     // preserve id or generate one
