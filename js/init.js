@@ -69,6 +69,12 @@
             'maha_pl': 'Polish'
         };
 
+        // Declare available language codes
+        window.langcodes = {
+            'English': 'en',
+            'Polski': 'pl'
+        };
+
         // Declare available HTML modules
         const htmlModules = [
             'settings',
@@ -83,6 +89,9 @@
 
         // Ensure translation object exists
         window.translation = window.translation || {};
+
+        // Ensure promptsData object exists
+        window.promptsData = window.promptsData || {};
 
         // Helper to fetch JSON and assign a value safely
         function fetchJsonAssign(path, assignFn) {
@@ -124,8 +133,11 @@
                 jsonPromises.push(fetchJsonAssign(`data/${key}.json`, json => { window.translation[key] = json; }));
             }
         }
-        if (!window.promptsData) {
-            jsonPromises.push(fetchJsonAssign('data/prompts.json', json => { window.promptsData = json; }));
+        for (const key of Object.keys(window.translations)) {
+            const langCode = key.split('_')[1];
+            if (!window.promptsData[langCode]) {
+                jsonPromises.push(fetchJsonAssign(`data/prompts_${langCode}.json`, json => { window.promptsData[langCode] = json; }));
+            }
         }
 
         // Build promises for HTML modules

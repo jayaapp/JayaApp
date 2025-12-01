@@ -11,13 +11,17 @@
     }
 
     function loadPredefinedPrompts() {
-        if (window.promptsData) {
-            window.promptsData.forEach(p => {
+        PREDEFINED = [];
+        const appLang = localStorage.getItem('appLang') || 'English';
+        const langCode = window.langcodes && window.langcodes[appLang] ? window.langcodes[appLang] : 'en';
+        const promptsData = window.promptsData ? window.promptsData[langCode] || [] : [];
+        if (promptsData.length > 0) {
+            promptsData.forEach(p => {
                 PREDEFINED.push({
                     name: p.name,
                     type: p.type,
                     language: p.language,
-                    color: pickRainbowColor(PREDEFINED.length, window.promptsData.length),
+                    color: pickRainbowColor(PREDEFINED.length, promptsData.length),
                     text: p.text
                 });
             });
@@ -461,6 +465,10 @@
         bind();
         const ok = document.querySelector('.prompts-overlay') && document.querySelector('.prompts-panel');
         if (!ok && attempts > 0) setTimeout(()=>initPrompts(attempts-1), 100);
+
+        document.addEventListener('localeChanged', () => {
+            loadPredefinedPrompts();
+        });
     }
 
     window.initPrompts = initPrompts;
