@@ -218,6 +218,16 @@
                     <option value="" locale-id="select_model">Select a model...</option>
                 </select>
             </div>
+            <div class="setting-item">
+                <label for="ollama-chat-history" locale-id="chat_history">Chat History</label>
+                <select id="ollama-chat-history">
+                    <option value="none" locale-id="history_none">No history (only current prompt)</option>
+                    <option value="last_3" locale-id="history_last_3">Last 3 turns</option>
+                    <option value="last_6" locale-id="history_last_6">Last 6 turns</option>
+                    <option value="last_9" locale-id="history_last_9">Last 9 turns</option>
+                    <option value="full" locale-id="history_full">Full session (may be large)</option>
+                </select>
+            </div>
             <div class="settings-field">
                 <label for="ollama-system-prompt" locale-id="ollama_system_prompt">System Prompt</label>
                 <textarea id="ollama-system-prompt" placeholder="You are an assistant helping with the Mahabharata and Sanskrit studies."></textarea>

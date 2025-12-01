@@ -513,6 +513,7 @@ function initOllamaSettings() {
     const deleteKeyBtn = document.getElementById('delete-api-key-btn');
     const modelSelect = document.getElementById('ollama-model');
     const promptInput = document.getElementById('ollama-system-prompt');
+    const chatHistorySelect = document.getElementById('ollama-chat-history');
     const testBtn = panel ? panel.querySelector('.ai-test-btn') : null;
     const saveSettingsBtn = panel ? panel.querySelector('.ai-save-btn') : null;
     const statusIndicator = document.getElementById('ollama-status-indicator');
@@ -733,11 +734,13 @@ function initOllamaSettings() {
         const model = localStorage.getItem('ollamaModel') || '';
         const systemPrompt = localStorage.getItem('ollamaSystemPrompt') || 'You are an assistant helping with the Mahabharata and Sanskrit studies. Respond in the language of the user\'s query.';
         const crowdsourceAnalysis = localStorage.getItem('crowdsourceAnalysis') === 'true';
+        const chatHistory = localStorage.getItem('ollamaChatHistory') || 'last_6';
 
         if (serverTypeSelect) serverTypeSelect.value = serverType;
         if (serverUrlInput) serverUrlInput.value = serverUrl;
         if (promptInput) promptInput.value = systemPrompt;
         if (crowdsourceCheckbox) crowdsourceCheckbox.checked = crowdsourceAnalysis;
+        if (chatHistorySelect) chatHistorySelect.value = chatHistory;
 
         // Reflect UI for server type
         handleServerTypeChange();
@@ -749,6 +752,7 @@ function initOllamaSettings() {
     function saveSettings() {
         if (serverTypeSelect) localStorage.setItem('ollamaServerType', serverTypeSelect.value);
         if (crowdsourceCheckbox) localStorage.setItem('crowdsourceAnalysis', crowdsourceCheckbox.checked ? 'true' : 'false');
+        if (chatHistorySelect) localStorage.setItem('ollamaChatHistory', chatHistorySelect.value);
         if (serverUrlInput && modelSelect && promptInput) {
             localStorage.setItem('ollamaServerUrl', serverUrlInput.value.trim());
             localStorage.setItem('ollamaModel', modelSelect.value.trim());
@@ -854,6 +858,7 @@ function initOllamaSettings() {
         getModel: () => (localStorage.getItem('ollamaModel') || ''),
         getSystemPrompt: () => (localStorage.getItem('ollamaSystemPrompt') ||
             'You are an assistant helping with the Mahabharata and Sanskrit studies. Respond in the language of the user\'s query.'),
+        getChatHistorySetting: () => (localStorage.getItem('ollamaChatHistory') || 'last_6'),
         // Returns headers (may include Authorization and X-CSRF-Token) for cloud proxy calls
         getAuthHeaders: async () => {
             const headers = {};

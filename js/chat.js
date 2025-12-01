@@ -183,15 +183,48 @@ class ChatSession {
                 throw new Error('Ollama model not configured');
             }
 
-            // Build request body similar to legacy implementation
-            const requestBody = {
-                model: model,
-                messages: [
-                    { role: 'system', content: systemPrompt },
-                    { role: 'user', content: userMessage }
-                ],
-                stream: true
-            };
+            // Build request body, optionally including recent conversation history
+            const chatHistorySetting = (typeof settings.getChatHistorySetting === 'function') ?
+                settings.getChatHistorySetting() : (localStorage.getItem('ollamaChatHistory') || 'last_6');
+
+            // Helper to map stored messages to API roles
+            const mapMsg = (m) => ({ role: m.type === 'user' ? 'user' : (m.type === 'ai' ? 'assistant' : 'system'), content: m.text });
+
+            // Filter out empty AI placeholders (they have requestId and empty text)
+            const sessionMsgs = this.getMessages().filter(m => m && m.type && !((m.type === 'ai') && (!m.text || !m.text.trim())));
+
+            let apiMessages = [{ role: 'system', content: systemPrompt }];
+
+            if (chatHistorySetting === 'none') {
+                apiMessages.push({ role: 'user', content: userMessage });
+            } else if (chatHistorySetting === 'full') {
+                // include all previous non-placeholder messages
+                const mapped = sessionMsgs.map(mapMsg);
+                apiMessages = [{ role: 'system', content: systemPrompt }, ...mapped];
+                // If the current userMessage isn't already the last user message, append it
+                const last = sessionMsgs[sessionMsgs.length - 1];
+                const lastIsSameUser = last && last.type === 'user' && last.text === userMessage;
+                if (!lastIsSameUser) apiMessages.push({ role: 'user', content: userMessage });
+            } else {
+                // last_N -> interpret as N recent turns (user+assistant), e.g. last_3, last_6, last_9
+                let turns = 6; // default fallback
+                try {
+                    if (typeof chatHistorySetting === 'string' && chatHistorySetting.startsWith('last_')) {
+                        const parts = chatHistorySetting.split('_');
+                        const n = parseInt(parts[1], 10);
+                        if (!Number.isNaN(n) && n > 0) turns = n;
+                    }
+                } catch (e) { /* ignore and use default */ }
+                const maxEntries = turns * 2; // approximate user+ai pairs
+                const slice = sessionMsgs.slice(-maxEntries);
+                const mapped = slice.map(mapMsg);
+                apiMessages = [{ role: 'system', content: systemPrompt }, ...mapped];
+                const last = sessionMsgs[sessionMsgs.length - 1];
+                const lastIsSameUser = last && last.type === 'user' && last.text === userMessage;
+                if (!lastIsSameUser) apiMessages.push({ role: 'user', content: userMessage });
+            }
+
+            const requestBody = { model: model, messages: apiMessages, stream: true };
 
             // Determine API URL & headers
             let apiUrl;

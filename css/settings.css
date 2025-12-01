@@ -61,6 +61,9 @@
     font-family: inherit;
 }
 
+/* Chat history select sizing inside settings panel */
+#settings-panel #ollama-chat-history { max-width: 360px; }
+
 /* color controls layout */
 .theme-header {
     display: flex;
