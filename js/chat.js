@@ -199,6 +199,10 @@ class ChatView {
                     });
                     if (matchingPrompts.length > 0
                         && window.helpmeAPI) {
+                        if (window.highlightVerse) {
+                            window.highlightVerse(detail.verse, e.detail.lang,'sa');
+                            window.highlightVerse(detail.verse, e.detail.lang,'sa-Latn');
+                        }
                         window.helpmeAPI.open(matchingPrompts);
                     }
                 }
@@ -215,11 +219,21 @@ class ChatView {
                     const all = window.promptsAPI.getAllPrompts();
                     // Find prompts that have type property
                     // "Word" and language property matching clicked word lang
-                    const matchingPrompts = all.filter(p => {
+                    let matchingPrompts = all.filter(p => {
                         return p.type === 'Word' && p.language === word_language;
                     });
+                    if (word_language === 'Translation') {
+                        // Include also "Verse" type prompts for the same language translation
+                        const versePrompts = all.filter(p => {
+                            return p.type === 'Verse' && p.language === word_language;
+                        });
+                        matchingPrompts = matchingPrompts.concat(versePrompts);
+                    }
                     if (matchingPrompts.length > 0
                         && window.helpmeAPI) {
+                        if (window.highlightWord) {
+                            window.highlightWord(detail.verse, detail.word, detail.lang);
+                        }
                         window.helpmeAPI.open(matchingPrompts);
                     }
                 }

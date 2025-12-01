@@ -56,6 +56,9 @@
         overlay.classList.remove('active');
         panel.classList.remove('active');
         panel.setAttribute('aria-hidden','true');
+        if (window.dehighlightAll) {
+            window.dehighlightAll();
+        }
     }
 
     function bindEvents() {
