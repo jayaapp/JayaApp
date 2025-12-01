@@ -47,6 +47,25 @@
   color: var(--text-color, #111);
 }
 
+/* Help level select in header */
+#help-level-select {
+  margin-left: 8px;
+  margin-right: 8px;
+  font-size: 13px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(0,0,0,0.08);
+  background: var(--bg-color, #fff);
+  color: var(--text-color, #111);
+  height: 32px;
+}
+
+/* Place title + select on the left, close on the right */
+.helpme-header { gap: 8px; }
+.helpme-header > .helpme-title { display: inline-flex; align-items: center; }
+.helpme-header > #help-level-select { order: 2; }
+.helpme-header > .helpme-close { order: 3; margin-left: auto; }
+
 .helpme-body { padding: 8px; overflow: auto; }
 .helpme-list { display: flex; flex-direction: column; gap: 8px; }
 

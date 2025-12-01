@@ -29,7 +29,10 @@ function handleWordClick(e, container) {
                 detail: {
                     book: book,
                     chapter: chapter,
-                    verse: verseNumber
+                    verse: verseNumber,
+                    word: null,
+                    text: null,
+                    lang: null
                 }
             });
             document.dispatchEvent(event);

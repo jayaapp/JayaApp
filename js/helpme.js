@@ -2,6 +2,9 @@
     // helpme module: exposes helpmeInit() and window.helpmeAPI.open(prompts = [])
     let overlay, panel, listEl, closeBtn;
     let isInit = false;
+    let clickedPromptDetail = null;
+    let selectEl = null;
+    const STORAGE_KEY = 'jayaapp::helpme_level';
 
     function createItemElement(prompt) {
         const item = document.createElement('div');
@@ -18,7 +21,11 @@
 
         // click emits a document-level event with the full prompt object
         item.addEventListener('click', (e)=>{
-            const ev = new CustomEvent('runHelpMePrompt', { detail: prompt });
+            // Use the standard CustomEvent `detail` field so listeners
+            // receive the payload as `event.detail`. Include the selected
+            // help level code (non-localized) under `help_level`.
+            const level = (selectEl && selectEl.value) ? selectEl.value : (localStorage.getItem(STORAGE_KEY) || 'beginner');
+            const ev = new CustomEvent('runHelpMePrompt', { detail: { prompt: prompt, clicked_detail: clickedPromptDetail, help_level: level } });
             document.dispatchEvent(ev);
             close();
         });
@@ -37,7 +44,7 @@
         } catch(e) { return `rgba(0,0,0,${alpha})`; }
     }
 
-    function open(prompts = []) {
+    function open(prompts = [], clicked_detail = null) {
         if (!isInit) helpmeInit();
         // clear list
         listEl.innerHTML = '';
@@ -46,6 +53,13 @@
             const item = createItemElement(p);
             listEl.appendChild(item);
         });
+        // store clicked detail
+        clickedPromptDetail = clicked_detail;
+        // restore previously selected level if available
+        try {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (selectEl && stored) selectEl.value = stored;
+        } catch (e) { /* ignore */ }
         // show panel
         overlay.classList.add('active');
         panel.classList.add('active');
@@ -65,6 +79,11 @@
         overlay.addEventListener('click', close);
         closeBtn.addEventListener('click', close);
         document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') close(); });
+        if (selectEl) {
+            selectEl.addEventListener('change', () => {
+                try { localStorage.setItem(STORAGE_KEY, selectEl.value); } catch (e) { /* ignore */ }
+            });
+        }
     }
 
     function helpmeInit(attempts=6) {
@@ -72,6 +91,7 @@
         panel = document.querySelector('.helpme-panel');
         listEl = document.getElementById('helpme-list');
         closeBtn = panel ? panel.querySelector('.helpme-close') : null;
+        selectEl = panel ? panel.querySelector('#help-level-select') : null;
         if (!overlay || !panel || !listEl || !closeBtn) {
             if (attempts > 0) return setTimeout(()=>helpmeInit(attempts-1), 100);
             return; // give up

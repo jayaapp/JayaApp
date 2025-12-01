@@ -17,9 +17,11 @@ class ChatSession {
         this.id = id;
         this.messages = []; // { type: 'user'|'ai'|'system', text, timestamp }
         this.subscribers = new Set();
+        this.current_caller = null;
 
         document.addEventListener('runHelpMePrompt', (e) => {
-            console.log('runHelpMePrompt event received', e);
+            const d = (e && e.detail) ? e.detail : {};
+            this.handleHelpMePrompt(d.prompt, d.clicked_detail, d.help_level);
         });
     }
 
@@ -29,12 +31,129 @@ class ChatSession {
         return window.chatSessions[id];
     }
 
+    get_current_caller() {
+        return this.current_caller;
+    }
+
+    set_current_caller(caller) {
+        this.current_caller = caller;
+    }
+
+    handleHelpMePrompt(prompt, clicked_detail, help_level) {
+        // {Word} — the clicked word (Sanskrit or translation depending on context)
+        // {Word_Index} — the clicked word index in verse
+        // {Verse} — the clicked verse (Sanskrit or translation depending on context)
+        // {Devanagari_Verse} — the Sanskrit Devanagari verse text corresponding to the currently clicked word or verse
+        // {IAST_Verse} — the Sanskrit IAST verse text corresponding to the currently clicked word or verse
+        // {BCV} — the resolved Book Number, Chapter Number, Verse number of the clicked element
+        // {BCVW} — the resolved Book Number, Chapter Number, Verse number and Word number of the clicked Sanskrit word
+        // {Lang_Code} — the language code of the clicked element (sa - Devanagari, sa-Latn - IAST, en - English, pl - Polish, etc.)
+        // {Language} — the resolved language name of the clicked element
+        // {Student_Level} — the level of the proficiency: beginner, intermediate, advanced
+        // Let's now bild a map of placeholders to values
+        const placeholderMap = { Student_Level: help_level || 'beginner' };
+
+        // resolve clicked_detail values
+        const book = (clicked_detail && clicked_detail.book) ? clicked_detail.book : null;
+        const chapter = (clicked_detail && clicked_detail.chapter) ? clicked_detail.chapter : null;
+        const verse = (clicked_detail && clicked_detail.verse) ? clicked_detail.verse : null;
+        const lang = (clicked_detail && clicked_detail.lang) ? clicked_detail.lang : null;
+
+        // helper: find the verse DOM element
+        let verseEl = null;
+        try {
+            if (book && chapter && verse) {
+                verseEl = document.querySelector(`.line-entry[data-book="${book}"][data-chapter="${chapter}"][data-verse="${verse}"]`);
+            }
+        } catch (e) { verseEl = null; }
+
+        // extract available texts from DOM (Devanagari, IAST, and clicked-language translation)
+        const devanagariText = (verseEl && verseEl.querySelector('.verse-text[lang="sa"]')) ?
+            verseEl.querySelector('.verse-text[lang="sa"]').textContent.trim() : '';
+        const iastText = (verseEl && verseEl.querySelector('.verse-text[lang="sa-Latn"]')) ?
+            verseEl.querySelector('.verse-text[lang="sa-Latn"]').textContent.trim() : '';
+        const clickedLangText = (verseEl && lang) ?
+            (verseEl.querySelector(`.verse-text[lang="${lang}"]`) || {}).textContent : '';
+        const clickedLangTextTrim = (typeof clickedLangText === 'string') ? clickedLangText.trim() : '';
+
+        // pick the best Verse representation depending on clicked language
+        const pickVerseForLang = (code) => {
+            if (!code) return (devanagariText || iastText || clickedLangTextTrim || '');
+            if (code === 'sa') return devanagariText || iastText || clickedLangTextTrim || '';
+            if (code === 'sa-Latn') return iastText || devanagariText || clickedLangTextTrim || '';
+            // translation language
+            return clickedLangTextTrim || devanagariText || iastText || '';
+        };
+
+        // resolve human-readable language name if possible
+        const resolveLanguageName = (code) => {
+            try {
+                if (!code) return '';
+                if (window.translations && window.translations[code]) return window.translations[code];
+                // fallback to localeData language names if available (two-letter codes)
+                if (window.localeData && typeof window.localeData === 'object') {
+                    for (const loc of Object.keys(window.localeData)) {
+                        const mapping = window.localeData[loc];
+                        if (mapping && mapping[code]) return mapping[code];
+                    }
+                }
+            } catch (e) { /* ignore */ }
+            return code || '';
+        };
+
+        // fill placeholders common to both branches
+        placeholderMap['Verse'] = pickVerseForLang(lang);
+        placeholderMap['Devanagari_Verse'] = devanagariText || '';
+        placeholderMap['IAST_Verse'] = iastText || '';
+        placeholderMap['BCV'] = (book && chapter && verse) ? `${book}:${chapter}:${verse}` : '';
+        placeholderMap['Lang_Code'] = lang || '';
+        placeholderMap['Language'] = resolveLanguageName(lang);
+
+        if (clicked_detail.word) {
+            // word-specific placeholders (highest precision: use provided click info)
+            placeholderMap['Word'] = clicked_detail.text || '';
+            placeholderMap['Word_Index'] = clicked_detail.word || '';
+            placeholderMap['BCVW'] = (book && chapter && verse && clicked_detail.word) ? `${book}:${chapter}:${verse}:${clicked_detail.word}` : placeholderMap['BCV'];
+        } else {
+            // no specific word: synthesize reasonable defaults and leave word placeholders empty
+            placeholderMap['Word'] = '';
+            placeholderMap['Word_Index'] = '';
+            placeholderMap['BCVW'] = placeholderMap['BCV'];
+        }
+
+        // Now add user message to chat session
+        let userPromptText = '';
+        if (prompt.type === 'Verse') {
+            userPromptText = prompt.name + ': ' + placeholderMap['BCV'];
+        }
+        else if (prompt.type === 'Word') {
+            userPromptText = prompt.name + ': ' + placeholderMap['BCVW'] + ` (${placeholderMap['Word']})`;   
+        }
+        else {
+            throw new Error('Unknown prompt type: ' + prompt.type);
+        }
+        this.addMessage('user', userPromptText, false);
+
+        // Now take prompt text and replace all placeholders occurrences with values
+        console.log('Raw prompt:', prompt.text);
+        let finalPromptText = prompt.text || '';
+        for (const [ph, val] of Object.entries(placeholderMap)) {
+            const re = new RegExp(`\\{${ph}\\}`, 'g');
+            finalPromptText = finalPromptText.replace(re, val);
+        }
+        console.log('Final prompt:', finalPromptText);
+
+        // Finally fetch response using the fully expanded prompt text
+        this.fetchResponse(finalPromptText);
+    }
+
     async fetchResponse(userMessage, caller) {
         // Ollama server communication (local or cloud proxy).
         // This implementation accumulates the response and emits a single
         // AI message when complete. It mirrors the basic request/stream
         // pattern used in the legacy aichat implementation.
         try {
+            const caller = this.current_caller;
             if (caller && typeof caller.addThinkingIndicator === 'function') caller.addThinkingIndicator();
 
             // Resolve settings (prefer window.ollamaSettings if available)
@@ -145,19 +264,21 @@ class ChatSession {
             // emit an error AI message so UI can show it
             this.addMessage('ai', `Error: ${error.message}`);
         } finally {
+            const caller = this.current_caller;
             if (caller && typeof caller.removeThinkingIndicator === 'function') caller.removeThinkingIndicator();
         }
     }
 
-    addMessage(type, text, caller) {
+    addMessage(type, text, fetchResponse = false) {
         const msg = { type, text, timestamp: Date.now() };
         this.messages.push(msg);
         this.subscribers.forEach(cb => {
             try { cb(msg); } catch (e) { console.error('chat subscriber error', e); }
         });
 
-        if (type === 'user') {
-            this.fetchResponse(text, caller);
+        // For user messages, use the session's current caller (if any)
+        if (type === 'user' && fetchResponse) {
+            this.fetchResponse(text);
         }
 
         return msg;
@@ -204,6 +325,12 @@ class ChatView {
         this.session.getMessages().forEach(m => this.addMessageElement(m.text, m.type));
         this.session.subscribe(this.sessionCallback);
         this.bindEvents();
+        // Mark this view as the current caller when it becomes active
+        try {
+            this.container.addEventListener('focusin', () => { try { this.session.set_current_caller(this); } catch (e) {} });
+            this.container.addEventListener('click', () => { try { this.session.set_current_caller(this); } catch (e) {} });
+            if (this.input) this.input.addEventListener('focus', () => { try { this.session.set_current_caller(this); } catch (e) {} });
+        } catch (e) { /* silent */ }
         // Observe container size changes and update toolbar layout
         this.resizeObserver = new ResizeObserver(() => this.updateToolbarLayout());
         try { this.resizeObserver.observe(this.container); } catch (e) { /* silent */ }
@@ -332,7 +459,7 @@ class ChatView {
                             window.highlightVerse(detail.verse, e.detail.lang,'sa');
                             window.highlightVerse(detail.verse, e.detail.lang,'sa-Latn');
                         }
-                        window.helpmeAPI.open(matchingPrompts);
+                        window.helpmeAPI.open(matchingPrompts, detail);
                     }
                 }
             }
@@ -363,7 +490,7 @@ class ChatView {
                         if (window.highlightWord) {
                             window.highlightWord(detail.verse, detail.word, detail.lang);
                         }
-                        window.helpmeAPI.open(matchingPrompts);
+                        window.helpmeAPI.open(matchingPrompts, detail);
                     }
                 }
             }
@@ -438,8 +565,11 @@ class ChatView {
     handleSend() {
         const text = (this.input.value || '').trim();
         if (!text) return;
+        // Ensure this view is set as the current caller so the session
+        // can show thinking indicators on the correct view.
+        try { this.session.set_current_caller(this); } catch (e) { /* ignore */ }
         // Add to shared session so all views receive the message
-        this.session.addMessage('user', text, this);
+        this.session.addMessage('user', text);
         this.input.value = '';
     }
 
