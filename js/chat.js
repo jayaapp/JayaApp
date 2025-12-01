@@ -6,6 +6,9 @@
  - Lightweight API so main.js can call renderChat(container)
 */
 
+// Global debug flag: set `window.DEBUG_CHAT = true` in the console to enable.
+if (typeof window.DEBUG_CHAT === 'undefined') window.DEBUG_CHAT = true;
+
 // Keep instances per container so both orientations can maintain independent state
 window.chatInstances = window.chatInstances || {};
 
@@ -225,6 +228,17 @@ class ChatSession {
             }
 
             const requestBody = { model: model, messages: apiMessages, stream: true };
+
+            // DEBUG mode: skip real network call, wait 2000ms and show the prompt/request body as the AI response
+            try {
+                if (window.DEBUG_CHAT) {
+                    const debugText = 'DEBUG: would send request:\n' + JSON.stringify(requestBody, null, 2);
+                    // simulate network latency
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                    this.updateMessage(requestId, debugText);
+                    return;
+                }
+            } catch (e) { /* ignore debug path errors and continue */ }
 
             // Determine API URL & headers
             let apiUrl;
