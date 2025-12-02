@@ -205,6 +205,10 @@
         "bookmarks": "Bookmarks",
         "notes": "Notes",
         "edited_verses": "Edited Verses",
+        "saved_chats": "Saved Chats",
+        "no_chats": "No saved chats",
+        "chat_name_placeholder": "Chat name",
+        
         "no_corrections_to_submit": "No verse corrections to submit. Edit some verses first.",
         "corrections_submitted": "Verse corrections submission opened in new tab",
         "go_to_donation_summary": "Go to donation summary",
@@ -460,6 +464,10 @@
         "bookmarks": "Zakładki",
         "notes": "Notatki",
         "edited_verses": "Edytowane Wersety",
+        "saved_chats": "Zapisane czaty",
+        "no_chats": "Brak zapisanych czatów",
+        "chat_name_placeholder": "Nazwa czatu",
+        
         "no_corrections_to_submit": "Brak poprawek wersów do przesłania. Najpierw edytuj niektóre wersety.",
         "corrections_submitted": "Przesyłanie poprawek wersów otwarto w nowej karcie",
         "go_to_donation_summary": "Przejdź do podsumowania darowizny",

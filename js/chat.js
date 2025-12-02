@@ -757,8 +757,17 @@ class ChatView {
     }
 
     reset() {
-        // Clear shared session so all views clear
-        this.session.clear();
+        // Save the current session snapshot before clearing, then clear views
+        try {
+            if (window.chatAPI && typeof window.chatAPI.saveCurrentSessionAsNew === 'function') {
+                window.chatAPI.saveCurrentSessionAsNew();
+                document.dispatchEvent(new CustomEvent('savedChatAdded'));
+            }
+        } catch (e) { console.error(e); }
+        try {
+            this.clear();
+        } catch (e) { /* ignore */ }
+        try { this.session.clear(); } catch (e) { /* ignore */ }
     }
 
     // Layout update: detect when the input area is less than 70% of container width

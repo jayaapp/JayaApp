@@ -1,0 +1,16 @@
+/* Additional styling for Saved Chats if needed. Intentionally minimal since notes.css provides the core layout. */
+.chats-panel .list-row .chat-preview {
+    color: var(--text-color, #333);
+    font-size: 15px;
+    margin-bottom: 6px;
+}
+.chats-panel .list-row .chat-meta {
+    color: #6b7280;
+    font-size: 13px;
+}
+.chats-panel .list-row .rename-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 6px 8px;
+    font-size: 15px;
+}

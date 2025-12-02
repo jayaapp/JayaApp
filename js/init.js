@@ -82,6 +82,7 @@
             'notes',
             'edits',
             'lists',
+            'chats',
             'user',
             'helpme',
             'prompts'
@@ -193,6 +194,7 @@
                 try { if (window.initEdits) window.initEdits(); } catch (e) { console.error('initEdits error', e); }
                 try { if (window.initBookmarks) window.initBookmarks(); } catch (e) { console.error('initBookmarks error', e); }
                 try { if (window.initLists) window.initLists(); } catch (e) { console.error('initLists error', e); }
+                try { if (window.initChats) window.initChats(); } catch (e) { console.error('initChats error', e); }
                 try { if (window.initUserPanel) window.initUserPanel(); } catch (e) { console.error('initUserPanel error', e); }
                     try { if (window.initPrompts) window.initPrompts(); } catch (e) { console.error('initPrompts error', e); }
 
