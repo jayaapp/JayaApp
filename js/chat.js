@@ -438,12 +438,13 @@ class ChatSession {
     // Check whether Ollama settings appear configured/verified enough to run requests
     async isOllamaConfigured() {
         try {
-            const api = window.ollamaSettingsAPI;
-            if (!api) return false;
+            // Prefer settings API if provided, otherwise fall back to localStorage
+            const api = window.ollamaSettingsAPI || {};
             const model = (typeof api.getModel === 'function') ? api.getModel() : (localStorage.getItem('ollamaModel') || '');
             if (!model) return false;
             const serverType = (typeof api.getServerType === 'function') ? api.getServerType() : (localStorage.getItem('ollamaServerType') || 'local');
             if (serverType === 'cloud') {
+                // If settings API can provide auth headers, prefer that
                 if (typeof api.getAuthHeaders === 'function') {
                     try {
                         const headers = await api.getAuthHeaders();
@@ -451,14 +452,17 @@ class ChatSession {
                         return false;
                     } catch (e) { return false; }
                 }
+                // Fallback: if userManager has a session token, assume cloud proxy can use it
+                if (window.userManager && window.userManager.sessionToken) return true;
                 return false;
             }
-            // local server: ensure server URL present
+            // local server: ensure server URL present (API or localStorage)
             if (typeof api.getServerUrl === 'function') {
                 const url = api.getServerUrl();
-                return Boolean(url && String(url).trim());
+                if (url && String(url).trim()) return true;
             }
-            return false;
+            const storedUrl = localStorage.getItem('ollamaServerUrl') || '';
+            return Boolean(storedUrl && String(storedUrl).trim());
         } catch (e) { return false; }
     }
 
@@ -681,6 +685,10 @@ class ChatView {
         this.container.appendChild(this.toolbar);
         // Initialize toolbar enabled/disabled state based on Ollama config
         try { this.updateToolbarEnabledState && this.updateToolbarEnabledState(); } catch (e) { /* ignore */ }
+        // Start a short polling loop to re-check settings in case settings
+        // initialization runs after the chat view; this avoids a persistent
+        // disabled toolbar due to load-order races.
+        try { this.startToolbarRecheckPolling && this.startToolbarRecheckPolling(); } catch (e) { /* ignore */ }
     }
 
     bindEvents() {
@@ -816,6 +824,35 @@ class ChatView {
                 try { this.sendBtn.disabled = true; } catch (e) {}
                 try { this.input.disabled = true; this.input.readOnly = true; } catch (e) {}
             }
+        } catch (e) { /* ignore */ }
+    }
+
+    // Poll a few times shortly after init to handle load-order races where
+    // the settings module initializes after the chat view. Stops early when
+    // toolbar becomes enabled.
+    startToolbarRecheckPolling() {
+        try {
+            if (this._toolbarRecheckTimer) return;
+            let attempts = 8; // ~8 * 250ms = 2s
+            this._toolbarRecheckTimer = setInterval(async () => {
+                try {
+                    attempts -= 1;
+                    await this.updateToolbarEnabledState();
+                    const toolbar = this.toolbar;
+                    if (toolbar && !toolbar.classList.contains('disabled')) {
+                        clearInterval(this._toolbarRecheckTimer);
+                        this._toolbarRecheckTimer = null;
+                        return;
+                    }
+                    if (attempts <= 0) {
+                        clearInterval(this._toolbarRecheckTimer);
+                        this._toolbarRecheckTimer = null;
+                    }
+                } catch (e) {
+                    clearInterval(this._toolbarRecheckTimer);
+                    this._toolbarRecheckTimer = null;
+                }
+            }, 250);
         } catch (e) { /* ignore */ }
     }
 
