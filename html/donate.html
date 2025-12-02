@@ -1,0 +1,156 @@
+<!-- Donation panel -->
+<div class="donation-overlay"></div>
+<div class="donation-panel">
+    <div class="donation-panel-header">
+        <h2 class="donation-panel-title" locale-id="support_jayaapp">Support JayaApp Development</h2>
+        <div class="donation-panel-close">
+            <i class="material-symbols-outlined">close</i>
+        </div>
+    </div>
+    <div class="donation-panel-content">
+        <!-- Donation Form Stage 1 -->
+        <div id="donation-form-stage1" class="donation-stage">
+            <!-- Translation Sponsorship -->
+            <div class="sponsorship-section">
+                <h4 class="sponsorship-title">
+                    <i class="material-symbols-outlined">translate</i>
+                    <span locale-id="translation_sponsorship">Translation Sponsorship</span>
+                </h4>
+                <div class="sponsorship-row">
+                    <span locale-id="sponsor_translation_into">I would like to sponsor translation into</span>
+                    <select id="translation-language" class="donation-dropdown">
+                        <option value="" locale-id="select_language">Select language...</option>
+                    </select>
+                </div>
+                <div class="sponsorship-row amount-row">
+                    <span locale-id="at">at</span>
+                    <select id="translation-amount" class="donation-dropdown">
+                        <!-- Populated dynamically -->
+                    </select>
+                    <span>USD</span>
+                </div>
+                <div class="sponsorship-stats">
+                    <a href="#" class="stats-toggle" locale-id="see_language_support">
+                        See which languages received most support
+                        <i class="material-symbols-outlined">expand_more</i>
+                    </a>
+                    <div class="stats-content hidden">
+                        <div class="stats-list" id="language-stats">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GitHub Issue Sponsorship -->
+            <div class="sponsorship-section" id="github-issue-section">
+                <h4 class="sponsorship-title">
+                    <i class="material-symbols-outlined">bug_report</i>
+                    <span locale-id="github_issue_sponsorship">GitHub Issue Sponsorship</span>
+                </h4>
+                <div class="sponsorship-row">
+                    <span locale-id="sponsor_github_issue">GitHub issue</span>
+                    <select id="github-issue" class="donation-dropdown github-issue-select">
+                        <option value="" locale-id="select_issue">Select issue...</option>
+                    </select>
+                </div>
+                <div class="sponsorship-row amount-row">
+                    <span locale-id="at">at</span>
+                    <select id="github-amount" class="donation-dropdown">
+                        <!-- Populated dynamically -->
+                    </select>
+                    <span>USD</span>
+                    <div id="github-issue-link" class="github-issue-link" style="display: none;"></div>
+                </div>
+                <div class="sponsorship-stats">
+                    <a href="#" class="stats-toggle" locale-id="see_issue_support">
+                        See which GitHub issues received most support
+                        <i class="material-symbols-outlined">expand_more</i>
+                    </a>
+                    <div class="stats-content hidden">
+                        <div class="stats-list" id="issue-stats">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Campaign Sponsorships (dynamically rendered) -->
+            <div id="campaign-sections-container">
+                <!-- Campaigns will be rendered here by JavaScript -->
+            </div>
+
+            <!-- Free Expression of Appreciation -->
+            <div class="sponsorship-section">
+                <h4 class="sponsorship-title">
+                    <i class="material-symbols-outlined">volunteer_activism</i>
+                    <span locale-id="free_appreciation">Free Expression of Appreciation</span>
+                </h4>
+                <textarea id="appreciation-message" class="appreciation-textarea" 
+                            locale-id-placeholder="appreciation_message_placeholder" 
+                            placeholder="Your message (or empty)" rows="3"></textarea>
+                <div class="sponsorship-row amount-row">
+                    <label for="appreciation-amount" locale-id="amount">Amount:</label>
+                    <input type="number" id="appreciation-amount" class="amount-input" 
+                            min="0" step="0.01" value="0">
+                    <span id="appreciation-currency">USD</span>
+                </div>
+            </div>
+
+            <!-- Error Display -->
+            <div id="donation-error" class="donation-error"></div>
+
+            <!-- Final Message -->
+            <div class="donation-footer">
+                <p locale-id="donation_footer_message">
+                    All donations are gratefully received and help inspire the continued improvement of JayaApp!<br>
+                </p>
+            </div>
+
+            <!-- Go to Summary Button -->
+            <div class="donation-actions">
+                <button id="go-to-summary-btn" class="donation-summary-btn" locale-id="go_to_donation_summary">
+                    Go to donation summary
+                </button>
+            </div>
+        </div>
+
+        <!-- Donation Summary Stage 2 -->
+        <div id="donation-form-stage2" class="donation-stage hidden">
+            <div class="donation-summary-header">
+                <h3 locale-id="donation_summary">Donation Summary</h3>
+            </div>
+            
+            <div id="donation-summary-content" class="donation-summary-content">
+                <!-- Summary items will be populated dynamically -->
+            </div>
+            
+            <div class="donation-total">
+                <h4>
+                    <span locale-id="total_amount">Total Amount:</span>
+                    <span id="total-amount">$0.00</span>
+                </h4>
+            </div>
+
+            <!-- Error Display for Stage 2 -->
+            <div id="donation-error-stage2" class="donation-error"></div>
+
+            <!-- Final Message -->
+            <div class="donation-footer">
+                <p locale-id="donation_thankyou_message">
+                    Thank you from the heart!
+                </p>
+            </div>
+
+            <!-- PayPal Buttons Container -->
+            <div id="paypal-button-container"></div>
+
+            <!-- Back Button -->
+            <div class="donation-actions">
+                <button id="back-to-form-btn" class="donation-back-btn" locale-id="back_to_form">
+                    Back to form
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
