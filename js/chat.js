@@ -30,6 +30,21 @@ class ChatSession {
         this.isProcessingQueue = false;
         // ensure we display an initial system warning if Ollama settings are not configured
         try { this.ensureOllamaWarning && this.ensureOllamaWarning(); } catch (e) { /* ignore */ }
+
+        // Register a persistent authChanged listener so this session always
+        // re-checks Ollama config when login/logout happens. This complements
+        // the temporary listeners used inside ensureOllamaWarning().
+        try {
+            if (!this.persistentAuthListenerAdded) {
+                this.persistentAuthListener = async (ev) => {
+                    try {
+                        if (this.ensureOllamaWarning) await this.ensureOllamaWarning();
+                    } catch (e) { /* ignore */ }
+                };
+                document.addEventListener('authChanged', this.persistentAuthListener);
+                this.persistentAuthListenerAdded = true;
+            }
+        } catch (e) { /* ignore */ }
     }
 
     static get(id = 'default') {
@@ -519,8 +534,7 @@ class ChatSession {
             const localeListener = async () => {
                 try { await checkAndUpdate(); } catch (e) { /* ignore */ }
             };
-            const authListener = async () => {
-                console.log('authChanged detected, rechecking Ollama configuration');
+            const authListener = async (ev) => {
                 try { await checkAndUpdate(); } catch (e) { /* ignore */ }
             };
             try { document.addEventListener('localeChanged', localeListener); } catch (e) { /* ignore */ }
@@ -532,7 +546,7 @@ class ChatSession {
                 try {
                     attempts -= 1;
                     const nowOk = await checkAndUpdate();
-                    if (nowOk || attempts <= 0) {
+                        if (nowOk || attempts <= 0) {
                         clearInterval(interval);
                         try { document.removeEventListener('localeChanged', localeListener); } catch (e) { /* ignore */ }
                         try { document.removeEventListener('authChanged', authListener); } catch (e) { /* ignore */ }
@@ -665,6 +679,8 @@ class ChatView {
         // Put conversation and toolbar into container
         this.container.appendChild(this.conversation);
         this.container.appendChild(this.toolbar);
+        // Initialize toolbar enabled/disabled state based on Ollama config
+        try { this.updateToolbarEnabledState && this.updateToolbarEnabledState(); } catch (e) { /* ignore */ }
     }
 
     bindEvents() {
@@ -776,7 +792,31 @@ class ChatView {
                 window.getLocale('help_me') || 'Help me' : 'Help me';
             this.sendBtn.innerHTML = window.getLocale ?
                 window.getLocale('send') || 'Send' : 'Send';
+            try { this.updateToolbarEnabledState && this.updateToolbarEnabledState(); } catch (e) { /* ignore */ }
         });
+        // Re-check Ollama configuration when auth changes so toolbar toggles immediately
+        try { document.addEventListener('authChanged', () => { this.updateToolbarEnabledState && this.updateToolbarEnabledState(); }); } catch (e) { /* ignore */ }
+    }
+
+    // Enable or disable the lower toolbar depending on whether Ollama is configured
+    async updateToolbarEnabledState() {
+        try {
+            const ok = await this.session.isOllamaConfigured();
+            if (!this.toolbar) return;
+            if (ok) {
+                this.toolbar.classList.remove('disabled');
+                try { this.resetBtn.disabled = false; } catch (e) {}
+                try { this.helpMeBtn.disabled = false; } catch (e) {}
+                try { this.sendBtn.disabled = false; } catch (e) {}
+                try { this.input.disabled = false; this.input.readOnly = false; } catch (e) {}
+            } else {
+                this.toolbar.classList.add('disabled');
+                try { this.resetBtn.disabled = true; } catch (e) {}
+                try { this.helpMeBtn.disabled = true; } catch (e) {}
+                try { this.sendBtn.disabled = true; } catch (e) {}
+                try { this.input.disabled = true; this.input.readOnly = true; } catch (e) {}
+            }
+        } catch (e) { /* ignore */ }
     }
 
     resizeInput() {

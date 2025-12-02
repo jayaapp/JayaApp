@@ -55,6 +55,25 @@
     background: rgba(0,0,0,0.02);
 }
 
+/* Disabled toolbar state when Ollama is not configured */
+.chat-toolbar.disabled {
+    opacity: 0.65;
+    filter: grayscale(30%);
+}
+.chat-toolbar.disabled .chat-btn {
+    cursor: default;
+    opacity: 0.6;
+    pointer-events: none;
+}
+.chat-toolbar.disabled .chat-input {
+    background: rgba(255,255,255,0.01);
+    color: var(--text-color, #888);
+    border-color: rgba(0,0,0,0.04);
+}
+.chat-toolbar.disabled .chat-input::placeholder {
+    color: rgba(170,170,170,0.9);
+}
+
 .chat-toolbar-left, .chat-toolbar-right { display:flex; gap:6px; align-items:center; }
 .chat-toolbar-middle { flex: 1 1 auto; display:flex; }
 
