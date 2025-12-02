@@ -528,43 +528,35 @@ document.addEventListener('bookChapterChanged', () => {
             const book = String(Number(bookSelect.value));
             const chapter = String(Number(chapterSelect.value));
             const selector = `.line-entry[data-book="${book}"][data-chapter="${chapter}"][data-verse="1"]`;
-            // Prefer the element inside the visible text panel (horizontal/vertical)
-            let verseEl = null;
-            try {
-                const ph = document.getElementById('text-panel-horizontal');
-                const pv = document.getElementById('text-panel-vertical');
-                const isVisible = el => el && el.offsetParent !== null;
-                if (isVisible(ph)) verseEl = ph.querySelector(selector);
-                if (!verseEl && isVisible(pv)) verseEl = pv.querySelector(selector);
-                if (!verseEl) verseEl = document.querySelector(selector) || null;
-            } catch (e) {
-                verseEl = document.querySelector(selector) || null;
-            }
-            if (verseEl) {
-                // Align verse-number to top of visible panel (strict adjacency)
+
+            // For robustness, always attempt to rewind both panels to verse 1.
+            // If the verse element exists inside a panel, align its verse-number
+            // to the top of that panel; otherwise fall back to scrollTop=0.
+            ['text-panel-horizontal', 'text-panel-vertical'].forEach(panelId => {
                 try {
-                    const container = (verseEl.closest('#text-panel-horizontal') || verseEl.closest('#text-panel-vertical') || document.getElementById('text-panel-horizontal') || document.getElementById('text-panel-vertical'));
-                    const numSpan = verseEl.querySelector('.verse-number') || verseEl;
-                    if (container && numSpan) {
-                        const cRect = container.getBoundingClientRect();
-                        const eRect = numSpan.getBoundingClientRect();
-                        const delta = eRect.top - cRect.top;
-                        container.scrollTop = Math.round(container.scrollTop + delta);
+                    const panel = document.getElementById(panelId);
+                    if (!panel) return;
+                    const verseEl = panel.querySelector(selector);
+                    if (verseEl) {
+                        const numSpan = verseEl.querySelector('.verse-number') || verseEl;
+                        try {
+                            const cRect = panel.getBoundingClientRect();
+                            const eRect = numSpan.getBoundingClientRect();
+                            const delta = eRect.top - cRect.top;
+                            panel.scrollTop = Math.round(panel.scrollTop + delta);
+                        } catch (e) {
+                            try { verseEl.scrollIntoView({ behavior: 'auto', block: 'start' }); } catch (err) { verseEl.scrollIntoView(); }
+                        }
                     } else {
-                        try { verseEl.scrollIntoView({ behavior: 'auto', block: 'start' }); } catch(e) { verseEl.scrollIntoView(); }
+                        try { panel.scrollTop = 0; } catch (e) { /* ignore */ }
                     }
-                } catch (e) {
-                    try { verseEl.scrollIntoView({ behavior: 'auto', block: 'start' }); } catch(e) { verseEl.scrollIntoView(); }
-                }
-            } else {
-                // Fallback: scroll container to top
-                try { const ph = document.getElementById('text-panel-horizontal'); if (ph) ph.scrollTop = 0; } catch(e) {}
-                try { const pv = document.getElementById('text-panel-vertical'); if (pv) pv.scrollTop = 0; } catch(e) {}
-            }
+                } catch (e) { /* ignore per-panel errors */ }
+            });
+
             // Persist the fact the user navigated to start of chapter
             try { saveLastPosition(book, chapter, 1); } catch (e) { /* ignore */ }
         } catch (e) { /* ignore */ }
-    };
+    }
     // Wait for the next render completion
     document.addEventListener('versesRendered', onRendered, { once: true });
 
