@@ -255,7 +255,9 @@
         const chats = loadChats();
         const toExport = ids.length ? chats.filter(c=>ids.includes(c.id)) : chats;
         if (!toExport.length) {
-            alert(getLocale('no_chats') || 'No saved chats to export');
+            if (window.showAlert) {
+                window.showAlert(getLocale('no_chats') || 'No saved chats to export');
+            }
             return;
         }
         const payload = { exported_at: Date.now(), chats: toExport };
@@ -282,7 +284,11 @@
                 try {
                     const parsed = JSON.parse(String(e.target.result));
                     let incoming = Array.isArray(parsed) ? parsed : (parsed.chats || []);
-                    if (!incoming || !incoming.length) return alert('No chats found in file');
+                    if (!incoming || !incoming.length) {
+                        if (window.showAlert) {
+                            window.showAlert(getLocale('no_chats_found_in_file') || 'No chats found in file');
+                        }
+                    }
                     let existing = loadChats();
                     let added = 0, skipped = 0;
                     for (const inc of incoming) {
@@ -319,10 +325,14 @@
                     }
                     saveChats(existing);
                     render();
-                    alert(`${added} imported, ${skipped} skipped`);
+                    if (window.showAlert) {
+                        window.showAlert(`${added} ${window.getLocale("imported") || "imported"}, ${skipped} ${window.getLocale("skipped") || "skipped" }`);
+                    }
                 } catch (err) {
                     console.error(err);
-                    alert('Failed to import chats: ' + err.message);
+                    if (window.showAlert) {
+                        window.showAlert((window.getLocale("failed_to_import_chats") || "Failed to import chats:") + ' ' + err.message);A
+                    }
                 }
             };
             reader.readAsText(f);

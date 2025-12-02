@@ -208,6 +208,10 @@
         "saved_chats": "Saved Chats",
         "no_chats": "No saved chats",
         "chat_name_placeholder": "Chat name",
+        "no_chats_found_in_file" : "No saved chats found in file",
+        "imported": "imported",
+        "skipped": "skipped",
+        "failed_to_import_chats": "Failed to import chats:",
         
         "no_corrections_to_submit": "No verse corrections to submit. Edit some verses first.",
         "corrections_submitted": "Verse corrections submission opened in new tab",
@@ -467,6 +471,10 @@
         "saved_chats": "Zapisane czaty",
         "no_chats": "Brak zapisanych czatów",
         "chat_name_placeholder": "Nazwa czatu",
+        "no_chats_found_in_file" : "Nie znaleziono zapisanych czatów w pliku",
+        "imported": "zaimportowano",
+        "skipped": "pominięto",
+        "failed_to_import_chats": "Nie udało się zaimportować czatów:",
         
         "no_corrections_to_submit": "Brak poprawek wersów do przesłania. Najpierw edytuj niektóre wersety.",
         "corrections_submitted": "Przesyłanie poprawek wersów otwarto w nowej karcie",
