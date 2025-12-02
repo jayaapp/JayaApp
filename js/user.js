@@ -406,12 +406,21 @@ class UserManager {
         try {
             // Notify server about logout
             if (this.sessionToken) {
+                // Obtain CSRF token from server and include it in logout request
+                const csrf = await this.getCSRFToken();
+
+                const headers = {
+                    'Authorization': `Bearer ${this.sessionToken}`,
+                    'Accept': 'application/json'
+                };
+
+                if (csrf) {
+                    headers['X-CSRF-Token'] = csrf;
+                }
+
                 await fetch(`${GITHUB_CONFIG.serverURL}/auth/logout`, {
                     method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${this.sessionToken}`,
-                        'Accept': 'application/json'
-                    }
+                    headers: headers
                 });
             }
         } catch (error) {
