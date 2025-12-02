@@ -782,7 +782,7 @@ function initOllamaSettings() {
                     headers['Authorization'] = `Bearer ${keyData.api_key}`;
                 } catch (err) { showSettingsStatus(L('session_expired_cloud', 'Session expired. Please login again to use cloud features.'), 'error'); return; }
                 // For cloud, just verify model selection
-                if (model && model.length > 0) { showSettingsStatus(L('ollama_check_server_settings', 'Cloud configuration verified!'), 'success'); } else { showSettingsStatus(L('error_loading_data', 'Please select a cloud model'), 'error'); }
+                if (model && model.length > 0) { showSettingsStatus(L('ollama_server_settings_verified', 'Cloud configuration verified!'), 'success'); } else { showSettingsStatus(L('error_loading_data', 'Please select a cloud model'), 'error'); }
                 return;
             }
 

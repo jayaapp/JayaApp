@@ -28,6 +28,8 @@ class ChatSession {
         this.concurrent = true; // allow concurrent requests by default
         this.queue = [];
         this.isProcessingQueue = false;
+        // ensure we display an initial system warning if Ollama settings are not configured
+        try { this.ensureOllamaWarning && this.ensureOllamaWarning(); } catch (e) { /* ignore */ }
     }
 
     static get(id = 'default') {
@@ -417,6 +419,132 @@ class ChatSession {
 
     subscribe(cb) { this.subscribers.add(cb); }
     unsubscribe(cb) { this.subscribers.delete(cb); }
+
+    // Check whether Ollama settings appear configured/verified enough to run requests
+    async isOllamaConfigured() {
+        try {
+            const api = window.ollamaSettingsAPI;
+            if (!api) return false;
+            const model = (typeof api.getModel === 'function') ? api.getModel() : (localStorage.getItem('ollamaModel') || '');
+            if (!model) return false;
+            const serverType = (typeof api.getServerType === 'function') ? api.getServerType() : (localStorage.getItem('ollamaServerType') || 'local');
+            if (serverType === 'cloud') {
+                if (typeof api.getAuthHeaders === 'function') {
+                    try {
+                        const headers = await api.getAuthHeaders();
+                        if (headers && (headers.Authorization || headers.authorization)) return true;
+                        return false;
+                    } catch (e) { return false; }
+                }
+                return false;
+            }
+            // local server: ensure server URL present
+            if (typeof api.getServerUrl === 'function') {
+                const url = api.getServerUrl();
+                return Boolean(url && String(url).trim());
+            }
+            return false;
+        } catch (e) { return false; }
+    }
+
+    // Show an initial system message instructing how to configure Ollama when needed,
+    // and remove it once configuration appears valid. Polls briefly to detect changes.
+    async ensureOllamaWarning() {
+        try {
+            const warningExists = () => this.messages.some(m => m && m.type === 'system' && m._isOllamaWarning);
+
+            const getLocalized = () => {
+                try {
+                    const s = (window.getLocale ? window.getLocale('ollama_check_server_settings') : '') || '';
+                    if (s && String(s).trim()) return s;
+                } catch (e) { /* ignore */ }
+                return 'Please check your Ollama server settings and API key.';
+            };
+
+            const checkAndUpdate = async () => {
+                const ok = await this.isOllamaConfigured();
+                const localized = getLocalized();
+                if (!ok) {
+                    // ensure warning present
+                    if (!warningExists()) {
+                        const msg = { type: 'system', text: localized, timestamp: Date.now(), _isOllamaWarning: true };
+                        this.messages.unshift(msg);
+                        // notify subscribers about the new system message
+                        this.subscribers.forEach(cb => {
+                            try { cb(msg); } catch (e) { /* ignore */ }
+                        });
+                    } else {
+                        // update text if locale became available / changed
+                        const changed = this.messages.some(m => m && m._isOllamaWarning && m.text !== localized);
+                        if (changed) {
+                            this.messages = this.messages.map(m => {
+                                if (m && m._isOllamaWarning) return Object.assign({}, m, { text: localized });
+                                return m;
+                            });
+                            // refresh views by clearing and re-emitting
+                            this.subscribers.forEach(cb => {
+                                try { cb({ clear: true }); } catch (e) { /* ignore */ }
+                            });
+                            for (const m of this.messages) {
+                                this.subscribers.forEach(cb => {
+                                    try { cb(m); } catch (e) { /* ignore */ }
+                                });
+                            }
+                        }
+                    }
+                } else {
+                    // remove existing warning(s) and replay messages
+                    if (warningExists()) {
+                        this.messages = this.messages.filter(m => !(m && m.type === 'system' && m._isOllamaWarning));
+                        // notify subscribers to clear and re-emit current messages so views refresh
+                        this.subscribers.forEach(cb => {
+                            try { cb({ clear: true }); } catch (e) { /* ignore */ }
+                        });
+                        // re-emit existing messages in order
+                        for (const m of this.messages) {
+                            this.subscribers.forEach(cb => {
+                                try { cb(m); } catch (e) { /* ignore */ }
+                            });
+                        }
+                    }
+                }
+                return ok;
+            };
+
+            // run initially
+            let ok = await checkAndUpdate();
+            if (ok) return;
+
+            // listen for locale changes so we can update the warning text when localization becomes available
+            const localeListener = async () => {
+                try { await checkAndUpdate(); } catch (e) { /* ignore */ }
+            };
+            const authListener = async () => {
+                console.log('authChanged detected, rechecking Ollama configuration');
+                try { await checkAndUpdate(); } catch (e) { /* ignore */ }
+            };
+            try { document.addEventListener('localeChanged', localeListener); } catch (e) { /* ignore */ }
+            try { document.addEventListener('authChanged', authListener); } catch (e) { /* ignore */ }
+
+            // poll a few times to detect setting changes (e.g., user saves settings)
+            let attempts = 8;
+            const interval = setInterval(async () => {
+                try {
+                    attempts -= 1;
+                    const nowOk = await checkAndUpdate();
+                    if (nowOk || attempts <= 0) {
+                        clearInterval(interval);
+                        try { document.removeEventListener('localeChanged', localeListener); } catch (e) { /* ignore */ }
+                        try { document.removeEventListener('authChanged', authListener); } catch (e) { /* ignore */ }
+                    }
+                } catch (e) {
+                    clearInterval(interval);
+                    try { document.removeEventListener('localeChanged', localeListener); } catch (e) { /* ignore */ }
+                    try { document.removeEventListener('authChanged', authListener); } catch (e) { /* ignore */ }
+                }
+            }, 1500);
+        } catch (e) { /* ignore */ }
+    }
 }
 
 class ChatView {
@@ -473,6 +601,7 @@ class ChatView {
         this.updateToolbarLayout();
         // initial resize to ensure the textarea height fits single line
         this.resizeInput();
+
     }
 
     initDOM() {
@@ -714,7 +843,16 @@ class ChatView {
         if (requestId) msg.setAttribute('data-request-id', String(requestId));
         const bubble = document.createElement('div');
         bubble.className = 'chat-bubble';
-        bubble.innerHTML = this.escapeHtml(text).replace(/\n/g, '<br>');
+        // Render system messages as HTML (locale strings may include HTML); render others escaped.
+        try {
+            if (type === 'system') {
+                bubble.innerHTML = (text || '').replace(/\n/g, '<br>');
+            } else {
+                bubble.innerHTML = this.escapeHtml(text || '').replace(/\n/g, '<br>');
+            }
+        } catch (e) {
+            bubble.innerHTML = this.escapeHtml(text || '').replace(/\n/g, '<br>');
+        }
         msg.appendChild(bubble);
         this.conversation.appendChild(msg);
         // keep scroll bottom

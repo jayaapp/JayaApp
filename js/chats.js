@@ -292,10 +292,14 @@
                     let existing = loadChats();
                     let added = 0, skipped = 0;
                     for (const inc of incoming) {
-                        // ensure id
-                        if (!inc.id) inc.id = createId();
-                        // compute quick hash for incoming messages if not present
-                        try { if (!inc.hash) inc.hash = computeQuickHashForMessages(inc.messages || []); } catch (e) {}
+                            // ensure id
+                            if (!inc.id) inc.id = createId();
+                            // strip system messages from incoming chat before processing
+                            try { inc.messages = (inc.messages || []).filter(m => !(m && m.type === 'system')); } catch (e) { /* ignore */ }
+                            // skip imports that have no user messages
+                            if (!inc.messages || !inc.messages.length) { skipped++; continue; }
+                            // compute quick hash for incoming messages if not present
+                            try { if (!inc.hash) inc.hash = computeQuickHashForMessages(inc.messages || []); } catch (e) {}
 
                         // find existing by id or by matching hash or by identical messages as fallback
                         const found = existing.find(ei => {
@@ -459,10 +463,13 @@
                     const session = ChatSession.get();
                     const messages = session.getMessages ? session.getMessages() : session.messages || [];
                     if (!messages || !messages.length) return;
-                    // compute quick hash and check if identical exists
-                    const qh = computeQuickHashForMessages(messages || []);
+                    // exclude system messages for dedupe and last-opened snapshot
+                    const userMessages = (messages || []).filter(m => !(m && m.type === 'system'));
+                    if (!userMessages || !userMessages.length) return;
+                    // compute quick hash and check if identical exists (based on user messages only)
+                    const qh = computeQuickHashForMessages(userMessages || []);
                     const chats = loadChats();
-                    const found = chats.find(c => (c.hash && c.hash === qh) || stableStringify(normalizeMessages(c.messages || [])) === stableStringify(normalizeMessages(messages || [])));
+                    const found = chats.find(c => (c.hash && c.hash === qh) || stableStringify(normalizeMessages(c.messages || [])) === stableStringify(normalizeMessages(userMessages || [])));
                     if (found) {
                         try { localStorage.setItem(LAST_OPENED_KEY, found.id); } catch (e) {}
                         return;
@@ -482,7 +489,16 @@
         if (!chatObj.id) chatObj.id = createId();
         chatObj.modified = chatObj.modified || Date.now();
 
-        // compute quick hash if not present
+        // strip system messages before saving
+        try {
+            const filtered = (chatObj.messages || []).filter(m => !(m && m.type === 'system'));
+            chatObj.messages = filtered;
+        } catch (e) { /* ignore */ }
+
+        // don't save empty chats (only system messages)
+        if (!chatObj.messages || !chatObj.messages.length) return null;
+
+        // compute quick hash if not present (based on user messages only)
         try { if (!chatObj.hash) chatObj.hash = computeQuickHashForMessages(chatObj.messages || []); } catch (e) {}
 
         // if identical exists, replace if older. Match by id or by hash or fallback to messages equality
@@ -507,7 +523,10 @@
     window.chatAPI.saveCurrentSessionAsNew = (opts = {}) => {
         const session = ChatSession.get();
         const messages = session.getMessages ? session.getMessages() : session.messages || [];
-        const copy = JSON.parse(JSON.stringify(messages || []));
+        // exclude system messages from saved snapshot
+        const userMessages = (messages || []).filter(m => !(m && m.type === 'system'));
+        if (!userMessages || !userMessages.length) return null;
+        const copy = JSON.parse(JSON.stringify(userMessages || []));
         const name = opts.name || (copy[0] && copy[0].text ? copy[0].text.slice(0,120) : ('Chat ' + new Date().toLocaleString()));
         const obj = { id: createId(), name: name, messages: copy, modified: Date.now() };
         const id = window.chatAPI.saveChat(obj);

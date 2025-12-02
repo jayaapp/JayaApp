@@ -235,6 +235,7 @@ class UserManager {
                 // Clean up URL and open user panel to show successful login
                 this.cleanupOAuthUrl();
                 this.openUserPanel();
+                try { document.dispatchEvent(new CustomEvent('authChanged', { detail: { user: this.user } })); } catch (e) { /* ignore */ }
             } else {
                 console.error('OAuth authentication failed:', data.message || 'Unknown error');
                 throw new Error(data.message || 'OAuth callback failed');
@@ -266,6 +267,7 @@ class UserManager {
         this.updateUserIcon();
         this.saveUserToStorage();
         this.showAuthSuccess();
+        try { document.dispatchEvent(new CustomEvent('authChanged', { detail: { user: this.user } })); } catch (e) { /* ignore */ }
     }
 
     handleOAuthError(message) {
@@ -422,8 +424,9 @@ class UserManager {
         this.updateUserIcon();
         this.updatePanelState();
         this.hideOAuthStatus();
-        
+
         // Visual feedback is provided by the user panel state change
+        try { document.dispatchEvent(new CustomEvent('authChanged', { detail: { user: null } })); } catch (e) { /* ignore */ }
     }
 
     // UI helpers
