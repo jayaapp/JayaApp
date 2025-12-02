@@ -7,8 +7,8 @@
 
     const DEFAULTS = {
         location: 'bottom-left', // 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right'
-        h_margin: '0px',
-        v_margin: '44px',
+        h_margin: '2px',
+        v_margin: '2px',
         bg_color: 'orange',
         tx_color: 'darkblue',
         tx_font: '16px system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial',
