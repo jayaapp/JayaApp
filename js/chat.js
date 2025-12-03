@@ -7,7 +7,7 @@
 */
 
 // Global debug flag: set `window.DEBUG_CHAT = true` in the console to enable.
-if (typeof window.DEBUG_CHAT === 'undefined') window.DEBUG_CHAT = true;
+if (typeof window.DEBUG_CHAT === 'undefined') window.DEBUG_CHAT = false;
 
 // Keep instances per container so both orientations can maintain independent state
 window.chatInstances = window.chatInstances || {};
@@ -260,6 +260,20 @@ class ChatSession {
             // attach client_meta (from options.meta when provided) so backend and debug mode can see context
             const clientMeta = (options && options.meta) ? options.meta : { prompt_source: 'free_text' };
             requestBody.client_meta = clientMeta;
+
+            // include crowdsourcing flag so backend can opt-in/out of crowdsourced analysis
+            // Prefer a settings API if provided, otherwise fall back to localStorage key
+            try {
+                let enableCrowdsourcing = false;
+                if (settings && typeof settings.getCrowdsourceEnabled === 'function') {
+                    try { enableCrowdsourcing = !!settings.getCrowdsourceEnabled(); } catch (e) { enableCrowdsourcing = false; }
+                } else {
+                    enableCrowdsourcing = (localStorage.getItem('crowdsourceAnalysis') === 'true');
+                }
+                requestBody.enable_crowdsourcing = enableCrowdsourcing;
+            } catch (e) {
+                try { requestBody.enable_crowdsourcing = false; } catch (e) { /* ignore */ }
+            }
 
             // DEBUG mode: skip real network call, wait 2000ms and show the prompt/request body as the AI response
             try {
