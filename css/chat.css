@@ -25,9 +25,13 @@
 
 .ai-message { justify-content: flex-start; }
 .ai-message .chat-bubble {
-    background: rgba(255,255,255,0.06);
+    background: rgb(237, 222, 196, 0.5);
     color: var(--text-color, #eee);
     border: 1px solid rgba(255,255,255,0.04);
+}
+
+body.dark-theme .ai-message .chat-bubble {
+    background: rgb(87, 64, 36, 0.5);
 }
 
 .user-message { justify-content: flex-end; }
