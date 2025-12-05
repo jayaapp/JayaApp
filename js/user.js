@@ -9,7 +9,7 @@ const GITHUB_CONFIG = {
     repo: 'jayaapp/JayaApp',
     scopes: ['public_repo', 'read:user'],
     apiBaseURL: 'https://api.github.com',
-    serverURL: 'https://trueheartapps.com/jayaapp' // Your OAuth server URL
+    serverURL: 'https://jayaapp.trueheartapps.com' // Your OAuth server URL
 };
 
 // UserManager class

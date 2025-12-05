@@ -26,7 +26,7 @@ class DonationManager {
         this.idempotencyKey = null; // Idempotency key for preventing duplicates
         
         // API base URL - use the same deployment address as user functionality
-        this.API_BASE = 'https://trueheartapps.com/jayaapp';
+        this.API_BASE = 'https://jayaapp.trueheartapps.com';
         
         this.init();
     }
