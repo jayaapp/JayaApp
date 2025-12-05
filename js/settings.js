@@ -597,7 +597,7 @@ function initOllamaSettings() {
             try {
                 if (window.userManager && window.userManager.user) {
                     const listHeaders = (window.ollamaSettingsAPI && typeof window.ollamaSettingsAPI.getAuthHeaders === 'function') ? await window.ollamaSettingsAPI.getAuthHeaders() : { 'Authorization': (window.userManager && window.userManager.sessionToken) ? `Bearer ${window.userManager.sessionToken}` : '' };
-                    const resp = await fetch(`${GITHUB_CONFIG.serverURL}/api/ollama/list-models`, { headers: listHeaders });
+                    const resp = await fetch(`${GITHUB_CONFIG.serverURL}/ollama/list-models`, { headers: listHeaders });
                     if (resp.ok) {
                         const data = await resp.json();
                         if (data.models && Array.isArray(data.models) && data.models.length > 0) {
@@ -653,7 +653,7 @@ function initOllamaSettings() {
             showKeyStatus(L('key_status_checking', 'Checking API key...'), 'info');
             // Obtain auth headers (may include Authorization and X-CSRF-Token)
             const authHeaders = (window.ollamaSettingsAPI && typeof window.ollamaSettingsAPI.getAuthHeaders === 'function') ? await window.ollamaSettingsAPI.getAuthHeaders() : { 'Authorization': (window.userManager && window.userManager.sessionToken) ? `Bearer ${window.userManager.sessionToken}` : '' };
-            const resp = await fetch(`${GITHUB_CONFIG.serverURL}/api/ollama/check-key`, { headers: authHeaders });
+            const resp = await fetch(`${GITHUB_CONFIG.serverURL}/ollama/check-key`, { headers: authHeaders });
             const data = await resp.json();
             if (data.has_key) {
                 if (apiKeyInput) { apiKeyInput.value = '********'; apiKeyInput.disabled = true; }
@@ -692,7 +692,7 @@ function initOllamaSettings() {
             // Use settings API to obtain auth headers (includes CSRF token when available)
             const saveHeaders = (window.ollamaSettingsAPI && typeof window.ollamaSettingsAPI.getAuthHeaders === 'function') ? await window.ollamaSettingsAPI.getAuthHeaders() : { 'Authorization': (window.userManager && window.userManager.sessionToken) ? `Bearer ${window.userManager.sessionToken}` : '' };
             saveHeaders['Content-Type'] = 'application/json';
-            const resp = await fetch(`${GITHUB_CONFIG.serverURL}/api/ollama/store-key`, {
+            const resp = await fetch(`${GITHUB_CONFIG.serverURL}/ollama/store-key`, {
                 method: 'POST', headers: saveHeaders, body: JSON.stringify({ ollama_api_key: apiKey })
             });
             const data = await resp.json();
@@ -708,7 +708,7 @@ function initOllamaSettings() {
             showKeyStatus(L('key_status_deleting', 'Deleting API key...'), 'info');
             // Use settings API to obtain auth headers (includes CSRF token when available)
             const delHeaders = (window.ollamaSettingsAPI && typeof window.ollamaSettingsAPI.getAuthHeaders === 'function') ? await window.ollamaSettingsAPI.getAuthHeaders() : { 'Authorization': (window.userManager && window.userManager.sessionToken) ? `Bearer ${window.userManager.sessionToken}` : '' };
-            const resp = await fetch(`${GITHUB_CONFIG.serverURL}/api/ollama/delete-key`, { method: 'DELETE', headers: delHeaders });
+            const resp = await fetch(`${GITHUB_CONFIG.serverURL}/ollama/delete-key`, { method: 'DELETE', headers: delHeaders });
             const data = await resp.json();
             if (data.status === 'success') {
                 if (apiKeyInput) { apiKeyInput.value = ''; apiKeyInput.disabled = false; }
@@ -786,7 +786,7 @@ function initOllamaSettings() {
                 if (!window.userManager || !window.userManager.user) { showSettingsStatus(L('login_for_cloud', 'Please login to use cloud features'), 'error'); return; }
                 try {
                     const getKeyHeaders = (window.ollamaSettingsAPI && typeof window.ollamaSettingsAPI.getAuthHeaders === 'function') ? await window.ollamaSettingsAPI.getAuthHeaders() : { 'Authorization': (window.userManager && window.userManager.sessionToken) ? `Bearer ${window.userManager.sessionToken}` : '' };
-                    const keyResp = await fetch(`${GITHUB_CONFIG.serverURL}/api/ollama/get-key`, { headers: getKeyHeaders });
+                    const keyResp = await fetch(`${GITHUB_CONFIG.serverURL}/ollama/get-key`, { headers: getKeyHeaders });
                     const keyData = await keyResp.json();
                     if (!keyData.has_key) { showSettingsStatus(L('no_key_saved', 'Please save your Ollama API key in settings first'), 'error'); return; }
                     headers['Authorization'] = `Bearer ${keyData.api_key}`;

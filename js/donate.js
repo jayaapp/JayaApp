@@ -77,7 +77,7 @@ class DonationManager {
     async verifyStripePayment(sessionId) {
         try {
             // Call backend to verify and complete payment
-            const response = await fetch(`${this.API_BASE}/api/donation/execute-payment`, {
+            const response = await fetch(`${this.API_BASE}/donation/execute-payment`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -368,7 +368,7 @@ class DonationManager {
                 headers['Authorization'] = `Bearer ${sessionToken}`;
             }
             
-            const response = await fetch(`${this.API_BASE}/api/donation/create-payment`, {
+            const response = await fetch(`${this.API_BASE}/donation/create-payment`, {
                 method: 'POST',
                 headers: headers,
                 body: JSON.stringify({
@@ -629,7 +629,7 @@ class DonationManager {
             await this.loadWordsAnalysisData();
             
             // Try to fetch from backend API first
-            const response = await fetch(`${this.API_BASE}/api/donation/init`);
+            const response = await fetch(`${this.API_BASE}/donation/init`);
             if (response.ok) {
                 const apiData = await response.json();
                 if (apiData.success) {
@@ -670,7 +670,7 @@ class DonationManager {
     
     async loadCampaigns() {
         try {
-            const response = await fetch(`${this.API_BASE}/api/donation/campaigns`);
+            const response = await fetch(`${this.API_BASE}/donation/campaigns`);
             if (response.ok) {
                 const data = await response.json();
                 console.log('Campaigns API response:', data);
@@ -1241,7 +1241,7 @@ class DonationManager {
                 endpoint = 'issues'; // fallback
             }
             
-            const response = await fetch(`${this.API_BASE}/api/donation/stats/${endpoint}`);
+            const response = await fetch(`${this.API_BASE}/donation/stats/${endpoint}`);
             
             if (response.ok) {
                 const data = await response.json();
@@ -1539,7 +1539,7 @@ class DonationManager {
                         headers['Authorization'] = `Bearer ${sessionToken}`;
                     }
                     
-                    const response = await fetch(`${this.API_BASE}/api/donation/create-payment`, {
+                    const response = await fetch(`${this.API_BASE}/donation/create-payment`, {
                         method: 'POST',
                         headers: headers,
                         body: JSON.stringify({
@@ -1578,7 +1578,7 @@ class DonationManager {
             onApprove: async (data, actions) => {
                 try {
                     // Call backend to capture the payment
-                    const response = await fetch(`${this.API_BASE}/api/donation/execute-payment`, {
+                    const response = await fetch(`${this.API_BASE}/donation/execute-payment`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'

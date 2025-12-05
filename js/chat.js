@@ -292,7 +292,7 @@ class ChatSession {
 
             if (serverType === 'cloud') {
                 // Use backend proxy
-                apiUrl = `${GITHUB_CONFIG.serverURL}/api/ollama/proxy-chat`;
+                apiUrl = `${GITHUB_CONFIG.serverURL}/ollama/proxy-chat`;
                 if (typeof settings.getAuthHeaders === 'function') {
                     const auth = await settings.getAuthHeaders();
                     Object.assign(headers, auth);
