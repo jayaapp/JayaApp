@@ -85,7 +85,6 @@
             'chats',
             'user',
             'helpme',
-            'donate',
             'prompts'
         ];
 
