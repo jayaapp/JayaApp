@@ -13,7 +13,17 @@ function applyLocalization() {
     });
 
     // Notify navigation module about language change
-    document.dispatchEvent(new Event('localeChanged'));
+    // Include language details: appLang (e.g., 'English', 'Polski') and langCode (e.g., 'en', 'pl')
+    const langCodeMap = {
+        'English': 'en',
+        'Polski': 'pl'
+    };
+    document.dispatchEvent(new CustomEvent('localeChanged', {
+        detail: {
+            appLang: currentLang,
+            langCode: langCodeMap[currentLang] || 'en'
+        }
+    }));
 }
 
 // Font controls: wire UI to localStorage and CSS variables

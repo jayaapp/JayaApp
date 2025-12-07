@@ -22,7 +22,6 @@ class DonationManager {
     this.language = options.language || 'en';
     this.onSuccess = options.onSuccess || (() => {});
     this.onError = options.onError || (() => {});
-    this.darkMode = options.darkMode || false;
     
     // Progress callbacks for campaigns (app-specific)
     this.progressCallbacks = options.progressCallbacks || {};
@@ -83,12 +82,10 @@ class DonationManager {
     // Create overlay
     this.overlay = document.createElement('div');
     this.overlay.className = 'thd-overlay';
-    if (this.darkMode) this.overlay.classList.add('thd-dark');
     
     // Create panel
     this.panel = document.createElement('div');
     this.panel.className = 'thd-panel';
-    if (this.darkMode) this.panel.classList.add('thd-dark');
     
     this.panel.innerHTML = this.renderPanelHTML();
     
@@ -360,6 +357,14 @@ class DonationManager {
     this.panel.querySelector('[data-thd-close]')?.addEventListener('click', () => this.close());
     this.overlay.addEventListener('click', () => this.close());
     
+    // ESC key to close
+    this.escHandler = (e) => {
+      if (e.key === 'Escape' && this.panel.classList.contains('active')) {
+        this.close();
+      }
+    };
+    document.addEventListener('keydown', this.escHandler);
+    
     // Summary button
     this.panel.querySelector('[data-thd-summary-btn]')?.addEventListener('click', () => this.goToSummary());
     
@@ -384,6 +389,85 @@ class DonationManager {
           }
         }
       });
+    });
+    
+    // Listen for locale changes
+    this.localeChangeHandler = (e) => {
+      if (e.detail && e.detail.langCode) {
+        const langMap = {
+          'en': 'en',
+          'pl': 'pl'
+        };
+        const newLang = langMap[e.detail.langCode] || 'en';
+        if (newLang !== this.language) {
+          this.language = newLang;
+          this.updateUILanguage();
+        }
+      }
+    };
+    document.addEventListener('localeChanged', this.localeChangeHandler);
+  }
+  
+  updateUILanguage() {
+    // Update panel title
+    const titleEl = this.panel.querySelector('.thd-title');
+    if (titleEl) {
+      const strings = this.definition?.ui_strings?.[this.language] || this.definition?.ui_strings?.en || {};
+      const appName = this.definition?.app?.name || 'App';
+      titleEl.textContent = strings.support_app || `Support ${appName} Development`;
+    }
+    
+    // Re-render categories to update all localized strings
+    const container = this.panel.querySelector('[data-thd-categories]');
+    if (container) {
+      container.innerHTML = '';
+      this.renderCategories();
+      
+      // Re-bind stats toggles for new elements
+      this.panel.querySelectorAll('[data-stats-toggle]').forEach(toggle => {
+        toggle.addEventListener('click', (e) => {
+          e.preventDefault();
+          const section = toggle.closest('.thd-section');
+          const content = section?.querySelector('[data-stats-content]');
+          const icon = toggle.querySelector('.thd-toggle-icon');
+          
+          if (content) {
+            content.classList.toggle('expanded');
+            if (icon) icon.textContent = content.classList.contains('expanded') ? '▲' : '▼';
+            
+            if (content.classList.contains('expanded') && !content.innerHTML) {
+              this.loadStats(section.dataset.categoryId, content);
+            }
+          }
+        });
+      });
+    }
+    
+    // Update summary view if visible
+    if (this.currentStage === 2) {
+      const summary = this.collectDonations();
+      this.renderSummary(summary);
+    }
+    
+    // Update other UI strings
+    const strings = this.definition?.ui_strings?.[this.language] || this.definition?.ui_strings?.en || {};
+    
+    const summaryBtn = this.panel.querySelector('[data-thd-summary-btn]');
+    if (summaryBtn) summaryBtn.textContent = strings.go_to_donation_summary || 'Go to donation summary';
+    
+    const backBtn = this.panel.querySelector('[data-thd-back-btn]');
+    if (backBtn) backBtn.textContent = strings.back_to_form || 'Back to form';
+    
+    const summaryHeader = this.panel.querySelector('.thd-summary-header h3');
+    if (summaryHeader) summaryHeader.textContent = strings.donation_summary || 'Donation Summary';
+    
+    const totalLabel = this.panel.querySelector('.thd-total h4 span:first-child');
+    if (totalLabel) totalLabel.textContent = strings.total_amount || 'Total Amount';
+    
+    const footers = this.panel.querySelectorAll('.thd-footer p');
+    footers.forEach((footer, idx) => {
+      if (idx === 0) footer.textContent = strings.donation_footer_message || 'All donations are gratefully received!';
+      if (idx === 1) footer.textContent = strings.donation_thankyou_message || 'Thank you from the heart!';
     });
   }
   
@@ -715,6 +799,12 @@ class DonationManager {
   }
   
   destroy() {
+    if (this.escHandler) {
+      document.removeEventListener('keydown', this.escHandler);
+    }
+    if (this.localeChangeHandler) {
+      document.removeEventListener('localeChanged', this.localeChangeHandler);
+    }
     this.overlay?.remove();
     this.panel?.remove();
   }
@@ -760,15 +850,11 @@ function initJayaAppDonation() {
   // Determine current language
   const currentLang = window.currentLanguage === 'Polski' ? 'pl' : 'en';
   
-  // Determine dark mode
-  const isDarkMode = document.body.classList.contains('dark-theme');
-  
   // Initialize DonationManager with JayaApp config
   donationManager = new DonationManager({
     appId: 'jayaapp',
     apiBase: 'https://trueheartapps.com/donate',
     language: currentLang,
-    darkMode: isDarkMode,
     
     // Pass app-specific progress callbacks
     progressCallbacks: {

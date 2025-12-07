@@ -7,8 +7,8 @@
 :root {
   --thd-bg-color: #ffffff;
   --thd-text-color: #333333;
-  --thd-primary-color: #007bff;
-  --thd-primary-hover: #0056b3;
+  --thd-primary-color: #00a2ff;
+  --thd-primary-hover: #004b5c;
   --thd-border-color: #e0e0e0;
   --thd-panel-bg: #ffffff;
   --thd-overlay-color: rgba(0, 0, 0, 0.5);
@@ -16,12 +16,13 @@
   --thd-error-color: #dc3545;
 }
 
-/* Dark theme override */
-.thd-dark {
-  --thd-bg-color: #1a1a1a;
+/* Dark theme override - matches body.dark-theme pattern from main app */
+body.dark-theme .thd-overlay,
+body.dark-theme .thd-panel {
+  --thd-bg-color: #121212;
   --thd-text-color: #e0e0e0;
   --thd-border-color: #444444;
-  --thd-panel-bg: #2d2d2d;
+  --thd-panel-bg: #1e1e1e;
   --thd-overlay-color: rgba(0, 0, 0, 0.7);
 }
 
