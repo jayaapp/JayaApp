@@ -45,7 +45,7 @@ class DonationManager {
   async init() {
     try {
       // Fetch app definition
-      const response = await fetch(`${this.apiBase}/donation/init?app_id=${this.appId}`);
+      const response = await fetch(`${this.apiBase}/init?app_id=${this.appId}`);
       if (!response.ok) throw new Error(`Failed to load donation config: ${response.status}`);
       
       const result = await response.json();
@@ -321,7 +321,7 @@ class DonationManager {
   
   async loadCampaigns() {
     try {
-      const response = await fetch(`${this.apiBase}/donation/campaigns?app_id=${this.appId}`);
+      const response = await fetch(`${this.apiBase}/campaigns?app_id=${this.appId}`);
       if (!response.ok) return;
       
       const result = await response.json();
@@ -389,7 +389,7 @@ class DonationManager {
   
   async loadStats(category, container) {
     try {
-      const response = await fetch(`${this.apiBase}/donation/stats/${category}?app_id=${this.appId}`);
+      const response = await fetch(`${this.apiBase}/stats/${category}?app_id=${this.appId}`);
       const result = await response.json();
       
       if (!result.success || !result.stats?.length) {
@@ -537,7 +537,7 @@ class DonationManager {
         this.idempotencyKey = this.generateIdempotencyKey();
         
         // Create combined payment
-        const response = await fetch(`${this.apiBase}/donation/create-payment`, {
+        const response = await fetch(`${this.apiBase}/create-payment`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -557,7 +557,7 @@ class DonationManager {
       },
       
       onApprove: async (data) => {
-        const response = await fetch(`${this.apiBase}/donation/execute-payment`, {
+        const response = await fetch(`${this.apiBase}/execute-payment`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ order_id: data.orderID })
@@ -600,7 +600,7 @@ class DonationManager {
       try {
         this.idempotencyKey = this.generateIdempotencyKey();
         
-        const response = await fetch(`${this.apiBase}/donation/create-payment`, {
+        const response = await fetch(`${this.apiBase}/create-payment`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -639,7 +639,7 @@ class DonationManager {
     
     if (donationStatus === 'success' && sessionId) {
       try {
-        const response = await fetch(`${this.apiBase}/donation/execute-payment`, {
+        const response = await fetch(`${this.apiBase}/execute-payment`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ session_id: sessionId })
