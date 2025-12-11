@@ -270,9 +270,29 @@
                 selected.forEach(row => {
                     const type = row.dataset.type;
                     const b = row.dataset.book, c = row.dataset.chapter, v = row.dataset.verse, lang = row.dataset.lang;
-                    if (type === 'notes' && window.notesAPI && window.notesAPI.removeNote) window.notesAPI.removeNote(b,c,v);
-                    if (type === 'verses' && window.editsAPI && window.editsAPI.removeEdit) window.editsAPI.removeEdit(b,c,v);
-                    if (type === 'bookmarks' && window.bookmarksAPI && window.bookmarksAPI.removeBookmark) window.bookmarksAPI.removeBookmark(b,c,v);
+                    const itemId = `${b}:${c}:${v}`;
+                    
+                    if (type === 'notes' && window.notesAPI && window.notesAPI.removeNote) {
+                        window.notesAPI.removeNote(b,c,v);
+                        // Track deletion for sync
+                        if (window.syncUI && window.syncUI.addDeletionEvent) {
+                            window.syncUI.addDeletionEvent(itemId, 'note');
+                        }
+                    }
+                    if (type === 'verses' && window.editsAPI && window.editsAPI.removeEdit) {
+                        window.editsAPI.removeEdit(b,c,v);
+                        // Track deletion for sync
+                        if (window.syncUI && window.syncUI.addDeletionEvent) {
+                            window.syncUI.addDeletionEvent(itemId, 'editedVerse');
+                        }
+                    }
+                    if (type === 'bookmarks' && window.bookmarksAPI && window.bookmarksAPI.removeBookmark) {
+                        window.bookmarksAPI.removeBookmark(b,c,v);
+                        // Track deletion for sync
+                        if (window.syncUI && window.syncUI.addDeletionEvent) {
+                            window.syncUI.addDeletionEvent(itemId, 'bookmark');
+                        }
+                    }
                 });
                 if (window.updateText) window.updateText();
                 render();

@@ -103,6 +103,11 @@
                 setNote(current.book, current.chapter, current.verse, text);
             } else {
                 removeNote(current.book, current.chapter, current.verse);
+                // Track deletion for sync
+                if (window.syncUI && window.syncUI.addDeletionEvent) {
+                    const itemId = `${current.book}:${current.chapter}:${current.verse}`;
+                    window.syncUI.addDeletionEvent(itemId, 'note');
+                }
             }
             hideEditor();
             // re-render icons
@@ -126,6 +131,11 @@
             else if (Date.now() - last_delete_click_time <= 1500) {
                 if (!current) return;
                 removeNote(current.book, current.chapter, current.verse);
+                // Track deletion for sync
+                if (window.syncUI && window.syncUI.addDeletionEvent) {
+                    const itemId = `${current.book}:${current.chapter}:${current.verse}`;
+                    window.syncUI.addDeletionEvent(itemId, 'note');
+                }
                 hideEditor();
                 if (window.updateText) window.updateText();
                 last_delete_click_time = 0;

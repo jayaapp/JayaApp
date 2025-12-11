@@ -79,6 +79,11 @@
             const verse = verseEl.dataset.verse;
             if (getBookmark(book, chapter, verse)) {
                 removeBookmark(book, chapter, verse);
+                // Track deletion for sync
+                if (window.syncUI && window.syncUI.addDeletionEvent) {
+                    const itemId = `${book}:${chapter}:${verse}`;
+                    window.syncUI.addDeletionEvent(itemId, 'bookmark');
+                }
             } else {
                 setBookmark(book, chapter, verse);
             }
@@ -95,6 +100,11 @@
             const chapter = icon.dataset.chapter;
             const verse = icon.dataset.verse;
             removeBookmark(book, chapter, verse);
+            // Track deletion for sync
+            if (window.syncUI && window.syncUI.addDeletionEvent) {
+                const itemId = `${book}:${chapter}:${verse}`;
+                window.syncUI.addDeletionEvent(itemId, 'bookmark');
+            }
             if (window.updateText) window.updateText();
         });
     }

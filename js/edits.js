@@ -157,10 +157,16 @@
             const edits = loadEdits();
             if (edits[b] && edits[b][c] && edits[b][c][v] && edits[b][c][v][lang]) {
                 delete edits[b][c][v][lang];
-                if (Object.keys(edits[b][c][v]).length === 0) delete edits[b][c][v];
+                const isVerseFullyDeleted = Object.keys(edits[b][c][v]).length === 0;
+                if (isVerseFullyDeleted) delete edits[b][c][v];
                 if (Object.keys(edits[b][c]).length === 0) delete edits[b][c];
                 if (Object.keys(edits[b]).length === 0) delete edits[b];
                 saveEdits(edits);
+                // Track deletion for sync only if entire verse edit is deleted
+                if (isVerseFullyDeleted && window.syncUI && window.syncUI.addDeletionEvent) {
+                    const itemId = `${b}:${c}:${v}`;
+                    window.syncUI.addDeletionEvent(itemId, 'editedVerse');
+                }
             }
             hideEditor();
             if (window.updateText) window.updateText();
