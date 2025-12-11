@@ -413,7 +413,15 @@
         const found = PREDEFINED.find(p => p.name === parts[0] && p.type === parts[1] && p.language === parts[2]);
         if (found) { if (window.showAlert) window.showAlert('Cannot delete predefined prompt'); return; }
         const user = loadUserPrompts();
-        if (user[key]) { delete user[key]; saveUserPrompts(user); renderNames(); }
+        if (user[key]) {
+            delete user[key];
+            saveUserPrompts(user);
+            // Track deletion for sync
+            if (window.syncUI && window.syncUI.addDeletionEvent) {
+                window.syncUI.addDeletionEvent(key, 'prompt');
+            }
+            renderNames();
+        }
     }
 
     function doRestore() {
@@ -425,7 +433,15 @@
         if (!found) return;
         const user = loadUserPrompts();
         const ukey = key;
-        if (user[ukey]) { delete user[ukey]; saveUserPrompts(user); renderNames(ukey); }
+        if (user[ukey]) {
+            delete user[ukey];
+            saveUserPrompts(user);
+            // Track deletion for sync (removing override)
+            if (window.syncUI && window.syncUI.addDeletionEvent) {
+                window.syncUI.addDeletionEvent(ukey, 'prompt');
+            }
+            renderNames(ukey);
+        }
     }
 
     function onExport() {

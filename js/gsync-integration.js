@@ -284,12 +284,14 @@ window.addEventListener('load', async () => {
                 const appBookmarks = (window.bookmarksAPI && window.bookmarksAPI.loadBookmarks) ? window.bookmarksAPI.loadBookmarks() : JSON.parse(localStorage.getItem('jayaapp:bookmarks') || '{}');
                 const appNotes = (window.notesAPI && window.notesAPI.loadNotes) ? window.notesAPI.loadNotes() : JSON.parse(localStorage.getItem('jayaapp:notes') || '{}');
                 const appEdits = (window.editsAPI && window.editsAPI.loadEdits) ? window.editsAPI.loadEdits() : JSON.parse(localStorage.getItem('jayaapp:edits') || '{}');
+                const appPrompts = (window.promptsAPI && window.promptsAPI.loadUserPrompts) ? window.promptsAPI.loadUserPrompts() : JSON.parse(localStorage.getItem('jayaapp:prompts') || '{}');
 
                 // Backup any existing keys the UI uses so we can restore/cleanup
                 const backup = {
                     bookmarks: localStorage.getItem('bookmarks'),
                     jayaapp_notes: localStorage.getItem('jayaapp_notes'),
-                    editedVerses: localStorage.getItem('editedVerses')
+                    editedVerses: localStorage.getItem('editedVerses'),
+                    jayaapp_prompts: localStorage.getItem('jayaapp_prompts')
                 };
 
                 try {
@@ -297,6 +299,8 @@ window.addEventListener('load', async () => {
                     localStorage.setItem('bookmarks', JSON.stringify(flattenBookmarks(appBookmarks)));
                     localStorage.setItem('jayaapp_notes', JSON.stringify(flattenNotes(appNotes)));
                     localStorage.setItem('editedVerses', JSON.stringify(flattenEdits(appEdits)));
+                    // prompts are already flat, just copy them
+                    localStorage.setItem('jayaapp_prompts', JSON.stringify(appPrompts));
 
                     // call original sync flow (handles deletions/merge/upload)
                     await window.syncUI._performCompleteSyncOrig();
@@ -305,6 +309,7 @@ window.addEventListener('load', async () => {
                     const mergedBookmarks = JSON.parse(localStorage.getItem('bookmarks') || '{}');
                     const mergedNotes = JSON.parse(localStorage.getItem('jayaapp_notes') || '{}');
                     const mergedEdits = JSON.parse(localStorage.getItem('editedVerses') || '{}');
+                    const mergedPrompts = JSON.parse(localStorage.getItem('jayaapp_prompts') || '{}');
 
                     // Clear app-side structures and repopulate from merged
                     // Bookmarks (preserve timestamps)
@@ -352,11 +357,19 @@ window.addEventListener('load', async () => {
                     }
                     if (!window.editsAPI) localStorage.setItem('jayaapp:edits', JSON.stringify(newEdits));
 
+                    // Prompts (already flat structure, just persist)
+                    localStorage.setItem('jayaapp:prompts', JSON.stringify(mergedPrompts));
+                    // Save using API if available to ensure consistency
+                    if (window.promptsAPI && window.promptsAPI.saveUserPrompts) {
+                        window.promptsAPI.saveUserPrompts(mergedPrompts);
+                    }
+
                 } finally {
                     // cleanup bridge keys (restore backups or remove)
                     if (backup.bookmarks == null) localStorage.removeItem('bookmarks'); else localStorage.setItem('bookmarks', backup.bookmarks);
                     if (backup.jayaapp_notes == null) localStorage.removeItem('jayaapp_notes'); else localStorage.setItem('jayaapp_notes', backup.jayaapp_notes);
                     if (backup.editedVerses == null) localStorage.removeItem('editedVerses'); else localStorage.setItem('editedVerses', backup.editedVerses);
+                    if (backup.jayaapp_prompts == null) localStorage.removeItem('jayaapp_prompts'); else localStorage.setItem('jayaapp_prompts', backup.jayaapp_prompts);
                 }
             };
         }

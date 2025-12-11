@@ -104,18 +104,21 @@ class GoogleSyncUI {
             const localData = {
                 bookmarks: JSON.parse(localStorage.getItem('bookmarks') || '{}'),
                 notes: JSON.parse(localStorage.getItem('jayaapp_notes') || '{}'),
-                editedVerses: JSON.parse(localStorage.getItem('editedVerses') || '{}')
+                editedVerses: JSON.parse(localStorage.getItem('editedVerses') || '{}'),
+                prompts: JSON.parse(localStorage.getItem('jayaapp_prompts') || '{}')
             };
 
             const localBookmarkCount = Object.keys(localData.bookmarks).length;
             const localNoteCount = Object.keys(localData.notes).length;
             const localEditedCount = Object.keys(localData.editedVerses).length;
+            const localPromptsCount = Object.keys(localData.prompts).length;
 
             // Get current remote state
             const remoteData = await this.syncManager.download() || {
                 bookmarks: {},
                 notes: {},
                 editedVerses: {},
+                prompts: {},
                 deletionEvents: [],
                 syncVersion: 0,
                 participatingDevices: []
@@ -155,23 +158,28 @@ class GoogleSyncUI {
                 const finalBookmarkCount = Object.keys(mergedData.bookmarks).length;
                 const finalNoteCount = Object.keys(mergedData.notes).length;
                 const finalEditedCount = Object.keys(mergedData.editedVerses).length;
+                const finalPromptsCount = Object.keys(mergedData.prompts).length;
                 const remoteBookmarkCount = Object.keys(remoteData.bookmarks).length;
                 const remoteNoteCount = Object.keys(remoteData.notes).length;
                 const remoteEditedCount = Object.keys(remoteData.editedVerses || {}).length;
+                const remotePromptsCount = Object.keys(remoteData.prompts || {}).length;
 
                 const bookmarkDiff = finalBookmarkCount - localBookmarkCount;
                 const noteDiff = finalNoteCount - localNoteCount;
                 const editedDiff = finalEditedCount - localEditedCount;
+                const promptsDiff = finalPromptsCount - localPromptsCount;
                 const deletionEventsApplied = (remoteData.deletionEvents?.length || 0) + pendingDeletions.length - cleanDeletionEvents.length;
 
-                if (bookmarkDiff !== 0 || noteDiff !== 0 || editedDiff !== 0 || deletionEventsApplied > 0) {
+                if (bookmarkDiff !== 0 || noteDiff !== 0 || editedDiff !== 0 || promptsDiff !== 0 || deletionEventsApplied > 0) {
                     console.log('🔄 SYNC: State changes detected');
                     console.log('📊 Local → Final: bookmarks', localBookmarkCount, '→', finalBookmarkCount, `(${bookmarkDiff > 0 ? '+' : ''}${bookmarkDiff})`);
                     console.log('📊 Local → Final: notes', localNoteCount, '→', finalNoteCount, `(${noteDiff > 0 ? '+' : ''}${noteDiff})`);
                     console.log('📊 Local → Final: edited verses', localEditedCount, '→', finalEditedCount, `(${editedDiff > 0 ? '+' : ''}${editedDiff})`);
+                    console.log('📊 Local → Final: prompts', localPromptsCount, '→', finalPromptsCount, `(${promptsDiff > 0 ? '+' : ''}${promptsDiff})`);
                     console.log('📊 Remote → Final: bookmarks', remoteBookmarkCount, '→', finalBookmarkCount);
                     console.log('📊 Remote → Final: notes', remoteNoteCount, '→', finalNoteCount);
                     console.log('📊 Remote → Final: edited verses', remoteEditedCount, '→', finalEditedCount);
+                    console.log('📊 Remote → Final: prompts', remotePromptsCount, '→', finalPromptsCount);
                     if (deletionEventsApplied > 0) {
                         console.log('🗑️ Deletion events processed:', deletionEventsApplied);
                     }
@@ -251,7 +259,7 @@ class GoogleSyncUI {
     applyDeletionEvents(data, deletionEvents) {
         const cleaned = JSON.parse(JSON.stringify(data)); // Deep copy
         let deletionsApplied = 0;
-        const deletedItems = { bookmarks: [], notes: [], editedVerses: [] }; // Track what gets deleted
+        const deletedItems = { bookmarks: [], notes: [], editedVerses: [], prompts: [] }; // Track what gets deleted
 
         deletionEvents.forEach(event => {
             const { id, type } = event;
@@ -277,6 +285,13 @@ class GoogleSyncUI {
                     deletionsApplied++;
                     deletedItems.editedVerses.push({ id });
                 }
+            } else if (type === 'prompt') {
+                // JayaApp uses flat object structure for prompts (key format: "name||type||language")
+                if (cleaned.prompts && cleaned.prompts[id]) {
+                    delete cleaned.prompts[id];
+                    deletionsApplied++;
+                    deletedItems.prompts.push({ id });
+                }
             }
         });
 
@@ -294,6 +309,7 @@ class GoogleSyncUI {
             bookmarks: this.mergeByType(localData.bookmarks || {}, remoteData.bookmarks || {}),
             notes: this.mergeByType(localData.notes || {}, remoteData.notes || {}),
             editedVerses: this.mergeByType(localData.editedVerses || {}, remoteData.editedVerses || {}),
+            prompts: this.mergeByType(localData.prompts || {}, remoteData.prompts || {}),
 
             // Sync metadata with cleaned deletion events
             deletionEvents: cleanDeletionEvents,
@@ -315,18 +331,20 @@ class GoogleSyncUI {
         localStorage.setItem('bookmarks', JSON.stringify(mergedData.bookmarks));
         localStorage.setItem('jayaapp_notes', JSON.stringify(mergedData.notes));
         localStorage.setItem('editedVerses', JSON.stringify(mergedData.editedVerses));
+        localStorage.setItem('jayaapp_prompts', JSON.stringify(mergedData.prompts));
     }
 
     /**
      * Refresh UI with merged data
      */
-    refreshUI(mergedData, deletedItems = { bookmarks: [], notes: [], editedVerses: [] }) {
+    refreshUI(mergedData, deletedItems = { bookmarks: [], notes: [], editedVerses: [], prompts: [] }) {
         // Trigger custom event that the app listens to
         window.dispatchEvent(new CustomEvent('syncDataUpdated', {
             detail: {
                 bookmarks: mergedData.bookmarks,
                 notes: mergedData.notes,
                 editedVerses: mergedData.editedVerses,
+                prompts: mergedData.prompts,
                 readingPositions: mergedData.readingPositions,
                 deletedItems: deletedItems
             }
