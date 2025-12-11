@@ -72,6 +72,7 @@ class ChatSession {
         // {BCVW} — the resolved Book Number, Chapter Number, Verse number and Word number of the clicked Sanskrit word
         // {Lang_Code} — the language code of the clicked element (sa - Devanagari, sa-Latn - IAST, en - English, pl - Polish, etc.)
         // {Language} — the resolved language name of the clicked element
+        // {App_Language} — the current application language (English, Polski, etc.)
         // {Student_Level} — the level of the proficiency: beginner, intermediate, advanced
         // Let's now bild a map of placeholders to values
         const placeholderMap = { Student_Level: help_level || 'beginner' };
@@ -131,6 +132,7 @@ class ChatSession {
         placeholderMap['BCV'] = (book && chapter && verse) ? `${book}:${chapter}:${verse}` : '';
         placeholderMap['Lang_Code'] = lang || '';
         placeholderMap['Language'] = resolveLanguageName(lang);
+        placeholderMap['App_Language'] = localStorage.getItem('appLang') || 'English';
 
         if (clicked_detail.word) {
             // word-specific placeholders (highest precision: use provided click info)
