@@ -21,6 +21,7 @@ class ChatSession {
         this.messages = []; // { type: 'user'|'ai'|'system', text, timestamp }
         this.subscribers = new Set();
         this.current_caller = null;
+        this.draftText = ''; // Store in-progress input text to preserve across orientation changes
 
         // Request tracking and concurrency
         this.requestCounter = 0;
@@ -449,6 +450,10 @@ class ChatSession {
     subscribe(cb) { this.subscribers.add(cb); }
     unsubscribe(cb) { this.subscribers.delete(cb); }
 
+    setDraftText(text) { this.draftText = text || ''; }
+    getDraftText() { return this.draftText || ''; }
+    clearDraftText() { this.draftText = ''; }
+
     // Check whether Ollama settings appear configured/verified enough to run requests
     async isOllamaConfigured() {
         try {
@@ -624,7 +629,26 @@ class ChatView {
         try {
             this.container.addEventListener('focusin', () => { try { this.session.set_current_caller(this); } catch (e) {} });
             this.container.addEventListener('click', () => { try { this.session.set_current_caller(this); } catch (e) {} });
-            if (this.input) this.input.addEventListener('focus', () => { try { this.session.set_current_caller(this); } catch (e) {} });
+            if (this.input) {
+                this.input.addEventListener('focus', () => {
+                    try {
+                        this.session.set_current_caller(this);
+                        // Restore draft text when this view becomes active
+                        const draft = this.session.getDraftText();
+                        if (draft && !this.input.value) {
+                            this.input.value = draft;
+                            this.resizeInput();
+                            this.updateToolbarLayout();
+                        }
+                    } catch (e) {}
+                });
+                this.input.addEventListener('blur', () => {
+                    // record last blur time
+                    window.chatLastInputBlurTime = Date.now();
+                    // Save draft text when leaving input
+                    try { this.session.setDraftText(this.input.value); } catch (e) {}
+                });
+            }
         } catch (e) { /* silent */ }
         // Observe container size changes and update toolbar layout
         this.resizeObserver = new ResizeObserver(() => this.updateToolbarLayout());
@@ -633,7 +657,15 @@ class ChatView {
         this.updateToolbarLayout();
         // initial resize to ensure the textarea height fits single line
         this.resizeInput();
-
+        // Restore any draft text from session
+        try {
+            const draft = this.session.getDraftText();
+            if (draft && this.input) {
+                this.input.value = draft;
+                this.resizeInput();
+                this.updateToolbarLayout();
+            }
+        } catch (e) { /* ignore */ }
     }
 
     initDOM() {
@@ -798,10 +830,50 @@ class ChatView {
             }
         });
 
+        const handlePostInsertUpdate = () => {
+            // Trigger auto-resize to expand input box if needed
+            this.resizeInput();
+
+            // Update toolbar layout in case it needs to switch to compact mode
+            this.updateToolbarLayout();
+
+            // Save draft text
+            try { this.session.setDraftText(this.input.value); } catch (e) {}
+        };
+
+        // Handle word clicks for inserting text into chat input (outside help-me mode)
+        document.addEventListener('wordClicked', (e) => {
+            if (isTypingInChatInput()) {
+                const detail = e.detail || {};
+                let wordText = detail.text || '';
+                if (wordText) {
+                    wordText += ` (Mahabharata ${detail.book}:${detail.chapter}:${detail.verse}) `;
+                    this.insertAtCursor(wordText);
+                    handlePostInsertUpdate();
+                }
+            }
+        });
+
+        // Handle verse clicks for inserting text into chat input (outside help-me mode)
+        document.addEventListener('verseClicked', (e) => {
+            if (isTypingInChatInput()) {
+                const detail = e.detail || {};
+                if (window.mahabharata) {
+                    let verseText = '\n' +
+                    window.mahabharata[String(detail.book)][String(detail.chapter)]['devanagari'][detail.verse-1]
+                    + `\n(Mahabharata ${detail.book}:${detail.chapter}:${detail.verse})\n`;
+                    this.insertAtCursor(verseText);
+                    handlePostInsertUpdate();
+                }
+            }
+        });
+
         // Auto-resize input and detect multiline -> force compact toolbar
         this.input.addEventListener('input', () => {
             this.resizeInput();
             this.updateToolbarLayout();
+            // Save draft text to session so it persists across orientation changes
+            try { this.session.setDraftText(this.input.value); } catch (e) {}
         });
 
         document.addEventListener('localeChanged', () => {
@@ -926,6 +998,8 @@ class ChatView {
         // Add to shared session so all views receive the message
         this.session.addMessage('user', text);
         this.input.value = '';
+        // Clear draft text since message was sent
+        try { this.session.clearDraftText(); } catch (e) { /* ignore */ }
     }
 
     addMessageElement(text, type, requestId) {
@@ -1077,6 +1151,17 @@ function renderChat(container) {
     const view = new ChatView(container);
     window.chatInstances[id] = view;
     return view;
+}
+
+function isTypingInChatInput() {
+    let wasTyping = false;
+    if (window.chatLastInputBlurTime) {
+        const timeSinceBlur = Date.now() - window.chatLastInputBlurTime;
+        if (timeSinceBlur < 1000) {
+            wasTyping = true;
+        }
+    }
+    return wasTyping;
 }
 
 // expose globally for quick access

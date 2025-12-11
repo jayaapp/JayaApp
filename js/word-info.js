@@ -1289,7 +1289,9 @@ function initWordInfoPanel() {
         const detail = e.detail;
         const devanagariWord = detail.lang === 'sa' ? detail.text : '';
         const iastWord = detail.lang === 'sa-Latn' ? detail.text : '';
-        if (!window.isHelpMePanelOpen && (devanagariWord || iastWord)) {
+        let wasTypingInChatInput = isTypingInChatInput();
+        if (!window.isHelpMePanelOpen &&
+            !wasTypingInChatInput && (devanagariWord || iastWord)) {
             if (window.wordInfoPanel) {
                 window.wordInfoPanel.showPanelAt(devanagariWord, iastWord,
                     detail.click_point, detail.book, detail.chapter, detail.verse);

@@ -20,10 +20,9 @@ function handleWordClick(e, container) {
     
     if (result) {
         const { verseNumber, wordIndex, wordText, lang, book, chapter } = result;
-        console.log(`Book ${book}, Chapter ${chapter}:`);
+        //console.log(`Book ${book}, Chapter ${chapter}:`);
         if (wordIndex === null) {
-            console.log(`Clicked verse ${verseNumber} (no specific word)`);
-
+            //console.log(`Clicked verse ${verseNumber} (no specific word)`);
             // Dispatch custom event with verse and word information
             const event = new CustomEvent('verseClicked', {
                 detail: {
@@ -39,8 +38,7 @@ function handleWordClick(e, container) {
             document.dispatchEvent(event);
 
         } else {
-            console.log(`Clicked word ${wordIndex} in verse ${verseNumber}: ${wordText} in ${lang}`);
-
+            //console.log(`Clicked word ${wordIndex} in verse ${verseNumber}: ${wordText} in ${lang}`);
             // Dispatch custom event with verse and word information
             const event = new CustomEvent('wordClicked', {
                 detail: {
