@@ -410,13 +410,13 @@ function gotToBookChapterVerse(book, chapter, verse) {
     function attempt() {
         const bookSelect = document.getElementById('book-select');
         const chapterSelect = document.getElementById('chapter-select');
-        if (!bookSelect || !chapterSelect) {
+        if (!bookSelect || !chapterSelect || !selectBook) {
             setTimeout(attempt, 120);
             return;
         }
         try {
             // Set book and chapter
-            bookSelect.value = String(Number(book));
+            selectBook(book);
             chapterSelect.value = String(Number(chapter));
             // Do not call `renderWhenReady` directly here; use the standard
             // `updateText()` path below to avoid triggering an immediate render

@@ -39,7 +39,7 @@
     "name": "Comparative gloss mapping",
     "type": "Word",
     "language": "Sanskrit",
-    "text": "Map the Sanskrit word **{Word}** from Mahabharata **{BCVW}** to all plausible glosses in the target **{Language}**. Explain nuances, alternative senses, and how translators choose among them. Provide small comparative examples to support a **{Student_Level} level** learner."
+    "text": "Map the Sanskrit word **{Word}** from Mahabharata **{BCVW}** to all plausible glosses in the target **{App_Language}**. Explain nuances, alternative senses, and how translators choose among them. Provide small comparative examples to support a **{Student_Level} level** learner."
   },
   {
     "name": "Sandhi breakdown & rebuild",
@@ -48,22 +48,22 @@
     "text": "Explain all sandhi operations that produce the form **{Word}** in Mahabharata **{BCVW}**.\n\n1. Show the unsandhied components.\n2. Show step-by-step sandhi formation.\n3. Provide a small reconstruction exercise for a **{Student_Level} level** learner.\n\nUse Markdown for clarity."
   },
   {
-    "name": "Samāsa analysis",
-    "type": "Word",
-    "language": "Sanskrit",
-    "text": "If **{Word}** in Mahabharata **{BCVW}** is a compound, analyze it completely:\n- Type of compound (samāsa)\n- Components\n- Literal meaning\n- Contextual interpretation\n\nIf it is not a compound, briefly confirm this and analyze a nearby compound from the verse. Adapt the explanation for a **{Student_Level} level** learner."
+      "name": "Compound analysis (samāsa)",
+      "type": "Word",
+      "language": "Sanskrit",
+      "text": "If the word {Word} in Mahabharata {BCVW} is a compound (samāsa), perform a complete analysis:\n\n- type of compound,\n- constituent elements with their base lexical forms (lemmas),\n- literal meaning suitable for the compound type,\n- contextual meaning based on the verse.\n\nIf {Word} is not a samāsa — briefly confirm this and identify the nearest compound in the provided verse, then perform the same analysis for that compound.\n\nVerse for context:\n\n{Devanagari_Verse}\n{IAST_Verse}\n\nPlease tailor the explanation to the {Lesson_Level} level."
   },
   {
     "name": "Verse meter & rhythm",
     "type": "Verse",
     "language": "Sanskrit",
-    "text": "Identify the meter (chandas) of this Mahabharata verse **{BCV}** and explain:\n- Meter structure\n- Rhythm and cadence\n- Any stylistic or expressive effects\n- A simple chanting or rhythmic reading guide\n\nUse a tone accessible to a **{Student_Level} level** learner."
+    "text": "Identify the meter (chandas) of this Mahabharata verse **{BCV}** and explain:\n- Meter structure\n- Rhythm and cadence\n- Any stylistic or expressive effects\n- A simple chanting or rhythmic reading guide\n\n{Devanagari_Verse}\n{IAST_Verse}\n\nUse a tone accessible to a **{Student_Level} level** learner."
   },
   {
     "name": "Alternative translation paths",
     "type": "Verse",
     "language": "Sanskrit",
-    "text": "Give 3–5 alternative translation approaches for Mahabharata **{BCV}**:\n- Literal\n- Idiomatic\n- Poetic/literary\n- Concise scholarly gloss\n\nExplain how different grammatical or semantic choices lead to these variations."
+    "text": "Give 3–5 alternative translation approaches for Mahabharata **{BCV}**:\n- Literal\n- Idiomatic\n- Poetic/literary\n- Concise scholarly gloss\n\n{Devanagari_Verse}\n{IAST_Verse}\n\nExplain how different grammatical or semantic choices lead to these variations. Commentary level: **{Student_Level}**."
   },
   {
     "name": "Guided parsing trainer",

@@ -3,79 +3,79 @@
     "name": "Znaczenie słowa",
     "type": "Word",
     "language": "Sanskrit",
-    "text": "Wyjaśnij znaczenie sanskryckiego słowa **{Word}**, które pojawia się jako słowo **{Word_Index}** w Mahabharacie **{BCV}**.\n\n**Dewanagari:**\n{Devanagari_Verse}\n\n**IAST:**\n{IAST_Verse}\n\nPodaj jasne wyjaśnienie odpowiednie dla ucznia sanskrytu na poziomie **{Student_Level} level**. Uwzględnij:\n- Podstawową analizę morfologiczną\n- Funkcję gramatyczną w wersecie\n- Najważniejsze znaczenia słownikowe\n- Ewentualne subtelne niuanse kontekstowe lub poetyckie\n\nMożesz używać Markdown."
+    "text": "Wyjaśnij znaczenie sanskryckiego słowa **{Word}**, które pojawia się jako słowo **{Word_Index}** w Mahabharacie **{BCV}**.\n\n**Dewanagari:**\n{Devanagari_Verse}\n\n**IAST:**\n{IAST_Verse}\n\nPodaj jasne wyjaśnienie odpowiednie dla ucznia sanskrytu na poziomie: **{Student_Level}**. Uwzględnij:\n- Podstawową analizę morfologiczną\n- Funkcję gramatyczną w wersecie\n- Najważniejsze znaczenia słownikowe\n- Ewentualne subtelne niuanse kontekstowe lub poetyckie\n\nMożesz używać Markdown."
   },
   {
     "name": "Lekcja językowa z wersetu",
     "type": "Verse",
     "language": "Sanskrit",
-    "text": "Jestem uczniem sanskrytu na poziomie **{Student_Level} level**. Wykorzystaj ten werset Mahabharaty **{BCV}**:\n\n**Dewanagari:**\n{Devanagari_Verse}\n\n**IAST:**\n{IAST_Verse}\n\nPrzygotuj ciekawą lekcję sanskrytu opartą na tym wersecie. Podkreśl:\n- Kluczowe konstrukcje gramatyczne\n- Złożenia, sandhi, odmiany i szyk zdania\n- Najważniejsze elementy słownictwa\n\nLekcja powinna być rozwijająca – kolejne wersety w tej samej sesji powinny budować na tym, co zostało tu przedstawione. Dodaj krótkie pytania sprawdzające oraz ciekawostki związane z językiem."
+    "text": "Jestem uczniem sanskrytu na poziomie: **{Student_Level}**. Wykorzystaj ten werset Mahabharaty **{BCV}**:\n\n**Dewanagari:**\n{Devanagari_Verse}\n\n**IAST:**\n{IAST_Verse}\n\nPrzygotuj ciekawą lekcję sanskrytu opartą na tym wersecie. Podkreśl:\n- Kluczowe konstrukcje gramatyczne\n- Złożenia, sandhi, odmiany i szyk zdania\n- Najważniejsze elementy słownictwa\n\nLekcja powinna być rozwijająca – kolejne wersety w tej samej sesji powinny budować na tym, co zostało tu przedstawione. Dodaj krótkie pytania sprawdzające oraz ciekawostki związane z językiem."
   },
   {
     "name": "Wyjaśnienie tłumaczenia wersetu",
     "type": "Verse",
     "language": "Translation",
-    "text": "Poniżej znajduje się Mahabharata **{BCV}** wraz z tłumaczeniem na **{Language}**:\n\n**Dewanagari:**\n{Devanagari_Verse}\n\n**IAST:**\n{IAST_Verse}\n\n**Tłumaczenie ({Language}):**\n{Verse}\n\nWyjaśnij, jak **poszczególne fragmenty tłumaczenia** odpowiadają oryginalnemu sanskrytowi. Omów:\n- Powiązania słowo-po-słowie lub fraza-po-frazie\n- Struktury gramatyczne umożliwiające takie tłumaczenie\n- Ciekawe wybory tłumacza i możliwe warianty\n\nUczyń z tego interesującą lekcję sanskrytu dla poziomu **{Student_Level} level**."
+    "text": "Poniżej znajduje się Mahabharata **{BCV}** wraz z tłumaczeniem na **{Language}**:\n\n**Dewanagari:**\n{Devanagari_Verse}\n\n**IAST:**\n{IAST_Verse}\n\n**Tłumaczenie ({Language}):**\n{Verse}\n\nWyjaśnij, jak **poszczególne fragmenty tłumaczenia** odpowiadają oryginalnemu sanskrytowi. Omów:\n- Powiązania słowo-po-słowie lub fraza-po-frazie\n- Struktury gramatyczne umożliwiające takie tłumaczenie\n- Ciekawe wybory tłumacza i możliwe warianty\n\nUczyń z tego interesującą lekcję sanskrytu dla poziomu studenta: **{Student_Level}**."
   },
   {
     "name": "Wyjaśnienie tłumaczenia słowa",
     "type": "Word",
     "language": "Translation",
-    "text": "Poniżej znajduje się Mahabharata **{BCV}** wraz z tłumaczeniem na **{Language}**:\n\n**Dewanagari:**\n{Devanagari_Verse}\n\n**IAST:**\n{IAST_Verse}\n\n**Tłumaczenie ({Language}):**\n{Verse}\n\nInteresuje mnie przetłumaczone słowo **{Word}** (indeks {Word_Index}). Wyjaśnij, jak to słowo łączy się z oryginalnym sanskrytem. Uwzględnij wskazówki słownikowe i gramatyczne. Dopasuj objaśnienie do poziomu **{Student_Level} level**."
+    "text": "Poniżej znajduje się Mahabharata **{BCV}** wraz z tłumaczeniem na **{Language}**:\n\n**Dewanagari:**\n{Devanagari_Verse}\n\n**IAST:**\n{IAST_Verse}\n\n**Tłumaczenie ({Language}):**\n{Verse}\n\nInteresuje mnie przetłumaczone słowo **{Word}** (indeks {Word_Index}). Wyjaśnij, jak to słowo łączy się z oryginalnym sanskrytem. Uwzględnij wskazówki słownikowe i gramatyczne. Dopasuj objaśnienie do poziomu studenta: **{Student_Level}**."
   },
   {
     "name": "Pełna analiza słowa",
     "type": "Word",
     "language": "Sanskrit",
-    "text": "Przeprowadź **pełną analizę sanskryckiego słowa** **{Word}**, występującego jako słowo {Word_Index} w Mahabharacie **{BCVW}**.\n\n**Dewanagari:**\n{Devanagari_Verse}\n\n**IAST:**\n{IAST_Verse}\n\nUwzględnij:\n- Analizę morfologiczną (rdzeń, derywacja, przypadek/liczba/rodzaj lub klasa czasownika, czas, tryb, osoba)\n- Sandhi (jeśli występuje)\n- Funkcję składniową\n- Główne i kontekstowe znaczenia\n- Alternatywne interpretacje\n- Krótką wskazówkę mnemotechniczną dla poziomu **{Student_Level} level**"
+    "text": "Przeprowadź **pełną analizę sanskryckiego słowa** **{Word}**, występującego jako słowo {Word_Index} w Mahabharacie **{BCVW}**.\n\n**Dewanagari:**\n{Devanagari_Verse}\n\n**IAST:**\n{IAST_Verse}\n\nUwzględnij:\n- Analizę morfologiczną (rdzeń, derywacja, przypadek/liczba/rodzaj lub klasa czasownika, czas, tryb, osoba)\n- Sandhi (jeśli występuje)\n- Funkcję składniową\n- Główne i kontekstowe znaczenia\n- Alternatywne interpretacje\n- Krótką wskazówkę mnemotechniczną dla poziomu: **{Student_Level}**"
   },
   {
     "name": "Pełna analiza wersetu",
     "type": "Verse",
     "language": "Sanskrit",
-    "text": "Przeanalizuj **cały sanskrycki werset** Mahabharaty **{BCV}**:\n\n{Devanagari_Verse}\n{IAST_Verse}\n\nUwzględnij:\n- Ogólne znaczenie\n- Struktury składniowe (kto co robi, komu, w jaki sposób)\n- Złożenia i sandhi\n- Ważne elementy gramatyczne\n- Najciekawsze słowa\n- Krótki test sprawdzający na poziom **{Student_Level} level**"
+    "text": "Przeanalizuj **cały sanskrycki werset** Mahabharaty **{BCV}**:\n\n{Devanagari_Verse}\n{IAST_Verse}\n\nUwzględnij:\n- Ogólne znaczenie\n- Struktury składniowe (kto co robi, komu, w jaki sposób)\n- Złożenia i sandhi\n- Ważne elementy gramatyczne\n- Najciekawsze słowa\n- Krótki test sprawdzający na poziomie: **{Student_Level}.**"
   },
   {
     "name": "Porównawcze mapowanie znaczeń",
     "type": "Word",
     "language": "Sanskrit",
-    "text": "Powiąż sanskryckie słowo **{Word}** z Mahabharaty **{BCVW}** z możliwymi odpowiednikami w języku docelowym **{Language}**. Wyjaśnij różnice znaczeń i możliwe warianty tłumaczeniowe."
+    "text": "Powiąż sanskryckie słowo **{Word}** z Mahabharaty **{BCVW}** z możliwymi odpowiednikami w języku docelowym **{App_Language}**. Wyjaśnij różnice znaczeń i możliwe warianty tłumaczeniowe na poziomie studenta: **{Lesson_Level}**."
   },
   {
     "name": "Sandhi: rozbiór i rekonstrukcja",
     "type": "Word",
     "language": "Sanskrit",
-    "text": "Wyjaśnij wszystkie operacje sandhi, które prowadzą do formy **{Word}** w Mahabharacie **{BCVW}**.\n\n1. Pokaż formy bez sandhi.\n2. Pokaż krok po kroku powstawanie sandhi.\n3. Dodaj krótkie ćwiczenie rekonstrukcyjne dla poziomu **{Student_Level} level**."
+    "text": "Wyjaśnij wszystkie operacje sandhi, które prowadzą do formy **{Word}** w Mahabharacie **{BCVW}**.\n\n1. Pokaż formy bez sandhi.\n2. Pokaż krok po kroku powstawanie sandhi.\n3. Dodaj krótkie ćwiczenie rekonstrukcyjne dla poziomu studenta: **{Student_Level}**."
   },
   {
-    "name": "Analiza samāsy",
-    "type": "Word",
-    "language": "Sanskrit",
-    "text": "Jeśli **{Word}** w Mahabharacie **{BCVW}** jest złożeniem (samāsa), przeprowadź pełną analizę:\n- Typ złożenia\n- Elementy składowe\n- Znaczenie dosłowne\n- Interpretację kontekstową\n\nJeśli nie jest złożeniem — potwierdź to krótko i przeanalizuj najbliższe złożenie z tego wersetu."
+      "name": "Analiza złożenia (samāsa)",
+      "type": "Word",
+      "language": "Sanskrit",
+      "text": "Jeśli {Word} w Mahabharacie {BCVW} stanowi złożenie (samāsa), wykonaj kompletną analizę:\n\n- typ złożenia,\n- elementy składowe wraz z podstawowymi formami leksykalnymi (lemma),\n- znaczenie dosłowne,\n- znaczenie kontekstowe oparte na wierszu.\n\nJeśli {Word} nie jest samāsą — potwierdź to krótko i zidentyfikuj najbliższe złożenie w podanym wierszu, a następnie przeprowadź analogiczną analizę.\n\nWerset dla kontekstu:\n\n{Devanagari_Verse}\n{IAST_Verse}\n\nUwzględnij poziom językowy: {Lesson_Level}."
   },
   {
     "name": "Metryka i rytm wersetu",
     "type": "Verse",
     "language": "Sanskrit",
-    "text": "Rozpoznaj metrum (chandas) wersetu Mahabharaty **{BCV}** i opisz:\n- Strukturę metrum\n- Rytm i kadencję\n- Efekty stylistyczne\n- Krótki przewodnik po rytmicznym czytaniu lub recytacji\n\n{Devanagari_Verse}\n{IAST_Verse}"
+    "text": "Rozpoznaj metrum (chandas) wersetu Mahabharaty **{BCV}** i opisz:\n- Strukturę metrum\n- Rytm i kadencję\n- Efekty stylistyczne\n- Krótki przewodnik po rytmicznym czytaniu lub recytacji\n\n{Devanagari_Verse}\n{IAST_Verse}\n\nUżyj tonu stosownego dla student na **{Student_Level}** poziomie"
   },
   {
     "name": "Alternatywne ścieżki tłumaczenia",
     "type": "Verse",
     "language": "Sanskrit",
-    "text": "Przedstaw 3–5 alternatywnych sposobów tłumaczenia wersetu Mahabharaty **{BCV}**:\n- Bardzo dosłowny\n- Idiomatyczny\n- Poetycki\n- Uproszczony\n\nWyjaśnij krótko, jak różne aspekty gramatyki prowadzą do tych wariantów."
+    "text": "Przedstaw 3–5 alternatywnych sposobów tłumaczenia wersetu Mahabharaty **{BCV}**:\n- Bardzo dosłowny\n- Idiomatyczny\n- Poetycki\n- Uproszczony\n\n{Devanagari_Verse}\n{IAST_Verse}\n\nWyjaśnij krótko, jak różne aspekty gramatyki prowadzą do tych wariantów. Poziom komentarza: **{Student_Level}**."
   },
   {
     "name": "Prowadzony trening analizy składni",
     "type": "Verse",
     "language": "Sanskrit",
-    "text": "Przeprowadź mnie przez analizę składni wersetu Mahabharaty **{BCV}** krok po kroku:\n\n{Devanagari_Verse}\n{IAST_Verse}\n\nNajpierw wskaż główny czasownik, następnie główne rzeczowniki, złożenia i zależności. Dostosuj trudność do poziomu **{Student_Level} level**."
+    "text": "Przeprowadź mnie przez analizę składni wersetu Mahabharaty **{BCV}** krok po kroku:\n\n{Devanagari_Verse}\n{IAST_Verse}\n\nNajpierw wskaż główny czasownik, następnie główne rzeczowniki, złożenia i zależności. Dostosuj trudność do poziomu studenta: **{Student_Level}**."
   },
   {
     "name": "Eksplorator pola semantycznego",
     "type": "Word",
     "language": "Sanskrit",
-    "text": "Przedstaw pole semantyczne sanskryckiego słowa **{Word}** z Mahabharaty **{BCVW}**. Uwzględnij rdzeń, wyrazy pokrewne, synonimy, przeciwieństwa i warianty znaczeniowe. Dopasuj do poziomu **{Student_Level} level**."
+    "text": "Przedstaw pole semantyczne sanskryckiego słowa **{Word}** z Mahabharaty **{BCVW}**. Uwzględnij rdzeń, wyrazy pokrewne, synonimy, przeciwieństwa i warianty znaczeniowe. Dopasuj komentarz do poziomu studenta: **{Student_Level}**."
   },
   {
     "name": "Metafizyczne ujęcie słowa",
