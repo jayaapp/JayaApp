@@ -1,0 +1,6715 @@
+[
+  {
+    "word": "dharma",
+    "roots": [
+      "dhṛ"
+    ],
+    "meaning": "duty, law, righteousness",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "karma",
+    "roots": [
+      "kṛ"
+    ],
+    "meaning": "action, deed",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "rāja",
+    "roots": [
+      "rāj"
+    ],
+    "meaning": "king",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "putra",
+    "roots": [
+      "putr"
+    ],
+    "meaning": "son",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "bhārata",
+    "roots": [
+      "bhṛ"
+    ],
+    "meaning": "descendant of Bharata",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "yuddha",
+    "roots": [
+      "yudh"
+    ],
+    "meaning": "battle, war",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "śāstra",
+    "roots": [
+      "śās"
+    ],
+    "meaning": "teaching, scripture",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "gītā",
+    "roots": [
+      "gai"
+    ],
+    "meaning": "song",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "bhagavadgītā",
+    "roots": [
+      "bhagavat",
+      "gai"
+    ],
+    "meaning": "the song of the Lord",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "bhagavat (Lord) + gai (song) - tatpurusha compound"
+  },
+  {
+    "word": "viṣṇu",
+    "roots": [
+      "viṣ"
+    ],
+    "meaning": "Vishnu, the preserver",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "kṛṣṇa",
+    "roots": [
+      "kṛṣ"
+    ],
+    "meaning": "Krishna, dark-haired",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "arjuna",
+    "roots": [
+      "arj"
+    ],
+    "meaning": "Arjuna, white",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "duryodhana",
+    "roots": [
+      "dus",
+      "yudh"
+    ],
+    "meaning": "Duryodhana, hard to fight",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "dus (bad/hard) + yodhana (fighting)- compound name"
+  },
+  {
+    "word": "pāṇḍava",
+    "roots": [
+      "pāṇḍu"
+    ],
+    "meaning": "son of Pandu",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "pāṇḍu + a (patronymic suffix)"
+  },
+  {
+    "word": "kaurava",
+    "roots": [
+      "kuru"
+    ],
+    "meaning": "descendant of Kuru",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "kuru + a (patronymic suffix)"
+  },
+  {
+    "word": "sūta",
+    "roots": [
+      "sū"
+    ],
+    "meaning": "charioteer, bard",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "sanjaya",
+    "roots": [
+      "sam",
+      "ji"
+    ],
+    "meaning": "Sanjaya, victorious",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "sam (together/complete) + ji (to conquer) - compound name"
+  },
+  {
+    "word": "dhṛtarāṣṭra",
+    "roots": [
+      "dhṛ",
+      "rāṣṭra"
+    ],
+    "meaning": "Dhritarashtra",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "dhṛ (to hold) + rāṣṭra (kingdom) - compound name meaning 'one who holds the kingdom'"
+  },
+  {
+    "word": "pāṇḍu",
+    "roots": [
+      "pāṇḍ"
+    ],
+    "meaning": "Pandu, pale",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "kuntī",
+    "roots": [
+      "kunt"
+    ],
+    "meaning": "Kunti",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "draupadī",
+    "roots": [
+      "draupad"
+    ],
+    "meaning": "Draupadi",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "draupad + ī (feminine suffix)"
+  },
+  {
+    "word": "bhīṣma",
+    "roots": [
+      "bhī"
+    ],
+    "meaning": "Bhishma, terrible",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "droṇa",
+    "roots": [
+      "dru"
+    ],
+    "meaning": "Drona",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "karṇa",
+    "roots": [
+      "kṛ"
+    ],
+    "meaning": "Karna, ear",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "śakuni",
+    "roots": [
+      "śak"
+    ],
+    "meaning": "Shakuni",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "vidura",
+    "roots": [
+      "vid"
+    ],
+    "meaning": "Vidura, wise",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "yudhiṣṭhira",
+    "roots": [
+      "yudh",
+      "sthā"
+    ],
+    "meaning": "Yudhishthira",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "yudhi (in battle) + sthira (firm) - compound name meaning 'firm in battle'"
+  },
+  {
+    "word": "bhīma",
+    "roots": [
+      "bhī"
+    ],
+    "meaning": "Bhima, terrible",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "nakula",
+    "roots": [
+      "nakul"
+    ],
+    "meaning": "Nakula",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "sahadeva",
+    "roots": [
+      "saha",
+      "deva"
+    ],
+    "meaning": "Sahadeva",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "saha (with) + deva (god) - compound name"
+  },
+  {
+    "word": "abhimanyu",
+    "roots": [
+      "abhi",
+      "man"
+    ],
+    "meaning": "Abhimanyu",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "abhi (towards) + man (to think/esteem) - compound name"
+  },
+  {
+    "word": "parikṣit",
+    "roots": [
+      "pari",
+      "kṣi"
+    ],
+    "meaning": "Parikshit",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "pari (around) + kṣi (to guard) - compound name"
+  },
+  {
+    "word": "janamejaya",
+    "roots": [
+      "jan",
+      "ji"
+    ],
+    "meaning": "Janamejaya",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "jana (people) + ji (to conquer) - compound name meaning 'conqueror of people'"
+  },
+  {
+    "word": "hasta",
+    "roots": [
+      "has"
+    ],
+    "meaning": "hand",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "pada",
+    "roots": [
+      "pad"
+    ],
+    "meaning": "foot, word",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "mukha",
+    "roots": [
+      "mukh"
+    ],
+    "meaning": "face, mouth",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "nayana",
+    "roots": [
+      "nī"
+    ],
+    "meaning": "eye",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "hṛdaya",
+    "roots": [
+      "hṛd"
+    ],
+    "meaning": "heart",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "mana",
+    "roots": [
+      "man"
+    ],
+    "meaning": "mind",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "buddhi",
+    "roots": [
+      "budh"
+    ],
+    "meaning": "intellect",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "ātman",
+    "roots": [
+      "at"
+    ],
+    "meaning": "self, soul",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine/neuter singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "brahman",
+    "roots": [
+      "bṛh"
+    ],
+    "meaning": "ultimate reality",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "svarga",
+    "roots": [
+      "svar"
+    ],
+    "meaning": "heaven",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "naraka",
+    "roots": [
+      "nṝ"
+    ],
+    "meaning": "hell",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "deva",
+    "roots": [
+      "div"
+    ],
+    "meaning": "god",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "asura",
+    "roots": [
+      "as"
+    ],
+    "meaning": "demon",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "manuṣya",
+    "roots": [
+      "man"
+    ],
+    "meaning": "human",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "man + uṣya (agent noun)"
+  },
+  {
+    "word": "strī",
+    "roots": [
+      "strī"
+    ],
+    "meaning": "woman",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "puruṣa",
+    "roots": [
+      "puru"
+    ],
+    "meaning": "person, spirit",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "duhitṛ",
+    "roots": [
+      "duh"
+    ],
+    "meaning": "daughter",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "duh (to milk/feed) + itṛ (agent suffix)"
+  },
+  {
+    "word": "pitṛ",
+    "roots": [
+      "pā"
+    ],
+    "meaning": "father",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "pā (to protect) + tṛ (agent suffix)"
+  },
+  {
+    "word": "mātṛ",
+    "roots": [
+      "mā"
+    ],
+    "meaning": "mother",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "mā (to measure/give) + tṛ (agent suffix)"
+  },
+  {
+    "word": "bhrātṛ",
+    "roots": [
+      "bhrā"
+    ],
+    "meaning": "brother",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "bhrā (to nourish) + tṛ (agent suffix)"
+  },
+  {
+    "word": "svasṛ",
+    "roots": [
+      "svas"
+    ],
+    "meaning": "sister",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "svas (to protect) + ṛ (feminine suffix)"
+  },
+  {
+    "word": "mitra",
+    "roots": [
+      "mitr"
+    ],
+    "meaning": "friend",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "śatru",
+    "roots": [
+      "śad"
+    ],
+    "meaning": "enemy",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "suhṛd",
+    "roots": [
+      "su",
+      "hṛd"
+    ],
+    "meaning": "well-wisher",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "su (good) + hṛd (heart) - compound meaning 'one of good heart'"
+  },
+  {
+    "word": "dhana",
+    "roots": [
+      "dhan"
+    ],
+    "meaning": "wealth",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "artha",
+    "roots": [
+      "arth"
+    ],
+    "meaning": "meaning, wealth",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "kāma",
+    "roots": [
+      "kam"
+    ],
+    "meaning": "desire",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "mokṣa",
+    "roots": [
+      "muc"
+    ],
+    "meaning": "liberation",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "yoga",
+    "roots": [
+      "yuj"
+    ],
+    "meaning": "union, discipline",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "sānkhya",
+    "roots": [
+      "khyā"
+    ],
+    "meaning": "enumeration",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "vedānta",
+    "roots": [
+      "vid",
+      "anta"
+    ],
+    "meaning": "end of the Vedas",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "veda (knowledge) + anta (end) - compound meaning 'end of knowledge'"
+  },
+  {
+    "word": "smṛti",
+    "roots": [
+      "smṛ"
+    ],
+    "meaning": "memory, tradition",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "smṛ (to remember) + ti (feminine noun suffix)"
+  },
+  {
+    "word": "śruti",
+    "roots": [
+      "śru"
+    ],
+    "meaning": "hearing, revelation",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "śru (to hear) + ti (feminine noun suffix)"
+  },
+  {
+    "word": "itihāsa",
+    "roots": [
+      "iti",
+      "han"
+    ],
+    "meaning": "history",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "iti (thus) + ha (indeed) + asa (he said) - liturgical compound meaning 'thus indeed it was said'"
+  },
+  {
+    "word": "purāṇa",
+    "roots": [
+      "purā"
+    ],
+    "meaning": "ancient",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "purā (before) + aṇa (diminutive suffix)"
+  },
+  {
+    "word": "kāvya",
+    "roots": [
+      "kavi"
+    ],
+    "meaning": "poetry",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "kavi (poet) + ya (verbal suffix)"
+  },
+  {
+    "word": "nāṭaka",
+    "roots": [
+      "naṭ"
+    ],
+    "meaning": "drama",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "naṭ (to act) + aka (diminutive suffix)"
+  },
+  {
+    "word": "āśrama",
+    "roots": [
+      "śram"
+    ],
+    "meaning": "hermitage",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "ā (prefix) + śram (to work/toil) + a (noun suffix)"
+  },
+  {
+    "word": "varṇa",
+    "roots": [
+      "varṇ"
+    ],
+    "meaning": "color, class",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "jāti",
+    "roots": [
+      "jan"
+    ],
+    "meaning": "birth, caste",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "jan (to be born) + ti (feminine noun suffix)"
+  },
+  {
+    "word": "grāma",
+    "roots": [
+      "gram"
+    ],
+    "meaning": "village",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "nagara",
+    "roots": [
+      "nag"
+    ],
+    "meaning": "city",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "rāṣṭra",
+    "roots": [
+      "rāj"
+    ],
+    "meaning": "nation",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "rāj (to rule) + tra (noun suffix)"
+  },
+  {
+    "word": "deśa",
+    "roots": [
+      "diś"
+    ],
+    "meaning": "country, place",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "diś (to point out/direct) + a (noun suffix)"
+  },
+  {
+    "word": "pṛthvī",
+    "roots": [
+      "pṛth"
+    ],
+    "meaning": "earth",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "pṛth (to spread) + vī (feminine suffix)"
+  },
+  {
+    "word": "dyau",
+    "roots": [
+      "div"
+    ],
+    "meaning": "sky",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "sūrya",
+    "roots": [
+      "svar"
+    ],
+    "meaning": "sun",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "svar (to shine) + ya (verbal suffix)"
+  },
+  {
+    "word": "candra",
+    "roots": [
+      "cand"
+    ],
+    "meaning": "moon",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "cand (to shine) + ra (verbal suffix)"
+  },
+  {
+    "word": "nakṣatra",
+    "roots": [
+      "nakṣ"
+    ],
+    "meaning": "star",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "nakṣ (to approach) + tra (noun suffix)"
+  },
+  {
+    "word": "graha",
+    "roots": [
+      "grah"
+    ],
+    "meaning": "planet",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "grah (to seize) + a (noun suffix)"
+  },
+  {
+    "word": "agni",
+    "roots": [
+      "ag"
+    ],
+    "meaning": "fire",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "vāyu",
+    "roots": [
+      "vā"
+    ],
+    "meaning": "wind",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "jala",
+    "roots": [
+      "jal"
+    ],
+    "meaning": "water",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "akāśa",
+    "roots": [
+      "kāś"
+    ],
+    "meaning": "space",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "a (negative prefix) + kāś (to shine) + a (noun suffix) - literally 'that which does not shine'"
+  },
+  {
+    "word": "indra",
+    "roots": [
+      "ind"
+    ],
+    "meaning": "Indra",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "varuṇa",
+    "roots": [
+      "var"
+    ],
+    "meaning": "Varuna",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "var (to cover) + uṇa (verbal suffix)"
+  },
+  {
+    "word": "yama",
+    "roots": [
+      "yam"
+    ],
+    "meaning": "Yama",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "kubera",
+    "roots": [
+      "kub"
+    ],
+    "meaning": "Kubera",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "śiva",
+    "roots": [
+      "śī"
+    ],
+    "meaning": "Shiva",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "śī (to prosper) + va (verbal suffix)"
+  },
+  {
+    "word": "śakti",
+    "roots": [
+      "śak"
+    ],
+    "meaning": "power",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "śak (to be able) + ti (feminine noun suffix)"
+  },
+  {
+    "word": "devī",
+    "roots": [
+      "div"
+    ],
+    "meaning": "goddess",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "div (to shine) + ī (feminine suffix)"
+  },
+  {
+    "word": "durgā",
+    "roots": [
+      "durg"
+    ],
+    "meaning": "Durga",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "lakṣmī",
+    "roots": [
+      "lakṣ"
+    ],
+    "meaning": "Lakshmi",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "lakṣ (to observe) + mī (feminine suffix)"
+  },
+  {
+    "word": "sarasvatī",
+    "roots": [
+      "saras"
+    ],
+    "meaning": "Saraswati",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "saras (pool) + vatī (possessive feminine suffix)"
+  },
+  {
+    "word": "gaṇeśa",
+    "roots": [
+      "gaṇ",
+      "iṣ"
+    ],
+    "meaning": "Ganesha",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "gaṇa (troops/numbers) + īśa (lord) - 'lord of troops'"
+  },
+  {
+    "word": "kārtikeya",
+    "roots": [
+      "kṛt"
+    ],
+    "meaning": "Kartikeya",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "kṛt (to make/do) + i (feminine) + keya (verbal suffix) - associated with Krittikas (Pleiades)"
+  },
+  {
+    "word": "hanumān",
+    "roots": [
+      "han"
+    ],
+    "meaning": "Hanuman",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "han (to kill/damage) + u (diminutive) + mān (participle suffix) - literally 'one with prominent jaw' or 'one who subdued pride'"
+  },
+  {
+    "word": "rāma",
+    "roots": [
+      "ram"
+    ],
+    "meaning": "Rama",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "ram (to please) + a (verbal suffix) - 'one who pleases'"
+  },
+  {
+    "word": "sītā",
+    "roots": [
+      "sīt"
+    ],
+    "meaning": "Sita",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "sīt (to plow) + ā (feminine suffix)"
+  },
+  {
+    "word": "lakṣmaṇa",
+    "roots": [
+      "lakṣ"
+    ],
+    "meaning": "Lakshmana",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "lakṣ (to observe) + maṇa (verbal suffix)"
+  },
+  {
+    "word": "bharata",
+    "roots": [
+      "bhṛ"
+    ],
+    "meaning": "Bharata",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "bhṛ (to bear) + ta (verbal suffix)"
+  },
+  {
+    "word": "śatrughna",
+    "roots": [
+      "śatru",
+      "han"
+    ],
+    "meaning": "Shatrughna",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "śatru (enemy) + han (to kill) - 'enemy-killer'"
+  },
+  {
+    "word": "rāvaṇa",
+    "roots": [
+      "ru"
+    ],
+    "meaning": "Ravana",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "ru (to cry/make sound) + aṇa (verbal suffix) - 'one who makes terrifying sounds'"
+  },
+  {
+    "word": "vālmīki",
+    "roots": [
+      "valmīk"
+    ],
+    "meaning": "Valmiki",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "valmīka (anthill) + i (agent suffix) - 'one born from an anthill'"
+  },
+  {
+    "word": "vyāsa",
+    "roots": [
+      "vyas"
+    ],
+    "meaning": "Vyasa",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "vyas (to divide/separate) + a (verbal suffix)"
+  },
+  {
+    "word": "veda",
+    "roots": [
+      "vid"
+    ],
+    "meaning": "knowledge",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "vid (to know) + a (verbal suffix)"
+  },
+  {
+    "word": "ṛgveda",
+    "roots": [
+      "ṛc",
+      "vid"
+    ],
+    "meaning": "Rig Veda",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "ṛc (verse) + veda (knowledge) - 'knowledge of verses'"
+  },
+  {
+    "word": "yajurveda",
+    "roots": [
+      "yaj",
+      "vid"
+    ],
+    "meaning": "Yajur Veda",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "yaj (to sacrifice) + veda (knowledge) - 'knowledge of sacrifice'"
+  },
+  {
+    "word": "sāmaveda",
+    "roots": [
+      "sāman",
+      "vid"
+    ],
+    "meaning": "Sama Veda",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "sāman (song) + veda (knowledge) - 'knowledge of songs'"
+  },
+  {
+    "word": "atharvaveda",
+    "roots": [
+      "atharvan",
+      "vid"
+    ],
+    "meaning": "Atharva Veda",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "atharvan (a sage) + veda (knowledge) - 'knowledge of Atharvan'"
+  },
+  {
+    "word": "upaniṣad",
+    "roots": [
+      "sad"
+    ],
+    "meaning": "Upanishad",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "upa (near) + ni (down) + sad (to sit) - 'sitting near' (for instruction)"
+  },
+  {
+    "word": "brāhmaṇa",
+    "roots": [
+      "brahman"
+    ],
+    "meaning": "Brahmana",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "brahman (sacred word/sound) + aṇa (verbal suffix)"
+  },
+  {
+    "word": "āraṇyaka",
+    "roots": [
+      "araṇya"
+    ],
+    "meaning": "Aranyaka",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "araṇya (forest) + aṇa (verbal suffix) - 'forest texts'"
+  },
+  {
+    "word": "sūtra",
+    "roots": [
+      "siv"
+    ],
+    "meaning": "suture, thread",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "siv (to sew/weave) + tra (instrumental suffix) - 'that with which one sews/weaves'"
+  },
+  {
+    "word": "dharmaśāstra",
+    "roots": [
+      "dhṛ",
+      "śās"
+    ],
+    "meaning": "scripture on dharma",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "dharma (duty/righteousness) + śāstra (teaching/scripture) - compound meaning 'scripture on dharma'"
+  },
+  {
+    "word": "arthaśāstra",
+    "roots": [
+      "arth",
+      "śās"
+    ],
+    "meaning": "scripture on wealth",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "artha (wealth/purpose) + śāstra (teaching/scripture) - compound meaning 'scripture on wealth'"
+  },
+  {
+    "word": "kāmaśāstra",
+    "roots": [
+      "kam",
+      "śās"
+    ],
+    "meaning": "scripture on desire",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "kāma (desire/love) + śāstra (teaching/scripture) - compound meaning 'scripture on desire'"
+  },
+  {
+    "word": "mīmāṃsā",
+    "roots": [
+      "man"
+    ],
+    "meaning": "interpretation",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "mi (intensive prefix) + man (to think) + ṃsā (feminine noun suffix) - 'deep consideration'"
+  },
+  {
+    "word": "nyāya",
+    "roots": [
+      "nī"
+    ],
+    "meaning": "logic",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "nī (to lead) + ya (verbal suffix) + prefixed with 'nya' - 'correct leading' or 'method'"
+  },
+  {
+    "word": "vaiśeṣika",
+    "roots": [
+      "viśiṣ"
+    ],
+    "meaning": "particular",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "vi (apart) + śiṣ (to remain/excel) + ika (verbal suffix)"
+  },
+  {
+    "word": "sāṃkhya",
+    "roots": [
+      "khyā"
+    ],
+    "meaning": "enumeration",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "saṃ (together) + khyā (to appear/declare) - 'together declare' or 'enumerate'"
+  },
+  {
+    "word": "bhakti",
+    "roots": [
+      "bhaj"
+    ],
+    "meaning": "devotion",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "bhaj (to serve) + ktṛ + i (feminine suffix)"
+  },
+  {
+    "word": "jñāna",
+    "roots": [
+      "jñā"
+    ],
+    "meaning": "knowledge",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "jñā (to know) + ana (verbal suffix)"
+  },
+  {
+    "word": "dhyāna",
+    "roots": [
+      "dhyai"
+    ],
+    "meaning": "meditation",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "dhyai (to contemplate) + ana (verbal suffix)"
+  },
+  {
+    "word": "prāṇāyāma",
+    "roots": [
+      "prāṇa",
+      "yam"
+    ],
+    "meaning": "breath control",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "prāṇa (life force/breath) + āyāma (extension/restraint) - 'extension or control of breath'"
+  },
+  {
+    "word": "āsana",
+    "roots": [
+      "ās"
+    ],
+    "meaning": "seat, posture",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "ā (intensive prefix) + s (to sit) + ana (verbal suffix)"
+  },
+  {
+    "word": "mudrā",
+    "roots": [
+      "mud"
+    ],
+    "meaning": "seal, gesture",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "mud (to delight) + rā (feminine suffix)"
+  },
+  {
+    "word": "mantra",
+    "roots": [
+      "man"
+    ],
+    "meaning": "instrument of thought",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "man (to think) + tra (instrumental suffix)"
+  },
+  {
+    "word": "yantra",
+    "roots": [
+      "yam"
+    ],
+    "meaning": "instrument, diagram",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "yam (to control) + tra (instrumental suffix)"
+  },
+  {
+    "word": "tantra",
+    "roots": [
+      "tan"
+    ],
+    "meaning": "loom, doctrine",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "tan (to spread) + tra (instrumental suffix)"
+  },
+  {
+    "word": "pūjā",
+    "roots": [
+      "pūj"
+    ],
+    "meaning": "worship",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "pūj (to honor) + ā (feminine suffix)"
+  },
+  {
+    "word": "homa",
+    "roots": [
+      "hu"
+    ],
+    "meaning": "offering",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "hu (to pour/give) + a (verbal suffix)"
+  },
+  {
+    "word": "yajña",
+    "roots": [
+      "yaj"
+    ],
+    "meaning": "sacrifice",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "yaj (to worship) + ya (verbal suffix)"
+  },
+  {
+    "word": "dakṣiṇā",
+    "roots": [
+      "dakṣ"
+    ],
+    "meaning": "donation",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "dakṣ (to be able) + iṇa (feminine suffix) - originally 'right' or 'proper', then 'gift given to the right person'"
+  },
+  {
+    "word": "kṣatriya",
+    "roots": [
+      "kṣat"
+    ],
+    "meaning": "warrior",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "kṣat (to harm/damage) + rya (verbal suffix) - 'protector' (one who protects from harm)"
+  },
+  {
+    "word": "vaiśya",
+    "roots": [
+      "viś"
+    ],
+    "meaning": "merchant",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "viś (to enter/possess) + ya (verbal suffix)"
+  },
+  {
+    "word": "śūdra",
+    "roots": [
+      "śūd"
+    ],
+    "meaning": "laborer",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "śūd (to cover/protect) + ra (verbal suffix)"
+  },
+  {
+    "word": "daśa",
+    "roots": [
+      "daś"
+    ],
+    "meaning": "ten",
+    "partOfSpeech": "numeral",
+    "grammaticalAnalysis": "masculine/neuter singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "eka",
+    "roots": [
+      "ek"
+    ],
+    "meaning": "one",
+    "partOfSpeech": "numeral",
+    "grammaticalAnalysis": "masculine/neuter singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "dvi",
+    "roots": [
+      "dvi"
+    ],
+    "meaning": "two",
+    "partOfSpeech": "numeral",
+    "grammaticalAnalysis": "dual masculine/neuter nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "tri",
+    "roots": [
+      "tri"
+    ],
+    "meaning": "three",
+    "partOfSpeech": "numeral",
+    "grammaticalAnalysis": "triple masculine/neuter nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "catur",
+    "roots": [
+      "catur"
+    ],
+    "meaning": "four",
+    "partOfSpeech": "numeral",
+    "grammaticalAnalysis": "quadriple masculine/neuter nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "pañca",
+    "roots": [
+      "pañc"
+    ],
+    "meaning": "five",
+    "partOfSpeech": "numeral",
+    "grammaticalAnalysis": "quintuple masculine/neuter nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "ṣaṭ",
+    "roots": [
+      "ṣaṣ"
+    ],
+    "meaning": "six",
+    "partOfSpeech": "numeral",
+    "grammaticalAnalysis": "sextuple masculine/neuter nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "sapta",
+    "roots": [
+      "sapt"
+    ],
+    "meaning": "seven",
+    "partOfSpeech": "numeral",
+    "grammaticalAnalysis": "septuple masculine/neuter nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "aṣṭa",
+    "roots": [
+      "aṣṭ"
+    ],
+    "meaning": "eight",
+    "partOfSpeech": "numeral",
+    "grammaticalAnalysis": "octuple masculine/neuter nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "nava",
+    "roots": [
+      "nav"
+    ],
+    "meaning": "nine",
+    "partOfSpeech": "numeral",
+    "grammaticalAnalysis": "nonuple masculine/neuter nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "śata",
+    "roots": [
+      "śat"
+    ],
+    "meaning": "hundred",
+    "partOfSpeech": "numeral",
+    "grammaticalAnalysis": "masculine/neuter singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "sahasra",
+    "roots": [
+      "sahas"
+    ],
+    "meaning": "thousand",
+    "partOfSpeech": "numeral",
+    "grammaticalAnalysis": "masculine/neuter singular nom./acc./voc.",
+    "compoundStructure": "sahas (to excel) + ra (verbal suffix)"
+  },
+  {
+    "word": "ayuta",
+    "roots": [
+      "yut"
+    ],
+    "meaning": "ten thousand",
+    "partOfSpeech": "numeral",
+    "grammaticalAnalysis": "masculine/neuter singular nom./acc./voc.",
+    "compoundStructure": "a (prefix) + yut (to join) + a (verbal suffix)"
+  },
+  {
+    "word": "lakṣa",
+    "roots": [
+      "lakṣ"
+    ],
+    "meaning": "hundred thousand",
+    "partOfSpeech": "numeral",
+    "grammaticalAnalysis": "masculine/neuter singular nom./acc./voc.",
+    "compoundStructure": "lakṣ (to observe/aim) + a (verbal suffix) - 'that which is aimed at' or 'mark'"
+  },
+  {
+    "word": "koṭi",
+    "roots": [
+      "koṭ"
+    ],
+    "meaning": "ten million",
+    "partOfSpeech": "numeral",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "koṭ (to break/cut) + i (feminine suffix)"
+  },
+  {
+    "word": "arbuda",
+    "roots": [
+      "arbud"
+    ],
+    "meaning": "hundred million",
+    "partOfSpeech": "numeral",
+    "grammaticalAnalysis": "masculine/neuter singular nom./acc./voc.",
+    "compoundStructure": "arbud (to swell) + a (verbal suffix)"
+  },
+  {
+    "word": "kharva",
+    "roots": [
+      "kharv"
+    ],
+    "meaning": "billion",
+    "partOfSpeech": "numeral",
+    "grammaticalAnalysis": "masculine/neuter singular nom./acc./voc.",
+    "compoundStructure": "kharv (to be crooked) + a (verbal suffix)"
+  },
+  {
+    "word": "mahā",
+    "roots": [
+      "mah"
+    ],
+    "meaning": "great",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "mah (to be great) + ā (feminine suffix)"
+  },
+  {
+    "word": "uttama",
+    "roots": [
+      "ut",
+      "mā"
+    ],
+    "meaning": "best",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "masculine/neuter singular nom./acc./voc.",
+    "compoundStructure": "ut (up) + mā (to measure) + a (adjective suffix) - 'highest measuring'"
+  },
+  {
+    "word": "madhyama",
+    "roots": [
+      "madhya"
+    ],
+    "meaning": "middle",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "masculine/neuter singular nom./acc./voc.",
+    "compoundStructure": "madhya (middle) + ma (suffix for 'possessing')"
+  },
+  {
+    "word": "kanīya",
+    "roots": [
+      "kanīyān"
+    ],
+    "meaning": "smaller",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "masculine/neuter singular nom./acc./voc.",
+    "compoundStructure": "comp. form of kanīyān (comparative of 'small')"
+  },
+  {
+    "word": "sva",
+    "roots": [
+      "sva"
+    ],
+    "meaning": "own",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "masculine/neuter singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "para",
+    "roots": [
+      "para"
+    ],
+    "meaning": "other",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "masculine/neuter singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "anya",
+    "roots": [
+      "anya"
+    ],
+    "meaning": "other",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "masculine/neuter singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "sarva",
+    "roots": [
+      "sarv"
+    ],
+    "meaning": "all",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "masculine/neuter singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "viśva",
+    "roots": [
+      "viśva"
+    ],
+    "meaning": "all",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "masculine/neuter singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "jagat",
+    "roots": [
+      "gam"
+    ],
+    "meaning": "world",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "gam (to go) + participle jagat (going) - 'that which goes/flows'"
+  },
+  {
+    "word": "bhuvana",
+    "roots": [
+      "bhū"
+    ],
+    "meaning": "world",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "bhū (to be/become) + ana (verbal suffix) - 'that which becomes'"
+  },
+  {
+    "word": "loka",
+    "roots": [
+      "lok"
+    ],
+    "meaning": "world",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "lok (to look at) + a (noun suffix)"
+  },
+  {
+    "word": "aloka",
+    "roots": [
+      "a",
+      "lok"
+    ],
+    "meaning": "light",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "a (negative prefix) + lok (to look) + a (noun suffix) - 'that which causes to look' or 'light'"
+  },
+  {
+    "word": "satya",
+    "roots": [
+      "sat"
+    ],
+    "meaning": "truth",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "sat (to be) + ya (verbal suffix) - 'that which is real'"
+  },
+  {
+    "word": "asatya",
+    "roots": [
+      "a",
+      "satya"
+    ],
+    "meaning": "untruth",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "a (negative prefix) + satya (truth) - 'non-truth'"
+  },
+  {
+    "word": "śubha",
+    "roots": [
+      "śubh"
+    ],
+    "meaning": "auspicious",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": ""
+  },
+  {
+    "word": "aśubha",
+    "roots": [
+      "a",
+      "śubha"
+    ],
+    "meaning": "inauspicious",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "a (negative prefix) + śubha (auspicious) - 'inauspicious'"
+  },
+  {
+    "word": "puṇya",
+    "roots": [
+      "puṇy"
+    ],
+    "meaning": "merit",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "puṇy (to purify) + a (verbal suffix) - 'that which purifies'"
+  },
+  {
+    "word": "pāpa",
+    "roots": [
+      "pāp"
+    ],
+    "meaning": "sin",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "pāp (to harm) + a (verbal suffix) - 'injurious act'"
+  },
+  {
+    "word": "sukha",
+    "roots": [
+      "sukh"
+    ],
+    "meaning": "happiness",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "su (good) + kh (to pierce/dig) + a (noun suffix) - 'that which is easy to bear' or 'ease'"
+  },
+  {
+    "word": "duḥkha",
+    "roots": [
+      "duḥkh"
+    ],
+    "meaning": "sorrow",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "duḥ (bad/difficult) + kh (to pierce) + a (noun suffix) - 'that which is difficult to bear' or 'pain'"
+  },
+  {
+    "word": "ānanda",
+    "roots": [
+      "nand"
+    ],
+    "meaning": "bliss",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine/neuter singular nom./acc./voc.",
+    "compoundStructure": "ā (intensive prefix) + nand (to rejoice) + a (verbal suffix)"
+  },
+  {
+    "word": "śānti",
+    "roots": [
+      "śam"
+    ],
+    "meaning": "peace",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "śam (to calm) + ti (feminine noun suffix)"
+  },
+  {
+    "word": "prema",
+    "roots": [
+      "pri"
+    ],
+    "meaning": "love",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "pri (to love) + ma (intensive verbal suffix)"
+  },
+  {
+    "word": "krodha",
+    "roots": [
+      "krudh"
+    ],
+    "meaning": "anger",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "krudh (to be angry) + a (verbal suffix)"
+  },
+  {
+    "word": "lobha",
+    "roots": [
+      "lubh"
+    ],
+    "meaning": "greed",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "lubh (to desire) + a (verbal suffix)"
+  },
+  {
+    "word": "moha",
+    "roots": [
+      "muh"
+    ],
+    "meaning": "delusion",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "muh (to be deluded) + a (verbal suffix)"
+  },
+  {
+    "word": "mada",
+    "roots": [
+      "mad"
+    ],
+    "meaning": "pride",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "mad (to be drunk/joyful) + a (verbal suffix)"
+  },
+  {
+    "word": "matsara",
+    "roots": [
+      "matsar"
+    ],
+    "meaning": "jealousy",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "matsar (to be jealous) + a (verbal suffix)"
+  },
+  {
+    "word": "dāna",
+    "roots": [
+      "dā"
+    ],
+    "meaning": "giving",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "dā (to give) + ana (verbal suffix)"
+  },
+  {
+    "word": "dayā",
+    "roots": [
+      "day"
+    ],
+    "meaning": "compassion",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "day (to show compassion) + ā (feminine suffix)"
+  },
+  {
+    "word": "kṣamā",
+    "roots": [
+      "kṣam"
+    ],
+    "meaning": "forgiveness",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "kṣam (to forgive/endure) + ā (feminine suffix)"
+  },
+  {
+    "word": "śraddhā",
+    "roots": [
+      "śrad"
+    ],
+    "meaning": "faith",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "śrad (to trust) + dhā (to hold) + ā (feminine suffix)"
+  },
+  {
+    "word": "vīrya",
+    "roots": [
+      "vīr"
+    ],
+    "meaning": "valor",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "vīr (to be heroic) + ya (verbal suffix)"
+  },
+  {
+    "word": "tejas",
+    "roots": [
+      "tij"
+    ],
+    "meaning": "splendor",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "tij (to shine) + as (verbal suffix)"
+  },
+  {
+    "word": "ojas",
+    "roots": [
+      "oj"
+    ],
+    "meaning": "vitality",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "oj (to be strong) + as (verbal suffix)"
+  },
+  {
+    "word": "bala",
+    "roots": [
+      "bal"
+    ],
+    "meaning": "strength",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "bal (to be strong) + a (verbal suffix)"
+  },
+  {
+    "word": "medhā",
+    "roots": [
+      "medh"
+    ],
+    "meaning": "intelligence",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "medh (to sacrifice/dedicate) + ā (feminine suffix)"
+  },
+  {
+    "word": "prajñā",
+    "roots": [
+      "pra",
+      "jñā"
+    ],
+    "meaning": "wisdom",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "pra (forth) + jñā (to know) + ā (feminine suffix) - 'true knowledge'"
+  },
+  {
+    "word": "citta",
+    "roots": [
+      "cit"
+    ],
+    "meaning": "mind",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "cit (to think) + ta (verbal suffix) + a (verbal suffix) - 'that which is thought of/believed'"
+  },
+  {
+    "word": "vijñāna",
+    "roots": [
+      "vi",
+      "jñā"
+    ],
+    "meaning": "science",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "vi (apart/distinctly) + jñā (to know) + ana (verbal suffix) - 'distinctive knowledge'"
+  },
+  {
+    "word": "anubhava",
+    "roots": [
+      "anu",
+      "bhū"
+    ],
+    "meaning": "experience",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "anu (after/following) + bhū (to be) + a (verbal suffix) - 'that which follows being'"
+  },
+  {
+    "word": "pratyakṣa",
+    "roots": [
+      "prati",
+      "akṣ"
+    ],
+    "meaning": "perception",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "prati (towards) + akṣ (to perceive) + a (verbal suffix) - literally 'that which is toward the eye', meaning 'before the eye' or 'direct perception'"
+  },
+  {
+    "word": "anumāna",
+    "roots": [
+      "anu",
+      "mā"
+    ],
+    "meaning": "inference",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "anu (after) + mā (to measure) + ana (verbal suffix) - 'measuring after' or 'inference'"
+  },
+  {
+    "word": "śabda",
+    "roots": [
+      "śabd"
+    ],
+    "meaning": "sound",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "śabd (to go sound) + a (verbal suffix)"
+  },
+  {
+    "word": "upamāna",
+    "roots": [
+      "upa",
+      "mā"
+    ],
+    "meaning": "comparison",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "upa (near) + mā (to measure) + ana (verbal suffix) - 'measuring near' or 'comparison'"
+  },
+  {
+    "word": "arthāpatti",
+    "roots": [
+      "arth",
+      "pat"
+    ],
+    "meaning": "presumption",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "artha (meaning/purpose) + āpatti (falling/obtaining) - compound meaning 'obtaining meaning'"
+  },
+  {
+    "word": "anupalabdhi",
+    "roots": [
+      "anu",
+      "labh"
+    ],
+    "meaning": "non-perception",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "anu (after) + upa (near) + labh (to obtain) + i (feminine suffix) - literally 'non-obtaining'"
+  },
+  {
+    "word": "pramāṇa",
+    "roots": [
+      "pra",
+      "mā"
+    ],
+    "meaning": "proof",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "pra (correctly) + mā (to measure) + ana (verbal suffix) - 'correct measurement' or 'valid proof'"
+  },
+  {
+    "word": "pramā",
+    "roots": [
+      "pra",
+      "mā"
+    ],
+    "meaning": "valid knowledge",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "pra (correctly) + mā (to measure) + ā (feminine suffix) - 'correct measurement'"
+  },
+  {
+    "word": "apramā",
+    "roots": [
+      "a",
+      "pra",
+      "mā"
+    ],
+    "meaning": "invalid knowledge",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "a (negative prefix) + pra (correctly) + mā (to measure) + ā (feminine suffix) - 'incorrect measurement'"
+  },
+  {
+    "word": "saṃśaya",
+    "roots": [
+      "sam",
+      "śī"
+    ],
+    "meaning": "doubt",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "saṃ (together) + śī (to sleep/stop) + a (verbal suffix) - 'conflicting thoughts'"
+  },
+  {
+    "word": "viparyaya",
+    "roots": [
+      "vi",
+      "par",
+      "i"
+    ],
+    "meaning": "error",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "vi (intensive) + par (to cross) + i (to go) + aya (verbal suffix) - 'going wrong way' or 'error'"
+  },
+  {
+    "word": "nidrā",
+    "roots": [
+      "drā"
+    ],
+    "meaning": "sleep",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "ni (down) + drā (to sleep) + ā (feminine suffix)"
+  },
+  {
+    "word": "vāk",
+    "roots": [
+      "vac"
+    ],
+    "meaning": "speech",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "vāc (speech) + k (feminine suffix from root 'vac' to speak)"
+  },
+  {
+    "word": "vacas",
+    "roots": [
+      "vac"
+    ],
+    "meaning": "word",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "vac (to speak) + as (verbal suffix)"
+  },
+  {
+    "word": "nāda",
+    "roots": [
+      "nad"
+    ],
+    "meaning": "sound",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "nad (to sound) + a (verbal suffix)"
+  },
+  {
+    "word": "akṣara",
+    "roots": [
+      "a",
+      "kṣar"
+    ],
+    "meaning": "syllable",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "a (negative prefix) + kṣar (to flow/decay) + a (verbal suffix) - 'imperishable' (the letter that doesn't decay)"
+  },
+  {
+    "word": "vākya",
+    "roots": [
+      "vac"
+    ],
+    "meaning": "sentence",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "vāc (speech) + ya (verbal suffix)"
+  },
+  {
+    "word": "tattva",
+    "roots": [
+      "tat"
+    ],
+    "meaning": "truth",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "tat (that) + tva (abstract noun suffix) - 'the nature of that' or 'truth'"
+  },
+  {
+    "word": "padārtha",
+    "roots": [
+      "pad",
+      "arth"
+    ],
+    "meaning": "category",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "pada (word) + artha (meaning) - 'meaning of a word' or 'category'"
+  },
+  {
+    "word": "dravya",
+    "roots": [
+      "dru"
+    ],
+    "meaning": "substance",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "dru (to flow) + ya (verbal suffix) - 'that which flows' or 'substance'"
+  },
+  {
+    "word": "guṇa",
+    "roots": [
+      "guṇ"
+    ],
+    "meaning": "quality",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "guṇ (to wind around/attribute) + a (verbal suffix)"
+  },
+  {
+    "word": "sāmānya",
+    "roots": [
+      "samān"
+    ],
+    "meaning": "generality",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "samāna (same/common) + ya (verbal suffix) - 'commonness' or 'generality'"
+  },
+  {
+    "word": "viśeṣa",
+    "roots": [
+      "viśiṣ"
+    ],
+    "meaning": "particularity",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "vi (apart) + śiṣ (to excel) + a (verbal suffix) - 'excelling apart' or 'distinction'"
+  },
+  {
+    "word": "samavāya",
+    "roots": [
+      "sam",
+      "av",
+      "i"
+    ],
+    "meaning": "inherence",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "sam (together) + ava (down) + i (to go) + aya (verbal suffix) - 'connection or inherence'"
+  },
+  {
+    "word": "abhāva",
+    "roots": [
+      "a",
+      "bhū"
+    ],
+    "meaning": "non-existence",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "a (negative prefix) + bhāva (from bhū to be) - 'non-being' or 'absence'"
+  },
+  {
+    "word": "sattā",
+    "roots": [
+      "sat"
+    ],
+    "meaning": "existence",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "sat (to be) + tā (abstract feminine suffix) - 'the nature of being'"
+  },
+  {
+    "word": "upādhi",
+    "roots": [
+      "upa",
+      "dhā"
+    ],
+    "meaning": "limitation",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "upa (near) + dhā (to hold) + i (feminine suffix) - 'imposed limitation'"
+  },
+  {
+    "word": "antya",
+    "roots": [
+      "anta"
+    ],
+    "meaning": "final",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "anta (end) + ya (verbal suffix)"
+  },
+  {
+    "word": "parama",
+    "roots": [
+      "param"
+    ],
+    "meaning": "supreme",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "param (highest/supreme) + a (adjective suffix)"
+  },
+  {
+    "word": "aparam",
+    "roots": [
+      "a",
+      "param"
+    ],
+    "meaning": "non-supreme",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "a (negative prefix) + param (highest) - 'not the highest'"
+  },
+  {
+    "word": "saguṇa",
+    "roots": [
+      "sa",
+      "guṇa"
+    ],
+    "meaning": "with qualities",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "sa (with) + guṇa (qualities) - 'with qualities'"
+  },
+  {
+    "word": "nirguṇa",
+    "roots": [
+      "niḥ",
+      "guṇa"
+    ],
+    "meaning": "without qualities",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "niḥ (without) + guṇa (qualities) - 'without qualities'"
+  },
+  {
+    "word": "sākāra",
+    "roots": [
+      "sa",
+      "ākāra"
+    ],
+    "meaning": "with form",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "sa (with) + ākāra (form) - 'with form'"
+  },
+  {
+    "word": "nirākāra",
+    "roots": [
+      "niḥ",
+      "ākāra"
+    ],
+    "meaning": "without form",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "niḥ (without) + ākāra (form) - 'without form'"
+  },
+  {
+    "word": "sakala",
+    "roots": [
+      "sa",
+      "kalā"
+    ],
+    "meaning": "with parts",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "sa (with) + kala (parts) - 'with parts'"
+  },
+  {
+    "word": "niṣkala",
+    "roots": [
+      "niḥ",
+      "kalā"
+    ],
+    "meaning": "without parts",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "niḥ (without) + kalā (parts) - 'without parts'"
+  },
+  {
+    "word": "pūrṇa",
+    "roots": [
+      "pṝ"
+    ],
+    "meaning": "full",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "pṝ (to fill) + ṇa (verbal suffix)"
+  },
+  {
+    "word": "apūrṇa",
+    "roots": [
+      "a",
+      "pūrṇa"
+    ],
+    "meaning": "not full",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "a (negative prefix) + pūrṇa (full) - 'not full'"
+  },
+  {
+    "word": "ananta",
+    "roots": [
+      "an",
+      "anta"
+    ],
+    "meaning": "endless",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "an (negative prefix) + anta (end) - 'without end'"
+  },
+  {
+    "word": "parimit",
+    "roots": [
+      "pari",
+      "mā"
+    ],
+    "meaning": "limited",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "pari (around) + mā (to measure) + it (past participle suffix) - 'measured around' or 'limited'"
+  },
+  {
+    "word": "kāla",
+    "roots": [
+      "kāl"
+    ],
+    "meaning": "time",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "kāl (to calculate/destine) + a (verbal suffix)"
+  },
+  {
+    "word": "kāraṇa",
+    "roots": [
+      "kṛ"
+    ],
+    "meaning": "cause",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "kṛ (to do/make) + aṇa (verbal suffix) - 'that by which something is done'"
+  },
+  {
+    "word": "kārya",
+    "roots": [
+      "kṛ"
+    ],
+    "meaning": "effect",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "kṛ (to do/make) + ya (verbal suffix) - 'that which is done'"
+  },
+  {
+    "word": "hetu",
+    "roots": [
+      "hi"
+    ],
+    "meaning": "reason",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "hi (to sacrifice) + tu (verbal suffix) - 'that which causes sacrifice' or 'cause'"
+  },
+  {
+    "word": "phala",
+    "roots": [
+      "phal"
+    ],
+    "meaning": "fruit, result",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "phal (to bloom/produce fruit) + a (verbal suffix)"
+  },
+  {
+    "word": "nimitta",
+    "roots": [
+      "nimitt"
+    ],
+    "meaning": "instrumental cause",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "ni (down) + mṛ (to die/fall) + ita (past participle) - literally 'that which has fallen down' or 'reason'"
+  },
+  {
+    "word": "upādāna",
+    "roots": [
+      "upa",
+      "dā"
+    ],
+    "meaning": "material cause",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "upa (near/towards) + dā (to give) + ana (verbal suffix) - 'that which is taken/given as material'"
+  },
+  {
+    "word": "adṛṣṭa",
+    "roots": [
+      "a",
+      "dṛś"
+    ],
+    "meaning": "unseen",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "a (negative prefix) + dṛś (to see) + ta (past participle suffix) - 'not seen'"
+  },
+  {
+    "word": "prārabdha",
+    "roots": [
+      "pra",
+      "rabh"
+    ],
+    "meaning": "commenced karma",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "pra (forward) + rabh (to begin) + dha (past participle suffix) - 'that which has been begun'"
+  },
+  {
+    "word": "sanchita",
+    "roots": [
+      "sam",
+      "ci"
+    ],
+    "meaning": "accumulated karma",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "sam (together) + ci (to gather) + ta (past participle suffix) - 'that which has been gathered together'"
+  },
+  {
+    "word": "āgami",
+    "roots": [
+      "ā",
+      "gam"
+    ],
+    "meaning": "future karma",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "ā (towards) + gam (to go) + i (present participle suffix) - 'that which is coming'"
+  },
+  {
+    "word": "māyā",
+    "roots": [
+      "mā"
+    ],
+    "meaning": "illusion",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "mā (to measure/measure out) + yā (feminine suffix) - 'that which measures out' or 'creative power'"
+  },
+  {
+    "word": "avidyā",
+    "roots": [
+      "a",
+      "vid"
+    ],
+    "meaning": "ignorance",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "a (negative prefix) + vid (to know) + yā (feminine suffix) - 'non-knowledge'"
+  },
+  {
+    "word": "vidyā",
+    "roots": [
+      "vid"
+    ],
+    "meaning": "knowledge",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "vid (to know) + yā (feminine suffix)"
+  },
+  {
+    "word": "jīva",
+    "roots": [
+      "jīv"
+    ],
+    "meaning": "individual soul",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "jīv (to live) + a (verbal suffix)"
+  },
+  {
+    "word": "īśvara",
+    "roots": [
+      "īś"
+    ],
+    "meaning": "God",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "īś (to rule/own) + vara (best) - 'best ruler' or 'God'"
+  },
+  {
+    "word": "prakṛti",
+    "roots": [
+      "pra",
+      "kṛ"
+    ],
+    "meaning": "nature",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "pra (before) + kṛ (to make) + ti (feminine suffix) - 'that which is created first' or 'primordial nature'"
+  },
+  {
+    "word": "mahat",
+    "roots": [
+      "mah"
+    ],
+    "meaning": "great principle",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "mah (to be great) + at (verbal suffix) - 'the great one' (in Samkhya philosophy, the cosmic intelligence)"
+  },
+  {
+    "word": "ahaṃkāra",
+    "roots": [
+      "aham",
+      "kṛ"
+    ],
+    "meaning": "ego",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "aham (I) + kāra (from kṛ to make) - 'I-maker' or 'ego-consciousness'"
+  },
+  {
+    "word": "manas",
+    "roots": [
+      "man"
+    ],
+    "meaning": "mind",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "man (to think) + as (verbal suffix)"
+  },
+  {
+    "word": "indriya",
+    "roots": [
+      "indra"
+    ],
+    "meaning": "sense organ",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "indra (lord) + ya (verbal suffix) - 'belonging to Indra' (the senses are called Indriyas as they are under the control of Indra as the mind)"
+  },
+  {
+    "word": "tanmātra",
+    "roots": [
+      "tat",
+      "mātr"
+    ],
+    "meaning": "subtle element",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "tat (that) + mātra (measure) - 'that measure' or 'subtle elements'"
+  },
+  {
+    "word": "bhūta",
+    "roots": [
+      "bhū"
+    ],
+    "meaning": "element",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "bhū (to be/become) + ta (verbal suffix) - 'that which has become' or 'existent being'"
+  },
+  {
+    "word": "pāñcabhautika",
+    "roots": [
+      "pañca",
+      "bhautik"
+    ],
+    "meaning": "composed of five elements",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "pañca (five) + bhautika (relating to elements) - 'five-elemented'"
+  },
+  {
+    "word": "annamaya",
+    "roots": [
+      "anna",
+      "maya"
+    ],
+    "meaning": "composed of food",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "anna (food) + maya (made of) - 'made of food'"
+  },
+  {
+    "word": "prāṇamaya",
+    "roots": [
+      "prāṇa",
+      "maya"
+    ],
+    "meaning": "composed of life force",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "prāṇa (life force) + maya (made of) - 'made of life force'"
+  },
+  {
+    "word": "manomaya",
+    "roots": [
+      "manas",
+      "maya"
+    ],
+    "meaning": "composed of mind",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "manas (mind) + maya (made of) - 'made of mind'"
+  },
+  {
+    "word": "vijñānamaya",
+    "roots": [
+      "vijñāna",
+      "maya"
+    ],
+    "meaning": "composed of consciousness",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "vijñāna (consciousness) + maya (made of) - 'made of consciousness'"
+  },
+  {
+    "word": "ānandamaya",
+    "roots": [
+      "ānanda",
+      "maya"
+    ],
+    "meaning": "composed of bliss",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "ānanda (bliss) + maya (made of) - 'made of bliss'"
+  },
+  {
+    "word": "kośa",
+    "roots": [
+      "kuś"
+    ],
+    "meaning": "sheath",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "kuś (to cover) + a (verbal suffix) - 'covering' or 'sheath'"
+  },
+  {
+    "word": "sūkṣmaśarīra",
+    "roots": [
+      "sūkṣma",
+      "śarīr"
+    ],
+    "meaning": "subtle body",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "sūkṣma (subtle) + śarīra (body) - compound meaning 'subtle body'"
+  },
+  {
+    "word": "sthūlaśarīra",
+    "roots": [
+      "sthūla",
+      "śarīr"
+    ],
+    "meaning": "gross body",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "sthūla (gross) + śarīra (body) - compound meaning 'gross body'"
+  },
+  {
+    "word": "kāraṇaśarīra",
+    "roots": [
+      "kāraṇa",
+      "śarīr"
+    ],
+    "meaning": "causal body",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "kāraṇa (cause) + śarīra (body) - compound meaning 'causal body'"
+  },
+  {
+    "word": "jīvātman",
+    "roots": [
+      "jīva",
+      "at"
+    ],
+    "meaning": "individual self",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "jīva (living being) + ātman (self) - compound meaning 'living self'"
+  },
+  {
+    "word": "paramātman",
+    "roots": [
+      "param",
+      "at"
+    ],
+    "meaning": "supreme self",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "param (supreme) + ātman (self) - compound meaning 'supreme self'"
+  },
+  {
+    "word": "antaryāmin",
+    "roots": [
+      "antar",
+      "yam"
+    ],
+    "meaning": "inner controller",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "antar (within) + yam (to control) + in (agent suffix) - 'one who controls from within'"
+  },
+  {
+    "word": "sākṣin",
+    "roots": [
+      "sākṣ"
+    ],
+    "meaning": "witness",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "sākṣ (to see/testify) + in (agent suffix) - 'one who witnesses'"
+  },
+  {
+    "word": "draṣṭā",
+    "roots": [
+      "dṛś"
+    ],
+    "meaning": "seer",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "dṛś (to see) + ṭā (agent suffix) - 'the seer'"
+  },
+  {
+    "word": "śrotā",
+    "roots": [
+      "śru"
+    ],
+    "meaning": "hearer",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "śru (to hear) + tā (agent suffix) - 'the hearer'"
+  },
+  {
+    "word": "mantā",
+    "roots": [
+      "man"
+    ],
+    "meaning": "thinker",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "man (to think) + tā (agent suffix) - 'the thinker'"
+  },
+  {
+    "word": "vijñātā",
+    "roots": [
+      "vi",
+      "jñā"
+    ],
+    "meaning": "knower",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "vi (distinctly) + jñā (to know) + tā (agent suffix) - 'the distinct knower'"
+  },
+  {
+    "word": "kartā",
+    "roots": [
+      "kṛ"
+    ],
+    "meaning": "doer",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "kṛ (to do) + tā (agent suffix)"
+  },
+  {
+    "word": "bhoktā",
+    "roots": [
+      "bhuj"
+    ],
+    "meaning": "enjoyer",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "bhuj (to enjoy) + tā (agent suffix)"
+  },
+  {
+    "word": "sukhtā",
+    "roots": [
+      "sukh"
+    ],
+    "meaning": "happy one",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "sukh (happy) + tā (feminine agent suffix)"
+  },
+  {
+    "word": "duḥkhitā",
+    "roots": [
+      "duḥkh"
+    ],
+    "meaning": "sorrowful one",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "duḥkh (sorrow) + itā (feminine suffix) - 'one who experiences sorrow'"
+  },
+  {
+    "word": "muktā",
+    "roots": [
+      "muc"
+    ],
+    "meaning": "liberated one",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "muc (to release) + tā (feminine agent suffix) - 'one who is released'"
+  },
+  {
+    "word": "baddha",
+    "roots": [
+      "bandh"
+    ],
+    "meaning": "bound one",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "bandh (to bind) + dha (past participle suffix) - 'one who is bound'"
+  },
+  {
+    "word": "mumukṣu",
+    "roots": [
+      "muc"
+    ],
+    "meaning": "desirous of liberation",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "muc (to release) + kṣu (desiderative suffix) + u (desirous suffix) - 'one who desires to be released'"
+  },
+  {
+    "word": "jijñāsu",
+    "roots": [
+      "jñā"
+    ],
+    "meaning": "desirous of knowledge",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "jñā (to know) + kṣu (desiderative suffix) + u (desirous suffix) - 'one who desires to know'"
+  },
+  {
+    "word": "sādhaka",
+    "roots": [
+      "sādh"
+    ],
+    "meaning": "practitioner",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "sādh (to accomplish) + aka (agent suffix) - 'one who accomplishes'"
+  },
+  {
+    "word": "siddha",
+    "roots": [
+      "sidh"
+    ],
+    "meaning": "accomplished one",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "sidh (to accomplish) + dha (past participle suffix) - 'one who is accomplished'"
+  },
+  {
+    "word": "avatāra",
+    "roots": [
+      "ava",
+      "tṝ"
+    ],
+    "meaning": "incarnation",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "ava (down) + tṝ (to cross) + a (verbal suffix) - 'descent'"
+  },
+  {
+    "word": "vibhūti",
+    "roots": [
+      "vi",
+      "bhū"
+    ],
+    "meaning": "manifestation",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "vi (apart) + bhū (to become) + ti (feminine suffix) - 'special manifestation'"
+  },
+  {
+    "word": "līlā",
+    "roots": [
+      "līl"
+    ],
+    "meaning": "play",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "līl (to play) + ā (feminine suffix)"
+  },
+  {
+    "word": "sādhana",
+    "roots": [
+      "sādh"
+    ],
+    "meaning": "practice",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "sādh (to accomplish) + ana (verbal suffix) - 'that by which one accomplishes'"
+  },
+  {
+    "word": "abhyāsa",
+    "roots": [
+      "abhi",
+      "as"
+    ],
+    "meaning": "practice",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "abhi (towards) + āsa (from as to sit) - 'sitting near' or 'practice'"
+  },
+  {
+    "word": "vairāgya",
+    "roots": [
+      "vi",
+      "rāg"
+    ],
+    "meaning": "dispassion",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "vi (away) + rāg (to color/love) + ya (verbal suffix) - 'absence of passion'"
+  },
+  {
+    "word": "samādhi",
+    "roots": [
+      "sam",
+      "ā",
+      "dhā"
+    ],
+    "meaning": "absorption",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "sam (completely) + ā (towards) + dhā (to place) + i (feminine suffix) - 'complete placing of mind on one object'"
+  },
+  {
+    "word": "kaivalya",
+    "roots": [
+      "keval"
+    ],
+    "meaning": "isolation",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "keval (alone/isolated) + ya (verbal suffix) - 'state of aloneness/liberation'"
+  },
+  {
+    "word": "nirvāṇa",
+    "roots": [
+      "niḥ",
+      "vā"
+    ],
+    "meaning": "extinction",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "niḥ (out) + vā (to blow) + aṇa (verbal suffix) - 'blowing out' or 'extinction of desires'"
+  },
+  {
+    "word": "brahmaloka",
+    "roots": [
+      "brahman",
+      "loka"
+    ],
+    "meaning": "world of Brahman",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "brahman (Brahman) + loka (world) - compound meaning 'world of Brahman'"
+  },
+  {
+    "word": "vaikuṇṭha",
+    "roots": [
+      "vi",
+      "kuṇṭh"
+    ],
+    "meaning": "Vaikuntha",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "vai (intensive prefix) + kuṇṭha (to be crooked/incurved) - 'the place free from crookedness' or 'heaven of Vishnu'"
+  },
+  {
+    "word": "kailāsa",
+    "roots": [
+      "kailās"
+    ],
+    "meaning": "Kailash",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "kailās (Kailash) + a (verbal suffix) - 'mountain of Shiva'"
+  },
+  {
+    "word": "amṛta",
+    "roots": [
+      "a",
+      "mṛ"
+    ],
+    "meaning": "nectar",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "a (negative prefix) + mṛ (to die) + ta (verbal suffix) - 'the undying' or 'nectar of immortality'"
+  },
+  {
+    "word": "soma",
+    "roots": [
+      "su"
+    ],
+    "meaning": "Soma",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "su (to press out) + ma (verbal suffix) - 'the pressed one' (referring to the sacred moon deity and soma plant)"
+  },
+  {
+    "word": "surā",
+    "roots": [
+      "sur"
+    ],
+    "meaning": "liquor",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "sur (to be bright) + ā (feminine suffix) - 'the intoxicating drink'"
+  },
+  {
+    "word": "madya",
+    "roots": [
+      "mad"
+    ],
+    "meaning": "intoxicant",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "mad (to be drunk/joyful) + ya (verbal suffix) - 'that which intoxicates'"
+  },
+  {
+    "word": "māṃsa",
+    "roots": [
+      "māṃs"
+    ],
+    "meaning": "meat",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "māṃs (flesh) + a (verbal suffix)"
+  },
+  {
+    "word": "matsya",
+    "roots": [
+      "matsya"
+    ],
+    "meaning": "fish",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "matsya (fish) - from the root meaning 'to dive/swim'"
+  },
+  {
+    "word": "maithuna",
+    "roots": [
+      "mith"
+    ],
+    "meaning": "sexual union",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "mith (to join) + una (verbal suffix) - 'union' (specifically sexual union)"
+  },
+  {
+    "word": "pañcamakāra",
+    "roots": [
+      "pañca",
+      "makāra"
+    ],
+    "meaning": "five M's",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "pañca (five) + makāra (the letter 'M') - 'the five Ms' (in Tantric context)"
+  },
+  {
+    "word": "nyāsa",
+    "roots": [
+      "nyas"
+    ],
+    "meaning": "placement",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "ni (down) + ā (towards) + as (to throw) + a (verbal suffix) - 'placement' or 'ceremonial positioning'"
+  },
+  {
+    "word": "puraścaraṇa",
+    "roots": [
+      "purast",
+      "car"
+    ],
+    "meaning": "preliminary practice",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "puras (before) + cara (to go) + aṇa (verbal suffix) - 'practice performed beforehand'"
+  },
+  {
+    "word": "japa",
+    "roots": [
+      "jap"
+    ],
+    "meaning": "repetition",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "jap (to mutter/repeat) + a (verbal suffix) - 'the act of repeated recitation'"
+  },
+  {
+    "word": "tarpaṇa",
+    "roots": [
+      "tṛp"
+    ],
+    "meaning": "satisfaction",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "tṛp (to satisfy) + aṇa (verbal suffix) - 'the act of satisfying'"
+  },
+  {
+    "word": "śrāddha",
+    "roots": [
+      "śraddhā"
+    ],
+    "meaning": "ritual for ancestors",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "śraddhā (faith) + dha (verbal suffix) - 'done with faith' (ritual performed for deceased ancestors)"
+  },
+  {
+    "word": "piṇḍa",
+    "roots": [
+      "piṇḍ"
+    ],
+    "meaning": "ball",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "piṇḍ (to conglomerate) + a (verbal suffix) - 'lump' or 'ball' (especially in ritual context)"
+  },
+  {
+    "word": "tīrtha",
+    "roots": [
+      "tṝ"
+    ],
+    "meaning": "ford",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "tṝ (to cross) + tha (verbal suffix) - 'a place of crossing' or 'pilgrimage site'"
+  },
+  {
+    "word": "yātrā",
+    "roots": [
+      "yā"
+    ],
+    "meaning": "journey",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "yā (to go) + trā (feminine suffix) - 'the act of going' or 'pilgrimage'"
+  },
+  {
+    "word": "darśana",
+    "roots": [
+      "dṛś"
+    ],
+    "meaning": "sight",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "dṛś (to see) + ana (verbal suffix) - 'seeing' or 'philosophical system'"
+  },
+  {
+    "word": "sparśana",
+    "roots": [
+      "spṛś"
+    ],
+    "meaning": "touch",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "spṛś (to touch) + ana (verbal suffix) - 'the act of touching'"
+  },
+  {
+    "word": "sevā",
+    "roots": [
+      "sev"
+    ],
+    "meaning": "service",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "sev (to serve) + ā (feminine suffix)"
+  },
+  {
+    "word": "arcana",
+    "roots": [
+      "arc"
+    ],
+    "meaning": "worship",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "arc (to worship) + ana (verbal suffix)"
+  },
+  {
+    "word": "vandana",
+    "roots": [
+      "vand"
+    ],
+    "meaning": "salutation",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "vand (to praise) + ana (verbal suffix)"
+  },
+  {
+    "word": "namaskāra",
+    "roots": [
+      "nam",
+      "kṛ"
+    ],
+    "meaning": "salutation",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "namas (bowing) + kāra (maker) - literally 'making bowed hands' or 'salutation'"
+  },
+  {
+    "word": "praṇāma",
+    "roots": [
+      "pra",
+      "nam"
+    ],
+    "meaning": "bow",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "pra (forward) + nam (to bow) + a (verbal suffix) - 'prostration'"
+  },
+  {
+    "word": "astu",
+    "roots": [
+      "as"
+    ],
+    "meaning": "let it be",
+    "partOfSpeech": "particle",
+    "grammaticalAnalysis": "optative form of 'as' (to be)",
+    "compoundStructure": "as (to be) + tu (optative particle) - 'may it be'"
+  },
+  {
+    "word": "bhavat",
+    "roots": [
+      "bhū"
+    ],
+    "meaning": "you",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine/neuter singular nom./voc.",
+    "compoundStructure": "bhū (to become) + vat (possessive suffix) - literally 'may you be' or 'sir/madam'"
+  },
+  {
+    "word": "bhoḥ",
+    "roots": [
+      "bhū"
+    ],
+    "meaning": "oh",
+    "partOfSpeech": "interjection",
+    "grammaticalAnalysis": "vocative interjection",
+    "compoundStructure": "bhū (to be) + oḥ (vocative particle) - 'calling attention' or 'oh'"
+  },
+  {
+    "word": "he",
+    "roots": [
+      "he"
+    ],
+    "meaning": "hey",
+    "partOfSpeech": "interjection",
+    "grammaticalAnalysis": "interjection",
+    "compoundStructure": "he (interjectional root) - used to call attention"
+  },
+  {
+    "word": "aho",
+    "roots": [
+      "aho"
+    ],
+    "meaning": "ah",
+    "partOfSpeech": "interjection",
+    "grammaticalAnalysis": "interjection",
+    "compoundStructure": "aho (interjectional root) - expressing wonder or surprise"
+  },
+  {
+    "word": "haha",
+    "roots": [
+      "ha"
+    ],
+    "meaning": "ha",
+    "partOfSpeech": "interjection",
+    "grammaticalAnalysis": "interjection",
+    "compoundStructure": "ha (interjectional root) repeated - expressing laughter or derision"
+  },
+  {
+    "word": "hanta",
+    "roots": [
+      "han"
+    ],
+    "meaning": "alas",
+    "partOfSpeech": "interjection",
+    "grammaticalAnalysis": "interjection",
+    "compoundStructure": "han (to strike) + ta (verbal suffix) - expressing sorrow or regret"
+  },
+  {
+    "word": "dhik",
+    "roots": [
+      "dhik"
+    ],
+    "meaning": "fie",
+    "partOfSpeech": "interjection",
+    "grammaticalAnalysis": "interjection",
+    "compoundStructure": "dhik (interjectional root) - expressing contempt"
+  },
+  {
+    "word": "aśva",
+    "roots": [
+      "aśva"
+    ],
+    "meaning": "horse",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "aśva (horse) - from root related to 'to go' or 'speed'"
+  },
+  {
+    "word": "gaja",
+    "roots": [
+      "gaj"
+    ],
+    "meaning": "elephant",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "gaj (to go) + a (verbal suffix) - 'the one that goes' (referring to elephant)"
+  },
+  {
+    "word": "nara",
+    "roots": [
+      "nṛ"
+    ],
+    "meaning": "man",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "nṛ (to move) + a (verbal suffix) - 'the one who moves' or 'man'"
+  },
+  {
+    "word": "nārī",
+    "roots": [
+      "nārī"
+    ],
+    "meaning": "woman",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "nārī (woman) - from 'nara' (man) with feminine suffix"
+  },
+  {
+    "word": "paśu",
+    "roots": [
+      "paś"
+    ],
+    "meaning": "animal",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "paś (to see) + u (noun suffix) - 'the one that sees' or 'beast' (as opposed to 'deva' which sees)"
+  },
+  {
+    "word": "pakṣi",
+    "roots": [
+      "pakṣ"
+    ],
+    "meaning": "bird",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "pakṣ (wing) + i (noun suffix) - 'winged one' or 'bird'"
+  },
+  {
+    "word": "sarpa",
+    "roots": [
+      "sṛp"
+    ],
+    "meaning": "snake",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "sṛp (to crawl) + a (verbal suffix) - 'the one that crawls' or 'snake'"
+  },
+  {
+    "word": "mṛga",
+    "roots": [
+      "mṛg"
+    ],
+    "meaning": "deer",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "mṛg (to hunt/seek) + a (verbal suffix) - 'the one that seeks' (deer, which constantly looks for food)"
+  },
+  {
+    "word": "vana",
+    "roots": [
+      "van"
+    ],
+    "meaning": "forest",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "van (to cover/protect) + a (verbal suffix) - 'covered land' or 'forest'"
+  },
+  {
+    "word": "araṇya",
+    "roots": [
+      "araṇya"
+    ],
+    "meaning": "forest",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "araṇya (forest) - from root meaning 'without' or 'not home' (wilderness)"
+  },
+  {
+    "word": "giri",
+    "roots": [
+      "gir"
+    ],
+    "meaning": "mountain",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "gir (to praise) + i (noun suffix) - 'the praised one' (mountains were praised in Vedic literature)"
+  },
+  {
+    "word": "nadī",
+    "roots": [
+      "nad"
+    ],
+    "meaning": "river",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "nad (to flow) + ī (feminine suffix) - 'the flowing one'"
+  },
+  {
+    "word": "sāgara",
+    "roots": [
+      "sāgara"
+    ],
+    "meaning": "ocean",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "sāgara (ocean) - literally 'the gathering place of rivers' (from 'sa' + 'gara')"
+  },
+  {
+    "word": "dvīpa",
+    "roots": [
+      "dvīp"
+    ],
+    "meaning": "island",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "dvi (two) + īpa (island) - 'island' (perhaps referring to land dividing water)"
+  },
+  {
+    "word": "patha",
+    "roots": [
+      "path"
+    ],
+    "meaning": "path",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "path (to go) + a (verbal suffix) - 'the going place' or 'path'"
+  },
+  {
+    "word": "marga",
+    "roots": [
+      "mṛg"
+    ],
+    "meaning": "path",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "mṛg (to follow/hunt) + a (verbal suffix) - 'the path followed' or 'way'"
+  },
+  {
+    "word": "vīthi",
+    "roots": [
+      "vīthi"
+    ],
+    "meaning": "street",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "vīthi (street) - from root meaning 'to go in succession'"
+  },
+  {
+    "word": "sabhā",
+    "roots": [
+      "sabh"
+    ],
+    "meaning": "assembly",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "sabh (to speak) + ā (feminine suffix) - 'the speaking place' or 'assembly hall'"
+  },
+  {
+    "word": "gṛha",
+    "roots": [
+      "gṛh"
+    ],
+    "meaning": "house",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "gṛh (to grasp/protect) + a (verbal suffix) - 'the protective place' or 'house'"
+  },
+  {
+    "word": "prāsāda",
+    "roots": [
+      "pra",
+      "sad"
+    ],
+    "meaning": "palace",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "pra (forward) + sad (to go/enter) + a (verbal suffix) - 'the excellent dwelling' or 'palace'"
+  },
+  {
+    "word": "harmya",
+    "roots": [
+      "harmya"
+    ],
+    "meaning": "building",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "harmya (building) - from root related to 'to harm' in the sense of 'protected from harm'"
+  },
+  {
+    "word": "bhavana",
+    "roots": [
+      "bhū"
+    ],
+    "meaning": "building",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "bhū (to be/become) + ana (verbal suffix) - 'the place of being' or 'dwelling'"
+  },
+  {
+    "word": "ālaya",
+    "roots": [
+      "ā",
+      "lī"
+    ],
+    "meaning": "abode",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "ā (towards) + lī (to be hidden) + a (verbal suffix) - 'the place where one goes to hide/rest' or 'abode'"
+  },
+  {
+    "word": "nilaya",
+    "roots": [
+      "ni",
+      "lī"
+    ],
+    "meaning": "abode",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "ni (down) + lī (to be hidden) + a (verbal suffix) - 'the place where one settles' or 'abode'"
+  },
+  {
+    "word": "vesma",
+    "roots": [
+      "viś"
+    ],
+    "meaning": "house",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "vi (in) + as (to stay) + ma (verbal suffix) - 'the place where one enters to stay' or 'house'"
+  },
+  {
+    "word": "geha",
+    "roots": [
+      "gih"
+    ],
+    "meaning": "house",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "gih (to live) + a (verbal suffix) - 'the living place' or 'house'"
+  },
+  {
+    "word": "dhāma",
+    "roots": [
+      "dhā"
+    ],
+    "meaning": "abode",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "dhā (to place) + ma (verbal suffix) - 'the placed place' or 'abode', often divine"
+  },
+  {
+    "word": "kṣetra",
+    "roots": [
+      "kṣi"
+    ],
+    "meaning": "field",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "kṣi (to cut/drain) + tra (verbal suffix) - 'that which is cut/drained' or 'cultivated field'"
+  },
+  {
+    "word": "āyatana",
+    "roots": [
+      "ā",
+      "yat"
+    ],
+    "meaning": "abode",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "ā (towards) + yat (to go) + ana (verbal suffix) - 'place of going toward' or 'abode'"
+  },
+  {
+    "word": "mandira",
+    "roots": [
+      "mand"
+    ],
+    "meaning": "temple",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "mand (to be happy) + ira (verbal suffix) - 'the place of joy' or 'temple'"
+  },
+  {
+    "word": "devālaya",
+    "roots": [
+      "deva",
+      "lī"
+    ],
+    "meaning": "temple",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "deva (god) + ālaya (abode) - compound meaning 'abode of gods' or 'temple'"
+  },
+  {
+    "word": "caitya",
+    "roots": [
+      "cit"
+    ],
+    "meaning": "shrine",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "cit (to think/remember) + ya (verbal suffix) - 'that which is remembered' (especially Buddha or sacred)"
+  },
+  {
+    "word": "stūpa",
+    "roots": [
+      "stūp"
+    ],
+    "meaning": "stupa",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "stūp (to heap up) + a (verbal suffix) - 'heaped up place' or 'stupa'"
+  },
+  {
+    "word": "vihāra",
+    "roots": [
+      "vi",
+      "hṛ"
+    ],
+    "meaning": "monastery",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "vi (in different ways) + hṛ (to go) + a (verbal suffix) - 'wandering place' or 'monastery'"
+  },
+  {
+    "word": "matha",
+    "roots": [
+      "math"
+    ],
+    "meaning": "monastery",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "math (to measure/limit) + a (verbal suffix) - 'measured place' or 'monastery'"
+  },
+  {
+    "word": "kutīra",
+    "roots": [
+      "kuṭ"
+    ],
+    "meaning": "hut",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "kuṭ (to be crooked) + īra (verbal suffix) - 'crooked place' or 'hut'"
+  },
+  {
+    "word": "parṇaśālā",
+    "roots": [
+      "parṇa",
+      "śāl"
+    ],
+    "meaning": "leaf hut",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "parṇa (leaf) + śālā (house) - compound meaning 'leaf house' or 'leaf hut'"
+  },
+  {
+    "word": "yajñaśālā",
+    "roots": [
+      "yaj",
+      "śāl"
+    ],
+    "meaning": "sacrificial hall",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "yajña (sacrifice) + śālā (hall) - compound meaning 'sacrifice hall'"
+  },
+  {
+    "word": "saṃsthā",
+    "roots": [
+      "sam",
+      "sthā"
+    ],
+    "meaning": "institution",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "saṃ (with) + sthā (to stand) + ā (feminine suffix) - 'established place' or 'institution'"
+  },
+  {
+    "word": "samiti",
+    "roots": [
+      "sam",
+      "i"
+    ],
+    "meaning": "committee",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "sam (together) + i (to go) + ti (feminine suffix) - 'coming together' or 'assembly'"
+  },
+  {
+    "word": "pariṣad",
+    "roots": [
+      "pari",
+      "sad"
+    ],
+    "meaning": "assembly",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "pari (around) + sad (to go/sit) + d (verbal suffix) - 'sitting around' or 'assembly'"
+  },
+  {
+    "word": "gaṇa",
+    "roots": [
+      "gaṇ"
+    ],
+    "meaning": "group",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "gaṇ (to count) + a (verbal suffix) - 'group' or 'assembly'"
+  },
+  {
+    "word": "saṅgha",
+    "roots": [
+      "saṃ",
+      "han"
+    ],
+    "meaning": "community",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "saṃ (together) + han (to strike/gather) + gha (verbal suffix) - 'gathered together' or 'community'"
+  },
+  {
+    "word": "mela",
+    "roots": [
+      "mil"
+    ],
+    "meaning": "gathering",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "mil (to meet/unite) + a (verbal suffix) - 'meeting place' or 'gathering'"
+  },
+  {
+    "word": "utsava",
+    "roots": [
+      "ut",
+      "sū"
+    ],
+    "meaning": "festival",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "ut (up) + sū (to press/gather) + ava (verbal suffix) - 'pressing up' or 'festival'"
+  },
+  {
+    "word": "mahotsava",
+    "roots": [
+      "mah",
+      "ut",
+      "sū"
+    ],
+    "meaning": "great festival",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "maha (great) + utsava (festival) - compound meaning 'great festival'"
+  },
+  {
+    "word": "parva",
+    "roots": [
+      "parv"
+    ],
+    "meaning": "joint, festival",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "parv (to be prominent) + a (verbal suffix) - 'prominent occasion' or 'festival'"
+  },
+  {
+    "word": "dina",
+    "roots": [
+      "dina"
+    ],
+    "meaning": "day",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "dina (day) - from root meaning 'to give light' or 'to shine'"
+  },
+  {
+    "word": "rātri",
+    "roots": [
+      "rātri"
+    ],
+    "meaning": "night",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "rātri (night) - from root meaning 'to give pleasure' or 'rest'"
+  },
+  {
+    "word": "ahorātra",
+    "roots": [
+      "ahan",
+      "rātri"
+    ],
+    "meaning": "day and night",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "ahar (day) + rātri (night) - compound meaning 'day-night' or 'continuously'"
+  },
+  {
+    "word": "pakṣa",
+    "roots": [
+      "pakṣ"
+    ],
+    "meaning": "fortnight",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "pakṣ (wing) + a (verbal suffix) - 'wing' or 'side', specifically 'half-month' as moon's phases"
+  },
+  {
+    "word": "māsa",
+    "roots": [
+      "māsa"
+    ],
+    "meaning": "month",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "māsa (month) - from root related to moon 'mās' (moon)"
+  },
+  {
+    "word": "ṛtu",
+    "roots": [
+      "ṛtu"
+    ],
+    "meaning": "season",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "ṛtu (season) - from root meaning 'order' or 'regularity'"
+  },
+  {
+    "word": "saṃvatsara",
+    "roots": [
+      "sam",
+      "vat"
+    ],
+    "meaning": "year",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "saṃ (together) + vas (to dwell/remain) + tra (verbal suffix) - 'that which passes completely' or 'year'"
+  },
+  {
+    "word": "yuga",
+    "roots": [
+      "yuj"
+    ],
+    "meaning": "age",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "yuj (to join/unite) + a (verbal suffix) - 'a joining period' or 'cosmic age'"
+  },
+  {
+    "word": "satyayuga",
+    "roots": [
+      "sat",
+      "yug"
+    ],
+    "meaning": "golden age",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "satya (truth) + yuga (age) - compound meaning 'age of truth' or golden age'"
+  },
+  {
+    "word": "na",
+    "roots": [
+      "na"
+    ],
+    "meaning": "not, no",
+    "partOfSpeech": "particle",
+    "grammaticalAnalysis": "negation particle",
+    "compoundStructure": "na (not) - simple negation particle"
+  },
+  {
+    "word": "sa",
+    "roots": [
+      "sa"
+    ],
+    "meaning": "he, that",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "sa (that) - demonstrative pronoun in masculine nominative"
+  },
+  {
+    "word": "te",
+    "roots": [
+      "tvad"
+    ],
+    "meaning": "your, to you",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "feminine/neuter plural nom./voc. or 2nd person dual dat./acc.",
+    "compoundStructure": "tvam (you) + e (personal ending) - possessive or case form of 'you'"
+  },
+  {
+    "word": "caiva",
+    "roots": [
+      "ca"
+    ],
+    "meaning": "and indeed, and also",
+    "partOfSpeech": "particle",
+    "grammaticalAnalysis": "conjunction + emphasis",
+    "compoundStructure": "ca (and) + eva (indeed) - compound particle meaning 'and indeed'"
+  },
+  {
+    "word": "me",
+    "roots": [
+      "asmad"
+    ],
+    "meaning": "my, to me",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "1st person singular genitive/dative",
+    "compoundStructure": "mad (from 'asmad' - I) + e (case ending) - first person singular possessive or dative"
+  },
+  {
+    "word": "vai",
+    "roots": [
+      "vai"
+    ],
+    "meaning": "indeed, truly",
+    "partOfSpeech": "particle",
+    "grammaticalAnalysis": "emphatic particle",
+    "compoundStructure": "vai (indeed) - emphatic/sanctional particle"
+  },
+  {
+    "word": "tv",
+    "roots": [
+      "tu"
+    ],
+    "meaning": "but, however",
+    "partOfSpeech": "particle",
+    "grammaticalAnalysis": "concessive particle",
+    "compoundStructure": "tu (but) - concessive particle, often contracted to tv"
+  },
+  {
+    "word": "iva",
+    "roots": [
+      "iva"
+    ],
+    "meaning": "like, as if",
+    "partOfSpeech": "particle",
+    "grammaticalAnalysis": "comparative particle",
+    "compoundStructure": "iva (like/as) - comparative particle"
+  },
+  {
+    "word": "tadā",
+    "roots": [
+      "tad"
+    ],
+    "meaning": "then, at that time",
+    "partOfSpeech": "adverb",
+    "grammaticalAnalysis": "temporal adverb",
+    "compoundStructure": "tat (that) + ā (locative adverbial suffix) - 'at that time'"
+  },
+  {
+    "word": "taṃ",
+    "roots": [
+      "tad"
+    ],
+    "meaning": "him, that",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine singular accusative",
+    "compoundStructure": "tat (that) + am (accusative singular ending) - masculine accusative of demonstrative pronoun"
+  },
+  {
+    "word": "tad",
+    "roots": [
+      "tad"
+    ],
+    "meaning": "that, it",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine/feminine/neuter singular nom./voc.",
+    "compoundStructure": "tad (that) - demonstrative pronoun in neuter nominative"
+  },
+  {
+    "word": "tasya",
+    "roots": [
+      "tad"
+    ],
+    "meaning": "his, of that",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine/feminine/neuter singular genitive",
+    "compoundStructure": "tad (that) + sya (genitive singular ending) - genitive form of demonstrative pronoun"
+  },
+  {
+    "word": "tvaṃ",
+    "roots": [
+      "tvad"
+    ],
+    "meaning": "you",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "2nd person singular nom./acc./voc.",
+    "compoundStructure": "tvam (you) + aṃ (ending for 2nd person singular) - 2nd person pronoun in nominative/accusative"
+  },
+  {
+    "word": "kiṃ",
+    "roots": [
+      "kim"
+    ],
+    "meaning": "what, why",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "interrogative pronoun neuter singular nom./acc./voc.",
+    "compoundStructure": "kim (what) - interrogative pronoun in neuter form"
+  },
+  {
+    "word": "tat",
+    "roots": [
+      "tad"
+    ],
+    "meaning": "that",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine/feminine/neuter singular nom./voc.",
+    "compoundStructure": "tat (that) - demonstrative pronoun in neuter nominative/vocative"
+  },
+  {
+    "word": "dṛṣṭvā",
+    "roots": [
+      "dṛś"
+    ],
+    "meaning": "having seen",
+    "partOfSpeech": "absolutive",
+    "grammaticalAnalysis": "absolutive form of 'dṛś' (to see)",
+    "compoundStructure": "dṛś (to see) + tvā (absolutive suffix) - 'having seen', indeclinable absolute construction"
+  },
+  {
+    "word": "sarve",
+    "roots": [
+      "sarva"
+    ],
+    "meaning": "all",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine plural nom./voc.",
+    "compoundStructure": "sarva (all) + e (masculine plural ending) - 'all' in masculine plural nominative/vocative"
+  },
+  {
+    "word": "cāpi",
+    "roots": [
+      "ca"
+    ],
+    "meaning": "and also",
+    "partOfSpeech": "particle",
+    "grammaticalAnalysis": "copulative + emphatic particle",
+    "compoundStructure": "ca (and) + api (also) - compound particle meaning 'and also' or 'even'"
+  },
+  {
+    "word": "mama",
+    "roots": [
+      "asmad"
+    ],
+    "meaning": "my, mine",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "1st person singular genitive",
+    "compoundStructure": "mad (from 'asmad' - I) + a (genitive ending) - first person possessive pronoun"
+  },
+  {
+    "word": "hy",
+    "roots": [
+      "hi"
+    ],
+    "meaning": "indeed, for",
+    "partOfSpeech": "particle",
+    "grammaticalAnalysis": "causal/emphatic particle",
+    "compoundStructure": "hi (for/indeed) - causal particle, often contracted to hy in verse"
+  },
+  {
+    "word": "tam",
+    "roots": [
+      "tad"
+    ],
+    "meaning": "him, that",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine singular accusative",
+    "compoundStructure": "tad (that) + am (accusative singular ending) - accusative form of demonstrative pronoun"
+  },
+  {
+    "word": "saha",
+    "roots": [
+      "saha"
+    ],
+    "meaning": "with, together",
+    "partOfSpeech": "preposition",
+    "grammaticalAnalysis": "postposition requiring genitive",
+    "compoundStructure": "saha (with) - postposition requiring following word to be in genitive case"
+  },
+  {
+    "word": "evaṃ",
+    "roots": [
+      "eva"
+    ],
+    "meaning": "thus, so",
+    "partOfSpeech": "adverb",
+    "grammaticalAnalysis": "adverbial form",
+    "compoundStructure": "evam (thus) - adverb derived from 'eva' (this/there) with accusative ending"
+  },
+  {
+    "word": "ye",
+    "roots": [
+      "yad"
+    ],
+    "meaning": "who, which",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine plural nom./voc.",
+    "compoundStructure": "yad (who/which) + e (plural ending) - relative/interrogative pronoun in masculine plural"
+  },
+  {
+    "word": "kathaṃ",
+    "roots": [
+      "katham"
+    ],
+    "meaning": "how, why",
+    "partOfSpeech": "adverb",
+    "grammaticalAnalysis": "interrogative adverb",
+    "compoundStructure": "katham (how) - interrogative adverb from 'kat' (question root)"
+  },
+  {
+    "word": "punaḥ",
+    "roots": [
+      "punar"
+    ],
+    "meaning": "again, once more",
+    "partOfSpeech": "adverb",
+    "grammaticalAnalysis": "adverbial form",
+    "compoundStructure": "punar (again) + ḥ (visarga ending) - adverb meaning 'again' or 'moreover'"
+  },
+  {
+    "word": "yad",
+    "roots": [
+      "yad"
+    ],
+    "meaning": "that, which",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "yad (that/which) - relative/interrogative pronoun in neuter form"
+  },
+  {
+    "word": "raṇe",
+    "roots": [
+      "raṇa"
+    ],
+    "meaning": "in battle",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular locative",
+    "compoundStructure": "raṇa (battle) + e (locative singular ending) - 'in battle', locative case"
+  },
+  {
+    "word": "ity",
+    "roots": [
+      "iti"
+    ],
+    "meaning": "thus (quotative)",
+    "partOfSpeech": "particle",
+    "grammaticalAnalysis": "quotative particle with visarga",
+    "compoundStructure": "iti (thus) + visarga (quotative ending) - concluding particle marking end of quotation"
+  },
+  {
+    "word": "yo",
+    "roots": [
+      "yad"
+    ],
+    "meaning": "who, which",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "yad (who/which) + o (masculine singular ending) - relative/interrogative pronoun in masculine singular"
+  },
+  {
+    "word": "ahaṃ",
+    "roots": [
+      "aham"
+    ],
+    "meaning": "I",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "1st person singular nom./acc./voc.",
+    "compoundStructure": "aham (I) + ṃ (visarga ending in verse context) - 1st person pronoun in nominative/accusative"
+  },
+  {
+    "word": "tān",
+    "roots": [
+      "tad"
+    ],
+    "meaning": "them, those",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine plural accusative",
+    "compoundStructure": "tad (that) + ān (plural accusative ending) - masculine plural accusative form of demonstrative pronoun"
+  },
+  {
+    "word": "mayā",
+    "roots": [
+      "asmad"
+    ],
+    "meaning": "by me",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "1st person singular instrumental",
+    "compoundStructure": "mad (from 'asmad' - I) + yā (instrumental ending) - instrumental case of first person pronoun"
+  },
+  {
+    "word": "evam",
+    "roots": [
+      "eva"
+    ],
+    "meaning": "thus, so",
+    "partOfSpeech": "adverb",
+    "grammaticalAnalysis": "adverbial form",
+    "compoundStructure": "evam (thus) - adverb derived from 'eva' (this/so)"
+  },
+  {
+    "word": "idaṃ",
+    "roots": [
+      "idam"
+    ],
+    "meaning": "this",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "idam (this) + aṃ (neuter ending) - demonstrative pronoun in neuter singular"
+  },
+  {
+    "word": "sā",
+    "roots": [
+      "tad"
+    ],
+    "meaning": "she, that",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "sā (from 'tad' = that) - feminine singular form of demonstrative pronoun"
+  },
+  {
+    "word": "punar",
+    "roots": [
+      "punar"
+    ],
+    "meaning": "again, once more",
+    "partOfSpeech": "adverb",
+    "grammaticalAnalysis": "adverbial form",
+    "compoundStructure": "punar (again) - adverb meaning 'again' or 'then'"
+  },
+  {
+    "word": "so",
+    "roots": [
+      "tad"
+    ],
+    "meaning": "he, that",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "sa (from 'tad' = that) + o (ending for masculine singular) - masculine singular form of demonstrative pronoun"
+  },
+  {
+    "word": "tena",
+    "roots": [
+      "tad"
+    ],
+    "meaning": "by him, with that",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine singular instrumental",
+    "compoundStructure": "tad (that) + ena (instrumental singular ending) - instrumental case of demonstrative pronoun"
+  },
+  {
+    "word": "tvayā",
+    "roots": [
+      "tvad"
+    ],
+    "meaning": "by you",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "2nd person singular instrumental",
+    "compoundStructure": "tvā (you) + yā (instrumental ending) - instrumental case of second person pronoun"
+  },
+  {
+    "word": "yat",
+    "roots": [
+      "yad"
+    ],
+    "meaning": "which, that",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "yad (which) + at (neuter ending) - neuter form of relative/interrogative pronoun"
+  },
+  {
+    "word": "eṣa",
+    "roots": [
+      "etad"
+    ],
+    "meaning": "this",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "etad (this) + a (masculine ending) + ṣa (prosthetic letter) - proximal demonstrative pronoun in masculine"
+  },
+  {
+    "word": "teṣāṃ",
+    "roots": [
+      "tad"
+    ],
+    "meaning": "of them, their",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine plural genitive",
+    "compoundStructure": "te (they) + ṣām (genitive plural ending) - plural genitive of demonstrative pronoun"
+  },
+  {
+    "word": "etad",
+    "roots": [
+      "etad"
+    ],
+    "meaning": "this",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "etad (this) - proximal demonstrative pronoun in neuter form"
+  },
+  {
+    "word": "uvāca",
+    "roots": [
+      "vac"
+    ],
+    "meaning": "said, spoke",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "3rd person singular perfect active",
+    "compoundStructure": "u (intensive prefix) + vac (to speak) + ā (perfect tense) + ca (aorist ending) - he/she said"
+  },
+  {
+    "word": "tāṃ",
+    "roots": [
+      "tad"
+    ],
+    "meaning": "her, that",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "feminine singular accusative",
+    "compoundStructure": "tad (that) + āṃ (feminine accusative ending) - feminine singular accusative of demonstrative pronoun"
+  },
+  {
+    "word": "ha",
+    "roots": [
+      "ha"
+    ],
+    "meaning": "indeed, ah",
+    "partOfSpeech": "particle",
+    "grammaticalAnalysis": "emphatic particle",
+    "compoundStructure": "ha (indeed) - exclamation or emphasis particle"
+  },
+  {
+    "word": "tvam",
+    "roots": [
+      "tvad"
+    ],
+    "meaning": "you",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "2nd person singular nom./acc./voc.",
+    "compoundStructure": "tvam (you) - second person pronoun in singular"
+  },
+  {
+    "word": "'pi",
+    "roots": [
+      "api"
+    ],
+    "meaning": "also, even",
+    "partOfSpeech": "particle",
+    "grammaticalAnalysis": "cumulative particle",
+    "compoundStructure": "api (also) - cumulative particle, often used as enclitic"
+  },
+  {
+    "word": "tāta",
+    "roots": [
+      "tāt"
+    ],
+    "meaning": "father, dear",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine vocative",
+    "compoundStructure": "tāt (father) + a (vocative ending) - vocative form 'O father!' or 'dear'"
+  },
+  {
+    "word": "abravīt",
+    "roots": [
+      "brū"
+    ],
+    "meaning": "said, spoke",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "3rd person singular imperfect active",
+    "compoundStructure": "a (past augment) + brū (to speak) + īt (3rd person singular ending) - he/she spoke (past tense)"
+  },
+  {
+    "word": "nāma",
+    "roots": [
+      "nāman"
+    ],
+    "meaning": "name, namely",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "nāman (name) + a (neuter ending) - 'name' or 'namely' (emphatic particle)"
+  },
+  {
+    "word": "nityaṃ",
+    "roots": [
+      "nitya"
+    ],
+    "meaning": "always, eternally",
+    "partOfSpeech": "adverb",
+    "grammaticalAnalysis": "adverbial form",
+    "compoundStructure": "nitya (eternal) + aṃ (adverbial ending) - 'always' or 'eternally'"
+  },
+  {
+    "word": "purā",
+    "roots": [
+      "purā"
+    ],
+    "meaning": "formerly, before",
+    "partOfSpeech": "adverb",
+    "grammaticalAnalysis": "adverbial form",
+    "compoundStructure": "purā (before) - temporal adverb meaning 'in former times' or 'before'"
+  },
+  {
+    "word": "yaḥ",
+    "roots": [
+      "yad"
+    ],
+    "meaning": "who, which",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "yad (who/which) + aḥ (masculine singular ending) - masculine singular form of relative pronoun"
+  },
+  {
+    "word": "tvāṃ",
+    "roots": [
+      "tvad"
+    ],
+    "meaning": "you",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "2nd person singular accusative",
+    "compoundStructure": "tvā (you) + aṃ (accusative ending) - second person accusative pronoun"
+  },
+  {
+    "word": "bharatarṣabha",
+    "roots": [
+      "bharata",
+      "ṛṣabha"
+    ],
+    "meaning": "O bull of Bharatas",
+    "partOfSpeech": "epithet",
+    "grammaticalAnalysis": "masculine singular vocative",
+    "compoundStructure": "bharata (surname) +ṛṣabha (bull/hero) - compound epithet meaning 'O best of Bharatas'"
+  },
+  {
+    "word": "sma",
+    "roots": [
+      "sma"
+    ],
+    "meaning": "indeed (past marker)",
+    "partOfSpeech": "particle",
+    "grammaticalAnalysis": "past tense marker",
+    "compoundStructure": "sma (past marker) - past tense marker in Sanskrit epic poetry"
+  },
+  {
+    "word": "ya",
+    "roots": [
+      "yad"
+    ],
+    "meaning": "who, which",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "yad (who/which) + a (masculine ending) - masculine singular form of relative pronoun"
+  },
+  {
+    "word": "prati",
+    "roots": [
+      "prati"
+    ],
+    "meaning": "towards, against",
+    "partOfSpeech": "preposition",
+    "grammaticalAnalysis": "preposition requiring accusative",
+    "compoundStructure": "prati (towards/against) - preposition meaning 'toward', 'against', or 'in return for'"
+  },
+  {
+    "word": "mā",
+    "roots": [
+      "mā"
+    ],
+    "meaning": "not (prohibitive)",
+    "partOfSpeech": "particle",
+    "grammaticalAnalysis": "prohibitive particle",
+    "compoundStructure": "mā (not) - prohibitive particle used with verbs in negative imperative"
+  },
+  {
+    "word": "sarvān",
+    "roots": [
+      "sarva"
+    ],
+    "meaning": "all (accusative)",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine plural accusative",
+    "compoundStructure": "sarva (all) + ān (plural accusative ending) - masculine plural accusative of 'all'"
+  },
+  {
+    "word": "kaś",
+    "roots": [
+      "kim"
+    ],
+    "meaning": "who, which",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "kim (what) + aś (masculine ending with visarga) - masculine singular of interrogative pronoun"
+  },
+  {
+    "word": "adya",
+    "roots": [
+      "adya"
+    ],
+    "meaning": "today, now",
+    "partOfSpeech": "adverb",
+    "grammaticalAnalysis": "temporal adverb",
+    "compoundStructure": "adya (today) - temporal adverb meaning 'today' or 'now'"
+  },
+  {
+    "word": "śaraiḥ",
+    "roots": [
+      "śara"
+    ],
+    "meaning": "with arrows",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine plural instrumental",
+    "compoundStructure": "śara (arrow) + aiḥ (instrumental plural) - 'with arrows', instrumental case"
+  },
+  {
+    "word": "tan",
+    "roots": [
+      "tan"
+    ],
+    "meaning": "stretch, extend",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "3rd person singular present",
+    "compoundStructure": "tan (to stretch) + a (present tense ending) - 'he stretches'"
+  },
+  {
+    "word": "aham",
+    "roots": [
+      "aham"
+    ],
+    "meaning": "I",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "1st person singular nom./acc./voc.",
+    "compoundStructure": "aham (I) - first person pronoun in nominative/accusative/vocative"
+  },
+  {
+    "word": "bhavet",
+    "roots": [
+      "bhū"
+    ],
+    "meaning": "may be, should be",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "3rd person singular optative",
+    "compoundStructure": "bhū (to be) + et (optative ending) - 'may be' or 'should be', optative mood"
+  },
+  {
+    "word": "tasmin",
+    "roots": [
+      "tad"
+    ],
+    "meaning": "in that, on him",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine/neuter singular locative",
+    "compoundStructure": "tat (that) + smin (locative singular ending) - locative case of demonstrative pronoun"
+  },
+  {
+    "word": "cāpy",
+    "roots": [
+      "ca",
+      "api"
+    ],
+    "meaning": "and also",
+    "partOfSpeech": "particle",
+    "grammaticalAnalysis": "conjunction + emphasis",
+    "compoundStructure": "ca (and) + api (also) + āy (enclitic ending) - 'and also' or 'even'"
+  },
+  {
+    "word": "tasmād",
+    "roots": [
+      "tad"
+    ],
+    "meaning": "from that, therefore",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine/neuter ablative singular",
+    "compoundStructure": "tat (that) + smāt (ablative singular ending) - ablative case of demonstrative pronoun"
+  },
+  {
+    "word": "iha",
+    "roots": [
+      "iha"
+    ],
+    "meaning": "here, in this world",
+    "partOfSpeech": "adverb",
+    "grammaticalAnalysis": "locative adverb",
+    "compoundStructure": "iha (here) - adverb of place meaning 'here' or 'in this world'"
+  },
+  {
+    "word": "uktvā",
+    "roots": [
+      "vac"
+    ],
+    "meaning": "having said",
+    "partOfSpeech": "absolutive",
+    "grammaticalAnalysis": "absolutive form of 'vac' (to speak)",
+    "compoundStructure": "u (intensive prefix) + vac (to speak) + tvā (absolutive suffix) - 'having said', indeclinable absolute construction"
+  },
+  {
+    "word": "tac",
+    "roots": [
+      "tad"
+    ],
+    "meaning": "that",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "tat (that) + ac (for euphonic purposes) - variation of 'tat' with euphonic ending"
+  },
+  {
+    "word": "tau",
+    "roots": [
+      "tad"
+    ],
+    "meaning": "those two",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine dual nom./voc.",
+    "compoundStructure": "tad (that) + au (dual ending) - demonstrative pronoun in masculine dual form"
+  },
+  {
+    "word": "bhagavān",
+    "roots": [
+      "bhagavat"
+    ],
+    "meaning": "blessed one, lord",
+    "partOfSpeech": "epithet",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "bhaga (fortune) + vān (possessing) - 'one who possesses fortune', epithet for divinity"
+  },
+  {
+    "word": "etat",
+    "roots": [
+      "etad"
+    ],
+    "meaning": "this",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "etat (this) - proximal demonstrative pronoun in neuter form"
+  },
+  {
+    "word": "ke",
+    "roots": [
+      "kim"
+    ],
+    "meaning": "who (plural)",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine plural nom./voc.",
+    "compoundStructure": "kim (what) + e (plural ending) - masculine plural of interrogative pronoun"
+  },
+  {
+    "word": "ete",
+    "roots": [
+      "etad"
+    ],
+    "meaning": "these",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine plural nom./voc.",
+    "compoundStructure": "etad (this) + e (plural ending) - plural of proximal demonstrative pronoun"
+  },
+  {
+    "word": "brahma",
+    "roots": [
+      "brahman"
+    ],
+    "meaning": "ultimate reality, sacred power",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "brah (to grow/swell) + ma (verbal suffix) - 'the growing' or 'the expanding', ultimate reality"
+  },
+  {
+    "word": "'haṃ",
+    "roots": [
+      "aham"
+    ],
+    "meaning": "I (contracted)",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "1st person singular nom./acc./voc.",
+    "compoundStructure": "aham (I) with elided initial vowel - contracted form of 'aham'"
+  },
+  {
+    "word": "kim",
+    "roots": [
+      "kim"
+    ],
+    "meaning": "what, why",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "interrogative pronoun neuter nom./acc./voc.",
+    "compoundStructure": "kim (what) - interrogative pronoun in neuter form"
+  },
+  {
+    "word": "bhavān",
+    "roots": [
+      "bhavat"
+    ],
+    "meaning": "you (honorific)",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "2nd person singular honorific nom./voc.",
+    "compoundStructure": "bhavat (being) + ān (honorific ending) - respectful form of 'you', literally 'he who is'"
+  },
+  {
+    "word": "'yaṃ",
+    "roots": [
+      "ayam"
+    ],
+    "meaning": "this (contracted)",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "ayam (this) with elided initial vowel - contracted form of proximal demonstrative pronoun"
+  },
+  {
+    "word": "yasya",
+    "roots": [
+      "yad"
+    ],
+    "meaning": "whose, of which",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine/feminine/neuter singular genitive",
+    "compoundStructure": "yad (who/which) + sya (genitive singular ending) - genitive of relative interrogative pronoun"
+  },
+  {
+    "word": "'tha",
+    "roots": [
+      "atha"
+    ],
+    "meaning": "now, then",
+    "partOfSpeech": "particle",
+    "grammaticalAnalysis": "transitional particle",
+    "compoundStructure": "atha (now) with elided initial vowel - transitional particle for 'now' or 'then'"
+  },
+  {
+    "word": "tasmāt",
+    "roots": [
+      "tad"
+    ],
+    "meaning": "from that, therefore",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine/neuter ablative singular",
+    "compoundStructure": "tat (that) + smāt (ablative singular ending with visarga) - ablative case of demonstrative pronoun"
+  },
+  {
+    "word": "yuddhe",
+    "roots": [
+      "yuddha"
+    ],
+    "meaning": "in battle",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular locative",
+    "compoundStructure": "yuddha (battle) + e (locative singular ending) - 'in battle', locative case"
+  },
+  {
+    "word": "śṛṇu",
+    "roots": [
+      "śru"
+    ],
+    "meaning": "listen!",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "2nd person singular imperative active",
+    "compoundStructure": "śru (to hear) + aṇu (imperative ending) - 'listen!', second person imperative"
+  },
+  {
+    "word": "v",
+    "roots": [
+      "va"
+    ],
+    "meaning": "or (contracted)",
+    "partOfSpeech": "particle",
+    "grammaticalAnalysis": "alternative particle",
+    "compoundStructure": "va (or) - alternative particle, often used as enclitic"
+  },
+  {
+    "word": "yac",
+    "roots": [
+      "yad"
+    ],
+    "meaning": "which, that",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "yat (which) + ac (euphonic ending) - neuter form of relative/interrogative pronoun with euphonic addition"
+  },
+  {
+    "word": "bhaviṣyati",
+    "roots": [
+      "bhū"
+    ],
+    "meaning": "will be",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "3rd person singular future active",
+    "compoundStructure": "bhū (to be) + iṣyati (future tense ending) - 'he/she will be', future tense"
+  },
+  {
+    "word": "yena",
+    "roots": [
+      "yad"
+    ],
+    "meaning": "by which, by whom",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine/neuter singular instrumental",
+    "compoundStructure": "yad (who/which) + ena (instrumental singular ending) - instrumental case of relative/interrogative pronoun"
+  },
+  {
+    "word": "prāpya",
+    "roots": [
+      "pra-āp"
+    ],
+    "meaning": "having obtained",
+    "partOfSpeech": "absolutive",
+    "grammaticalAnalysis": "absolutive form of 'āp' (to obtain)",
+    "compoundStructure": "pra (intensive prefix) + āp (to obtain) + ya (absolutive suffix) - 'having obtained', indeclinable absolute construction"
+  },
+  {
+    "word": "arhasi",
+    "roots": [
+      "arh"
+    ],
+    "meaning": "you are worthy",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "2nd person singular present active",
+    "compoundStructure": "arh (to be worthy) + asi (2nd person singular ending) - 'you are worthy', present tense"
+  },
+  {
+    "word": "saṃyuge",
+    "roots": [
+      "saṃyuga"
+    ],
+    "meaning": "in battle",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular locative",
+    "compoundStructure": "saṃyuga (battle) + e (locative singular ending) - 'in battle', locative case"
+  },
+  {
+    "word": "apy",
+    "roots": [
+      "api"
+    ],
+    "meaning": "also, even",
+    "partOfSpeech": "particle",
+    "grammaticalAnalysis": "cumulative particle",
+    "compoundStructure": "api (also) with contracted form - cumulative particle 'also' or 'even'"
+  },
+  {
+    "word": "pitā",
+    "roots": [
+      "pitṛ"
+    ],
+    "meaning": "father",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "pitṛ (father) + ā (vocative/nominative ending) - 'father' in nominative/vocative"
+  },
+  {
+    "word": "bhavati",
+    "roots": [
+      "bhū"
+    ],
+    "meaning": "becomes, is",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "3rd person singular present active",
+    "compoundStructure": "bhū (to be) + lati (present tense ending) - 'he/she becomes/is', present tense"
+  },
+  {
+    "word": "nu",
+    "roots": [
+      "nu"
+    ],
+    "meaning": "indeed, now",
+    "partOfSpeech": "particle",
+    "grammaticalAnalysis": "emphatic particle",
+    "compoundStructure": "nu (indeed) - emphasis particle often used with interrogatives"
+  },
+  {
+    "word": "vākyaṃ",
+    "roots": [
+      "vac"
+    ],
+    "meaning": "speech, sentence",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "vac (to speak) + ya + aṃ (neuter ending) - 'word' or 'sentence', neuter form"
+  },
+  {
+    "word": "kva",
+    "roots": [
+      "kva"
+    ],
+    "meaning": "where",
+    "partOfSpeech": "adverb",
+    "grammaticalAnalysis": "interrogative adverb",
+    "compoundStructure": "kva (where) - interrogative adverb of place"
+  },
+  {
+    "word": "saṃjaya",
+    "roots": [
+      "saṃjaya"
+    ],
+    "meaning": "Sanjaya (proper name)",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "saṃ + jaya (winning/together) - proper name meaning 'successful together'"
+  },
+  {
+    "word": "mahābāho",
+    "roots": [
+      "mahābāhu"
+    ],
+    "meaning": "O mighty-armed",
+    "partOfSpeech": "epithet",
+    "grammaticalAnalysis": "masculine singular vocative",
+    "compoundStructure": "mahā (great) + bāhu (arm) + o (vocative ending) - 'O mighty-armed', vocative form"
+  },
+  {
+    "word": "vivyādha",
+    "roots": [
+      "vyadh"
+    ],
+    "meaning": "pierced",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "3rd person singular perfect active",
+    "compoundStructure": "vi (intensive prefix) + vyadh (to pierce) + ā (perfect tense) + dha (3rd person singular ending) - 'he pierced', perfect tense"
+  },
+  {
+    "word": "ayaṃ",
+    "roots": [
+      "idam"
+    ],
+    "meaning": "this",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "idam (this) + ayam (proximal demonstrative with ending) - proximal demonstrative pronoun in masculine"
+  },
+  {
+    "word": "kāle",
+    "roots": [
+      "kāla"
+    ],
+    "meaning": "in time",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular locative",
+    "compoundStructure": "kāla (time) + e (locative singular ending) - 'in time', locative case"
+  },
+  {
+    "word": "mahārathaḥ",
+    "roots": [
+      "mahāratha"
+    ],
+    "meaning": "great warrior",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "mahā (great) + ratha (chariot) + aḥ (masculine ending) - 'great chariot-warrior' or 'great warrior'"
+  },
+  {
+    "word": "mahad",
+    "roots": [
+      "mahat"
+    ],
+    "meaning": "great",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "mahat (great) + ad (neuter ending) - 'great' in neuter singular form"
+  },
+  {
+    "word": "vidyate",
+    "roots": [
+      "vid"
+    ],
+    "meaning": "is found, exists",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "3rd person singular present middle",
+    "compoundStructure": "vid (to know/be) + yate (middle voice present) - 'exists' or 'is found', middle voice"
+  },
+  {
+    "word": "saṃśayaḥ",
+    "roots": [
+      "saṃśaya"
+    ],
+    "meaning": "doubt",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "saṃ (together) + śaya (to lie/dwell) + aḥ (masculine ending) - 'doubt', literally 'lying together' (mental uncertainty)"
+  },
+  {
+    "word": "pūrvaṃ",
+    "roots": [
+      "pūrva"
+    ],
+    "meaning": "formerly, before",
+    "partOfSpeech": "adverb",
+    "grammaticalAnalysis": "adverbial form",
+    "compoundStructure": "pūrva (former) + aṃ (adverbial ending) - 'formerly' or 'before', adverbial form"
+  },
+  {
+    "word": "dharmaṃ",
+    "roots": [
+      "dharma"
+    ],
+    "meaning": "duty, righteousness",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular accusative",
+    "compoundStructure": "dharma (duty) + aṃ (accusative singular ending) - masculine accusative of 'dharma'"
+  },
+  {
+    "word": "kac",
+    "roots": [
+      "kim"
+    ],
+    "meaning": "what, whether",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "interrogative pronoun",
+    "compoundStructure": "kim (what) + ac (euphonic ending) - interrogative pronoun with euphonic addition"
+  },
+  {
+    "word": "tām",
+    "roots": [
+      "tad"
+    ],
+    "meaning": "her, that",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "feminine singular accusative",
+    "compoundStructure": "tad (that) + ām (feminine accusative ending) - feminine accusative of demonstrative pronoun"
+  },
+  {
+    "word": "uttamam",
+    "roots": [
+      "uttama"
+    ],
+    "meaning": "best, highest",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "superlative neuter singular nom./acc./voc.",
+    "compoundStructure": "uttama (best) + am (neuter ending) - superlative form in neuter gender"
+  },
+  {
+    "word": "rājann",
+    "roots": [
+      "rājan"
+    ],
+    "meaning": "O king",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular vocative with anusvara",
+    "compoundStructure": "rājan (king) + n (vocative ending with nasal consonant) - vocative form with final nasal"
+  },
+  {
+    "word": "balaṃ",
+    "roots": [
+      "bala"
+    ],
+    "meaning": "strength, army",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "bala (strength) + aṃ (neuter ending) - neuter form of 'strength' or 'army'"
+  },
+  {
+    "word": "satataṃ",
+    "roots": [
+      "satata"
+    ],
+    "meaning": "always, continuously",
+    "partOfSpeech": "adverb",
+    "grammaticalAnalysis": "adverbial form",
+    "compoundStructure": "satata (always) + aṃ (adverbial ending) - temporal adverb meaning 'always' or 'continuously'"
+  },
+  {
+    "word": "yas",
+    "roots": [
+      "yad"
+    ],
+    "meaning": "who, which",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "yad (who/which) + as (masculine ending) - masculine singular form of relative pronoun"
+  },
+  {
+    "word": "idam",
+    "roots": [
+      "idam"
+    ],
+    "meaning": "this",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "idam (this) - proximal demonstrative pronoun in neuter form"
+  },
+  {
+    "word": "yuddhaṃ",
+    "roots": [
+      "yuddha"
+    ],
+    "meaning": "war, battle",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "yuddha (war) + aṃ (neuter ending) - neuter form of 'battle' or 'war'"
+  },
+  {
+    "word": "kuru",
+    "roots": [
+      "kṛ"
+    ],
+    "meaning": "do, make",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "2nd person singular imperative active",
+    "compoundStructure": "kṛ (to do) + u (imperative ending) - 'do!' or 'make!', imperative mood"
+  },
+  {
+    "word": "ko",
+    "roots": [
+      "kim"
+    ],
+    "meaning": "who",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "kim (what) + o (masculine singular ending) - masculine form of interrogative pronoun"
+  },
+  {
+    "word": "no",
+    "roots": [
+      "asmad"
+    ],
+    "meaning": "our, us",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "1st person dual genitive",
+    "compoundStructure": "asmad (I/we) + o (dual genitive ending) - 'our' or 'us', dual form"
+  },
+  {
+    "word": "syād",
+    "roots": [
+      "as"
+    ],
+    "meaning": "may be, would be",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "3rd person singular optative",
+    "compoundStructure": "as (to be) + yāt (optative ending) + d (form) - 'may be' or 'would be', optative mood"
+  },
+  {
+    "word": "kṛtaṃ",
+    "roots": [
+      "kṛ"
+    ],
+    "meaning": "done, made",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "past passive participle neuter nom./acc./voc.",
+    "compoundStructure": "kṛ (to do) + ta (past passive participle) + aṃ (neuter ending) - past participle in neuter"
+  },
+  {
+    "word": "gatvā",
+    "roots": [
+      "gam"
+    ],
+    "meaning": "having gone",
+    "partOfSpeech": "absolutive",
+    "grammaticalAnalysis": "absolutive form of 'gam' (to go)",
+    "compoundStructure": "gam (to go) + tvā (absolutive suffix) - 'having gone', indeclinable absolute construction"
+  },
+  {
+    "word": "tapasā",
+    "roots": [
+      "tapas"
+    ],
+    "meaning": "by austerity",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular instrumental",
+    "compoundStructure": "tapas (austerity) + ā (instrumental singular ending) - 'by austerity', instrumental case"
+  },
+  {
+    "word": "paśya",
+    "roots": [
+      "paś"
+    ],
+    "meaning": "see, look",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "2nd person singular imperative active",
+    "compoundStructure": "paś (to see) + ya (imperative ending) - 'see!' or 'look!', imperative mood"
+  },
+  {
+    "word": "naraḥ",
+    "roots": [
+      "nṛ"
+    ],
+    "meaning": "man",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "nṛ (to move) + aḥ (masculine ending) - 'man' (literally 'the moving one'), masculine form"
+  },
+  {
+    "word": "varaḥ",
+    "roots": [
+      "vara"
+    ],
+    "meaning": "best, choice",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "superlative masculine singular nom./voc.",
+    "compoundStructure": "vara (choice/best) + aḥ (masculine ending) - 'best' or 'most excellent' in masculine form"
+  },
+  {
+    "word": "samantataḥ",
+    "roots": [
+      "samantat"
+    ],
+    "meaning": "from all sides",
+    "partOfSpeech": "adverb",
+    "grammaticalAnalysis": "adverbial form",
+    "compoundStructure": "sam (complete) + anta (end/edge) + taḥ (ablative adverbial ending) - 'from all edges/sides', meaning 'from all directions'"
+  },
+  {
+    "word": "lokān",
+    "roots": [
+      "loka"
+    ],
+    "meaning": "worlds",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine plural accusative",
+    "compoundStructure": "loka (world) + ān (plural accusative ending) - masculine plural accusative of 'worlds'"
+  },
+  {
+    "word": "vayaṃ",
+    "roots": [
+      "asmad"
+    ],
+    "meaning": "we",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "1st person plural nom./acc./voc.",
+    "compoundStructure": "asmad (I/we) + yaṃ (plural form) - 1st person plural pronoun in nominative/accusative/vocative"
+  },
+  {
+    "word": "brūhi",
+    "roots": [
+      "brū"
+    ],
+    "meaning": "speak, tell",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "2nd person singular imperative active",
+    "compoundStructure": "brū (to speak) + hi (imperative ending) - 'speak!' or 'tell!', imperative mood"
+  },
+  {
+    "word": "saṃgrāme",
+    "roots": [
+      "saṃgrāma"
+    ],
+    "meaning": "in battle",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular locative",
+    "compoundStructure": "saṃ (together) + grāma (to attack) + e (locative singular ending) - 'in battle', locative case"
+  },
+  {
+    "word": "satyaṃ",
+    "roots": [
+      "satya"
+    ],
+    "meaning": "truth",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "satya (truth) + aṃ (neuter ending) - neuter form of 'truth'"
+  },
+  {
+    "word": "vākyam",
+    "roots": [
+      "vac"
+    ],
+    "meaning": "speech, word",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "vac (to speak) + ya + am (neuter ending) - 'speech' or 'sentence' in neuter form"
+  },
+  {
+    "word": "pāṇḍavān",
+    "roots": [
+      "pāṇḍava"
+    ],
+    "meaning": "Pandavas",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine plural accusative",
+    "compoundStructure": "pāṇḍava (descendant of Pāṇḍu) + ān (plural accusative ending) - 'the Pandavas' in plural accusative"
+  },
+  {
+    "word": "mahābalaḥ",
+    "roots": [
+      "mahābala"
+    ],
+    "meaning": "of great strength",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "compound masculine singular nom./voc.",
+    "compoundStructure": "mahā (great) + bala (strength) + aḥ (masculine ending) - compound meaning 'great-strengthed' or 'of great strength'"
+  },
+  {
+    "word": "mahatā",
+    "roots": [
+      "mahat"
+    ],
+    "meaning": "great",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "superlative instrumental singular",
+    "compoundStructure": "mahat (great) + ā (instrumental singular ending) - 'by greatness' or 'with greatness', instrumental case"
+  },
+  {
+    "word": "karmaṇā",
+    "roots": [
+      "karman"
+    ],
+    "meaning": "by action",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular instrumental",
+    "compoundStructure": "karman (action) + ā (instrumental singular ending) - 'by action', instrumental case"
+  },
+  {
+    "word": "ādāya",
+    "roots": [
+      "ā-dā"
+    ],
+    "meaning": "taking, having taken",
+    "partOfSpeech": "absolutive",
+    "grammaticalAnalysis": "absolutive form of 'dā' (to give/take)",
+    "compoundStructure": "ā (intensive prefix) + dā (to give/take) + ya (absolutive suffix) - 'having taken', indeclinable absolute construction"
+  },
+  {
+    "word": "tūrṇaṃ",
+    "roots": [
+      "tūrṇa"
+    ],
+    "meaning": "quickly, swiftly",
+    "partOfSpeech": "adverb",
+    "grammaticalAnalysis": "adverbial form",
+    "compoundStructure": "tūrṇa (quick) + aṃ (adverbial ending) - 'quickly' or 'swiftly', adverbial form"
+  },
+  {
+    "word": "hatvā",
+    "roots": [
+      "han"
+    ],
+    "meaning": "having killed",
+    "partOfSpeech": "absolutive",
+    "grammaticalAnalysis": "absolutive form of 'han' (to kill)",
+    "compoundStructure": "han (to kill) + tvā (absolutive suffix) - 'having killed', indeclinable absolute construction"
+  },
+  {
+    "word": "āsādya",
+    "roots": [
+      "ā-sad"
+    ],
+    "meaning": "having approached",
+    "partOfSpeech": "absolutive",
+    "grammaticalAnalysis": "absolutive form of 'sad' (to approach)",
+    "compoundStructure": "ā (towards) + sad (to approach) + ya (absolutive suffix) - 'having approached', indeclinable absolute construction"
+  },
+  {
+    "word": "pāṇḍavaḥ",
+    "roots": [
+      "pāṇḍava"
+    ],
+    "meaning": "Pandava",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "pāṇḍava (descendant of Pāṇḍu) + aḥ (masculine ending) - 'Pandava', masculine singular form"
+  },
+  {
+    "word": "rathaṃ",
+    "roots": [
+      "ratha"
+    ],
+    "meaning": "chariot",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular accusative",
+    "compoundStructure": "ratha (chariot) + aṃ (accusative singular ending) - masculine accusative of 'chariot'"
+  },
+  {
+    "word": "babhūva",
+    "roots": [
+      "bhū"
+    ],
+    "meaning": "became",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "3rd person singular perfect active",
+    "compoundStructure": "bhū (to be/become) + perfect tense - 'he became', perfect tense"
+  },
+  {
+    "word": "ucyate",
+    "roots": [
+      "vac"
+    ],
+    "meaning": "is said",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "3rd person singular present middle",
+    "compoundStructure": "vac (to speak) + yate (middle voice present) - 'is said', middle voice"
+  },
+  {
+    "word": "pāṇḍavānāṃ",
+    "roots": [
+      "pāṇḍava"
+    ],
+    "meaning": "of the Pandavas",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine plural genitive",
+    "compoundStructure": "pāṇḍava (descendant of Pāṇḍu) + ānāṃ (plural genitive ending) - plural genitive of 'Pandavas'"
+  },
+  {
+    "word": "nāsti",
+    "roots": [
+      "as"
+    ],
+    "meaning": "is not",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "3rd person singular present active",
+    "compoundStructure": "na (not) + asti (is) - 'there is not', contraction of negative particle with 'asti' (to be)"
+  },
+  {
+    "word": "cakre",
+    "roots": [
+      "kṛ"
+    ],
+    "meaning": "made, did",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "3rd person singular perfect active",
+    "compoundStructure": "kṛ (to do) + perfect tense - 'he did/made', perfect tense formation"
+  },
+  {
+    "word": "paramaṃ",
+    "roots": [
+      "parama"
+    ],
+    "meaning": "highest, supreme",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "superlative neuter singular nom./acc./voc.",
+    "compoundStructure": "parama (highest) + aṃ (neuter ending) - neuter form of superlative 'parama'"
+  },
+  {
+    "word": "prabhuḥ",
+    "roots": [
+      "prabhu"
+    ],
+    "meaning": "lord, master",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "prabhu (lord/master) + aḥ (masculine ending) - masculine singular form of 'lord'"
+  },
+  {
+    "word": "kadā",
+    "roots": [
+      "kadā"
+    ],
+    "meaning": "when",
+    "partOfSpeech": "adverb",
+    "grammaticalAnalysis": "interrogative adverb",
+    "compoundStructure": "kadā (when) - interrogative adverb of time"
+  },
+  {
+    "word": "manye",
+    "roots": [
+      "man"
+    ],
+    "meaning": "I think",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "1st person singular present middle",
+    "compoundStructure": "man (to think) + ye (middle voice ending) - 'I think', middle voice"
+  },
+  {
+    "word": "bhūtvā",
+    "roots": [
+      "bhū"
+    ],
+    "meaning": "having become",
+    "partOfSpeech": "absolutive",
+    "grammaticalAnalysis": "absolutive form of 'bhū' (to become)",
+    "compoundStructure": "bhū (to be/become) + tvā (absolutive suffix) - 'having become', indeclinable absolute construction"
+  },
+  {
+    "word": "cāsya",
+    "roots": [
+      "ca-asya"
+    ],
+    "meaning": "and his",
+    "partOfSpeech": "compound",
+    "grammaticalAnalysis": "particle + possessive pronoun",
+    "compoundStructure": "ca (and) + asya (his/genitive of 'idam') - 'and his', combination of copulative particle with possessive"
+  },
+  {
+    "word": "sahasraśaḥ",
+    "roots": [
+      "sahasra"
+    ],
+    "meaning": "by thousands",
+    "partOfSpeech": "adverb",
+    "grammaticalAnalysis": "adverbial form",
+    "compoundStructure": "sahasra (thousand) + śaḥ (adverbial suffix) - 'by thousands' or 'in thousands', adverbial form"
+  },
+  {
+    "word": "vīra",
+    "roots": [
+      "vīra"
+    ],
+    "meaning": "hero, warrior",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "vīra (hero) - masculine form of 'hero' or 'warrior'"
+  },
+  {
+    "word": "dharmo",
+    "roots": [
+      "dharma"
+    ],
+    "meaning": "duty, righteousness",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "dharma (duty) + o (masculine ending) - masculine singular form of 'dharma'"
+  },
+  {
+    "word": "sahasā",
+    "roots": [
+      "sahasā"
+    ],
+    "meaning": "suddenly",
+    "partOfSpeech": "adverb",
+    "grammaticalAnalysis": "adverbial form",
+    "compoundStructure": "sahas (suddenly) + ā (adverbial ending) - adverb meaning 'suddenly'"
+  },
+  {
+    "word": "saṃkhye",
+    "roots": [
+      "saṃkhyā"
+    ],
+    "meaning": "in battle",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular locative",
+    "compoundStructure": "saṃkhyā (war/battle) + e (locative singular ending) - 'in battle', locative case"
+  },
+  {
+    "word": "rājānaṃ",
+    "roots": [
+      "rājan"
+    ],
+    "meaning": "king",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular accusative",
+    "compoundStructure": "rājan (king) + am (accusative singular ending) - masculine accusative of 'king'"
+  },
+  {
+    "word": "pāṇḍavāḥ",
+    "roots": [
+      "pāṇḍava"
+    ],
+    "meaning": "Pandavas",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine plural nom./voc.",
+    "compoundStructure": "pāṇḍava (descendant of Pāṇḍu) + āḥ (plural ending) - masculine plural of 'Pandavas'"
+  },
+  {
+    "word": "prabho",
+    "roots": [
+      "prabhu"
+    ],
+    "meaning": "O lord",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular vocative",
+    "compoundStructure": "prabhu (lord) + o (vocative ending) - 'O lord!', vocative form"
+  },
+  {
+    "word": "phalaṃ",
+    "roots": [
+      "phala"
+    ],
+    "meaning": "fruit, result",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "phala (fruit/result) + aṃ (neuter ending) - neuter form of 'fruit' or 'result'"
+  },
+  {
+    "word": "icchāmi",
+    "roots": [
+      "iṣ"
+    ],
+    "meaning": "I desire",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "1st person singular present active",
+    "compoundStructure": "iṣ (to desire) + āmi (1st person singular ending) - 'I desire', present tense"
+  },
+  {
+    "word": "uta",
+    "roots": [
+      "uta"
+    ],
+    "meaning": "or, also",
+    "partOfSpeech": "particle",
+    "grammaticalAnalysis": "disjunctive particle",
+    "compoundStructure": "uta (or/also) - disjunctive particle meaning 'or' or 'also'"
+  },
+  {
+    "word": "jagāma",
+    "roots": [
+      "gam"
+    ],
+    "meaning": "went",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "3rd person singular perfect active",
+    "compoundStructure": "gam (to go) + perfect tense - 'he went', perfect tense formation"
+  },
+  {
+    "word": "bahu",
+    "roots": [
+      "bahu"
+    ],
+    "meaning": "many, much",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "bahu (much/many) - intensive numeral meaning 'many' or 'much'"
+  },
+  {
+    "word": "ubhau",
+    "roots": [
+      "ubha"
+    ],
+    "meaning": "both",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine dual nom./voc.",
+    "compoundStructure": "ubha (both) + au (dual ending) - dual form of 'both'"
+  },
+  {
+    "word": "putraṃ",
+    "roots": [
+      "putra"
+    ],
+    "meaning": "son",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular accusative",
+    "compoundStructure": "putra (son) + aṃ (accusative singular ending) - masculine accusative of 'son'"
+  },
+  {
+    "word": "vane",
+    "roots": [
+      "vana"
+    ],
+    "meaning": "in forest",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular locative",
+    "compoundStructure": "vana (forest) + e (locative singular ending) - 'in forest', locative case"
+  },
+  {
+    "word": "bhuvi",
+    "roots": [
+      "bhū"
+    ],
+    "meaning": "on earth",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular locative",
+    "compoundStructure": "bhū (to be) + vi (locative singular ending) - 'on earth', locative case of 'bhūmi' (earth)"
+  },
+  {
+    "word": "mahārathāḥ",
+    "roots": [
+      "mahāratha"
+    ],
+    "meaning": "great warriors",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine plural nom./voc.",
+    "compoundStructure": "mahā (great) + ratha (chariot) + āḥ (plural ending) - 'great chariot-warriors', masculine plural"
+  },
+  {
+    "word": "rājyaṃ",
+    "roots": [
+      "rājya"
+    ],
+    "meaning": "kingdom",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "rāj (to rule) + ya (verbal suffix) + aṃ (neuter ending) - 'kingdom', neuter form"
+  },
+  {
+    "word": "putro",
+    "roots": [
+      "putra"
+    ],
+    "meaning": "son",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "putra (son) + o (masculine singular ending) - masculine singular of 'son'"
+  },
+  {
+    "word": "pārthiva",
+    "roots": [
+      "pārthiva"
+    ],
+    "meaning": "earthly, royal",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "pārtha (descendant of Pṛthu) + iva (like) - 'like Pārtha' or 'royal/earthly'"
+  },
+  {
+    "word": "yā",
+    "roots": [
+      "yad"
+    ],
+    "meaning": "who, which",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "yad (who/which) + ā (feminine ending) - feminine singular of relative pronoun"
+  },
+  {
+    "word": "bh",
+    "roots": [
+      "bhū"
+    ],
+    "meaning": "be, become",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "3rd person singular present active",
+    "compoundStructure": "bhū (to be) + a (present ending) - 'he/she is/becomes', contracted form"
+  },
+  {
+    "word": "dhanur",
+    "roots": [
+      "dhanus"
+    ],
+    "meaning": "bow",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "dhanus (bow) + r (neuter ending with sandhi) - 'bow', neuter form with final consonant"
+  },
+  {
+    "word": "ciccheda",
+    "roots": [
+      "chid"
+    ],
+    "meaning": "cut, split",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "3rd person singular perfect active",
+    "compoundStructure": "chid (to cut) + perfect tense reduplication - 'he cut/split', perfect tense"
+  },
+  {
+    "word": "āsthāya",
+    "roots": [
+      "ā-sthā"
+    ],
+    "meaning": "having taken up",
+    "partOfSpeech": "absolutive",
+    "grammaticalAnalysis": "absolutive form of 'stha' (to stand)",
+    "compoundStructure": "ā (intensive prefix) + sthā (to stand) + ya (absolutive suffix) - 'having taken up', indeclinable absolute construction"
+  },
+  {
+    "word": "karṇaṃ",
+    "roots": [
+      "karṇa"
+    ],
+    "meaning": "Karna",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular accusative",
+    "compoundStructure": "karṇa (ear) + aṃ (accusative ending) - proper name 'Karna' in accusative"
+  },
+  {
+    "word": "chrutvā",
+    "roots": [
+      "śru"
+    ],
+    "meaning": "having heard",
+    "partOfSpeech": "absolutive",
+    "grammaticalAnalysis": "absolutive form of 'śru' (to hear)",
+    "compoundStructure": "śru (to hear) + tvā (absolutive suffix) - 'having heard', indeclinable absolute construction"
+  },
+  {
+    "word": "vīryavān",
+    "roots": [
+      "vīryavat"
+    ],
+    "meaning": "heroic, mighty",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "vīrya (strength) + vān (possessing) - 'possessing strength', masculine form"
+  },
+  {
+    "word": "svayam",
+    "roots": [
+      "svayam"
+    ],
+    "meaning": "oneself, personally",
+    "partOfSpeech": "adverb",
+    "grammaticalAnalysis": "adverbial form",
+    "compoundStructure": "svayam (oneself) - reflexive adverb meaning 'oneself' or 'personally'"
+  },
+  {
+    "word": "sukham",
+    "roots": [
+      "sukha"
+    ],
+    "meaning": "happiness",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "sukha (happiness/ease) + am (neuter ending) - 'happiness' or 'ease', neuter form"
+  },
+  {
+    "word": "māriṣa",
+    "roots": [
+      "māriṣa"
+    ],
+    "meaning": "O sir",
+    "partOfSpeech": "vocative",
+    "grammaticalAnalysis": "masculine singular vocative",
+    "compoundStructure": "mā (not) + ṛṣa (to be angry) + a (vocative ending) - literally 'do not be angry' as a respectful salutation"
+  },
+  {
+    "word": "cin",
+    "roots": [
+      "cit"
+    ],
+    "meaning": "indeed, even",
+    "partOfSpeech": "particle",
+    "grammaticalAnalysis": "emphatic particle",
+    "compoundStructure": "cit (to perceive) + an (enclitic particle) - emphatic particle meaning 'indeed' or 'even'"
+  },
+  {
+    "word": "tair",
+    "roots": [
+      "tad"
+    ],
+    "meaning": "by them",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine plural instrumental",
+    "compoundStructure": "tat (that) + air (instrumental plural ending) - instrumental plural of demonstrative pronoun"
+  },
+  {
+    "word": "svayaṃ",
+    "roots": [
+      "svayam"
+    ],
+    "meaning": "oneself",
+    "partOfSpeech": "adverb",
+    "grammaticalAnalysis": "adverbial form",
+    "compoundStructure": "svayam (oneself) + aṃ (for euphony) - reflexive adverb meaning 'oneself' with final nasal"
+  },
+  {
+    "word": "tvayi",
+    "roots": [
+      "tvad"
+    ],
+    "meaning": "in you",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "2nd person singular locative",
+    "compoundStructure": "tvam (you) + yi (locative singular ending) - locative case of second person pronoun"
+  },
+  {
+    "word": "manasā",
+    "roots": [
+      "manas"
+    ],
+    "meaning": "by mind",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular instrumental",
+    "compoundStructure": "manas (mind) + ā (instrumental singular ending) - 'by mind', instrumental case"
+  },
+  {
+    "word": "'smi",
+    "roots": [
+      "as"
+    ],
+    "meaning": "I am",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "1st person singular present active",
+    "compoundStructure": "asmi (I am) with elided initial vowel - 1st person singular of 'asti' (to be)"
+  },
+  {
+    "word": "teṣām",
+    "roots": [
+      "tad"
+    ],
+    "meaning": "of them",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine plural genitive",
+    "compoundStructure": "te (they) + ṣām (genitive plural ending) - plural genitive of demonstrative pronoun"
+  },
+  {
+    "word": "tasmai",
+    "roots": [
+      "tad"
+    ],
+    "meaning": "to him",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine singular dative",
+    "compoundStructure": "tat (that) + smai (dative singular ending) - dative case of demonstrative pronoun"
+  },
+  {
+    "word": "kāryaṃ",
+    "roots": [
+      "kārya"
+    ],
+    "meaning": "duty, work",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "kṛ (to do) + aya (verbal suffix) + aṃ (neuter ending) - 'that which is to be done', neuter form"
+  },
+  {
+    "word": "kṛtam",
+    "roots": [
+      "kṛ"
+    ],
+    "meaning": "done",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "past passive participle neuter nom./acc./voc.",
+    "compoundStructure": "kṛ (to do) + ta (past passive participle) + am (neuter ending) - past participle in neuter form"
+  },
+  {
+    "word": "saḥ",
+    "roots": [
+      "tad"
+    ],
+    "meaning": "he",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "sa (from 'tad' = that) + aḥ (masculine ending) - masculine singular of demonstrative pronoun"
+  },
+  {
+    "word": "nityam",
+    "roots": [
+      "nitya"
+    ],
+    "meaning": "always",
+    "partOfSpeech": "adverb",
+    "grammaticalAnalysis": "adverbial form",
+    "compoundStructure": "nitya (constant) + am (adverbial ending) - adverb meaning 'always' or 'continuously'"
+  },
+  {
+    "word": "balam",
+    "roots": [
+      "bala"
+    ],
+    "meaning": "strength",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "bala (strength) + am (neuter ending) - neuter form of 'strength'"
+  },
+  {
+    "word": "param",
+    "roots": [
+      "para"
+    ],
+    "meaning": "supreme",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "superlative neuter nom./acc./voc.",
+    "compoundStructure": "para (higher) + am (neuter ending) - superlative form meaning 'highest' or 'supreme'"
+  },
+  {
+    "word": "narādhipa",
+    "roots": [
+      "narādhipa"
+    ],
+    "meaning": "king of men",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./acc./voc.",
+    "compoundStructure": "nara (man) + adhipa (ruler) - compound meaning 'ruler of men' or 'king'"
+  },
+  {
+    "word": "gataḥ",
+    "roots": [
+      "gam"
+    ],
+    "meaning": "gone",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "past passive participle masculine nom./voc.",
+    "compoundStructure": "gam (to go) + ta (past passive participle) + aḥ (masculine ending) - masculine participle meaning 'gone'"
+  },
+  {
+    "word": "kaunteya",
+    "roots": [
+      "kaunteya"
+    ],
+    "meaning": "O son of Kunti",
+    "partOfSpeech": "epithet",
+    "grammaticalAnalysis": "masculine singular vocative",
+    "compoundStructure": "kauntha (from Kunti) + ya (descendant suffix) + o (vocative ending) - 'descendant of Kunta', vocative"
+  },
+  {
+    "word": "yan",
+    "roots": [
+      "yad"
+    ],
+    "meaning": "that which",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "yat (that) + an (neuter ending) - neuter form of relative pronoun"
+  },
+  {
+    "word": "bhṛśam",
+    "roots": [
+      "bhṛśam"
+    ],
+    "meaning": "greatly",
+    "partOfSpeech": "adverb",
+    "grammaticalAnalysis": "adverbial form",
+    "compoundStructure": "bhṛśam (greatly) - adverb meaning 'greatly' or 'intensely'"
+  },
+  {
+    "word": "syāt",
+    "roots": [
+      "as"
+    ],
+    "meaning": "may be",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "3rd person singular optative active",
+    "compoundStructure": "as (to be) + yat (optative ending) - 'would be' or 'may be', optative mood"
+  },
+  {
+    "word": "dharmam",
+    "roots": [
+      "dharma"
+    ],
+    "meaning": "duty",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular accusative",
+    "compoundStructure": "dharma (duty/justice) + am (accusative singular ending) - masculine accusative of 'dharma'"
+  },
+  {
+    "word": "samāsādya",
+    "roots": [
+      "sam-ā-sad"
+    ],
+    "meaning": "having reached",
+    "partOfSpeech": "absolutive",
+    "grammaticalAnalysis": "absolutive form of 'sad' (to approach)",
+    "compoundStructure": "sam (perfective prefix) + ā (intensive prefix) + sad (to approach) + ya (absolutive suffix) - 'having reached', indeclinable absolute construction"
+  },
+  {
+    "word": "manaḥ",
+    "roots": [
+      "manas"
+    ],
+    "meaning": "mind",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./voc./acc.",
+    "compoundStructure": "manas (mind) + aḥ (neuter ending) - neuter form of 'mind'"
+  },
+  {
+    "word": "dhanaṃjayaḥ",
+    "roots": [
+      "dhanaṃjaya"
+    ],
+    "meaning": "Arjuna",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "dhanaṃjaya (one who wins wealth) - compound from dhanam (wealth) + jaya (victory), epithet of Arjuna"
+  },
+  {
+    "word": "'bhavat",
+    "roots": [
+      "bhū"
+    ],
+    "meaning": "became",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "3rd person singular perfect active",
+    "compoundStructure": "bhavat (became) with elided initial vowel - 3rd person perfect of 'bhū' (to be/become)"
+  },
+  {
+    "word": "viddhi",
+    "roots": [
+      "vid"
+    ],
+    "meaning": "know",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "2nd person singular imperative active",
+    "compoundStructure": "vid (to know) + dhi (imperative ending) - 'know!', imperative mood"
+  },
+  {
+    "word": "yaṃ",
+    "roots": [
+      "yad"
+    ],
+    "meaning": "whom",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine singular accusative",
+    "compoundStructure": "yat (which) + aṃ (accusative singular ending) - accusative form of relative pronoun"
+  },
+  {
+    "word": "dhi",
+    "roots": [
+      "dhi"
+    ],
+    "meaning": "indeed",
+    "partOfSpeech": "particle",
+    "grammaticalAnalysis": "emphatic particle",
+    "compoundStructure": "dhi (indeed) - emphasis particle often used in Vedic expressions"
+  },
+  {
+    "word": "tvām",
+    "roots": [
+      "tvad"
+    ],
+    "meaning": "you",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "2nd person singular accusative",
+    "compoundStructure": "tvā (you) + am (accusative singular ending) - second person singular accusative of 'you'"
+  },
+  {
+    "word": "śarair",
+    "roots": [
+      "śara"
+    ],
+    "meaning": "with arrows",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine plural instrumental",
+    "compoundStructure": "śara (arrow) + air (instrumental plural ending) - instrumental plural meaning 'with arrows'"
+  },
+  {
+    "word": "kruddho",
+    "roots": [
+      "krudh"
+    ],
+    "meaning": "angry",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "past passive participle masculine nom./voc.",
+    "compoundStructure": "krudh (to be angry) + ta (past passive participle) + o (masculine ending) - 'angered' or 'angry', participle form"
+  },
+  {
+    "word": "'si",
+    "roots": [
+      "as"
+    ],
+    "meaning": "you are",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "2nd person singular present active",
+    "compoundStructure": "asi (you are) with elided initial vowel - 2nd person singular of 'asti' (to be)"
+  },
+  {
+    "word": "vāpi",
+    "roots": [
+      "vā-api"
+    ],
+    "meaning": "or even",
+    "partOfSpeech": "particle",
+    "grammaticalAnalysis": "disjunctive + cumulative particle",
+    "compoundStructure": "vā (or) + api (even) - combination particle meaning 'or even' or 'whether or not'"
+  },
+  {
+    "word": "yaś",
+    "roots": [
+      "yad"
+    ],
+    "meaning": "who",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "yat (who/which) + aś (masculine ending) - masculine singular of relative pronoun"
+  },
+  {
+    "word": "asi",
+    "roots": [
+      "as"
+    ],
+    "meaning": "you are",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "2nd person singular present active",
+    "compoundStructure": "as (to be) + asi (2nd person singular ending) - 'you are', present tense"
+  },
+  {
+    "word": "rājaṃs",
+    "roots": [
+      "rājan"
+    ],
+    "meaning": "O king",
+    "partOfSpeech": "vocative",
+    "grammaticalAnalysis": "masculine singular vocative",
+    "compoundStructure": "rājan (king) + s (vocative ending) - vocative form 'O king!'"
+  },
+  {
+    "word": "vacanam",
+    "roots": [
+      "vacana"
+    ],
+    "meaning": "word, speech",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "vac (to speak) + ana (verbal suffix) + am (neuter ending) - 'speaking' or 'word', neuter form"
+  },
+  {
+    "word": "parasparam",
+    "roots": [
+      "paraspara"
+    ],
+    "meaning": "mutually",
+    "partOfSpeech": "adverb",
+    "grammaticalAnalysis": "adverbial form",
+    "compoundStructure": "para (other) + sparam (mutually) - compound meaning 'mutually' or 'each other'"
+  },
+  {
+    "word": "enaṃ",
+    "roots": [
+      "enad"
+    ],
+    "meaning": "him",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine singular accusative",
+    "compoundStructure": "enad (this) + aṃ (accusative ending) - demonstrative pronoun in masculine accusative"
+  },
+  {
+    "word": "karṇo",
+    "roots": [
+      "karṇa"
+    ],
+    "meaning": "Karna",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "karṇa (ear) + o (masculine ending) - proper name 'Karna'"
+  },
+  {
+    "word": "yudhiṣṭhiram",
+    "roots": [
+      "yudhiṣṭhira"
+    ],
+    "meaning": "Yudhishthira",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular accusative",
+    "compoundStructure": "yudhi (in battle) + sthira (firm) + am (accusative ending) - 'Yudhishthira' in accusative case"
+  },
+  {
+    "word": "tejasā",
+    "roots": [
+      "tejas"
+    ],
+    "meaning": "with splendor",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular instrumental",
+    "compoundStructure": "tejas (splendor) + ā (instrumental singular ending) - 'with splendor', instrumental case"
+  },
+  {
+    "word": "bhṛśaṃ",
+    "roots": [
+      "bhṛśam"
+    ],
+    "meaning": "greatly",
+    "partOfSpeech": "adverb",
+    "grammaticalAnalysis": "adverbial form",
+    "compoundStructure": "bhṛśam (greatly) + aṃ (adverbial ending) - adverb meaning 'greatly' or 'intensely'"
+  },
+  {
+    "word": "dharmaḥ",
+    "roots": [
+      "dharma"
+    ],
+    "meaning": "righteousness",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "dharma (duty/righteousness) + aḥ (masculine ending) - masculine singular form of 'dharma'"
+  },
+  {
+    "word": "mano",
+    "roots": [
+      "manas"
+    ],
+    "meaning": "mind",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./voc.",
+    "compoundStructure": "manas (mind) + o (neuter ending) - neuter form of 'mind'"
+  },
+  {
+    "word": "sarveṣāṃ",
+    "roots": [
+      "sarva"
+    ],
+    "meaning": "of all",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine plural genitive",
+    "compoundStructure": "sarva (all) + eṣām (genitive plural ending) - plural genitive of 'all'"
+  },
+  {
+    "word": "mahātmanā",
+    "roots": [
+      "mahātman"
+    ],
+    "meaning": "by the great soul",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular instrumental",
+    "compoundStructure": "mahā (great) + ātman (soul/self) + ā (instrumental singular ending) - instrumental of 'great soul'"
+  },
+  {
+    "word": "droṇaṃ",
+    "roots": [
+      "droṇa"
+    ],
+    "meaning": "Drona",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular accusative",
+    "compoundStructure": "droṇa (Drona) + aṃ (accusative singular ending) - masculine accusative of proper name 'Drona'"
+  },
+  {
+    "word": "bhīṣmaṃ",
+    "roots": [
+      "bhīṣma"
+    ],
+    "meaning": "Bhishma",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular accusative",
+    "compoundStructure": "bhīṣma (terrible) + aṃ (accusative singular ending) - masculine accusative of proper name 'Bhishma'"
+  },
+  {
+    "word": "imaṃ",
+    "roots": [
+      "idam"
+    ],
+    "meaning": "this",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine singular accusative",
+    "compoundStructure": "idam (this) + imaṃ (proximal demonstrative with ending) - masculine accusative of proximal demonstrative"
+  },
+  {
+    "word": "āsīt",
+    "roots": [
+      "as"
+    ],
+    "meaning": "was",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "3rd person singular imperfect active",
+    "compoundStructure": "as (to be) + īt (3rd person imperfect ending) - 'he was', imperfect tense"
+  },
+  {
+    "word": "pratāpavān",
+    "roots": [
+      "pratāpavat"
+    ],
+    "meaning": "mighty",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "pratāpa (glory/power) + vān (possessing) - 'one who possesses glory', masculine form"
+  },
+  {
+    "word": "tāv",
+    "roots": [
+      "tad"
+    ],
+    "meaning": "those two",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "masculine dual nom./voc.",
+    "compoundStructure": "tat (that) + au (dual ending) - 'those two', dual form of demonstrative pronoun"
+  },
+  {
+    "word": "'py",
+    "roots": [
+      "api"
+    ],
+    "meaning": "also, even",
+    "partOfSpeech": "particle",
+    "grammaticalAnalysis": "cumulative particle",
+    "compoundStructure": "api (also) with elided initial vowel - cumulative particle meaning 'also' or 'even'"
+  },
+  {
+    "word": "bhaved",
+    "roots": [
+      "bhū"
+    ],
+    "meaning": "may be",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "3rd person singular optative active",
+    "compoundStructure": "bhū (to be) + et (optative ending) + d (form) - 'may be', optative mood"
+  },
+  {
+    "word": "katham",
+    "roots": [
+      "katham"
+    ],
+    "meaning": "how",
+    "partOfSpeech": "adverb",
+    "grammaticalAnalysis": "interrogative adverb",
+    "compoundStructure": "katham (how) - interrogative adverb of manner"
+  },
+  {
+    "word": "madhye",
+    "roots": [
+      "madhya"
+    ],
+    "meaning": "in middle",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular locative",
+    "compoundStructure": "madhya (middle) + e (locative singular ending) - 'in the middle', locative case"
+  },
+  {
+    "word": "ātmanaḥ",
+    "roots": [
+      "ātman"
+    ],
+    "meaning": "of self",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine/neuter singular genitive",
+    "compoundStructure": "ātman (self) + aḥ (genitive singular ending) - genitive case of 'self'"
+  },
+  {
+    "word": "dadarśa",
+    "roots": [
+      "dṛś"
+    ],
+    "meaning": "saw",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "3rd person singular perfect active",
+    "compoundStructure": "dṛś (to see) + perfect tense reduplication - 'he saw', perfect tense"
+  },
+  {
+    "word": "duryodhano",
+    "roots": [
+      "duryodhana"
+    ],
+    "meaning": "Duryodhana",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "dur (difficult) + yodhana (fighting) + o (masculine ending) - 'one who is difficult to fight', proper name"
+  },
+  {
+    "word": "ghoraṃ",
+    "roots": [
+      "ghora"
+    ],
+    "meaning": "terrible",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "ghora (terrible) + aṃ (neuter ending) - neuter form of 'terrible'"
+  },
+  {
+    "word": "bhīmo",
+    "roots": [
+      "bhīma"
+    ],
+    "meaning": "Bhima",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "bhīma (terrible) + o (masculine ending) - proper name 'Bhima'"
+  },
+  {
+    "word": "paśyāmi",
+    "roots": [
+      "paś"
+    ],
+    "meaning": "I see",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "1st person singular present active",
+    "compoundStructure": "paś (to see) + yāmi (1st person singular ending) - 'I see', present tense"
+  },
+  {
+    "word": "tapo",
+    "roots": [
+      "tapas"
+    ],
+    "meaning": "austerity",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./voc./acc.",
+    "compoundStructure": "tapas (austerity) + o (neuter ending) - neuter form of 'austerity'"
+  },
+  {
+    "word": "āhur",
+    "roots": [
+      "ah"
+    ],
+    "meaning": "they say",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "3rd person plural present active",
+    "compoundStructure": "ah (to say) + ur (3rd person plural ending) - 'they say', present tense"
+  },
+  {
+    "word": "naiva",
+    "roots": [
+      "na-eva"
+    ],
+    "meaning": "not indeed",
+    "partOfSpeech": "compound",
+    "grammaticalAnalysis": "negative + emphatic particle",
+    "compoundStructure": "na (not) + eva (indeed) - compound particle meaning 'not indeed' or 'certainly not'"
+  },
+  {
+    "word": "prajāḥ",
+    "roots": [
+      "prajā"
+    ],
+    "meaning": "people",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine plural nom./voc.",
+    "compoundStructure": "pra (fully) + jā (to be born) + āḥ (feminine plural ending) - 'offspring' or 'people', feminine plural"
+  },
+  {
+    "word": "vaḥ",
+    "roots": [
+      "yuṣmad"
+    ],
+    "meaning": "your",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "2nd person plural genitive/dative",
+    "compoundStructure": "yuṣmad (you plural) + vaḥ (genitive/dative ending) - possessive/dative of 'you' plural"
+  },
+  {
+    "word": "buddhir",
+    "roots": [
+      "buddhi"
+    ],
+    "meaning": "intelligence",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular nom./voc.",
+    "compoundStructure": "buddhi (intelligence) + r (feminine ending with sandhi) - feminine form of 'intelligence'"
+  },
+  {
+    "word": "bhūtāni",
+    "roots": [
+      "bhūta"
+    ],
+    "meaning": "beings",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter plural nom./acc./voc.",
+    "compoundStructure": "bhūta (being) + āni (neuter plural ending) - 'beings' in neuter plural"
+  },
+  {
+    "word": "devā",
+    "roots": [
+      "deva"
+    ],
+    "meaning": "gods",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine plural nom./voc.",
+    "compoundStructure": "deva (shining) + ā (plural ending) - 'gods' in masculine plural"
+  },
+  {
+    "word": "sukhaṃ",
+    "roots": [
+      "sukha"
+    ],
+    "meaning": "happiness",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "su (good) + kha (hole) + aṃ (neuter ending) - 'good hole', meaning 'ease' or 'happiness'"
+  },
+  {
+    "word": "dharmātmā",
+    "roots": [
+      "dharmātman"
+    ],
+    "meaning": "righteous soul",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "dharma (duty/righteousness) + ātmā (soul) - compound meaning 'soul of righteousness'"
+  },
+  {
+    "word": "sādhu",
+    "roots": [
+      "sādhu"
+    ],
+    "meaning": "good, virtuous",
+    "partOfSpeech": "adjective",
+    "grammaticalAnalysis": "masculine singular nom./voc.",
+    "compoundStructure": "su (good) + a (intensive) + dhu (to be firm) - 'one who stands firm in goodness', meaning 'good/virtuous'"
+  },
+  {
+    "word": "gatim",
+    "roots": [
+      "gati"
+    ],
+    "meaning": "path, destiny",
+    "partOfSpeech": "noun",
+    "grammaticalAnalysis": "feminine singular accusative",
+    "compoundStructure": "gat (to go) + i (feminine suffix) + m (accusative singular ending) - feminine accusative of 'path/destination'"
+  },
+  {
+    "word": "etan",
+    "roots": [
+      "etad"
+    ],
+    "meaning": "this",
+    "partOfSpeech": "pronoun",
+    "grammaticalAnalysis": "neuter singular nom./acc./voc.",
+    "compoundStructure": "etad (this) + an (neuter ending) - proximal demonstrative pronoun in neuter form"
+  },
+  {
+    "word": "'dya",
+    "roots": [
+      "adya"
+    ],
+    "meaning": "today",
+    "partOfSpeech": "adverb",
+    "grammaticalAnalysis": "temporal adverb",
+    "compoundStructure": "adya (today) with elided initial vowel - temporal adverb meaning 'today' or 'now'"
+  },
+  {
+    "word": "dṛśyate",
+    "roots": [
+      "dṛś"
+    ],
+    "meaning": "is seen",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "3rd person singular present middle",
+    "compoundStructure": "dṛś (to see) + ya (causative suffix) + te (middle voice ending) - 'is seen', causative middle voice"
+  },
+  {
+    "word": "arhati",
+    "roots": [
+      "arh"
+    ],
+    "meaning": "deserves, is worthy",
+    "partOfSpeech": "verb",
+    "grammaticalAnalysis": "3rd person singular present active",
+    "compoundStructure": "arh (to be worthy) + ati (3rd person singular ending) - 'he deserves' or 'is worthy', present tense"
+  }
+]

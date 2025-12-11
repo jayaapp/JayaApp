@@ -1,0 +1,219 @@
+/* Word Info Panel Styles */
+.word-info-panel {
+    position: fixed;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--panel-border-color);
+    border-radius: 4px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    z-index: 1000;
+    font-size: 14px;
+    line-height: 1.6;
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Scrollbar for panel */
+.word-info-panel::-webkit-scrollbar {
+    width: 8px;
+}
+
+.word-info-panel::-webkit-scrollbar-track {
+    background: var(--bg-color);
+}
+
+.word-info-panel::-webkit-scrollbar-thumb {
+    background: var(--panel-border-color);
+    border-radius: 4px;
+}
+
+.word-info-panel::-webkit-scrollbar-thumb:hover {
+    background: var(--text-color);
+}
+
+/* Lexicon Entry Styles */
+.lexicon-entry {
+    margin-bottom: 0px;
+    padding-bottom: 16px;
+}
+
+.lexicon-word {
+    font-size: 1.5em;
+    margin-bottom: 8px;
+    color: var(--text-color);
+}
+
+.lexicon-meaning {
+    font-size: 1.1em;
+    margin-bottom: 8px;
+    color: var(--text-color);
+}
+
+.lexicon-roots {
+    font-size: 0.95em;
+    margin-bottom: 6px;
+}
+
+.lexicon-grammar {
+    font-size: 0.9em;
+    margin-bottom: 6px;
+}
+
+.lexicon-compound {
+    font-size: 0.9em;
+}
+
+/* Word Formation Styles */
+.word-formation {
+    margin-bottom: 0px;
+}
+
+.word-formation h4 {
+    font-size: 1.2em;
+    margin-bottom: 12px;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.formation-steps {
+    font-size: 1.0em;
+    padding: 12px;
+    background-color: color-mix(in srgb, var(--bg-color) 30%, transparent 70%);
+    border-radius: 6px;
+}
+
+.formation-step,
+.formation-substep {
+    margin-bottom: 8px;
+    padding: 0;
+}
+
+.formation-step:last-child,
+.formation-substep:last-child {
+    margin-bottom: 0;
+}
+
+.formation-substep {
+    margin-left: 16px;
+    font-size: 0.95em;
+}
+
+.substep-indent {
+    margin-left: 16px;
+}
+
+.step-number {
+    font-weight: 600;
+    margin-right: 4px;
+}
+
+.step-char {
+    font-family: var(--verse-font-family, 'Noto Serif Devanagari', serif);
+}
+
+.step-char strong {
+    font-size: 1.25em;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.step-explanation {
+    color: var(--text-color);
+}
+
+/* Lexicon Footer Styles */
+.lexicon-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 12px;
+    margin-top: 12px;
+    font-size: 0.9em;
+}
+
+.occurrence-count {
+    color: color-mix(in srgb, var(--text-color) 70%, var(--bg-color) 30%);
+    font-weight: 600;
+}
+
+.occurrence-location {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.location-text {
+    color: color-mix(in srgb, var(--text-color) 70%, var(--bg-color) 30%);
+    font-size: 0.95em;
+}
+
+.location-prev,
+.location-next {
+    background: var(--menu-bg-color);
+    color: var(--menu-text-color);
+    border: none;
+    padding: 4px 8px;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 1em;
+}
+
+.location-prev:hover,
+.location-next:hover {
+    opacity: 0.8;
+}
+
+/* Location dropdown */
+#word-occurrence-select {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--panel-border-color);
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s ease;
+    max-width: 100%;
+    margin-left: 24px;
+}
+
+#word-occurrence-select:hover {
+    border-color: var(--text-color);
+}
+
+#word-occurrence-select:focus {
+    border-color: var(--text-color);
+    opacity: 1;
+}
+
+#word-occurrence-select option {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding: 4px;
+}
+
+/* Dark theme adjustments */
+body.dark-theme .word-info-panel {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+
+/* Apply ornamented background if enabled */
+.word-info-panel.ornamented-background {
+    background-attachment: local;
+    background-repeat: no-repeat;
+}

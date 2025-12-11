@@ -64,6 +64,8 @@
         overlay.classList.add('active');
         panel.classList.add('active');
         panel.setAttribute('aria-hidden','false');
+        // set window flag notifying the app that helpme panel is open
+        window.isHelpMePanelOpen = true;
     }
 
     function close() {
@@ -73,6 +75,8 @@
         if (window.dehighlightAll) {
             window.dehighlightAll();
         }
+        // unset window flag notifying the app that helpme panel is open
+        window.isHelpMePanelOpen = false;
     }
 
     function bindEvents() {

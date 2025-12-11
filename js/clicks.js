@@ -32,7 +32,8 @@ function handleWordClick(e, container) {
                     verse: verseNumber,
                     word: null,
                     text: null,
-                    lang: null
+                    lang: null,
+                    click_point: { x: clickX, y: clickY }
                 }
             });
             document.dispatchEvent(event);
@@ -48,7 +49,8 @@ function handleWordClick(e, container) {
                     verse: verseNumber,
                     word: wordIndex,
                     text: wordText,
-                    lang: lang
+                    lang: lang,
+                    click_point: { x: clickX, y: clickY }
                 }
             });
             document.dispatchEvent(event);
