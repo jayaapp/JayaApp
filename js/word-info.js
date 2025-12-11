@@ -6,7 +6,267 @@
 class WordFormationAnalyzer {
     constructor() {
         this.setupMappings();
+        this.setupLocalization();
         this.setupCharacterDescriptions();
+    }
+
+    // Helper to get current language dynamically and return translation
+    t(key) {
+        const appLang = localStorage.getItem('appLang') || 'English';
+        return this.i18n[appLang]?.[key] || this.i18n['English']?.[key] || key;
+    }
+
+    setupLocalization() {
+        this.i18n = {
+            'English': {
+                // Phonetic groups
+                'velar': 'Velar',
+                'palatal': 'Palatal',
+                'retroflex': 'Retroflex',
+                'dental': 'Dental',
+                'labial': 'Labial',
+                'semivowel': 'Semivowel',
+                'liquid': 'Liquid',
+                'fricative': 'Fricative',
+                'glottal': 'Glottal',
+                
+                // Articulation types
+                'unaspirated': 'Unaspirated',
+                'aspirated': 'Aspirated',
+                'nasal': 'Nasal',
+                
+                // Voice
+                'voiced': 'Voiced',
+                'unvoiced': 'Unvoiced',
+                
+                // UI labels
+                'word_formation': 'Word Formation',
+                'base_consonant': 'Base consonant',
+                'base_consonant_with_a': "Base consonant with 'a'",
+                'loses_inherent_a': "loses inherent 'a'",
+                
+                // Character descriptions
+                'base_vowel': 'Base vowel',
+                'long_vowel': 'Long vowel',
+                'short_vowel': 'Short vowel',
+                'vocalic': 'Vocalic',
+                'diphthong': 'Diphthong',
+                'character': 'character',
+                'inherent_in_consonants': 'inherent in consonants',
+                'twice_length': 'twice the length of',
+                'vowel_like_sound': "vowel-like 'r' sound",
+                
+                // Special marks
+                'halant': 'Halant',
+                'anusvara': 'anusvara',
+                'visarga': 'visarga',
+                'candrabindu': 'candrabindu',
+                
+                // Descriptions
+                'removes_inherent_a': "Removes inherent 'a' - forms consonant clusters",
+                'adds_nasal_quality': 'Adds nasal quality',
+                'echo_aspiration': 'Echo-like aspiration',
+                'nasal_quality_marker': 'Nasal quality marker',
+                'suppresses_vowel': "suppresses the inherent 'a' vowel of the previous consonant",
+                'adds_nasal_to_vowel': 'adds nasal quality to the preceding vowel',
+                'adds_echo_aspiration': 'adds echo-like aspiration at the end',
+                
+                // Vowel descriptions
+                'lengthens_to': 'Lengthens to',
+                'extends_inherent_a': "extends inherent 'a'",
+                'changes_to': 'Changes to',
+                'short_sound': 'short',
+                'long_sound': 'long',
+                'sound': 'sound',
+                
+                // Conjunct descriptions
+                'conjunct_consonant': 'Conjunct consonant',
+                'conjunct': 'Conjunct',
+                'special_ligature': 'Special ligature',
+                'consonant_cluster': 'Consonant cluster formed by halant',
+                'consonant_with_modifiers': 'Consonant with modifiers',
+                'single_character': 'Single character',
+                'unknown_character': 'Unknown character',
+                'vowel_mark': 'vowel mark',
+                
+                // Conjunct formation phrases
+                'the_first_consonant': 'The first consonant',
+                'the_first_consonants': 'The first consonants',
+                'lose': 'lose',
+                'loses': 'loses',
+                'the_inherent_a_vowel': "the inherent 'a' vowel",
+                'and_combine': 'and combine',
+                'and_combines': 'and combines',
+                'with': 'with',
+                'pronounce_as': 'Pronounce as',
+                'practice': 'Practice',
+                'nasal_conjuncts_usage': 'Nasal conjuncts often appear in compound words and Sanskrit grammar',
+                'liquid_semivowel_usage': 'Liquid/semivowel conjuncts are common in root words and derivatives',
+                'consonant_cluster_rules': 'Consonant cluster following standard Sanskrit phonological rules',
+                
+                // Special conjunct descriptions
+                'loses_inherent_vowel': 'loses its inherent vowel',
+                'fuses_with': 'and fuses with',
+                'to_form_unique': 'to form a unique character',
+                'suppresses_vowel_combines': 'suppresses its vowel and combines with',
+                'often_written_ligature': 'often written as a ligature',
+                'combines_in_hook': 'combines with',
+                'in_characteristic_hook': 'in a characteristic hook formation',
+                'to_form_concept': 'to form the self/own concept',
+                'quick_followed_by': 'Quick',
+                'followed_by': 'followed by',
+                'palatal_blends': 'Palatal',
+                'blends_smoothly_into': 'blends smoothly into',
+                'pronounce_single_unit': 'Pronounce as a single unit',
+                'not': 'not',
+                'adds_nasal_quality_tongue': 'adds nasal quality - tongue touches soft palate',
+                'gives_nasal_quality': 'gives a palatal nasal quality',
+                'common_in_words': 'Common in words like',
+                'very_common_in_words': 'Very common in words like',
+                'found_in_words': 'Found in auspicious words',
+                'appears_in_words': 'Appears in words related to',
+                'related_to': 'Common in words related to',
+                'divine_power': 'divine power',
+                'warriors': 'warriors',
+                'imperishable': 'and imperishable things',
+                'knowledge': 'knowledge',
+                'science': 'science',
+                'three': 'three',
+                'friend': 'friend',
+                'scripture': 'scripture',
+                'prosperity': 'prosperity',
+                'hearing_vedas': 'hearing/Vedas',
+                'door': 'door',
+                'twice_born': 'twice-born',
+                'self': 'self',
+                'note_vowel': 'note/vowel',
+                'the': 'The'
+            },
+            'Polski': {
+                // Phonetic groups
+                'velar': 'Welarny',
+                'palatal': 'Palatalny',
+                'retroflex': 'Retrofleksyjny',
+                'dental': 'Zębowy',
+                'labial': 'Wargowy',
+                'semivowel': 'Półsamogłoska',
+                'liquid': 'Płynny',
+                'fricative': 'Szczelinowy',
+                'glottal': 'Krtaniowy',
+                
+                // Articulation types
+                'unaspirated': 'Nieaspirowany',
+                'aspirated': 'Aspirowany',
+                'nasal': 'Nosowy',
+                
+                // Voice
+                'voiced': 'Dźwięczny',
+                'unvoiced': 'Bezdźwięczny',
+                
+                // UI labels
+                'word_formation': 'Budowa Słowa',
+                'base_consonant': 'Spółgłoska podstawowa',
+                'base_consonant_with_a': "Spółgłoska podstawowa z 'a'",
+                'loses_inherent_a': "traci nieodłączne 'a'",
+                
+                // Character descriptions
+                'base_vowel': 'Samogłoska podstawowa',
+                'long_vowel': 'Samogłoska długa',
+                'short_vowel': 'Samogłoska krótka',
+                'vocalic': 'Wokaliczny',
+                'diphthong': 'Dyftong',
+                'character': 'znak',
+                'inherent_in_consonants': 'nieodłączny w spółgłoskach',
+                'twice_length': 'dwukrotna długość',
+                'vowel_like_sound': "samogłoskowy dźwięk 'r'",
+                
+                // Special marks
+                'halant': 'Halant',
+                'anusvara': 'anuswara',
+                'visarga': 'wisarga',
+                'candrabindu': 'czandrabindu',
+                
+                // Descriptions
+                'removes_inherent_a': "Usuwa nieodłączne 'a' - tworzy grupy spółgłoskowe",
+                'adds_nasal_quality': 'Dodaje jakość nosową',
+                'echo_aspiration': 'Aspiracja typu echo',
+                'nasal_quality_marker': 'Znacznik jakości nosowej',
+                'suppresses_vowel': "usuwa nieodłączną samogłoskę 'a' poprzedniej spółgłoski",
+                'adds_nasal_to_vowel': 'dodaje jakość nosową do poprzedniej samogłoski',
+                'adds_echo_aspiration': 'dodaje aspirację typu echo na końcu',
+                
+                // Vowel descriptions
+                'lengthens_to': 'Wydłuża do',
+                'extends_inherent_a': "rozszerza nieodłączne 'a'",
+                'changes_to': 'Zmienia na',
+                'short_sound': 'krótki',
+                'long_sound': 'długi',
+                'sound': 'dźwięk',
+                
+                // Conjunct descriptions
+                'conjunct_consonant': 'Spółgłoska złożona',
+                'conjunct': 'Połączenie',
+                'special_ligature': 'Ligatura specjalna',
+                'consonant_cluster': 'Grupa spółgłosek utworzona przez halant',
+                'consonant_with_modifiers': 'Spółgłoska z modyfikatorami',
+                'single_character': 'Pojedynczy znak',
+                'unknown_character': 'Nieznany znak',
+                'vowel_mark': 'znak samogłoskowy',
+                
+                // Conjunct formation phrases
+                'the_first_consonant': 'Pierwsza spółgłoska',
+                'the_first_consonants': 'Pierwsze spółgłoski',
+                'lose': 'tracą',
+                'loses': 'traci',
+                'the_inherent_a_vowel': "nieodłączną samogłoskę 'a'",
+                'and_combine': 'i łączą się',
+                'and_combines': 'i łączy się',
+                'with': 'z',
+                'pronounce_as': 'Wymowa',
+                'practice': 'Ćwicz',
+                'nasal_conjuncts_usage': 'Połączenia nosowe często występują w słowach złożonych i gramatyce sanskrytu',
+                'liquid_semivowel_usage': 'Połączenia płynne/półsamogłoskowe są powszechne w słowach pierwotnych i pochodnych',
+                'consonant_cluster_rules': 'Grupa spółgłosek zgodna ze standardowymi regułami fonologicznymi sanskrytu',
+                
+                // Special conjunct descriptions
+                'loses_inherent_vowel': 'traci nieodłączną samogłoskę',
+                'fuses_with': 'i scala się z',
+                'to_form_unique': 'tworząc unikalny znak',
+                'suppresses_vowel_combines': 'tłumi samogłoskę i łączy się z',
+                'often_written_ligature': 'często zapisywane jako ligatura',
+                'combines_in_hook': 'łączy się z',
+                'in_characteristic_hook': 'w charakterystycznej formie haczyka',
+                'to_form_concept': 'tworząc pojęcie własności/siebie',
+                'quick_followed_by': 'Szybko',
+                'followed_by': 'po którym następuje',
+                'palatal_blends': 'Palatalny',
+                'blends_smoothly_into': 'łączy się płynnie z',
+                'pronounce_single_unit': 'Wymawiaj jako pojedynczą jednostkę',
+                'not': 'nie',
+                'adds_nasal_quality_tongue': 'dodaje jakość nosową - język dotyka miękkiego podniebienia',
+                'gives_nasal_quality': 'nadaje palatalną jakość nosową',
+                'common_in_words': 'Powszechne w słowach takich jak',
+                'very_common_in_words': 'Bardzo powszechne w słowach takich jak',
+                'found_in_words': 'Występuje w pomyślnych słowach',
+                'appears_in_words': 'Występuje w słowach związanych z',
+                'related_to': 'Powszechne w słowach związanych z',
+                'divine_power': 'boską mocą',
+                'warriors': 'wojownikami',
+                'imperishable': 'i niezniszczalnymi rzeczami',
+                'knowledge': 'wiedzą',
+                'science': 'nauką',
+                'three': 'trzy',
+                'friend': 'przyjaciel',
+                'scripture': 'pismo',
+                'prosperity': 'dobrobyt',
+                'hearing_vedas': 'słuchanie/Wedy',
+                'door': 'drzwi',
+                'twice_born': 'dwukrotnie narodzony',
+                'self': 'siebie',
+                'note_vowel': 'nuta/samogłoska',
+                'the': ''
+            }
+        };
     }
 
     setupMappings() {
@@ -47,49 +307,49 @@ class WordFormationAnalyzer {
             'ह': { iast: 'ha', group: 'fricative', type: 'glottal', voice: 'voiced' }
         };
 
-        // Special conjunct formations - expanded with common patterns
+        // Special conjunct formations - localized dynamically
         this.specialConjuncts = {
             'क्ष': {
                 components: ['क्', 'ष'],
-                explanation: 'Special ligature: क् (k) + ष (ṣa) → क्ष (kṣa)',
-                formation: 'The क् loses its inherent vowel and fuses with ष to form a unique character',
-                pronunciation: 'Pronounce as a single unit: /kṣa/ - not /ka-ṣa/',
-                usage: 'Common in words related to divine power, warriors (क्षत्रिय), and imperishable things (अक्षर)'
+                getExplanation: () => `${this.t('special_ligature')}: क् (k) + ष (ṣa) → क्ष (kṣa)`,
+                getFormation: () => `${this.t('the')} क् ${this.t('loses_inherent_vowel')} ${this.t('fuses_with')} ष ${this.t('to_form_unique')}`,
+                getPronunciation: () => `${this.t('pronounce_single_unit')}: /kṣa/ - ${this.t('not')} /ka-ṣa/`,
+                getUsage: () => `${this.t('related_to')} ${this.t('divine_power')}, ${this.t('warriors')} (क्षत्रिय), ${this.t('imperishable')} (अक्षर)`
             },
             'ज्ञ': {
                 components: ['ज्', 'ञ'],
-                explanation: 'Special ligature: ज् (j) + ञ (ña) → ज्ञ (jña)',
-                formation: 'The ज् combines with ञ to form a distinctive character representing knowledge',
-                pronunciation: 'Pronounce as /jña/ - the ञ gives a palatal nasal quality',
-                usage: 'Appears in words related to knowledge: ज्ञान (knowledge), विज्ञान (science)'
+                getExplanation: () => `${this.t('special_ligature')}: ज् (j) + ञ (ña) → ज्ञ (jña)`,
+                getFormation: () => `${this.t('the')} ज् ${this.t('combines_in_hook')} ञ ${this.t('to_form_unique')}`,
+                getPronunciation: () => `${this.t('pronounce_as')} /jña/ - ${this.t('the')} ञ ${this.t('gives_nasal_quality')}`,
+                getUsage: () => `${this.t('appears_in_words')} ${this.t('knowledge')}: ज्ञान (${this.t('knowledge')}), विज्ञान (${this.t('science')})`
             },
             'त्र': {
                 components: ['त्', 'र'],
-                explanation: 'Conjunct: त् (t) + र (ra) → त्र (tra)',
-                formation: 'त् suppresses its vowel and combines with र, often written as a ligature',
-                pronunciation: 'Quick /t/ followed by rolled /ra/ - practice: त्र त्रि त्रु',
-                usage: 'Very common in words like त्रि (three), मित्र (friend), शास्त्र (scripture)'
+                getExplanation: () => `${this.t('conjunct')}: त् (t) + र (ra) → त्र (tra)`,
+                getFormation: () => `त् ${this.t('suppresses_vowel_combines')} र, ${this.t('often_written_ligature')}`,
+                getPronunciation: () => `${this.t('quick_followed_by')} /t/ ${this.t('followed_by')} /ra/ - ${this.t('practice')}: त्र त्रि त्रु`,
+                getUsage: () => `${this.t('very_common_in_words')} त्रि (${this.t('three')}), मित्र (${this.t('friend')}), शास्त्र (${this.t('scripture')})`
             },
             'श्र': {
                 components: ['श्', 'र'],
-                explanation: 'Conjunct: श् (ś) + र (ra) → श्र (śra)',
-                formation: 'श् combines with र in a characteristic hook formation',
-                pronunciation: 'Palatal /ś/ blends smoothly into /ra/ - practice: श्र श्रि श्रु',
-                usage: 'Found in auspicious words: श्री (prosperity), श्रुति (hearing/Vedas)'
+                getExplanation: () => `${this.t('conjunct')}: श् (ś) + र (ra) → श्र (śra)`,
+                getFormation: () => `श् ${this.t('combines_in_hook')} र ${this.t('in_characteristic_hook')}`,
+                getPronunciation: () => `${this.t('palatal_blends')} /ś/ ${this.t('blends_smoothly_into')} /ra/ - ${this.t('practice')}: श्र श्रि श्रु`,
+                getUsage: () => `${this.t('found_in_words')}: श्री (${this.t('prosperity')}), श्रुति (${this.t('hearing_vedas')})`
             },
             'द्व': {
                 components: ['द्', 'व'],
-                explanation: 'Conjunct: द् (d) + व (va) → द्व (dva)',
-                formation: 'द् loses its inherent vowel and combines with व',
-                pronunciation: 'Quick /d/ followed by /va/ - practice: द्व द्वि द्वु',
-                usage: 'Common in words like द्वार (door), द्विज (twice-born)'
+                getExplanation: () => `${this.t('conjunct')}: द् (d) + व (va) → द्व (dva)`,
+                getFormation: () => `द् ${this.t('loses_inherent_vowel')} ${this.t('and_combines')} ${this.t('with')} व`,
+                getPronunciation: () => `${this.t('quick_followed_by')} /d/ ${this.t('followed_by')} /va/ - ${this.t('practice')}: द्व द्वि द्वु`,
+                getUsage: () => `${this.t('common_in_words')} द्वार (${this.t('door')}), द्विज (${this.t('twice_born')})`
             },
             'स्व': {
                 components: ['स्', 'व'],
-                explanation: 'Conjunct: स् (s) + व (va) → स्व (sva)',
-                formation: 'स् combines with व to form the self/own concept',
-                pronunciation: 'Dental /s/ followed by /va/',
-                usage: 'Found in words like स्वयं (self), स्वर (note/vowel)'
+                getExplanation: () => `${this.t('conjunct')}: स् (s) + व (va) → स्व (sva)`,
+                getFormation: () => `स् ${this.t('combines_in_hook')} व ${this.t('to_form_concept')}`,
+                getPronunciation: () => `Dental /s/ ${this.t('followed_by')} /va/`,
+                getUsage: () => `${this.t('found_in_words')} स्वयं (${this.t('self')}), स्वर (${this.t('note_vowel')})`
             }
         };
         
@@ -110,87 +370,69 @@ class WordFormationAnalyzer {
     }
     
     setupCharacterDescriptions() {
-        // Vowel descriptions
+        // Vowel descriptions - now generated dynamically
         this.vowelDescriptions = {
-            'अ': "Base vowel /a/ - inherent in consonants",
-            'आ': "Long vowel /ā/ - twice the length of अ", 
-            'इ': "Short vowel /i/ - as in 'bit'",
-            'ई': "Long vowel /ī/ - as in 'see'",
-            'उ': "Short vowel /u/ - as in 'put'",
-            'ऊ': "Long vowel /ū/ - as in 'boot'",
-            'ऋ': "Vocalic /ṛ/ - vowel-like 'r' sound",
-            'ए': "Long vowel /e/ - as in 'hey'",
-            'ऐ': "Diphthong /ai/ - as in 'kite'",
-            'ओ': "Long vowel /o/ - as in 'go'", 
-            'औ': "Diphthong /au/ - as in 'cow'"
+            'अ': () => `${this.t('base_vowel')} /a/ - ${this.t('inherent_in_consonants')}`,
+            'आ': () => `${this.t('long_vowel')} /ā/ - ${this.t('twice_length')} अ`, 
+            'इ': () => `${this.t('short_vowel')} /i/ - as in 'bit'`,
+            'ई': () => `${this.t('long_vowel')} /ī/ - as in 'see'`,
+            'उ': () => `${this.t('short_vowel')} /u/ - as in 'put'`,
+            'ऊ': () => `${this.t('long_vowel')} /ū/ - as in 'boot'`,
+            'ऋ': () => `${this.t('vocalic')} /ṛ/ - ${this.t('vowel_like_sound')}`,
+            'ए': () => `${this.t('long_vowel')} /e/ - as in 'hey'`,
+            'ऐ': () => `${this.t('diphthong')} /ai/ - as in 'kite'`,
+            'ओ': () => `${this.t('long_vowel')} /o/ - as in 'go'`, 
+            'औ': () => `${this.t('diphthong')} /au/ - as in 'cow'`
         };
         
-        // Vowel mark descriptions
+        // Vowel mark descriptions - now generated dynamically
         this.vowelMarkDescriptions = {
-            'ा': "Lengthens to /ā/ - extends inherent 'a'",
-            'ि': "Changes to /i/ - short 'i' sound",
-            'ी': "Changes to /ī/ - long 'i' sound", 
-            'ु': "Changes to /u/ - short 'u' sound",
-            'ू': "Changes to /ū/ - long 'u' sound",
-            'ृ': "Changes to /ṛ/ - vocalic 'r'",
-            'ॄ': "Changes to /ṝ/ - long vocalic 'r'",
-            'ॢ': "Changes to /ḷ/ - vocalic 'l'",
-            'े': "Changes to /e/ - long 'e' sound",
-            'ै': "Changes to /ai/ - diphthong",
-            'ो': "Changes to /o/ - long 'o' sound",
-            'ौ': "Changes to /au/ - diphthong"
+            'ा': () => `${this.t('lengthens_to')} /ā/ - ${this.t('extends_inherent_a')}`,
+            'ि': () => `${this.t('changes_to')} /i/ - ${this.t('short_sound')} 'i' ${this.t('sound')}`,
+            'ी': () => `${this.t('changes_to')} /ī/ - ${this.t('long_sound')} 'i' ${this.t('sound')}`, 
+            'ु': () => `${this.t('changes_to')} /u/ - ${this.t('short_sound')} 'u' ${this.t('sound')}`,
+            'ू': () => `${this.t('changes_to')} /ū/ - ${this.t('long_sound')} 'u' ${this.t('sound')}`,
+            'ृ': () => `${this.t('changes_to')} /ṛ/ - ${this.t('vocalic')} 'r'`,
+            'ॄ': () => `${this.t('changes_to')} /ṝ/ - ${this.t('long_sound')} ${this.t('vocalic')} 'r'`,
+            'ॢ': () => `${this.t('changes_to')} /ḷ/ - ${this.t('vocalic')} 'l'`,
+            'े': () => `${this.t('changes_to')} /e/ - ${this.t('long_sound')} 'e' ${this.t('sound')}`,
+            'ै': () => `${this.t('changes_to')} /ai/ - ${this.t('diphthong')}`,
+            'ो': () => `${this.t('changes_to')} /o/ - ${this.t('long_sound')} 'o' ${this.t('sound')}`,
+            'ौ': () => `${this.t('changes_to')} /au/ - ${this.t('diphthong')}`
         };
         
-        // Special mark descriptions
+        // Special mark descriptions - now generated dynamically
         this.specialMarkDescriptions = {
-            '्': "Removes inherent 'a' - forms consonant clusters",
-            'ं': "Adds nasal quality - anusvara",
-            'ः': "Echo-like aspiration - visarga",
-            'ँ': "Nasal quality marker - candrabindu"
+            '्': () => this.t('removes_inherent_a'),
+            'ं': () => `${this.t('adds_nasal_quality')} - ${this.t('anusvara')}`,
+            'ः': () => `${this.t('echo_aspiration')} - ${this.t('visarga')}`,
+            'ँ': () => `${this.t('nasal_quality_marker')} - ${this.t('candrabindu')}`
         };
         
-        // Consonant group descriptions
-        this.consonantGroupDescriptions = {
-            'क': "Velar (क-वर्ग), Unaspirated, Unvoiced",
-            'ख': "Velar (क-वर्ग), Aspirated, Unvoiced", 
-            'ग': "Velar (क-वर्ग), Unaspirated, Voiced",
-            'घ': "Velar (क-वर्ग), Aspirated, Voiced",
-            'ङ': "Velar (क-वर्ग), Nasal",
-            'च': "Palatal (च-वर्ग), Unaspirated, Unvoiced",
-            'छ': "Palatal (च-वर्ग), Aspirated, Unvoiced",
-            'ज': "Palatal (च-वर्ग), Unaspirated, Voiced",
-            'झ': "Palatal (च-वर्ग), Aspirated, Voiced",
-            'ञ': "Palatal (च-वर्ग), Nasal",
-            'ट': "Retroflex (ट-वर्ग), Unaspirated, Unvoiced",
-            'ठ': "Retroflex (ट-वर्ग), Aspirated, Unvoiced",
-            'ड': "Retroflex (ट-वर्ग), Unaspirated, Voiced",
-            'ढ': "Retroflex (ट-वर्ग), Aspirated, Voiced",
-            'ण': "Retroflex (ट-वर्ग), Nasal",
-            'त': "Dental (त-वर्ग), Unaspirated, Unvoiced",
-            'थ': "Dental (त-वर्ग), Aspirated, Unvoiced",
-            'द': "Dental (त-वर्ग), Unaspirated, Voiced",
-            'ध': "Dental (त-वर्ग), Aspirated, Voiced",
-            'न': "Dental (त-वर्ग), Nasal",
-            'प': "Labial (प-वर्ग), Unaspirated, Unvoiced",
-            'फ': "Labial (प-वर्ग), Aspirated, Unvoiced",
-            'ब': "Labial (प-वर्ग), Unaspirated, Voiced",
-            'भ': "Labial (प-वर्ग), Aspirated, Voiced",
-            'म': "Labial (प-वर्ग), Nasal",
-            'य': "Semivowel (Palatal)",
-            'र': "Liquid (Retroflex)",
-            'ल': "Liquid (Dental)",
-            'व': "Semivowel (Labial)",
-            'श': "Fricative (Palatal)",
-            'ष': "Fricative (Retroflex)",
-            'स': "Fricative (Dental)",
-            'ह': "Fricative (Glottal)"
-        };
+        // Consonant group descriptions - generated dynamically based on consonant data
+        this.consonantGroupDescriptions = {};
+        for (const char in this.consonants) {
+            const info = this.consonants[char];
+            this.consonantGroupDescriptions[char] = () => {
+                const group = this.t(info.group);
+                const type = this.t(info.type);
+                const voice = this.t(info.voice);
+                return `${group} (${char}-वर्ग), ${type}, ${voice}`;
+            };
+        }
     }
 
     analyzeConjunct(devanagari, iast) {
         // Check if it's a special conjunct first
         if (this.specialConjuncts[devanagari]) {
-            const analysis = {...this.specialConjuncts[devanagari]}; // Create copy to avoid mutation
+            const special = this.specialConjuncts[devanagari];
+            const analysis = {
+                components: special.components,
+                explanation: special.getExplanation(),
+                formation: special.getFormation(),
+                pronunciation: special.getPronunciation(),
+                usage: special.getUsage()
+            };
             analysis.characterBreakdown = this.getDetailedCharacterBreakdown(devanagari, iast);
             return analysis;
         }
@@ -257,9 +499,12 @@ class WordFormationAnalyzer {
             const first = componentDetails[0];
             const last = componentDetails[componentDetails.length - 1];
             
-            analysis.explanation = `Conjunct consonant: ${componentDetails.map(c => c.char + (c !== last ? '्' : '')).join('')} = ${devanagari} (${iast})`;
+            analysis.explanation = `${this.t('conjunct_consonant')}: ${componentDetails.map(c => c.char + (c !== last ? '्' : '')).join('')} = ${devanagari} (${iast})`;
             
-            analysis.formation = `The first consonant${componentDetails.length > 2 ? 's' : ''} ${componentDetails.slice(0, -1).map(c => c.char).join(', ')} lose${componentDetails.length === 2 ? 's' : ''} the inherent 'a' vowel and combine${componentDetails.length > 2 ? '' : 's'} with ${last.char}`;
+            const firstText = componentDetails.length > 2 ? this.t('the_first_consonants') : this.t('the_first_consonant');
+            const loseText = componentDetails.length === 2 ? this.t('loses') : this.t('lose');
+            const combineText = componentDetails.length > 2 ? this.t('and_combine') : this.t('and_combines');
+            analysis.formation = `${firstText} ${componentDetails.slice(0, -1).map(c => c.char).join(', ')} ${loseText} ${this.t('the_inherent_a_vowel')} ${combineText} ${this.t('with')} ${last.char}`;
             
             // Pronunciation guide
             const consonantSounds = componentDetails.map((c, idx) => {
@@ -270,15 +515,15 @@ class WordFormationAnalyzer {
                 }
             }).join(' + ');
             
-            analysis.pronunciation = `Pronounce as: ${consonantSounds} → /${iast}/. Practice: ${iast}, ${iast.slice(0, -1)}i, ${iast.slice(0, -1)}u`;
+            analysis.pronunciation = `${this.t('pronounce_as')}: ${consonantSounds} → /${iast}/. ${this.t('practice')}: ${iast}, ${iast.slice(0, -1)}i, ${iast.slice(0, -1)}u`;
             
             // Usage patterns
             if (componentDetails.some(c => c.info.type === 'nasal')) {
-                analysis.usage = 'Nasal conjuncts often appear in compound words and Sanskrit grammar';
+                analysis.usage = this.t('nasal_conjuncts_usage');
             } else if (componentDetails.some(c => c.info.group === 'liquid' || c.info.group === 'semivowel')) {
-                analysis.usage = 'Liquid/semivowel conjuncts are common in root words and derivatives';
+                analysis.usage = this.t('liquid_semivowel_usage');
             } else {
-                analysis.usage = 'Consonant cluster following standard Sanskrit phonological rules';
+                analysis.usage = this.t('consonant_cluster_rules');
             }
         }
 
@@ -362,30 +607,30 @@ class WordFormationAnalyzer {
         
         // Determine character type and function
         if (char === '्') {
-            charType = 'Halant';
+            charType = this.t('halant');
             iast = '[halant]';
-            description = this.specialMarkDescriptions[char];
+            description = this.specialMarkDescriptions[char]();
         } else if (this.vowelMarkDescriptions[char]) {
-            charType = 'Vowel Mark';
+            charType = this.t('vowel_mark');
             const baseIast = this.getVowelMarkIast(char);
             iast = baseIast;
-            description = this.vowelMarkDescriptions[char];
+            description = this.vowelMarkDescriptions[char]();
         } else if (this.specialMarkDescriptions[char]) {
-            charType = 'Special Mark';
+            charType = this.t('special_mark');
             iast = this.getSpecialMarkIast(char);
-            description = this.specialMarkDescriptions[char];
+            description = this.specialMarkDescriptions[char]();
         } else if (this.consonants[char]) {
-            charType = 'Consonant';
+            charType = this.t('consonant');
             const consonantData = this.consonants[char];
             const consonantIast = consonantData.iast;
             
             // Check if followed by halant
             if (position + 1 < context.length && context[position + 1] === '्') {
                 iast = consonantIast.slice(0, -1); // Remove 'a'
-                description = `Base consonant '${consonantIast.slice(0, -1)}' (${this.consonantGroupDescriptions[char]})`;
+                description = `${this.t('base_consonant')} '${consonantIast.slice(0, -1)}' (${this.consonantGroupDescriptions[char]()})`;
             } else {
                 iast = consonantIast;
-                description = `Base consonant with 'a' (${this.consonantGroupDescriptions[char]})`;
+                description = `${this.t('base_consonant_with_a')} (${this.consonantGroupDescriptions[char]()})`;
             }
         }
         
@@ -421,17 +666,17 @@ class WordFormationAnalyzer {
     finalizeGroup(group, devanagari, iast) {
         // Determine group type
         const hasHalant = group.characters.some(c => c.char === '्');
-        const hasMultipleConsonants = group.characters.filter(c => c.type === 'Consonant').length > 1;
+        const hasMultipleConsonants = group.characters.filter(c => c.type === this.t('consonant')).length > 1;
         
         if (hasHalant && hasMultipleConsonants) {
             group.groupType = 'conjunct';
-            group.explanation = 'Consonant cluster formed by halant';
+            group.explanation = this.t('consonant_cluster');
         } else if (group.characters.length > 1) {
             group.groupType = 'modified';
-            group.explanation = 'Consonant with modifiers';
+            group.explanation = this.t('consonant_with_modifiers');
         } else {
             group.groupType = 'simple';
-            group.explanation = 'Single character';
+            group.explanation = this.t('single_character');
         }
         
         // Build component list
@@ -592,15 +837,15 @@ class WordFormationAnalyzer {
                     let subExplanation = '';
 
                     if (subChar === '्') {
-                        subExplanation = `Halant (्) - suppresses the inherent 'a' vowel of the previous consonant`;
+                        subExplanation = `${this.t('halant')} (्) - ${this.t('suppresses_vowel')}`;
                     } else if (this.consonants[subChar]) {
                         const consonantInfo = this.consonants[subChar];
                         const nextIsHalant = j + 1 < conjunctChars.length && conjunctChars[j + 1] === '्';
 
                         if (nextIsHalant) {
-                            subExplanation = `${subChar} (${consonantInfo.iast.slice(0, -1)}) - ${this.consonantGroupDescriptions[subChar]}, loses inherent 'a'`;
+                            subExplanation = `${subChar} (${consonantInfo.iast.slice(0, -1)}) - ${this.consonantGroupDescriptions[subChar]()}, ${this.t('loses_inherent_a')}`;
                         } else {
-                            subExplanation = `${subChar} (${consonantInfo.iast}) - ${this.consonantGroupDescriptions[subChar]}`;
+                            subExplanation = `${subChar} (${consonantInfo.iast}) - ${this.consonantGroupDescriptions[subChar]()}`;
                         }
                     }
 
@@ -624,28 +869,28 @@ class WordFormationAnalyzer {
             let charType = 'regular';
 
             if (currentChar === '्') {
-                explanation = `Halant (्) - suppresses the inherent 'a' vowel of the previous consonant`;
+                explanation = `${this.t('halant')} (्) - ${this.t('suppresses_vowel')}`;
                 charType = 'halant';
             } else if (this.consonants[currentChar]) {
                 const consonantInfo = this.consonants[currentChar];
-                explanation = `${currentChar} (${consonantInfo.iast}) - ${this.consonantGroupDescriptions[currentChar]}`;
+                explanation = `${currentChar} (${consonantInfo.iast}) - ${this.consonantGroupDescriptions[currentChar]()}`;
                 charType = 'consonant';
             } else if (this.characterTypes[currentChar] === 'vowel_mark') {
-                const vowelDesc = this.vowelMarkDescriptions[currentChar] || 'vowel mark';
+                const vowelDesc = this.vowelMarkDescriptions[currentChar] ? this.vowelMarkDescriptions[currentChar]() : this.t('vowel_mark');
                 explanation = `${currentChar} - ${vowelDesc}`;
                 charType = 'vowel_mark';
             } else if (this.characterTypes[currentChar] === 'anusvara') {
-                explanation = `${currentChar} (anusvara) - adds nasal quality to the preceding vowel`;
+                explanation = `${currentChar} (${this.t('anusvara')}) - ${this.t('adds_nasal_to_vowel')}`;
                 charType = 'anusvara';
             } else if (this.characterTypes[currentChar] === 'visarga') {
-                explanation = `${currentChar} (visarga) - adds echo-like aspiration at the end`;
+                explanation = `${currentChar} (${this.t('visarga')}) - ${this.t('adds_echo_aspiration')}`;
                 charType = 'visarga';
             } else if (this.characterTypes[currentChar] === 'candrabindu') {
-                explanation = `${currentChar} (candrabindu) - nasal quality marker`;
+                explanation = `${currentChar} (${this.t('candrabindu')}) - ${this.t('nasal_quality_marker')}`;
                 charType = 'candrabindu';
             } else {
                 // Independent vowels or other characters
-                const vowelDesc = this.vowelDescriptions[currentChar] || 'character';
+                const vowelDesc = this.vowelDescriptions[currentChar] ? this.vowelDescriptions[currentChar]() : this.t('character');
                 explanation = `${currentChar} - ${vowelDesc}`;
                 charType = 'vowel';
             }
@@ -671,7 +916,7 @@ class WordFormationAnalyzer {
         let wordBreakdown = this.analyzeWordFormation(devanagariText, iastText);
 
         let html = `<div class="word-formation">`;
-        html += `<h4>Word Formation</h4>`;
+        html += `<h4>${this.t('word_formation')}</h4>`;
         html += `<div class="formation-steps">`;
 
         wordBreakdown.forEach(step => {
@@ -786,7 +1031,12 @@ class LexiconManager {
             }
         }
         else {
-            html += `<div class="lexicon-meaning"><em>No lexicon entry found.</em></div>`;
+            const appLang = localStorage.getItem('appLang') || 'English';
+            if (appLang === 'English') {
+                html += `<div class="lexicon-meaning"><em>No lexicon entry found.</em></div>`;
+            } else if (appLang === 'Polski') {
+                html += `<div class="lexicon-meaning"><em>Brak wpisu w leksykonie.</em></div>`;
+            }
         }
         html += `</div>`;
         return html;
