@@ -4,6 +4,7 @@
         "chapter": "Chapter",
         "app_language": "App Language",
         "settings": "Settings",
+        "help": "Help",
 
         "verse_number_font_size": "Verse number font size",
         "verse_font_size": "Verse font size",
@@ -251,6 +252,7 @@
         "chapter": "Rozdział",
         "app_language": "Język Aplikacji",
         "settings": "Ustawienia",
+        "help": "Pomoc",
 
         "verse_number_font_size": "Rozmiar czcionki numerów wersów",
         "verse_font_size": "Rozmiar czcionki wersów",

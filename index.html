@@ -18,17 +18,18 @@
     <link rel="stylesheet" href="css/gsync-style.css">
     <link rel="stylesheet" href="css/settings.css">
     <link rel="stylesheet" href="css/booksel.css">
-    <link rel="stylesheet" href="css/user.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/notes.css">
+    <link rel="stylesheet" href="css/user.css">
     <link rel="stylesheet" href="css/chat.css">
     <link rel="stylesheet" href="css/init.css">
-    <link rel="stylesheet" href="css/helpme.css">
-    <link rel="stylesheet" href="css/prompts.css">
+    <link rel="stylesheet" href="css/help.css">
     <link rel="stylesheet" href="css/chats.css">
+    <link rel="stylesheet" href="css/helpme.css">
     <link rel="stylesheet" href="css/donate.css">
-    <link rel="stylesheet" href="css/word-info.css">
+    <link rel="stylesheet" href="css/prompts.css">
     <link rel="stylesheet" href="css/pselect.css">
+    <link rel="stylesheet" href="css/word-info.css">
 
     <!-- Init the app -->
     <script src="js/init.js"></script>
@@ -60,6 +61,7 @@
     <div id="chats-panel-container"></div>
     <div id="user-panel-container"></div>
     <div id="pselect-panel-container"></div>
+    <div id="help-panel-container"></div>
 
     <!-- Main application container -->
     <div class="app-container">
@@ -67,7 +69,7 @@
         <header class="toolbar top-toolbar">
             <div class="toolbar-left">
                 <span class="material-symbols-outlined icon-left" id="settings-icon">settings</span>
-                <span class="material-symbols-outlined icon-left">help</span>
+                <span class="material-symbols-outlined icon-left" id="help-toggle">help</span>
             </div>
             <div class="toolbar-right">
                 <label for="book-select" locale-id="book">Book</label>
@@ -132,6 +134,7 @@
     <script src="js/text.js"></script>
     <script src="js/chat.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/help.js"></script>
     <script src="js/theme.js"></script>
     <script src="js/alert.js"></script>
     <script src="js/notes.js"></script>

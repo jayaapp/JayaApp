@@ -86,7 +86,8 @@
             'user',
             'helpme',
             'prompts',
-            'pselect'
+            'pselect',
+            'help'
         ];
 
         // Ensure translation object exists
@@ -203,6 +204,7 @@
                 try { if (window.initUserPanel) window.initUserPanel(); } catch (e) { console.error('initUserPanel error', e); }
                 try { if (window.initPrompts) window.initPrompts(); } catch (e) { console.error('initPrompts error', e); }
                 try { if (window.initPromptSelect) window.initPromptSelect(); } catch (e) { console.error('initPromptSelect error', e); }
+                try { if (window.initHelp) window.initHelp(); } catch (e) { console.error('initHelp error', e); }
 
                 // Optional: log any failures for debugging
                 const failures = results.filter(r => r.status === 'rejected');
