@@ -61,6 +61,9 @@ class DonationManager {
       // Load campaigns with current amounts
       await this.loadCampaigns();
       
+      // Load GitHub issues for any github_issues categories
+      await this.loadGitHubIssues();
+      
       // Check for payment return (Stripe)
       this.checkPaymentReturn();
       
@@ -350,6 +353,68 @@ class DonationManager {
     } catch (err) {
       console.warn('Failed to load campaigns:', err);
     }
+  }
+  
+  async loadGitHubIssues() {
+    // Find all GitHub issue categories
+    const githubSections = this.panel.querySelectorAll('.thd-section[data-category-type="github_issues"]');
+    
+    for (const section of githubSections) {
+      const select = section.querySelector('.thd-github-select[data-select]');
+      if (!select) continue;
+      
+      const repo = select.dataset.githubRepo;
+      if (!repo) {
+        console.warn('GitHub issues category missing github_repo');
+        continue;
+      }
+      
+      try {
+        const response = await fetch(`${this.apiBase}/github-issues?repo=${encodeURIComponent(repo)}`);
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        
+        const result = await response.json();
+        if (!result.success) {
+          throw new Error(result.error || 'Failed to fetch issues');
+        }
+        
+        // Populate the select
+        const placeholder = select.querySelector('option[value=""]');
+        select.innerHTML = '';
+        if (placeholder) select.appendChild(placeholder);
+        
+        (result.issues || []).forEach(issue => {
+          const option = document.createElement('option');
+          option.value = issue.number;
+          option.textContent = `#${issue.number}: ${issue.title}`;
+          option.dataset.htmlUrl = issue.html_url;
+          select.appendChild(option);
+        });
+        
+        // Bind change event to show issue link
+        select.addEventListener('change', () => this.updateGitHubIssueLink(section));
+        
+      } catch (err) {
+        console.error('Failed to load GitHub issues for', repo, err);
+      }
+    }
+  }
+  
+  updateGitHubIssueLink(section) {
+    const select = section.querySelector('.thd-github-select[data-select]');
+    const linkContainer = section.querySelector('[data-github-link]');
+    
+    if (!select || !linkContainer) return;
+    
+    const selectedOption = select.options[select.selectedIndex];
+    if (!selectedOption || !selectedOption.value || !selectedOption.dataset.htmlUrl) {
+      linkContainer.innerHTML = '';
+      return;
+    }
+    
+    linkContainer.innerHTML = `<a href="${selectedOption.dataset.htmlUrl}" target="_blank" rel="noopener" style="margin-left: 8px;">🔗 View Issue</a>`;
   }
   
   bindEvents() {
