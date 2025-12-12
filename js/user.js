@@ -47,6 +47,7 @@ class UserManager {
         this.requestFeatureBtn = this.userPanel.querySelector('.request-feature-btn');
         this.viewDiscussionsBtn = this.userPanel.querySelector('.view-discussions-btn');
         this.submitCorrectionsBtn = this.userPanel.querySelector('.submit-corrections-btn');
+        this.submitPromptBtn = this.userPanel.querySelector('.submit-prompt-btn');
         this.userPanelClose = this.userPanel.querySelector('.user-panel-close');
         this.oauthStatusSection = this.userPanel.querySelector('.oauth-status-section');
         this.oauthStatusText = this.userPanel.querySelector('.oauth-status-text');
@@ -66,11 +67,12 @@ class UserManager {
         this.logoutBtn?.addEventListener('click', () => this.logout());
         this.oauthCancelBtn?.addEventListener('click', () => this.hideOAuthStatus());
         
-        // Action buttons (placeholders for now)
+        // Action buttons
         this.reportBugBtn?.addEventListener('click', () => this.handleReportBug());
         this.requestFeatureBtn?.addEventListener('click', () => this.handleRequestFeature());
         this.viewDiscussionsBtn?.addEventListener('click', () => this.handleViewDiscussions());
         this.submitCorrectionsBtn?.addEventListener('click', () => this.handleSubmitCorrections());
+        this.submitPromptBtn?.addEventListener('click', () => this.handleSubmitPrompt());
 
         // Listen for locale changes
         document.addEventListener('localeChanged', () => this.updateLocaleTexts());
@@ -771,6 +773,127 @@ ${correctionsJson}
 
         // Close user panel
         this.closeUserPanel();
+    }
+
+    async handleSubmitPrompt() {
+        // Check if user has any user-defined prompts
+        if (!window.promptsAPI || typeof window.promptsAPI.getAllPrompts !== 'function') {
+            this.transitionNotification('no_user_prompts', 'Prompts API not available. Please try again.');
+            return;
+        }
+
+        const allPrompts = window.promptsAPI.getAllPrompts();
+        const userPrompts = allPrompts.filter(p => !p.predefined || p.overridden);
+
+        if (userPrompts.length === 0) {
+            this.closeUserPanel();
+            this.transitionNotification('no_user_prompts', 'No user-defined prompts to submit. Create some prompts first.');
+            return;
+        }
+
+        // Open prompt selection panel
+        if (!window.promptSelectAPI || typeof window.promptSelectAPI.openPanel !== 'function') {
+            this.transitionNotification('no_user_prompts', 'Prompt selection panel not available. Please try again.');
+            return;
+        }
+
+        try {
+            const selectedPrompt = await window.promptSelectAPI.openPanel();
+            
+            if (!selectedPrompt) {
+                // User cancelled
+                return;
+            }
+
+            // Generate GitHub issue URL with the selected prompt
+            const promptUrl = this.generatePromptSubmissionUrl(selectedPrompt);
+            window.open(promptUrl, '_blank');
+
+            // Show success notification
+            this.transitionNotification('prompt_submitted', 'Help prompt submission opened in new tab');
+
+            // Close user panel
+            this.closeUserPanel();
+        } catch (error) {
+            console.error('Error submitting prompt:', error);
+            this.transitionNotification('login_error', 'Failed to submit prompt. Please try again.');
+        }
+    }
+
+    generatePromptSubmissionUrl(prompt) {
+        // Get system information
+        const systemInfo = this.getSystemInfo();
+
+        // Create prompt data for JSON export
+        const promptData = {
+            type: 'jayaapp-help-prompt',
+            version: '1.0',
+            submissionDate: new Date().toISOString(),
+            submittedBy: this.user ? this.user.login : 'anonymous',
+            prompt: {
+                name: prompt.name,
+                type: prompt.type,
+                language: prompt.language,
+                color: prompt.color,
+                text: prompt.text,
+                predefined: prompt.predefined || false,
+                overridden: prompt.overridden || false
+            }
+        };
+
+        const promptJson = JSON.stringify(promptData, null, 2);
+
+        // Create title
+        const title = `Help Prompt Submission: "${prompt.name}" (${prompt.type})`;
+
+        // Create issue body
+        const body = `## Help Prompt Submission
+
+Thank you for contributing a custom help prompt to improve JayaApp!
+
+### Prompt Details
+- **Name**: ${prompt.name}
+- **Type**: ${prompt.type}
+- **Language**: ${prompt.language}
+- **Predefined**: ${prompt.predefined ? 'Yes (modified)' : 'No (user-created)'}
+- **Submission date**: ${new Date().toLocaleDateString()}
+- **Submitted by**: @${this.user ? this.user.login : 'anonymous'}
+
+### Prompt Text
+\`\`\`
+${prompt.text}
+\`\`\`
+
+### Full Prompt Data
+\`\`\`json
+${promptJson}
+\`\`\`
+
+### How to Review
+1. Download the JSON data above
+2. Import it into JayaApp's prompts system
+3. Test the prompt with various verses and words
+4. Evaluate clarity, usefulness, and accuracy
+5. Merge accepted prompts into predefined prompts
+
+### System Information
+- **Browser**: ${systemInfo.browser}
+- **Operating System**: ${systemInfo.os}
+- **App Version**: JayaApp v1.0.0
+- **Timestamp**: ${new Date().toISOString()}
+
+---
+*This help prompt was submitted through JayaApp's integrated prompt submission system.*`;
+
+        // Create GitHub issue URL with pre-filled content
+        const baseUrl = `https://github.com/${GITHUB_CONFIG.repo}/issues/new`;
+        const params = new URLSearchParams({
+            title: title,
+            body: body,
+            labels: 'prompt,user-submitted'
+        });
+
+        return `${baseUrl}?${params.toString()}`;
     }
 
     // Localization

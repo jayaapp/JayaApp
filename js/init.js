@@ -85,7 +85,8 @@
             'chats',
             'user',
             'helpme',
-            'prompts'
+            'prompts',
+            'pselect'
         ];
 
         // Ensure translation object exists
@@ -200,7 +201,8 @@
                 try { if (window.initLists) window.initLists(); } catch (e) { console.error('initLists error', e); }
                 try { if (window.initChats) window.initChats(); } catch (e) { console.error('initChats error', e); }
                 try { if (window.initUserPanel) window.initUserPanel(); } catch (e) { console.error('initUserPanel error', e); }
-                    try { if (window.initPrompts) window.initPrompts(); } catch (e) { console.error('initPrompts error', e); }
+                try { if (window.initPrompts) window.initPrompts(); } catch (e) { console.error('initPrompts error', e); }
+                try { if (window.initPromptSelect) window.initPromptSelect(); } catch (e) { console.error('initPromptSelect error', e); }
 
                 // Optional: log any failures for debugging
                 const failures = results.filter(r => r.status === 'rejected');
