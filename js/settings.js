@@ -110,6 +110,19 @@ function initFontControls() {
                     });
                 } catch (e) { /* silent */ }
             }
+        },
+        {
+            id: 'chat-line-spacing',
+            key: 'chatLineSpacing',
+            options: ['1.65', '1.85', '2.05', '2.25'],
+            default: '1.65',
+            apply: (v) => {
+                try {
+                    document.documentElement.style.setProperty('--chat-line-height', v);
+                    const bubbles = document.querySelectorAll('.chat-bubble');
+                    bubbles.forEach(b => { b.style.lineHeight = v; });
+                } catch (e) { /* silent */ }
+            }
         }
     ];
 

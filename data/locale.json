@@ -10,6 +10,7 @@
         "verse_font_family": "Verse font family",
         "chat_font_size": "Chat font size",
         "chat_font_family": "Chat font family",
+        "chat_line_spacing": "Chat line spacing",
 
         "light_theme_colors": "Light Theme Colors",
         "dark_theme_colors": "Dark Theme Colors",
@@ -255,9 +256,10 @@
         "verse_font_size": "Rozmiar czcionki wersów",
         "verse_font_family": "Rodzina czcionki wersów",
         "chat_font_size": "Rozmiar czcionki czatu",
-        "chat_font_family": "Rodzina czcionki czatu",
+        "chat_font_family": "Krój czcionki czatu",
+        "chat_line_spacing": "Odstęp między liniami czatu",
 
-        "light_theme_colors": "Kolory Jasnego Motywu",
+        "light_theme_colors": "Kolory jasnego motywu",
         "dark_theme_colors": "Kolory Ciemnego Motywu",
         "background_color": "Tło:",
         "text_color": "Tekst:",
