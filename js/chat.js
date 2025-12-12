@@ -612,12 +612,18 @@ class ChatView {
             } else if (msg) {
                 // support update envelopes from session.updateMessage
                 if (msg.update && msg.requestId) {
+                    // Remove thinking indicator when streaming starts (first update)
+                    this.removeThinkingIndicator();
+                    
                     // find existing DOM element with matching requestId and update its content
                     try {
                         const el = this.conversation.querySelector(`[data-request-id="${msg.requestId}"]`);
                         if (el) {
                             const bubble = el.querySelector('.chat-bubble');
-                            if (bubble) bubble.innerHTML = this.escapeHtml(msg.text || '').replace(/\n/g, '<br>');
+                            if (bubble) {
+                                // Parse markdown in real-time during streaming
+                                bubble.innerHTML = this.parseMarkdown(msg.text || '');
+                            }
                             // keep scroll bottom
                             this.conversation.scrollTop = this.conversation.scrollHeight;
                             return;
@@ -1015,11 +1021,16 @@ class ChatView {
         if (requestId) msg.setAttribute('data-request-id', String(requestId));
         const bubble = document.createElement('div');
         bubble.className = 'chat-bubble';
-        // Render system messages as HTML (locale strings may include HTML); render others escaped.
+        // Render messages: system as HTML, user/AI with markdown parsing, others escaped
         try {
             if (type === 'system') {
+                // System messages may contain HTML from locale strings
                 bubble.innerHTML = (text || '').replace(/\n/g, '<br>');
+            } else if (type === 'user' || type === 'ai') {
+                // Parse markdown for user and AI messages
+                bubble.innerHTML = this.parseMarkdown(text || '');
             } else {
+                // Fallback: escape HTML
                 bubble.innerHTML = this.escapeHtml(text || '').replace(/\n/g, '<br>');
             }
         } catch (e) {
@@ -1130,6 +1141,19 @@ class ChatView {
                 case "'": return '&#039;';
             }
         });
+    }
+
+    parseMarkdown(text) {
+        // Parse markdown using marked.js if available, otherwise escape HTML
+        try {
+            if (window.marked && typeof window.marked.parse === 'function') {
+                return window.marked.parse(text || '', { breaks: true, gfm: true });
+            }
+        } catch (e) {
+            console.warn('Markdown parsing failed, falling back to plain text:', e);
+        }
+        // Fallback: escape HTML and preserve line breaks
+        return this.escapeHtml(text || '').replace(/\n/g, '<br>');
     }
 }
 
