@@ -47,12 +47,20 @@
     }
 
     function getUserPrompts() {
-        if (!window.promptsAPI || typeof window.promptsAPI.getAllPrompts !== 'function') {
+        if (!window.promptsAPI || typeof window.promptsAPI.loadUserPrompts !== 'function') {
             return [];
         }
-        const allPrompts = window.promptsAPI.getAllPrompts();
-        // Filter to only user-defined prompts (not predefined or overridden)
-        return allPrompts.filter(p => !p.predefined || p.overridden);
+        // Get ALL user prompts directly from storage, bypassing appLanguage filtering
+        const userPromptsObj = window.promptsAPI.loadUserPrompts();
+        const prompts = [];
+        
+        for (const key in userPromptsObj) {
+            if (userPromptsObj.hasOwnProperty(key)) {
+                prompts.push(userPromptsObj[key]);
+            }
+        }
+        
+        return prompts;
     }
 
     function populateDropdown() {

@@ -11,7 +11,7 @@
 .prompts-body { padding: 14px; display:flex; flex:1 1 auto; overflow: auto; }
 .prompts-design { width:100%; display:flex; flex-direction:column; gap:10px; }
 .prompts-row { display:flex; gap:10px; align-items:center; }
-.prompts-row label { width:80px; font-weight:600; }
+.prompts-row label { width:110px; font-weight:600; }
 .prompts-input { flex:1; padding:8px 10px; border:1px solid var(--panel-border-color); border-radius:6px; }
 
 /* Make the type and language selects shrink to fit their stored values instead of stretching */
@@ -20,6 +20,16 @@
 	display: inline-block;
 	width: fit-content;
 	min-width: 84px; /* ensure readable */
+	max-width: 240px; /* avoid overflow */
+	padding: 6px 8px;
+}
+
+/* App Language select should also fit content, not stretch */
+#prompt-app-language {
+	flex: 0 0 auto;
+	display: inline-block;
+	width: fit-content;
+	min-width: 100px; /* ensure readable */
 	max-width: 240px; /* avoid overflow */
 	padding: 6px 8px;
 }

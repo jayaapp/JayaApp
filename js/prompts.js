@@ -21,6 +21,7 @@
                     name: p.name,
                     type: p.type,
                     language: p.language,
+                    appLanguage: appLang, // Track source language of predefined prompt
                     color: pickRainbowColor(PREDEFINED.length, promptsData.length),
                     text: p.text
                 });
@@ -35,11 +36,13 @@
     function saveUserPrompts(obj) { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); } catch(e){} }
 
     // merge lists: returns array of prompt objects with a flag `predefined` and `overridden` if user changed predefined
+    // Filters by appLanguage: returns prompts where appLanguage === 'All' OR matches current app language
     function getAllPrompts() {
+        const currentAppLang = localStorage.getItem('appLang') || 'English';
         const user = loadUserPrompts();
         const list = [];
         PREDEFINED.forEach(p => {
-            const key = `${p.name}||${p.type}||${p.language}`;
+            const key = `${p.name}||${p.type}||${p.language}||${p.appLanguage}`;
             const userCopy = user[key];
             if (userCopy) {
                 list.push(Object.assign({}, p, userCopy, { predefined: true, overridden: true }));
@@ -52,19 +55,23 @@
             if (!user.hasOwnProperty(k)) continue;
             // skip if it's an override of a predefined (already included)
             const parts = k.split('||');
-            const found = PREDEFINED.find(p => p.name === parts[0] && p.type === parts[1] && p.language === parts[2]);
+            const found = PREDEFINED.find(p => p.name === parts[0] && p.type === parts[1] && p.language === parts[2] && p.appLanguage === parts[3]);
             if (found) continue;
             const up = user[k];
             list.push(Object.assign({}, up, { predefined: false, overridden: false }));
         }
-        return list;
+        // Filter by appLanguage: show only prompts matching current app language or 'All'
+        return list.filter(p => {
+            const pLang = p.appLanguage || 'All';
+            return pLang === 'All' || pLang === currentAppLang;
+        });
     }
 
     // Utilities
-    function promptKey(obj) { return `${obj.name}||${obj.type}||${obj.language}`; }
+    function promptKey(obj) { return `${obj.name}||${obj.type}||${obj.language}||${obj.appLanguage || 'All'}`; }
 
     // UI bindings
-    let overlay, panel, nameSelect, nameInput, typeSelect, langSelect, colorInput, textArea;
+    let overlay, panel, nameSelect, nameInput, typeSelect, langSelect, colorInput, appLanguageSelect, textArea;
     let exportBtn, importBtn, restoreBtn, newBtn, deleteBtn, cancelBtn, saveBtn;
     let discardBtn;
     let tabs;
@@ -77,6 +84,7 @@
         typeSelect = document.getElementById('prompt-type');
         langSelect = document.getElementById('prompt-language');
         colorInput = document.getElementById('prompt-color');
+        appLanguageSelect = document.getElementById('prompt-app-language');
         textArea = document.getElementById('prompt-text');
 
         exportBtn = document.getElementById('prompts-export');
@@ -117,7 +125,7 @@
         saveBtn?.addEventListener('click', onSave);
 
         // update Save button when user edits fields so Save is enabled for changes
-        const touchFields = [colorInput, textArea, nameInput, typeSelect, langSelect];
+        const touchFields = [colorInput, textArea, nameInput, typeSelect, langSelect, appLanguageSelect];
         touchFields.forEach(f => {
             if (!f) return;
             f.addEventListener('input', () => { evaluateSaveState(); });
@@ -138,6 +146,27 @@
                         if (window.showAlert) window.showAlert(msg);
                     } else if (v.length < 70) {
                         nameLengthWarnShown = false;
+                    }
+                } catch (e) { /* ignore */ }
+            });
+            
+            // Check for duplicate names on blur when creating new prompt
+            nameInput.addEventListener('blur', () => {
+                try {
+                    if (!isNewMode || nameInput.classList.contains('hidden')) return;
+                    const name = nameInput.value.trim();
+                    if (!name) return;
+                    
+                    // Check if name exists in any prompt (predefined or user)
+                    if (checkDuplicateName(name)) {
+                        const msg = window.getLocale ? 
+                            (window.getLocale('prompt_name_exists') || 'A prompt with this name already exists. Renaming to avoid conflict.') :
+                            'A prompt with this name already exists. Renaming to avoid conflict.';
+                        if (window.showAlert) window.showAlert(msg, 2000);
+                        
+                        // Auto-append number to make it unique
+                        const uniqueName = makeUniqueName(name);
+                        nameInput.value = uniqueName;
                     }
                 } catch (e) { /* ignore */ }
             });
@@ -205,7 +234,10 @@
             const opt = document.createElement('option');
             const key = promptKey(p);
             opt.value = key;
-            opt.textContent = p.name + ' — ' + p.type + ' / ' + p.language + (p.predefined ? (p.overridden ? ' *' : '') : '');
+            // Mark user prompts with * at beginning, modified predefined with * at end
+            const prefix = (!p.predefined) ? '* ' : '';
+            const suffix = (p.predefined && p.overridden) ? ' *' : '';
+            opt.textContent = prefix + p.name + ' — ' + p.type + ' / ' + p.language + suffix;
             nameSelect.appendChild(opt);
         });
         if (selectedKey) nameSelect.value = selectedKey;
@@ -217,12 +249,13 @@
     // Returns true if the current form values exactly match the given prompt object
     function formMatchesPrompt(promptObj) {
         if (!promptObj) return false;
-        const name = nameSelect && !nameSelect.classList.contains('hidden') ? (nameSelect.options[nameSelect.selectedIndex].text.split(' — ')[0]) : nameInput.value.trim();
+        const name = nameSelect && !nameSelect.classList.contains('hidden') ? (nameSelect.options[nameSelect.selectedIndex].text.replace(/^\* /, '').split(' — ')[0].replace(/ \*$/, '')) : nameInput.value.trim();
         const type = typeSelect.value;
         const language = langSelect.value;
         const color = colorInput.value;
+        const appLanguage = appLanguageSelect ? appLanguageSelect.value : 'All';
         const text = textArea.value || '';
-        return promptObj.name === name && promptObj.type === type && promptObj.language === language && (promptObj.color || '') === (color || '') && (promptObj.text || '') === (text || '');
+        return promptObj.name === name && promptObj.type === type && promptObj.language === language && (promptObj.appLanguage || 'All') === appLanguage && (promptObj.color || '') === (color || '') && (promptObj.text || '') === (text || '');
     }
 
     function evaluateSaveState() {
@@ -256,10 +289,13 @@
         typeSelect.value = p.type;
         langSelect.value = p.language;
         colorInput.value = p.color || '#ff7f50';
+        if (appLanguageSelect) appLanguageSelect.value = p.appLanguage || 'All';
         textArea.value = p.text || '';
         // set readonly state
         nameSelect.classList.remove('hidden'); nameInput.classList.add('hidden');
         typeSelect.disabled = true; langSelect.disabled = true;
+        // Disable appLanguage for predefined prompts (show source language, greyed out)
+        if (appLanguageSelect) appLanguageSelect.disabled = p.predefined && !p.overridden;
         // disable delete for predefined prompts
         try { if (deleteBtn) deleteBtn.disabled = !!p.predefined; } catch (e) { }
         // restore button only enabled for overridden predefined prompts
@@ -299,6 +335,7 @@
                 type: typeSelect?.value || 'Verse',
                 language: langSelect?.value || 'Sanskrit',
                 color: colorInput?.value || '#ff7f50',
+                appLanguage: appLanguageSelect?.value || 'All',
                 text: textArea?.value || ''
             }
         };
@@ -307,6 +344,12 @@
         nameSelect.classList.add('hidden'); nameInput.classList.remove('hidden');
         nameInput.value = '';
         typeSelect.disabled = false; langSelect.disabled = false;
+        if (appLanguageSelect) {
+            appLanguageSelect.disabled = false;
+            // Default to current app language for new prompts
+            const currentAppLang = localStorage.getItem('appLang') || 'English';
+            appLanguageSelect.value = currentAppLang;
+        }
         colorInput.value = '#ff7f50'; textArea.value = '';
         // disable other action buttons while creating new prompt
         setActionButtonsEnabled(false);
@@ -335,6 +378,7 @@
             // hide new-mode UI
             nameSelect.classList.remove('hidden'); nameInput.classList.add('hidden');
             typeSelect.disabled = true; langSelect.disabled = true;
+            if (appLanguageSelect) appLanguageSelect.disabled = true;
             // hide discard, enable action buttons
             discardBtn?.classList.add('hidden');
             setActionButtonsEnabled(true);
@@ -358,10 +402,11 @@
 
     function onSave() {
         const isNew = !nameSelect || nameSelect.classList.contains('hidden');
-        const name = isNew ? nameInput.value.trim() : nameSelect.options[nameSelect.selectedIndex].text.split(' — ')[0];
+        const name = isNew ? nameInput.value.trim() : nameSelect.options[nameSelect.selectedIndex].text.replace(/^\* /, '').split(' — ')[0].replace(/ \*$/, '');
         const type = typeSelect.value;
         const language = langSelect.value;
         const color = colorInput.value;
+        const appLanguage = appLanguageSelect ? appLanguageSelect.value : 'All';
         const text = textArea.value || '';
         if (!name) { if (window.showAlert) window.showAlert('Prompt must have a name'); return; }
         // Enforce name length limit for new prompts
@@ -370,18 +415,23 @@
             if (window.showAlert) window.showAlert(tooLongMsg);
             return;
         }
-        const key = `${name}||${type}||${language}`;
+        const key = `${name}||${type}||${language}||${appLanguage}`;
         // If this matches a predefined prompt exactly, do not save an override.
-        const foundPre = PREDEFINED.find(p => p.name === name && p.type === type && p.language === language);
+        const foundPre = PREDEFINED.find(p => p.name === name && p.type === type && p.language === language && p.appLanguage === appLanguage);
         const user = loadUserPrompts();
         if (foundPre) {
             const sameAsPre = ( (foundPre.color || '') === (color || '') ) && ( (foundPre.text || '') === (text || '') );
             if (sameAsPre) {
                 // If a user override existed, remove it to truly restore predefined state.
-                if (user[key]) { delete user[key]; saveUserPrompts(user); }
+                if (user[key]) {
+                    delete user[key];
+                    saveUserPrompts(user);
+                    if (window.syncUI && window.syncUI.addDeletionEvent) window.syncUI.addDeletionEvent(key, 'prompt');
+                }
                 // revert UI to select mode and refresh list without creating a new override
                 nameSelect.classList.remove('hidden'); nameInput.classList.add('hidden');
                 typeSelect.disabled = true; langSelect.disabled = true;
+                if (appLanguageSelect) appLanguageSelect.disabled = true;
                 isNewMode = false; prevState = null;
                 discardBtn?.classList.add('hidden');
                 setActionButtonsEnabled(true);
@@ -391,11 +441,12 @@
             }
         }
         // Otherwise save/update as user prompt
-        user[key] = { name, type, language, color, text };
+        user[key] = { name, type, language, appLanguage, color, text };
         saveUserPrompts(user);
         // after save revert to select mode
         nameSelect.classList.remove('hidden'); nameInput.classList.add('hidden');
         typeSelect.disabled = true; langSelect.disabled = true;
+        if (appLanguageSelect) appLanguageSelect.disabled = true;
         // clear new-mode state
         isNewMode = false; prevState = null;
         // hide discard and re-enable action buttons
@@ -410,7 +461,7 @@
         const key = nameSelect.value;
         if (!key) return;
         const parts = key.split('||');
-        const found = PREDEFINED.find(p => p.name === parts[0] && p.type === parts[1] && p.language === parts[2]);
+        const found = PREDEFINED.find(p => p.name === parts[0] && p.type === parts[1] && p.language === parts[2] && p.appLanguage === parts[3]);
         if (found) { if (window.showAlert) window.showAlert('Cannot delete predefined prompt'); return; }
         const user = loadUserPrompts();
         if (user[key]) {
@@ -429,7 +480,7 @@
         const key = nameSelect.value;
         if (!key) return;
         const parts = key.split('||');
-        const found = PREDEFINED.find(p => p.name === parts[0] && p.type === parts[1] && p.language === parts[2]);
+        const found = PREDEFINED.find(p => p.name === parts[0] && p.type === parts[1] && p.language === parts[2] && p.appLanguage === parts[3]);
         if (!found) return;
         const user = loadUserPrompts();
         const ukey = key;
@@ -459,12 +510,41 @@
         document.body.appendChild(a); a.click(); a.remove();
     }
 
+    function checkDuplicateName(name) {
+        // Check if name exists in predefined prompts or user prompts
+        const nameLower = name.toLowerCase();
+        
+        // Check predefined prompts
+        if (PREDEFINED.some(p => p.name.toLowerCase() === nameLower)) return true;
+        
+        // Check user prompts
+        const user = loadUserPrompts();
+        for (const key in user) {
+            if (user.hasOwnProperty(key) && user[key].name && user[key].name.toLowerCase() === nameLower) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    function makeUniqueName(baseName) {
+        let name = baseName;
+        let counter = 2;
+        while (checkDuplicateName(name)) {
+            name = `${baseName} (${counter})`;
+            counter++;
+        }
+        return name;
+    }
+
     function importPrompt(json) {
         if (!json || !json.name || !json.type || !json.language) return;
-        const key = `${json.name}||${json.type}||${json.language}`;
+        // Ensure appLanguage is set for imported prompts
+        if (!json.appLanguage) json.appLanguage = 'All';
+        const key = `${json.name}||${json.type}||${json.language}||${json.appLanguage}`;
         const user = loadUserPrompts();
         // overwrite or add
-        user[key] = { name: json.name, type: json.type, language: json.language, color: json.color || '#ff7f50', text: json.text || '' };
+        user[key] = { name: json.name, type: json.type, language: json.language, appLanguage: json.appLanguage, color: json.color || '#ff7f50', text: json.text || '' };
         saveUserPrompts(user);
     }
 
