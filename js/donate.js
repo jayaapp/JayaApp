@@ -819,26 +819,20 @@ if (typeof window !== 'undefined') {
  * JayaApp-specific initialization
  * Progress callbacks for campaigns (mock implementations returning 0.0)
  */
-function calculateWordsProgress() {
-  // Mock: Return 0.0 until analysis implementation
-  return 0.0;
-}
-
-function calculateVersesProgress() {
-  // Mock: Return 0.0 until analysis implementation
-  return 0.0;
-}
-
-function calculateSentencesProgress() {
-  // Mock: Return 0.0 until analysis implementation
+function calculateLexiconProgress() {
+  if (window.uniqueWords && window.lexiconData) {
+    const completedWords = window.lexiconData.length;
+    const totalWords = Object.keys(window.uniqueWords).length;
+    if (totalWords > 0) {
+      return (completedWords / totalWords) * 100.0;
+    }
+  }
   return 0.0;
 }
 
 // Make progress functions available globally
 if (typeof window !== 'undefined') {
-  window.calculateWordsProgress = calculateWordsProgress;
-  window.calculateVersesProgress = calculateVersesProgress;
-  window.calculateSentencesProgress = calculateSentencesProgress;
+  window.calculateLexiconProgress = calculateLexiconProgress;
 }
 
 /**
@@ -858,9 +852,7 @@ function initJayaAppDonation() {
     
     // Pass app-specific progress callbacks
     progressCallbacks: {
-      calculateWordsProgress: calculateWordsProgress,
-      calculateSentencesProgress: calculateSentencesProgress,
-      calculateVersesProgress: calculateVersesProgress
+      calculateLexiconProgress: calculateLexiconProgress,
     },
     
     onSuccess: (data) => {
