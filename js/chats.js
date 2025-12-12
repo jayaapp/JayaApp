@@ -456,28 +456,58 @@
             }
         } catch (e) { /* silent */ }
 
-        // ensure we save the current session as last opened when the window is closed
+        // Save current session helper function (reusable across multiple events)
+        const saveCurrentSession = () => {
+            try {
+                const session = ChatSession.get();
+                const messages = session.getMessages ? session.getMessages() : session.messages || [];
+                if (!messages || !messages.length) return;
+                // exclude system messages for dedupe and last-opened snapshot
+                const userMessages = (messages || []).filter(m => !(m && m.type === 'system'));
+                if (!userMessages || !userMessages.length) return;
+                // compute quick hash and check if identical exists (based on user messages only)
+                const qh = computeQuickHashForMessages(userMessages || []);
+                const chats = loadChats();
+                const found = chats.find(c => (c.hash && c.hash === qh) || stableStringify(normalizeMessages(c.messages || [])) === stableStringify(normalizeMessages(userMessages || [])));
+                if (found) {
+                    try { localStorage.setItem(LAST_OPENED_KEY, found.id); } catch (e) {}
+                    return;
+                }
+                // save synchronously (uses quick hash internally)
+                try { const id = window.chatAPI.saveCurrentSessionAsNew(); localStorage.setItem(LAST_OPENED_KEY, id); } catch (e) { /* ignore */ }
+            } catch (e) { /* ignore */ }
+        };
+
+        // Use multiple events for maximum reliability across desktop and mobile
         try {
-            window.addEventListener('beforeunload', () => {
+            // beforeunload: works well on desktop browsers
+            window.addEventListener('beforeunload', saveCurrentSession);
+            
+            // pagehide: more reliable than beforeunload on mobile (iOS Safari, Android Chrome)
+            window.addEventListener('pagehide', saveCurrentSession);
+            
+            // visibilitychange: fires when page becomes hidden (tab switch, home button, etc.)
+            // This is the most reliable event on mobile devices
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    saveCurrentSession();
+                }
+            });
+            
+            // Periodic auto-save as additional safety net (every 30 seconds if there are changes)
+            let lastSavedMessageCount = 0;
+            setInterval(() => {
                 try {
                     const session = ChatSession.get();
                     const messages = session.getMessages ? session.getMessages() : session.messages || [];
-                    if (!messages || !messages.length) return;
-                    // exclude system messages for dedupe and last-opened snapshot
                     const userMessages = (messages || []).filter(m => !(m && m.type === 'system'));
-                    if (!userMessages || !userMessages.length) return;
-                    // compute quick hash and check if identical exists (based on user messages only)
-                    const qh = computeQuickHashForMessages(userMessages || []);
-                    const chats = loadChats();
-                    const found = chats.find(c => (c.hash && c.hash === qh) || stableStringify(normalizeMessages(c.messages || [])) === stableStringify(normalizeMessages(userMessages || [])));
-                    if (found) {
-                        try { localStorage.setItem(LAST_OPENED_KEY, found.id); } catch (e) {}
-                        return;
+                    // Only save if message count changed (to avoid unnecessary writes)
+                    if (userMessages.length > 0 && userMessages.length !== lastSavedMessageCount) {
+                        saveCurrentSession();
+                        lastSavedMessageCount = userMessages.length;
                     }
-                    // save synchronously (uses quick hash internally)
-                    try { const id = window.chatAPI.saveCurrentSessionAsNew(); localStorage.setItem(LAST_OPENED_KEY, id); } catch (e) { /* ignore */ }
                 } catch (e) { /* ignore */ }
-            });
+            }, 30000); // 30 seconds
         } catch (e) { /* ignore */ }
     }
 
