@@ -192,6 +192,8 @@
                         // preserve original types; don't trigger fetch
                         session.addMessage(m.type || 'user', m.text || '', false, {});
                     }
+                    // Track that this session originated from a saved chat
+                    session.setSavedChatId(item.id);
                     // hide panel
                     // mark as last opened
                     try { localStorage.setItem(LAST_OPENED_KEY, item.id); } catch (e) {}
@@ -452,6 +454,8 @@
                     for (const m of found.messages || []) {
                         session.addMessage(m.type || 'user', m.text || '', false, {});
                     }
+                    // Track that this session originated from a saved chat
+                    session.setSavedChatId(found.id);
                 }
             }
         } catch (e) { /* silent */ }
@@ -465,16 +469,54 @@
                 // exclude system messages for dedupe and last-opened snapshot
                 const userMessages = (messages || []).filter(m => !(m && m.type === 'system'));
                 if (!userMessages || !userMessages.length) return;
-                // compute quick hash and check if identical exists (based on user messages only)
+                
+                // Check if this session originated from a saved chat
+                const originatingChatId = session.getSavedChatId ? session.getSavedChatId() : null;
+                
+                if (originatingChatId) {
+                    // Update the originating chat (continuation of existing thread)
+                    const chats = loadChats();
+                    const idx = chats.findIndex(c => c.id === originatingChatId);
+                    if (idx >= 0) {
+                        // Preserve user's custom name if they renamed it
+                        const existingName = chats[idx].name;
+                        const copy = JSON.parse(JSON.stringify(userMessages || []));
+                        chats[idx].messages = copy;
+                        chats[idx].modified = Date.now();
+                        // Only update name if it wasn't customized (still matches first message)
+                        const firstMsgPreview = copy[0] && copy[0].text ? copy[0].text.slice(0,120) : '';
+                        if (!existingName || existingName === firstMsgPreview || existingName.startsWith('Chat ')) {
+                            chats[idx].name = firstMsgPreview || ('Chat ' + new Date().toLocaleString());
+                        }
+                        // Recompute hash for the updated messages
+                        try { chats[idx].hash = computeQuickHashForMessages(copy); } catch (e) {}
+                        saveChats(chats);
+                        try { localStorage.setItem(LAST_OPENED_KEY, originatingChatId); } catch (e) {}
+                        // Refresh SHA-256 in background
+                        try { refreshChatSha256Async(originatingChatId, copy); } catch (e) {}
+                        return;
+                    }
+                }
+                
+                // No originating chat or it was deleted: check for identical existing chat
                 const qh = computeQuickHashForMessages(userMessages || []);
                 const chats = loadChats();
                 const found = chats.find(c => (c.hash && c.hash === qh) || stableStringify(normalizeMessages(c.messages || [])) === stableStringify(normalizeMessages(userMessages || [])));
                 if (found) {
-                    try { localStorage.setItem(LAST_OPENED_KEY, found.id); } catch (e) {}
+                    try { 
+                        localStorage.setItem(LAST_OPENED_KEY, found.id);
+                        // Track this as the originating chat for future saves
+                        if (session.setSavedChatId) session.setSavedChatId(found.id);
+                    } catch (e) {}
                     return;
                 }
-                // save synchronously (uses quick hash internally)
-                try { const id = window.chatAPI.saveCurrentSessionAsNew(); localStorage.setItem(LAST_OPENED_KEY, id); } catch (e) { /* ignore */ }
+                // Create new chat (truly new conversation)
+                try { 
+                    const id = window.chatAPI.saveCurrentSessionAsNew(); 
+                    localStorage.setItem(LAST_OPENED_KEY, id);
+                    // Track this new chat as the originating chat for future saves
+                    if (session.setSavedChatId) session.setSavedChatId(id);
+                } catch (e) { /* ignore */ }
             } catch (e) { /* ignore */ }
         };
 

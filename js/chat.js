@@ -22,6 +22,7 @@ class ChatSession {
         this.subscribers = new Set();
         this.current_caller = null;
         this.draftText = ''; // Store in-progress input text to preserve across orientation changes
+        this.savedChatId = null; // Track which saved chat this session originated from
 
         // Request tracking and concurrency
         this.requestCounter = 0;
@@ -455,6 +456,10 @@ class ChatSession {
     setDraftText(text) { this.draftText = text || ''; }
     getDraftText() { return this.draftText || ''; }
     clearDraftText() { this.draftText = ''; }
+
+    setSavedChatId(id) { this.savedChatId = id; }
+    getSavedChatId() { return this.savedChatId; }
+    clearSavedChatId() { this.savedChatId = null; }
 
     // Check whether Ollama settings appear configured/verified enough to run requests
     async isOllamaConfigured() {
@@ -1072,7 +1077,11 @@ class ChatView {
         try {
             this.clear();
         } catch (e) { /* ignore */ }
-        try { this.session.clear(); } catch (e) { /* ignore */ }
+        try { 
+            this.session.clear();
+            // Clear savedChatId since this is now a fresh conversation
+            if (this.session.clearSavedChatId) this.session.clearSavedChatId();
+        } catch (e) { /* ignore */ }
     }
 
     // Layout update: detect when the input area is less than 70% of container width
