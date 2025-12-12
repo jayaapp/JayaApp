@@ -413,8 +413,9 @@ class DonationManager {
       linkContainer.innerHTML = '';
       return;
     }
-    
-    linkContainer.innerHTML = `<a href="${selectedOption.dataset.htmlUrl}" target="_blank" rel="noopener" style="margin-left: 8px;">🔗 View Issue</a>`;
+
+    let viewIssueText = this.getString('view_issue');
+    linkContainer.innerHTML = `<a href="${selectedOption.dataset.htmlUrl}" target="_blank" rel="noopener" style="margin-left: 8px;">🔗 ${viewIssueText}</a>`;
   }
   
   bindEvents() {
@@ -487,6 +488,9 @@ class DonationManager {
     if (container) {
       container.innerHTML = '';
       this.renderCategories();
+      
+      // Reload GitHub issues after re-rendering
+      this.loadGitHubIssues();
       
       // Re-bind stats toggles for new elements
       this.panel.querySelectorAll('[data-stats-toggle]').forEach(toggle => {
