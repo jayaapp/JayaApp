@@ -959,20 +959,33 @@ function initOllamaSettings() {
 }
 
 function initSettingsPanel() {
-    const settingsPanel =  document.getElementById('settings-panel');
+    const settingsOverlay = document.getElementById('settings-overlay');
+    const settingsPanel = document.getElementById('settings-panel');
+    
+    // Open settings
     document.getElementById('settings-icon').onclick = function() {
-        if (settingsPanel.style.display === 'none' || settingsPanel.style.display === '') {
-            settingsPanel.style.display = 'block';
-            try { document.dispatchEvent(new Event('settingsOpened')); } catch (e) { /* silent */ }
-        } else {
+        settingsOverlay.classList.add('active');
+        settingsPanel.style.display = 'block';
+        try { document.dispatchEvent(new Event('settingsOpened')); } catch (e) { /* silent */ }
+    };
+    
+    // Close button
+    document.getElementById('settings-close').onclick = function() {
+        settingsOverlay.classList.remove('active');
+        settingsPanel.style.display = 'none';
+    };
+    
+    // Close on overlay click (but not panel click)
+    settingsOverlay.onclick = function(e) {
+        if (e.target === settingsOverlay) {
+            settingsOverlay.classList.remove('active');
             settingsPanel.style.display = 'none';
         }
     };
-    document.getElementById('settings-close').onclick = function() {
-        settingsPanel.style.display = 'none';
-    };
+    // Close on Escape key
     document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape') {
+        if (event.key === 'Escape' && settingsOverlay.classList.contains('active')) {
+            settingsOverlay.classList.remove('active');
             settingsPanel.style.display = 'none';
         }
     });
