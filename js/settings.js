@@ -568,6 +568,33 @@ function initOllamaSettings() {
     const currentLang = localStorage.getItem('appLang') || 'English';
     const L = (key, fallback) => (localeData[currentLang] && localeData[currentLang][key]) ? localeData[currentLang][key] : (fallback || key);
 
+    // Multi-auth helper: Check both GitHub and TrueHeart authentication
+    function isAuthenticated() {
+        return (window.userManager && window.userManager.user) || 
+               (window.trueheartState && window.trueheartState.isAuthenticated);
+    }
+
+    async function getAuthHeaders() {
+        // Check TrueHeart first (preferred for core app features)
+        if (window.trueheartState && window.trueheartState.isAuthenticated && window.trueheartUser) {
+            const token = window.trueheartUser.sessionToken;
+            return { 'Authorization': `Bearer ${token}` };
+        }
+        // Fallback to GitHub OAuth
+        if (window.userManager && window.userManager.sessionToken) {
+            const headers = { 'Authorization': `Bearer ${window.userManager.sessionToken}` };
+            // Add CSRF token for GitHub sessions
+            if (typeof window.userManager.getCSRFToken === 'function') {
+                try {
+                    const csrf = await window.userManager.getCSRFToken();
+                    if (csrf) headers['X-CSRF-Token'] = csrf;
+                } catch (e) { /* silent */ }
+            }
+            return headers;
+        }
+        return {};
+    }
+
     const panel = document.getElementById('settings-panel');
 
     // Element getters
@@ -662,8 +689,8 @@ function initOllamaSettings() {
 
         if (serverType === 'cloud') {
             try {
-                if (window.userManager && window.userManager.user) {
-                    const listHeaders = (window.ollamaSettingsAPI && typeof window.ollamaSettingsAPI.getAuthHeaders === 'function') ? await window.ollamaSettingsAPI.getAuthHeaders() : { 'Authorization': (window.userManager && window.userManager.sessionToken) ? `Bearer ${window.userManager.sessionToken}` : '' };
+                if (isAuthenticated()) {
+                    const listHeaders = await getAuthHeaders();
                     const resp = await fetch(`${GITHUB_CONFIG.serverURL}/ollama/list-models`, { headers: listHeaders });
                     if (resp.ok) {
                         const data = await resp.json();
@@ -712,14 +739,14 @@ function initOllamaSettings() {
     }
 
     async function checkSavedApiKey() {
-        if (!window.userManager || !window.userManager.user) {
+        if (!isAuthenticated()) {
             showKeyStatus(L('login_for_cloud', 'Please login to use cloud features'), 'warning');
             return;
         }
         try {
             showKeyStatus(L('key_status_checking', 'Checking API key...'), 'info');
             // Obtain auth headers (may include Authorization and X-CSRF-Token)
-            const authHeaders = (window.ollamaSettingsAPI && typeof window.ollamaSettingsAPI.getAuthHeaders === 'function') ? await window.ollamaSettingsAPI.getAuthHeaders() : { 'Authorization': (window.userManager && window.userManager.sessionToken) ? `Bearer ${window.userManager.sessionToken}` : '' };
+            const authHeaders = await getAuthHeaders();
             const resp = await fetch(`${GITHUB_CONFIG.serverURL}/ollama/check-key`, { headers: authHeaders });
             const data = await resp.json();
             if (data.has_key) {
@@ -753,11 +780,11 @@ function initOllamaSettings() {
         const apiKey = apiKeyInput.value.trim();
         if (!apiKey || apiKey === '********') { showKeyStatus(L('enter_api_key_placeholder', 'Enter your Ollama API key'), 'warning'); return; }
         if (apiKey.length < 20) { showKeyStatus(L('key_invalid_format', 'API key appears to be invalid (too short)'), 'error'); return; }
-        if (!window.userManager || !window.userManager.user) { showKeyStatus(L('login_for_cloud', 'Please login to use cloud features'), 'error'); return; }
+        if (!isAuthenticated()) { showKeyStatus(L('login_for_cloud', 'Please login to use cloud features'), 'error'); return; }
         try {
             showKeyStatus(L('key_status_saving', 'Saving API key...'), 'info');
             // Use settings API to obtain auth headers (includes CSRF token when available)
-            const saveHeaders = (window.ollamaSettingsAPI && typeof window.ollamaSettingsAPI.getAuthHeaders === 'function') ? await window.ollamaSettingsAPI.getAuthHeaders() : { 'Authorization': (window.userManager && window.userManager.sessionToken) ? `Bearer ${window.userManager.sessionToken}` : '' };
+            const saveHeaders = await getAuthHeaders();
             saveHeaders['Content-Type'] = 'application/json';
             const resp = await fetch(`${GITHUB_CONFIG.serverURL}/ollama/store-key`, {
                 method: 'POST', headers: saveHeaders, body: JSON.stringify({ ollama_api_key: apiKey })
@@ -770,11 +797,11 @@ function initOllamaSettings() {
 
     async function handleDeleteApiKey() {
         if (!confirm(L('key_delete_confirm', 'Are you sure you want to delete your saved API key?'))) return;
-        if (!window.userManager || !window.userManager.user) { showKeyStatus(L('login_for_cloud', 'Please login to use cloud features'), 'error'); return; }
+        if (!isAuthenticated()) { showKeyStatus(L('login_for_cloud', 'Please login to use cloud features'), 'error'); return; }
         try {
             showKeyStatus(L('key_status_deleting', 'Deleting API key...'), 'info');
             // Use settings API to obtain auth headers (includes CSRF token when available)
-            const delHeaders = (window.ollamaSettingsAPI && typeof window.ollamaSettingsAPI.getAuthHeaders === 'function') ? await window.ollamaSettingsAPI.getAuthHeaders() : { 'Authorization': (window.userManager && window.userManager.sessionToken) ? `Bearer ${window.userManager.sessionToken}` : '' };
+            const delHeaders = await getAuthHeaders();
             const resp = await fetch(`${GITHUB_CONFIG.serverURL}/ollama/delete-key`, { method: 'DELETE', headers: delHeaders });
             const data = await resp.json();
             if (data.status === 'success') {
@@ -850,9 +877,9 @@ function initOllamaSettings() {
             showSettingsStatus(L('key_status_checking', 'Checking API key...'), 'info');
             const headers = {};
             if (serverType === 'cloud') {
-                if (!window.userManager || !window.userManager.user) { showSettingsStatus(L('login_for_cloud', 'Please login to use cloud features'), 'error'); return; }
+                if (!isAuthenticated()) { showSettingsStatus(L('login_for_cloud', 'Please login to use cloud features'), 'error'); return; }
                 try {
-                    const getKeyHeaders = (window.ollamaSettingsAPI && typeof window.ollamaSettingsAPI.getAuthHeaders === 'function') ? await window.ollamaSettingsAPI.getAuthHeaders() : { 'Authorization': (window.userManager && window.userManager.sessionToken) ? `Bearer ${window.userManager.sessionToken}` : '' };
+                    const getKeyHeaders = await getAuthHeaders();
                     const keyResp = await fetch(`${GITHUB_CONFIG.serverURL}/ollama/get-key`, { headers: getKeyHeaders });
                     const keyData = await keyResp.json();
                     if (!keyData.has_key) { showSettingsStatus(L('no_key_saved', 'Please save your Ollama API key in settings first'), 'error'); return; }
@@ -881,7 +908,7 @@ function initOllamaSettings() {
             if (crowdsourcingContent) crowdsourcingContent.classList.remove('disabled');
             if (crowdsourceCheckbox) crowdsourceCheckbox.disabled = false;
             if (crowdsourcingNote) { crowdsourcingNote.textContent = L('crowdsourcing_available_note', 'Only available when using Ollama Cloud models'); }
-            if (!window.userManager || !window.userManager.user) {
+            if (!isAuthenticated()) {
                 showKeyStatus(L('login_for_cloud', 'Please login to use cloud features'), 'warning');
                 if (apiKeyInput) apiKeyInput.disabled = true;
             } else {
@@ -912,7 +939,7 @@ function initOllamaSettings() {
     document.addEventListener('settingsOpened', () => {
         try {
             if (getServerType && getServerType() === 'cloud') {
-                if (window.userManager && window.userManager.user) {
+                if (isAuthenticated()) {
                     checkSavedApiKey();
                 } else {
                     // user logged out or not available - show login prompt
@@ -943,14 +970,9 @@ function initOllamaSettings() {
             const headers = {};
             const st = getServerType();
             if (st === 'cloud') {
-                if (window.userManager && window.userManager.sessionToken) {
-                    headers['Authorization'] = `Bearer ${window.userManager.sessionToken}`;
-                    try {
-                        if (typeof window.userManager.getCSRFToken === 'function') {
-                            const csrf = await window.userManager.getCSRFToken();
-                            if (csrf) headers['X-CSRF-Token'] = csrf;
-                        }
-                    } catch (e) { /* ignore */ }
+                if (isAuthenticated()) {
+                    const authHeaders = await getAuthHeaders();
+                    Object.assign(headers, authHeaders);
                 }
             }
             return headers;

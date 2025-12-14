@@ -295,19 +295,24 @@ class ChatSession {
             const headers = { 'Content-Type': 'application/json' };
 
             if (serverType === 'cloud') {
-                // Use backend proxy
+                // Use backend proxy with multi-auth support
                 apiUrl = `${GITHUB_CONFIG.serverURL}/ollama/proxy-chat`;
                 if (typeof settings.getAuthHeaders === 'function') {
                     const auth = await settings.getAuthHeaders();
                     Object.assign(headers, auth);
-                } else if (window.userManager && window.userManager.sessionToken) {
-                    headers['Authorization'] = `Bearer ${window.userManager.sessionToken}`;
-                    try {
-                        if (typeof window.userManager.getCSRFToken === 'function') {
-                            const csrf = await window.userManager.getCSRFToken();
-                            if (csrf) headers['X-CSRF-Token'] = csrf;
-                        }
-                    } catch (e) { /* ignore */ }
+                } else {
+                    // Multi-auth: Try TrueHeart first, fallback to GitHub
+                    if (window.trueheartState && window.trueheartState.isAuthenticated && window.trueheartUser) {
+                        headers['Authorization'] = `Bearer ${window.trueheartUser.sessionToken}`;
+                    } else if (window.userManager && window.userManager.sessionToken) {
+                        headers['Authorization'] = `Bearer ${window.userManager.sessionToken}`;
+                        try {
+                            if (typeof window.userManager.getCSRFToken === 'function') {
+                                const csrf = await window.userManager.getCSRFToken();
+                                if (csrf) headers['X-CSRF-Token'] = csrf;
+                            }
+                        } catch (e) { /* ignore */ }
+                    }
                 }
             } else {
                 apiUrl = `${serverUrl}/api/chat`;
@@ -478,7 +483,8 @@ class ChatSession {
                         return false;
                     } catch (e) { return false; }
                 }
-                // Fallback: if userManager has a session token, assume cloud proxy can use it
+                // Multi-auth fallback: Check both TrueHeart and GitHub
+                if (window.trueheartState && window.trueheartState.isAuthenticated) return true;
                 if (window.userManager && window.userManager.sessionToken) return true;
                 return false;
             }
