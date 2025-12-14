@@ -1,8 +1,8 @@
 /**
  * TrueHeartUser + TrueHeartSync Integration for JayaApp
  * 
- * This module replaces the gsync- Google Drive functionality with
- * TrueHeartUser authentication and TrueHeartSync data synchronization.
+ * This module provides TrueHeartUser authentication and TrueHeartSync
+ * data synchronization for cloud-backed user sync.
  */
 
 // API Configuration
@@ -299,7 +299,7 @@ async function initTrueHeart() {
 }
 
 /**
- * Perform sync operation (replaces gsync performCompleteSync)
+ * Perform sync operation using TrueHeartSync (cloud-backed synchronization)
  */
 async function performTrueHeartSync() {
     if (!window.trueheartState.isAuthenticated) {

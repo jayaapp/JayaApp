@@ -1,6 +1,7 @@
 /**
  * TrueHeart Loader
- * Initializes TrueHeart UI in the settings panel (replaces gsync)
+ * Initializes the TrueHeart UI in the settings panel and provides cloud sync
+ * and user account features for the application.
  */
 
 (async function initTrueHeartLoader() {
@@ -87,8 +88,8 @@
     }
 })();
 
-// Provide stub functions for backwards compatibility with gsync calls
-// These ensure the app doesn't break if old gsync code is still present
+// Provide stub functions for backwards compatibility with older sync calls
+// These ensure the app doesn't break if legacy sync code is still present
 
 window.syncUI = {
     addDeletionEvent: function(key, type) {

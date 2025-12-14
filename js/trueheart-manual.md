@@ -738,21 +738,19 @@ Backend validates requests against CORS_ORIGIN whitelist.
 - ✅ Edge 90+
 - ✅ Mobile browsers (iOS Safari, Chrome Mobile)
 
-## Migration from Other Sync Systems
+## Migration guidance
 
-### From gsync (Google Drive Sync)
+If your application uses a different sync solution and you want to migrate to TrueHeart:
 
-If replacing gsync:
-
-1. Keep gsync code temporarily (comment out in index.html)
-2. Deploy TrueHeart modules
-3. Test thoroughly on all devices
-4. Users start with fresh TrueHeart account (no data migration)
-5. Remove gsync code once confirmed working
+1. Keep the other sync code commented during testing (comment out in `index.html`).
+2. Deploy the TrueHeart modules and initialize them in your environment.
+3. Test sync and account flows across all target devices and browsers.
+4. Note: users will start with a TrueHeart account; data migration is not automatic.
+5. Once tests pass, you may remove the commented-out sync code.
 
 ### Backwards Compatibility
 
-TrueHeart loader provides stubs for gsync compatibility:
+TrueHeart loader provides stubs for compatibility with older sync call sites:
 
 ```javascript
 window.syncUI = {
@@ -761,7 +759,8 @@ window.syncUI = {
 };
 ```
 
-This ensures existing code referencing `window.syncUI` doesn't break.
+This ensures existing code referencing `window.syncUI` continues to work while you're
+transitioning to the TrueHeart APIs.
 
 ## Backend Setup
 
