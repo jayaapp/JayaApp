@@ -66,6 +66,7 @@ class TrueHeartUserClient {
             window.trueheartState.user = { user_id: data.user_id, email: data.email };
             window.trueheartState.sessionToken = this.sessionToken;
             window.trueheartState.isAuthenticated = true;
+            try { document.dispatchEvent(new CustomEvent('authChanged', { detail: { user: null } })); } catch (e) { /* ignore */ }
         }
         return data;
     }
