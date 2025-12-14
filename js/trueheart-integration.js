@@ -78,7 +78,8 @@ class TrueHeartUserClient {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${this.sessionToken}`
-            }
+            },
+            body: JSON.stringify({})
         });
         
         const data = await response.json();
@@ -87,6 +88,7 @@ class TrueHeartUserClient {
         window.trueheartState.user = null;
         window.trueheartState.sessionToken = null;
         window.trueheartState.isAuthenticated = false;
+        try { document.dispatchEvent(new CustomEvent('authChanged', { detail: { user: null } })); } catch (e) { /* ignore */ }
         return data;
     }
 
