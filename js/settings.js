@@ -12,6 +12,9 @@ function applyLocalization() {
         }
     });
 
+    // Apply TrueHeart-specific localization (with placeholders)
+    applyTrueHeartLocalization();
+
     // Notify navigation module about language change
     // Include language details: appLang (e.g., 'English', 'Polski') and langCode (e.g., 'en', 'pl')
     const langCodeMap = {
@@ -24,6 +27,47 @@ function applyLocalization() {
             langCode: langCodeMap[currentLang] || 'en'
         }
     }));
+}
+
+/**
+ * Smart localization for TrueHeart UI with placeholder support
+ * Handles complex cases like inline links within localized text
+ * Transferable pattern for other apps
+ */
+function applyTrueHeartLocalization() {
+    const currentLang = localStorage.getItem('appLang') || 'English';
+    if (!window.localeData || !window.localeData[currentLang]) return;
+
+    const locale = window.localeData[currentLang];
+
+    // Handle hobby project notice with donate link placeholder
+    const hobbyNotice = document.querySelector('[locale-id="hobby_project_notice"]');
+    if (hobbyNotice && locale.hobby_project_notice && locale.donating) {
+        const donateLinkId = hobbyNotice.getAttribute('data-donate-link');
+        const donateText = locale.donating;
+        
+        // Replace {0} placeholder with localized link
+        const localizedText = locale.hobby_project_notice.replace(
+            '{0}',
+            `<a href="#" id="${donateLinkId}">${donateText}</a>`
+        );
+        
+        hobbyNotice.innerHTML = localizedText;
+        
+        // Reattach event listener if needed
+        const donateLink = document.getElementById(donateLinkId);
+        if (donateLink && window.trueheartUI) {
+            donateLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                const donateToggle = document.getElementById('donate-toggle');
+                if (donateToggle) {
+                    donateToggle.click();
+                } else {
+                    window.open('https://trueheartapps.com/donate', '_blank');
+                }
+            });
+        }
+    }
 }
 
 // Font controls: wire UI to localStorage and CSS variables
