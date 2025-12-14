@@ -465,12 +465,9 @@ class TrueHeartUI {
                 const status = await window.trueheartUser.checkServiceStatus('sync');
                 const statusContainer = this.container.querySelector('.trueheart-service-status');
                 
+                // Badge removed - storage usage display is sufficient
                 if (statusContainer) {
-                    if (status.success && status.status === 'active') {
-                        statusContainer.innerHTML = `<span class="trueheart-service-badge free">Free 1MB</span>`;
-                    } else {
-                        statusContainer.innerHTML = `<span class="trueheart-service-badge free">Free 1MB</span>`;
-                    }
+                    statusContainer.innerHTML = '';
                 }
 
                 // Fetch storage usage

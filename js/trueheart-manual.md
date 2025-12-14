@@ -366,7 +366,6 @@ The sync button and UI display different states:
 
 When authenticated, the UI displays:
 - User email address
-- Service status badge (e.g., "Free 1MB")
 - Storage usage (e.g., "0.05 MB / 1 MB (5%)")
 - Last sync timestamp
 - Manual sync button
