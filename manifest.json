@@ -2,12 +2,13 @@
   "name": "JayaApp - Sacred Mahabharata Reader",
   "short_name": "JayaApp",
   "description": "Experience the timeless wisdom of the Mahabharata with multilingual translations, Sanskrit study tools, personalized notes, and beautiful themes.",
-  "start_url": "/index.html",
+  "start_url": "/index.html?app=jaya",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#2c3e50",
   "orientation": "any",
   "scope": "/",
+  "id": "https://jayaapp.github.io/",
   "icons": [
     {
       "src": "assets/icon.png",

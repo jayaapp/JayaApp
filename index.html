@@ -38,6 +38,79 @@
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
 
+    <!-- Register service worker and handle PWA install prompt -->
+    <script>
+      (function(){
+        // Register service worker
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('/sw.js')
+            .then(reg => {
+              console.log('✅ JayaApp: Service worker registered', reg.scope);
+              // Listen for updates
+              reg.addEventListener('updatefound', () => {
+                const newWorker = reg.installing;
+                newWorker.addEventListener('statechange', () => {
+                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    console.log('🔄 JayaApp: New content available');
+                  }
+                });
+              });
+            })
+            .catch(err => console.warn('JayaApp SW registration failed', err));
+
+          navigator.serviceWorker.addEventListener('message', (event)=>{
+            if (event.data && event.data.type === 'SKIP_WAITING') {
+              console.log('JayaApp SW requested skip waiting');
+            }
+          });
+        }
+
+        // PWA Install Prompt handling
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+          e.preventDefault();
+          deferredPrompt = e;
+          showInstallButton();
+        });
+
+        function showInstallButton() {
+          const installBtn = document.createElement('button');
+          installBtn.textContent = '📱 Install App';
+          installBtn.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            z-index: 1000;
+          `;
+
+          installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+              deferredPrompt.prompt();
+              const { outcome } = await deferredPrompt.userChoice;
+              console.log(`📱 JayaApp: User ${outcome} the install prompt`);
+              deferredPrompt = null;
+              installBtn.remove();
+            }
+          });
+
+          document.body.appendChild(installBtn);
+          setTimeout(() => { if (installBtn.parentNode) installBtn.remove(); }, 10000);
+        }
+
+        window.addEventListener('appinstalled', () => {
+          console.log('🎉 JayaApp: App installed successfully!');
+        });
+      })();
+    </script>
+
     <!-- Google Material Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 
