@@ -53,6 +53,21 @@ class DonationManager {
       this.definition = result.data;
       this.paypalClientId = result.data.paypal_client_id;
       this.stripePublicKey = result.data.stripe_public_key;
+      // Determine selected currency: prefer localized ui_strings currency when supported
+      const available = (this.definition?.payment?.currencies || ['USD']).map(c => c.toUpperCase());
+      const uiCurrency = this.definition?.ui_strings?.[this.language]?.currency;
+      if (uiCurrency && available.includes(uiCurrency.toUpperCase())) {
+        this.currency = uiCurrency.toUpperCase();
+      } else {
+        this.currency = (this.definition?.payment?.default_currency || 'USD').toUpperCase();
+      }
+
+      // Formatting helper
+      this.formatCurrency = (amount) => {
+        const amt = Number(amount) || 0;
+        const sym = (this.currency === 'USD') ? '$' : (this.currency === 'PLN' ? 'PLN ' : this.currency + ' ');
+        return `${sym}${amt.toFixed(2)}`;
+      };
       
       // Create and inject panel
       this.createPanel();
@@ -133,12 +148,12 @@ class DonationManager {
           
           <div data-thd-summary-content></div>
           
-          <div class="thd-total">
-            <h4>
-              <span>${strings.total_amount || 'Total Amount'}:</span>
-              <span data-thd-total-amount>$0.00</span>
-            </h4>
-          </div>
+                <div class="thd-total">
+                  <h4>
+                    <span>${strings.total_amount || 'Total Amount'}:</span>
+                    <span data-thd-total-amount>${this.formatCurrency(0)}</span>
+                  </h4>
+                </div>
           
           <div class="thd-error" data-thd-error2></div>
           
@@ -205,7 +220,7 @@ class DonationManager {
       optionsHtml += `<option value="${opt.code}">${opt.name}</option>`;
     });
     
-    let amountsHtml = amounts.map(a => `<option value="${a}">$${a}</option>`).join('');
+    let amountsHtml = amounts.map(a => `<option value="${a}">${this.formatCurrency(a)}</option>`).join('');
     
     return `
       <h4 class="thd-section-title">
@@ -219,7 +234,7 @@ class DonationManager {
       <div class="thd-row thd-amount-row">
         <span>${strings.at || 'at'}</span>
         <select class="thd-select" data-amount>${amountsHtml}</select>
-        <span>${strings.currency || 'USD'}</span>
+        <span>${this.currency}</span>
       </div>
       <a class="thd-stats-toggle" data-stats-toggle>
         <span>${statsText}</span>
@@ -235,7 +250,7 @@ class DonationManager {
     const amountTier = category.amount_tier || 'github';
     const amounts = this.definition?.amount_tiers?.[amountTier] || [];
     
-    let amountsHtml = amounts.map(a => `<option value="${a}">$${a}</option>`).join('');
+    let amountsHtml = amounts.map(a => `<option value="${a}">${this.formatCurrency(a)}</option>`).join('');
     
     return `
       <h4 class="thd-section-title">
@@ -251,7 +266,7 @@ class DonationManager {
       <div class="thd-row thd-amount-row">
         <span>${strings.at || 'at'}</span>
         <select class="thd-select" data-amount>${amountsHtml}</select>
-        <span>${strings.currency || 'USD'}</span>
+        <span>${this.currency}</span>
         <span data-github-link></span>
       </div>
       <a class="thd-stats-toggle" data-stats-toggle>
@@ -277,7 +292,7 @@ class DonationManager {
     
     const amountTier = category.amount_tier || 'analysis';
     const amounts = this.definition?.amount_tiers?.[amountTier] || [];
-    let amountsHtml = amounts.map(a => `<option value="${a}">$${a}</option>`).join('');
+    let amountsHtml = amounts.map(a => `<option value="${a}">${this.formatCurrency(a)}</option>`).join('');
     
     return `
       <h4 class="thd-section-title">
@@ -288,7 +303,7 @@ class DonationManager {
       <div class="thd-progress-container">
         <div class="thd-progress-bar">
           <div class="thd-progress-fill" data-progress-fill style="width: 0%"></div>
-          <div class="thd-progress-text" data-progress-text>$0.00 / $${(category.target_amount_usd || 0).toFixed(2)}</div>
+          <div class="thd-progress-text" data-progress-text>${this.formatCurrency(0)} / ${this.formatCurrency(category.target_amount_usd || 0)}</div>
         </div>
       </div>
       <div class="thd-completed hidden" data-completed>
@@ -297,7 +312,7 @@ class DonationManager {
       <div class="thd-row thd-amount-row" data-amount-row>
         <span>${strings.donate || 'Donate'}:</span>
         <select class="thd-select" data-amount>${amountsHtml}</select>
-        <span>${strings.currency || 'USD'}</span>
+        <span>${this.currency}</span>
       </div>
     `;
   }
@@ -343,7 +358,7 @@ class DonationManager {
         const amountRow = section.querySelector('[data-amount-row]');
         
         if (fill) fill.style.width = `${percentage}%`;
-        if (text) text.textContent = `${isComplete ? '✓ ' : ''}$${current.toFixed(2)} / $${target.toFixed(2)}`;
+        if (text) text.textContent = `${isComplete ? '✓ ' : ''}${this.formatCurrency(current)} / ${this.formatCurrency(target)}`;
         
         if (isComplete) {
           if (completed) completed.classList.remove('hidden');
@@ -482,6 +497,15 @@ class DonationManager {
       const appName = this.definition?.app?.name || 'App';
       titleEl.textContent = strings.support_app || `Support ${appName} Development`;
     }
+
+    // Recompute currency when language changes (if localized ui_strings provide currency)
+    const available = (this.definition?.payment?.currencies || ['USD']).map(c => c.toUpperCase());
+    const uiCurrency = this.definition?.ui_strings?.[this.language]?.currency;
+    if (uiCurrency && available.includes(uiCurrency.toUpperCase())) {
+      this.currency = uiCurrency.toUpperCase();
+    } else {
+      this.currency = (this.definition?.payment?.default_currency || 'USD').toUpperCase();
+    }
     
     // Re-render categories to update all localized strings
     const container = this.panel.querySelector('[data-thd-categories]');
@@ -553,7 +577,7 @@ class DonationManager {
       container.innerHTML = result.stats.map(s => `
         <div class="thd-stats-item">
           <span>${s.target_identifier}</span>
-          <span>$${Number(s.total).toFixed(2)}</span>
+          <span>${this.formatCurrency(Number(s.total) || 0)}</span>
         </div>
       `).join('');
     } catch (err) {
@@ -656,12 +680,12 @@ class DonationManager {
           ${item.target_identifier ? `<div class="thd-summary-details">${item.target_identifier}</div>` : ''}
           ${item.message ? `<div class="thd-summary-details">"${item.message}"</div>` : ''}
         </div>
-        <div class="thd-summary-amount">$${item.amount.toFixed(2)}</div>
+        <div class="thd-summary-amount">${this.formatCurrency(item.amount)}</div>
       </div>
     `).join('');
     
     const totalEl = this.panel.querySelector('[data-thd-total-amount]');
-    if (totalEl) totalEl.textContent = `$${summary.total.toFixed(2)}`;
+    if (totalEl) totalEl.textContent = this.formatCurrency(summary.total);
   }
   
   async initializePaymentButtons(summary) {
@@ -680,7 +704,7 @@ class DonationManager {
     
     // Load PayPal SDK if not already loaded
     if (!window.paypal) {
-      await this.loadScript(`https://www.paypal.com/sdk/js?client-id=${this.paypalClientId}&currency=USD`);
+      await this.loadScript(`https://www.paypal.com/sdk/js?client-id=${this.paypalClientId}&currency=${this.currency}`);
     }
     
     container.innerHTML = '';
@@ -698,6 +722,7 @@ class DonationManager {
             sponsor_type: 'combined',
             target_identifier: JSON.stringify(summary.items),
             amount: summary.total,
+            currency: this.currency,
             idempotency_key: this.idempotencyKey,
             provider: 'paypal'
           })
@@ -744,7 +769,7 @@ class DonationManager {
     
     const button = document.createElement('button');
     button.className = 'thd-btn-stripe';
-    button.textContent = `Pay $${summary.total.toFixed(2)} with Stripe`;
+    button.textContent = `Pay ${this.formatCurrency(summary.total)} with Stripe`;
     
     button.addEventListener('click', async () => {
       button.disabled = true;
@@ -761,6 +786,7 @@ class DonationManager {
             sponsor_type: 'combined',
             target_identifier: JSON.stringify(summary.items),
             amount: summary.total,
+            currency: this.currency,
             idempotency_key: this.idempotencyKey,
             provider: 'stripe'
           })
@@ -775,7 +801,7 @@ class DonationManager {
         }
       } catch (err) {
         button.disabled = false;
-        button.textContent = `Pay $${summary.total.toFixed(2)} with Stripe`;
+        button.textContent = `Pay ${this.formatCurrency(summary.total)} with Stripe`;
         this.showError(err.message);
         this.onError(err);
       }
@@ -910,8 +936,9 @@ if (typeof window !== 'undefined') {
 let donationManager = null;
 
 function initJayaAppDonation() {
-  // Determine current language
-  const currentLang = window.currentLanguage === 'Polski' ? 'pl' : 'en';
+  // Determine current language from persistent setting (use same source as settings.applyLocalization)
+  const storedAppLang = localStorage.getItem('appLang') || 'English';
+  const currentLang = (storedAppLang === 'Polski') ? 'pl' : 'en';
   
   // Initialize DonationManager with JayaApp config
   donationManager = new DonationManager({
@@ -944,14 +971,5 @@ function initJayaAppDonation() {
   }
 }
 
-// Initialize when DOM is ready
-if (typeof document !== 'undefined') {
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initJayaAppDonation);
-  } else {
-    initJayaAppDonation();
-  }
-}
-
-// Expose globally for script tag usage
+// Expose globally for script tag usage (initialized by central `init.js`)
 window.initJayaAppDonation = initJayaAppDonation;

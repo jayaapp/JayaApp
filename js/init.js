@@ -205,6 +205,7 @@
                 try { if (window.initPrompts) window.initPrompts(); } catch (e) { console.error('initPrompts error', e); }
                 try { if (window.initPromptSelect) window.initPromptSelect(); } catch (e) { console.error('initPromptSelect error', e); }
                 try { if (window.initHelp) window.initHelp(); } catch (e) { console.error('initHelp error', e); }
+                try { if (window.initJayaAppDonation) window.initJayaAppDonation(); } catch (e) { console.error('initJayaAppDonation error', e); }
 
                 // Optional: log any failures for debugging
                 const failures = results.filter(r => r.status === 'rejected');
