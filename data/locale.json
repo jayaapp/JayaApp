@@ -523,7 +523,7 @@
         "storage_label": "Pamięć:",
         "loading": "Ładowanie...",
         "hobby_project_title": "Darmowy Projekt Hobbystyczny",
-        "hobby_project_notice": "Masz 1MB darmowej pamięci do synchronizacji. To usługa prowadzona przez wolontariuszy o ograniczonej pojemności. Chcesz pomóc? {0}.",
+        "hobby_project_notice": "Masz 1MB darmowej pamięci do synchronizacji. To usługa o ograniczonej pojemności, prowadzona przez wolontariuszy. Chcesz pomóc? {0}.",
         "donating": "Rozważ podarunek",
         "delete_account": "Usuń Konto",
         "error_email_password_required": "Proszę wprowadzić email i hasło",

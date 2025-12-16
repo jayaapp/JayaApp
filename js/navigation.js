@@ -39,6 +39,8 @@ function initBookSelectionPanel(bookKeys) {
         if (bookItem) {
             const bookNumber = bookItem.dataset.book;
             selectBook(bookNumber);
+            // User-initiated navigation: clear any deep-link params from the URL
+            try { if (typeof window.clearURLBookChapter === 'function') window.clearURLBookChapter(); } catch (e) { /* ignore */ }
         }
     });
     
@@ -144,6 +146,8 @@ function initNavigation() {
                     bookSelect.innerHTML = bookKeys.map((key) => `<option value="${key}">${key}</option>`).join('');
                     initBookSelectionPanel(bookKeys);
                     updateChapters();
+                    // Apply any book/chapter parameters from the URL (e.g., ?book=2&chapter=3)
+                    try { applyURLParameters(); } catch (e) { console.error('applyURLParameters error', e); }
                 }
             })
             .catch(e => {
@@ -166,6 +170,123 @@ function initNavigation() {
     const bookSelect = document.getElementById('book-select');
     const bookKeys = Object.keys(window.mahabharata).map(Number).sort((a, b) => a - b);
 
+    // Helper: parse book/chapter from URL (search, hash, or pathname like /book=2&chapter=2)
+    function parseBookChapterFromURL() {
+        let book = null;
+        let chapter = null;
+
+        // 1) Try query string
+        try {
+            const qs = new URLSearchParams(window.location.search);
+            if (qs.has('book')) book = Number(qs.get('book')) || null;
+            if (qs.has('chapter')) chapter = Number(qs.get('chapter')) || null;
+        } catch (e) { /* ignore malformed */ }
+
+        // 2) Try hash
+        if (book === null && chapter === null) {
+            try {
+                const hash = window.location.hash.replace(/^#/, '');
+                if (hash) {
+                    const hs = new URLSearchParams(hash);
+                    if (hs.has('book')) book = Number(hs.get('book')) || null;
+                    if (hs.has('chapter')) chapter = Number(hs.get('chapter')) || null;
+                }
+            } catch (e) { /* ignore */ }
+        }
+
+        // 3) Try pathname fallback (e.g., /book=2&chapter=2)
+        if (book === null && chapter === null) {
+            try {
+                const path = window.location.pathname || '';
+                const mBook = path.match(/(?:^|\/)book=(\d+)/);
+                const mChap = path.match(/(?:^|\/)chapter=(\d+)/);
+                if (mBook) book = Number(mBook[1]);
+                if (mChap) chapter = Number(mChap[1]);
+            } catch (e) { /* ignore */ }
+        }
+
+        return { book, chapter };
+    }
+
+    // Helper: apply parsed params to UI (only if matching options exist)
+    function applyURLParameters() {
+        if (!bookSelect) return;
+        const params = parseBookChapterFromURL();
+        let applied = false;
+        if (params.book !== null) {
+            const hasBook = Array.from(bookSelect.options).some(o => Number(o.value) === Number(params.book));
+            if (hasBook) {
+                bookSelect.value = params.book;
+                // Trigger change to update chapters
+                bookSelect.dispatchEvent(new Event('change'));
+                applied = true;
+            }
+        }
+
+        if (params.chapter !== null) {
+            const chapterSelect = document.getElementById('chapter-select');
+            if (chapterSelect) {
+                const hasChapter = Array.from(chapterSelect.options).some(o => Number(o.value) === Number(params.chapter));
+                if (hasChapter) {
+                    chapterSelect.value = params.chapter;
+                    chapterSelect.dispatchEvent(new Event('change'));
+                    applied = true;
+                }
+            }
+        }
+
+        // If any URL parameter was applied, set a flag so other modules (e.g. restoreLastPositionOnce)
+        // respect the user's explicit navigation and don't override it with the previously saved last position.
+        if (applied) {
+            try { window._jayaapp_appliedURLBookChapter = true; } catch (e) { /* ignore */ }
+        }
+
+        // Expose helper to clear deep-link params from the address bar so other modules
+        // (including gotToBookChapterVerse) can call it after internal navigation.
+        try {
+            window.clearURLBookChapter = function clearURLBookChapter() {
+                try {
+                    const u = new URL(window.location.href);
+                    let changed = false;
+                    if (u.searchParams.has('book')) { u.searchParams.delete('book'); changed = true; }
+                    if (u.searchParams.has('chapter')) { u.searchParams.delete('chapter'); changed = true; }
+
+                    // Handle hash-form parameters (e.g., #book=2&chapter=3)
+                    if (window.location.hash) {
+                        try {
+                            const h = window.location.hash.replace(/^#/, '');
+                            const hs = new URLSearchParams(h);
+                            if (hs.has('book') || hs.has('chapter')) {
+                                hs.delete('book'); hs.delete('chapter');
+                                const newHash = hs.toString();
+                                if (newHash) u.hash = '#' + newHash; else u.hash = '';
+                                changed = true;
+                            }
+                        } catch (e) {
+                            // If hash is non-URLSearchParams, just clear it when it contains book= or chapter=
+                            if (/book=\d+/.test(window.location.hash) || /chapter=\d+/.test(window.location.hash)) {
+                                u.hash = '';
+                                changed = true;
+                            }
+                        }
+                    }
+
+                    // Remove any /book=... or /chapter=... occurrences from pathname
+                    const origPath = u.pathname;
+                    let newPath = origPath.replace(/\/?book=\d+/g, '').replace(/\/?chapter=\d+/g, '');
+                    // Normalize double slashes
+                    newPath = newPath.replace(/\/+/g, '/');
+                    if (newPath !== origPath) { u.pathname = newPath; changed = true; }
+
+                    if (changed) {
+                        const newUrl = `${u.pathname}${u.search}${u.hash}`;
+                        history.replaceState({}, document.title, newUrl);
+                    }
+                } catch (e) { /* ignore */ }
+            };
+        } catch (e) { /* ignore */ }
+    }
+
     if (bookSelect) {
         // Populate with numbers only
         bookSelect.innerHTML = bookKeys.map((key) => `<option value=\"${key}\">${key}</option>`).join('');
@@ -184,20 +305,27 @@ function initNavigation() {
             e.preventDefault();
         });
 
-        bookSelect.addEventListener('change', function() {
+        bookSelect.addEventListener('change', function(e) {
             updateChapters();
+            // If this is a user-initiated change (trusted event), clear deep-link params
+            try { if (e && e.isTrusted && typeof window.clearURLBookChapter === 'function') window.clearURLBookChapter(); } catch (err) { /* ignore */ }
         });
 
         // Initial chapters update (uses existing data)
         updateChapters();
+
+        // Apply any book/chapter parameters from the URL
+        try { applyURLParameters(); } catch (e) { console.error('applyURLParameters error', e); }
     }
 
     const chapterSelect = document.getElementById('chapter-select');
 
     if (chapterSelect) {
-        chapterSelect.addEventListener('change', function() {
+        chapterSelect.addEventListener('change', function(e) {
             // Notify text rendering module on book/chapter change
             document.dispatchEvent(new Event('bookChapterChanged'));
+            // If user changed chapter directly, clear deep-link params
+            try { if (e && e.isTrusted && typeof window.clearURLBookChapter === 'function') window.clearURLBookChapter(); } catch (err) { /* ignore */ }
         });
     }
 }

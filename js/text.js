@@ -366,6 +366,10 @@ function setupReadingPositionObservers() {
 // Restore last position once after versesRendered (only at initial load)
 function restoreLastPositionOnce() {
     try {
+        // If the user navigated here via URL parameters, honor that explicit choice
+        // and do not override it with the previously saved last position.
+        try { if (window._jayaapp_appliedURLBookChapter) { delete window._jayaapp_appliedURLBookChapter; return; } } catch (e) { /* ignore */ }
+
         const last = loadLastPosition();
         if (!last) return;
         if (!window.mahabharata || !window.mahabharata[last.book] || !window.mahabharata[last.book][last.chapter]) return;
@@ -479,6 +483,13 @@ function gotToBookChapterVerse(book, chapter, verse) {
                     }
                     // persist last position when we successfully navigated
                     try { saveLastPosition(book, chapter, verse); } catch (e) { /* silent */ }
+
+                    // If an internal navigation helper performed this jump, clear
+                    // any deep-link params (so they don't persist as the active
+                    // starting position in the address bar). This ensures subsequent
+                    // reloads do not accidentally reuse a stale deep link.
+                    try { if (typeof window.clearURLBookChapter === 'function') window.clearURLBookChapter(); } catch (e) { /* ignore */ }
+
                     // add a transient highlight via a temporary stylesheet rule so it survives re-renders
                     try {
                         const styleId = `verse-highlight-${book}-${chapter}-${verse}`;
