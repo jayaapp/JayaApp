@@ -267,7 +267,30 @@ class TrueHeartSyncClient {
         
         return await response.json();
     }
-}
+    // Append events to the event-log via TrueHeartUser proxy (if available)
+    async appendEvents(events) {
+        if (!this.userClient.sessionToken) throw new Error('Not authenticated');
+        const response = await fetch(`${this.userClient.baseURL}/sync/event`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.userClient.sessionToken}`
+            },
+            body: JSON.stringify({ app_id: this.appId, events })
+        });
+        return await response.json();
+    }
+
+    async fetchEvents(since = 0, limit = 1000) {
+        if (!this.userClient.sessionToken) throw new Error('Not authenticated');
+        const response = await fetch(`${this.userClient.baseURL}/sync/events?app_id=${this.appId}&since=${since}&limit=${limit}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${this.userClient.sessionToken}`
+            }
+        });
+        return await response.json();
+    }}
 
 /**
  * Initialize TrueHeart integration
@@ -306,55 +329,231 @@ async function performTrueHeartSync() {
         throw new Error('Not authenticated');
     }
 
-    // Collect local data
+    // Collect local data (use same storage keys as the app modules)
+    const localBookmarks = JSON.parse(localStorage.getItem('jayaapp:bookmarks') || '{}');
+    const localNotes = JSON.parse(localStorage.getItem('jayaapp:notes') || '{}');
+    const localPrompts = JSON.parse(localStorage.getItem('jayaapp:prompts') || '{}');
+    const localEdits = JSON.parse(localStorage.getItem('jayaapp:edits') || '{}');
     const localData = {
-        bookmarks: JSON.parse(localStorage.getItem('bookmarks') || '{}'),
-        notes: JSON.parse(localStorage.getItem('notes') || '{}'),
-        prompts: JSON.parse(localStorage.getItem('prompts') || '{}'),
-        readingPositions: JSON.parse(localStorage.getItem('reading-positions') || '{}'),
-        settings: JSON.parse(localStorage.getItem('jayaapp-settings') || '{}'),
+        bookmarks: localBookmarks,
+        notes: localNotes,
+        prompts: localPrompts,
+        edits: localEdits,
         timestamp: new Date().toISOString()
-    };
+    }; 
 
-    // Load remote data
+    // Load remote snapshot
     const remoteResult = await window.trueheartSync.load();
     const remoteData = remoteResult.data;
 
-    let mergedData;
-    if (!remoteData) {
-        // No remote data, upload local
-        mergedData = localData;
-    } else {
-        // Merge local and remote data (simple: take newest by timestamp)
-        const localTime = new Date(localData.timestamp || 0);
-        const remoteTime = new Date(remoteData.timestamp || 0);
-        
-        if (localTime > remoteTime) {
-            // Local is newer
-            mergedData = localData;
+    // Decide initial merged data using empty-aware logic
+    function _isEmptySnapshot(v) {
+        if (!v) return true;
+        const keys = ['bookmarks','notes','edits'];
+        return keys.every(k => !v[k] || (typeof v[k] === 'object' && Object.keys(v[k]).length === 0));
+    }
+
+    // Always merge bookmarks and notes per-item to avoid one-client snapshot overwriting another.
+    function mergeListsById(localObj = {}, remoteObj = {}) {
+        const out = {};
+        const bookIndexes = new Set([...Object.keys(localObj), ...Object.keys(remoteObj)]);
+        bookIndexes.forEach(bi => {
+            const localArr = (localObj[bi] || []).slice();
+            const remoteArr = (remoteObj[bi] || []).slice();
+            const byId = Object.create(null);
+            localArr.concat(remoteArr).forEach(item => {
+                if (!item || !item.id) return;
+                const existing = byId[item.id];
+                if (!existing) byId[item.id] = item;
+                else {
+                    const exT = new Date(existing.timestamp || 0).getTime();
+                    const itT = new Date(item.timestamp || 0).getTime();
+                    if (itT > exT) byId[item.id] = item;
+                }
+            });
+            out[bi] = Object.values(byId).sort((a,b) => new Date(a.timestamp || 0) - new Date(b.timestamp || 0));
+        });
+        return out;
+    }
+
+    // Merge edited verses structure (book -> chapter -> verse -> lang -> {text,timestamp})
+    function mergeEdits(local = {}, remote = {}) {
+        const out = {};
+        const books = new Set([...Object.keys(local || {}), ...Object.keys(remote || {})]);
+        books.forEach(b => {
+            const localBook = local[b] || {};
+            const remoteBook = remote[b] || {};
+            const chapters = new Set([...Object.keys(localBook), ...Object.keys(remoteBook)]);
+            chapters.forEach(c => {
+                const localChap = localBook[c] || {};
+                const remoteChap = remoteBook[c] || {};
+                const verses = new Set([...Object.keys(localChap), ...Object.keys(remoteChap)]);
+                verses.forEach(v => {
+                    const localCell = localChap[v] || {};
+                    const remoteCell = remoteChap[v] || {};
+                    const langs = new Set([...Object.keys(localCell), ...Object.keys(remoteCell)]);
+                    const mergedCell = {};
+                    langs.forEach(lang => {
+                        const l = localCell[lang];
+                        const r = remoteCell[lang];
+                        if (!l && !r) return;
+                        if (!l) mergedCell[lang] = r;
+                        else if (!r) mergedCell[lang] = l;
+                        else {
+                            const lt = new Date(l.timestamp || 0).getTime();
+                            const rt = new Date(r.timestamp || 0).getTime();
+                            mergedCell[lang] = (lt >= rt) ? l : r;
+                        }
+                    });
+                    if (Object.keys(mergedCell).length > 0) {
+                        out[b] = out[b] || {};
+                        out[b][c] = out[b][c] || {};
+                        out[b][c][v] = mergedCell;
+                    }
+                });
+            });
+        });
+        return out;
+    }
+
+    // include edits in initial merge (per-language, per-verse merges)
+    let mergedData = {
+        bookmarks: mergeListsById(localData.bookmarks, remoteData?.bookmarks),
+        notes: mergeListsById(localData.notes, remoteData?.notes),
+        edits: mergeEdits(localData.edits, remoteData?.edits),
+        timestamp: new Date(Math.max(new Date(localData.timestamp || 0).getTime(), new Date(remoteData?.timestamp || 0).getTime())).toISOString()
+    }; 
+
+    // Gather pending deletions from compatibility stubs
+    const pendingTrueHeartDeletions = JSON.parse(localStorage.getItem('trueheart-deletions') || '[]');
+    const pendingOldDeletions = JSON.parse(localStorage.getItem('jayaapp-pending-deletions') || '[]');
+    const pendingDeletions = [...pendingTrueHeartDeletions, ...pendingOldDeletions];
+    if (pendingTrueHeartDeletions.length > 0) localStorage.removeItem('trueheart-deletions');
+    if (pendingOldDeletions.length > 0) localStorage.removeItem('jayaapp-pending-deletions');
+
+    // Convert deletions into events and append them
+    const eventsToAppend = [];
+    (pendingDeletions || []).forEach(event => {
+        const id = event.key || event.id || event;
+        const type = event.type || 'bookmark';
+        let target = 'bookmark';
+        if (type === 'note') target = 'note';
+        else if (type === 'editedVerse') target = 'editedVerse';
+        eventsToAppend.push({ event_id: `del-${id}-${Date.now()}`, type: 'delete', payload: { target, id }, created_at: Date.now() });
+    });
+
+    if (eventsToAppend.length > 0) {
+        try { await window.trueheartSync.appendEvents(eventsToAppend); } catch (err) { console.warn('Failed to append events:', err); }
+    }
+
+    // Fetch and apply events (replay)
+    let deletedItems = { bookmarks: [], notes: [], edits: [] };
+    try {
+        const eventsRes = await window.trueheartSync.fetchEvents(0, 10000);
+        if (eventsRes && eventsRes.success && Array.isArray(eventsRes.events)) {
+            eventsRes.events.forEach(ev => {
+                const type = ev.type || 'patch';
+                const payload = ev.payload || {};
+                if (type === 'replace') { mergedData = { bookmarks: payload.bookmarks || {}, notes: payload.notes || {}, edits: payload.edits || {}, timestamp: payload.timestamp || mergedData.timestamp }; return; }
+                if (type === 'patch' || type === 'state') {
+                    if (payload.bookmarks) mergedData.bookmarks = { ...(mergedData.bookmarks || {}), ...(payload.bookmarks || {}) };
+                    if (payload.notes) mergedData.notes = { ...(mergedData.notes || {}), ...(payload.notes || {}) };
+                    if (payload.edits) mergedData.edits = mergeEdits(mergedData.edits || {}, payload.edits || {});
+                    return;
+                }
+                if (type === 'delete') {
+                    const target = payload.target || 'bookmark';
+                    const id = payload.id;
+                    if (target === 'note') {
+                        Object.keys(mergedData.notes || {}).forEach(bookIndex => {
+                            const beforeCount = (mergedData.notes[bookIndex] || []).length;
+                            mergedData.notes[bookIndex] = (mergedData.notes[bookIndex] || []).filter(n => n.id !== id);
+                            if ((mergedData.notes[bookIndex] || []).length < beforeCount) deletedItems.notes.push({ id, bookIndex });
+                        });
+                    } else if (target === 'editedVerse') {
+                        // id expected as 'book:chapter:verse'
+                        const parts = (id || '').split(':');
+                        if (parts.length === 3) {
+                            const [b, c, v] = parts;
+                            if (mergedData.edits && mergedData.edits[b] && mergedData.edits[b][c] && mergedData.edits[b][c][v]) {
+                                delete mergedData.edits[b][c][v];
+                                deletedItems.edits.push({ id, bookIndex: b, chapter: c, verse: v });
+                                if (Object.keys(mergedData.edits[b][c]).length === 0) delete mergedData.edits[b][c];
+                                if (Object.keys(mergedData.edits[b]).length === 0) delete mergedData.edits[b];
+                            }
+                        }
+                    } else {
+                        Object.keys(mergedData.bookmarks || {}).forEach(bookIndex => {
+                            const beforeCount = (mergedData.bookmarks[bookIndex] || []).length;
+                            mergedData.bookmarks[bookIndex] = (mergedData.bookmarks[bookIndex] || []).filter(b => b.id !== id);
+                            if ((mergedData.bookmarks[bookIndex] || []).length < beforeCount) deletedItems.bookmarks.push({ id, bookIndex });
+                        });
+                    }
+                }
+            });
+        }
+    } catch (err) { console.warn('Failed to fetch or apply events:', err); }
+
+    // Save merged data back to server (sync bookmarks & notes only)
+    try {
+        const mergedEmpty = _isEmptySnapshot(mergedData);
+        const hadRemote = !(_isEmptySnapshot(remoteData));
+        const eventsCount = (eventsRes && eventsRes.success && Array.isArray(eventsRes.events)) ? eventsRes.events.length : 0;
+        if (mergedEmpty && (eventsCount > 0 || hadRemote)) {
+            console.warn('TrueHeart: merged result is empty while server/events suggest data exists — reloading server snapshot instead of saving empty');
+            try {
+                const reload = await window.trueheartSync.load();
+                if (reload && reload.data) {
+                    mergedData.bookmarks = reload.data.bookmarks || {};
+                    mergedData.notes = reload.data.notes || {};
+                    mergedData.edits = reload.data.edits || {};
+                    try {
+                        localStorage.setItem('jayaapp:bookmarks', JSON.stringify(mergedData.bookmarks || {}));
+                        localStorage.setItem('jayaapp:notes', JSON.stringify(mergedData.notes || {}));
+                        localStorage.setItem('jayaapp:edits', JSON.stringify(mergedData.edits || {}));
+                    } catch (e) { console.warn('TrueHeart: failed to update local storage after reload', e); }
+                    window.dispatchEvent(new CustomEvent('syncDataUpdated', { detail: { bookmarks: mergedData.bookmarks || {}, notes: mergedData.notes || {}, edits: mergedData.edits || {} } }));
+                    console.info('TrueHeart: local bookmarks/notes/edits refreshed from server after empty-merge guard');
+                } else {
+                    console.warn('TrueHeart: reload returned no data after empty-merge guard');
+                }
+            } catch (reloadErr) { console.error('TrueHeart: failed to reload server snapshot after empty-merge guard', reloadErr); }
         } else {
-            // Remote is newer or same - merge carefully
-            mergedData = {
-                bookmarks: { ...localData.bookmarks, ...remoteData.bookmarks },
-                notes: { ...localData.notes, ...remoteData.notes },
-                prompts: { ...localData.prompts, ...remoteData.prompts },
-                readingPositions: remoteData.readingPositions || localData.readingPositions,
-                settings: { ...localData.settings, ...remoteData.settings },
-                timestamp: remoteData.timestamp
-            };
+            const syncPayload = { bookmarks: mergedData.bookmarks || {}, notes: mergedData.notes || {}, edits: mergedData.edits || {}, timestamp: mergedData.timestamp || new Date().toISOString() };
+            await window.trueheartSync.save(syncPayload);
+        }
+    } catch (err) {
+        if (err && err.message === 'empty_snapshot_rejected') {
+            console.warn('TrueHeart: save rejected as empty_snapshot_rejected — reloading server snapshot instead');
+            try {
+                const reload = await window.trueheartSync.load();
+                if (reload && reload.data) {
+                    mergedData.bookmarks = reload.data.bookmarks || {};
+                    mergedData.notes = reload.data.notes || {};
+                    mergedData.edits = reload.data.edits || {};
+                    try {
+                        localStorage.setItem('jayaapp:bookmarks', JSON.stringify(mergedData.bookmarks || {}));
+                        localStorage.setItem('jayaapp:notes', JSON.stringify(mergedData.notes || {}));
+                        localStorage.setItem('jayaapp:edits', JSON.stringify(mergedData.edits || {}));
+                    } catch (e) { console.warn('TrueHeart: failed to update local storage after reload', e); }
+                    window.dispatchEvent(new CustomEvent('syncDataUpdated', { detail: { bookmarks: mergedData.bookmarks || {}, notes: mergedData.notes || {}, edits: mergedData.edits || {} } }));
+                    console.info('TrueHeart: local bookmarks/notes/edits refreshed from server after rejected empty save');
+                }
+            } catch (reloadErr) { console.error('TrueHeart: failed to reload server snapshot after empty save rejection', reloadErr); }
+        } else {
+            console.warn('Failed to save merged data to server:', err);
         }
     }
 
-    // Save merged data back to server
-    await window.trueheartSync.save(mergedData);
+    // Update local storage with merged data (bookmarks, notes & edits)
+    try {
+        localStorage.setItem('jayaapp:bookmarks', JSON.stringify(mergedData.bookmarks));
+        localStorage.setItem('jayaapp:notes', JSON.stringify(mergedData.notes));
+        localStorage.setItem('jayaapp:edits', JSON.stringify(mergedData.edits || {}));
+    } catch (err) { console.warn('Could not update bookmarks/notes/edits in local storage:', err); }
 
-    // Update local storage with merged data
-    localStorage.setItem('bookmarks', JSON.stringify(mergedData.bookmarks));
-    localStorage.setItem('notes', JSON.stringify(mergedData.notes));
-    localStorage.setItem('prompts', JSON.stringify(mergedData.prompts));
-    localStorage.setItem('reading-positions', JSON.stringify(mergedData.readingPositions));
-    localStorage.setItem('jayaapp-settings', JSON.stringify(mergedData.settings));
-
+    window.dispatchEvent(new CustomEvent('syncDataUpdated', { detail: { bookmarks: mergedData.bookmarks || {}, notes: mergedData.notes || {}, edits: mergedData.edits || {}, deletedItems: deletedItems } }));
+    window.dispatchEvent(new CustomEvent('trueheart-sync-complete'));
     return mergedData;
 }
 
@@ -363,6 +562,63 @@ window.trueheartAPI = {
     initTrueHeart,
     performTrueHeartSync
 };
+
+// Debounced sync controller (compatible replacement)
+const SYNC_DEBOUNCE_MS = 2000;
+class SyncController {
+    constructor() {
+        this.debounceTimer = null;
+        this.isSyncing = false;
+        this.pendingChanges = false;
+        this.lastToastShown = false;
+    }
+
+    scheduleSync(reason) {
+        this.pendingChanges = true;
+        if (!window.trueheartState?.isAuthenticated) {
+            if (!this.lastToastShown) {
+                if (window.showAlert) window.showAlert('Changes saved locally; they will be synced when you sign in.', 3000);
+                this.lastToastShown = true;
+            }
+            return;
+        }
+        if (this.debounceTimer) clearTimeout(this.debounceTimer);
+        this.debounceTimer = setTimeout(() => {
+            this.debounceTimer = null;
+            this.immediateSync(reason || 'scheduled');
+        }, SYNC_DEBOUNCE_MS);
+    }
+
+    async immediateSync(reason = 'manual') {
+        if (!window.trueheartState?.isAuthenticated) {
+            if (window.showAlert) window.showAlert('Not signed in. Please sign in to sync.', 2500);
+            return;
+        }
+        if (this.debounceTimer) {
+            clearTimeout(this.debounceTimer);
+            this.debounceTimer = null;
+            if (typeof console !== 'undefined' && console.log) console.log('🔁 SyncController: canceled pending debounce before immediate sync');
+        }
+        if (this.isSyncing) return;
+        this.isSyncing = true;
+        this.pendingChanges = false;
+        try {
+            if (window.syncUI && typeof window.syncUI.setState === 'function') window.syncUI.setState('syncing');
+            if (window.showAlert) window.showAlert('Syncing...', 1200);
+            await performTrueHeartSync();
+            if (window.showAlert) window.showAlert('Sync completed', 2000);
+        } catch (err) {
+            console.error('Sync failed:', err);
+            if (window.showAlert) window.showAlert('Sync failed: ' + (err.message || err), 4000);
+        } finally {
+            this.isSyncing = false;
+            if (window.syncUI && typeof window.syncUI.setState === 'function') window.syncUI.setState('connected');
+        }
+    }
+}
+
+window.syncController = new SyncController();
+window.syncManager = window.trueheartSync;
 
 // Initialize on load
 window.addEventListener('load', initTrueHeart);

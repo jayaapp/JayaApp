@@ -23,6 +23,10 @@
     function saveEdits(obj) {
         try {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));
+            // Schedule a sync for edits (debounced)
+            if (window.syncController && typeof window.syncController.scheduleSync === 'function') {
+                try { window.syncController.scheduleSync('edit'); } catch (e) { /* ignore */ }
+            }
         } catch (e) {
             console.error('Failed to save edits', e);
         }
@@ -166,6 +170,10 @@
                 if (isVerseFullyDeleted && window.syncUI && window.syncUI.addDeletionEvent) {
                     const itemId = `${b}:${c}:${v}`;
                     window.syncUI.addDeletionEvent(itemId, 'editedVerse');
+                    // schedule a sync for edits so deletion is propagated faster
+                    if (window.syncController && typeof window.syncController.scheduleSync === 'function') {
+                        try { window.syncController.scheduleSync('edit'); } catch (e) { /* ignore */ }
+                    }
                 }
             }
             hideEditor();
@@ -259,6 +267,24 @@
         textarea.value = value;
         showEditor();
     }
+
+    // Apply remote edits (called when a sync reloads data from server)
+    function applyRemoteEdits(obj) {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(obj || {}));
+            // refresh UI icons/inline state
+            if (typeof window.updateText === 'function') window.updateText();
+        } catch (e) {
+            console.error('Failed to apply remote edits', e);
+        }
+    }
+
+    // Listen for sync updates and apply edits pushed from server without re-triggering a sync
+    window.addEventListener('syncDataUpdated', (e) => {
+        if (e && e.detail && e.detail.edits) {
+            applyRemoteEdits(e.detail.edits);
+        }
+    });
 
     // initialize: try to bind elements. If DOM isn't ready yet, retry a few times.
     function initEdits(attempts = 6) {
