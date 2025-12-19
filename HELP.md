@@ -30,7 +30,7 @@ Kod źródłowy aplikacji oraz jej backend dostępne są na licencji <a href="ht
 
 ## Copyright
 
-© [True❤️Apps](https://trueheartapps.com)
+© {YEAR} [True❤️Apps](https://trueheartapps.com)
 
 # English
 
@@ -64,4 +64,4 @@ The application's source code and backend are available under the <a href="https
 
 ## Copyright
 
-© [True❤️Apps](https://trueheartapps.com)
+© {YEAR} [True❤️Apps](https://trueheartapps.com)

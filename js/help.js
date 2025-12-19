@@ -91,6 +91,9 @@
         // Use marked.js if available, otherwise simple fallback
         if (typeof marked !== 'undefined' && marked.parse) {
             try {
+                // Replace {YEAR} placeholder
+                const currentYear = new Date().getFullYear();
+                markdown = markdown.replace(/{YEAR}/g, currentYear);
                 // Configure marked to open links in new tabs
                 const renderer = new marked.Renderer();
                 renderer.link = function(href, title, text) {
