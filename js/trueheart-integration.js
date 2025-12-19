@@ -448,8 +448,9 @@ async function performTrueHeartSync() {
 
     // Fetch and apply events (replay)
     let deletedItems = { bookmarks: [], notes: [], edits: [] };
+    let eventsRes = null;
     try {
-        const eventsRes = await window.trueheartSync.fetchEvents(0, 10000);
+        eventsRes = await window.trueheartSync.fetchEvents(0, 10000);
         if (eventsRes && eventsRes.success && Array.isArray(eventsRes.events)) {
             eventsRes.events.forEach(ev => {
                 const type = ev.type || 'patch';
