@@ -15,6 +15,7 @@ const CORE_FILES = [
   '/index.html',
   '/manifest.json',
   '/assets/icon.png',
+  '/assets/background.png',
   '/css/style.css',
   '/js/init.js',
   '/js/main.js',
