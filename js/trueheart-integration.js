@@ -477,9 +477,9 @@ async function performTrueHeartSync() {
     (pendingDeletions || []).forEach(event => {
         const id = event.key || event.id || event;
         const type = event.type || 'bookmark';
-        let target = 'bookmark';
-        if (type === 'note') target = 'note';
-        else if (type === 'editedVerse') target = 'editedVerse';
+        // Map known types to event payload target; default to 'bookmark'
+        const validTargets = new Set(['bookmark', 'note', 'editedVerse', 'prompt']);
+        const target = validTargets.has(type) ? type : 'bookmark';
         eventsToAppend.push({ event_id: `del-${id}-${Date.now()}`, type: 'delete', payload: { target, id }, created_at: Date.now() });
     });
 
