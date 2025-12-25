@@ -68,6 +68,10 @@
             toggle.addEventListener('click', () => {
                 bookmarkMode = !bookmarkMode;
                 document.body.classList.toggle('bookmark-mode', bookmarkMode);
+                if (bookmarkMode && window.showAlert) {
+                    const msg = window.getLocale ? window.getLocale('click_verse_to_add_bookmark') : null;
+                    window.showAlert(msg || 'Click a verse to add a bookmark', 3000);
+                }
             });
         }
 

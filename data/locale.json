@@ -117,6 +117,10 @@
         "type_a_message" : "Type a message...",
         "click_reset_once_more_to_reset": "Click reset once more to confirm reset",
 
+        "click_verse_to_add_bookmark": "Click a verse to add a bookmark",
+        "click_verse_to_add_note": "Click a verse to add a note",
+        "click_translated_verse_to_edit_translation": "Click a translated verse to edit the translation",
+
         "user_panel": "User Panel",
         "login_with_github": "Login with GitHub",
         "create_github_account": "(or create GitHub account)",
@@ -407,6 +411,10 @@
         "help_me_hint" : "Kliknij teraz słowo lub obszar wersetu",
         "type_a_message" : "Wpisz wiadomość...",
         "click_reset_once_more_to_reset": "Kliknij ponownie reset, aby potwierdzić reset",
+
+        "click_verse_to_add_bookmark": "Kliknij wers, aby dodać zakładkę",
+        "click_verse_to_add_note": "Kliknij wers, aby dodać notatkę",
+        "click_translated_verse_to_edit_translation": "Kliknij przetłumaczony wers, aby edytować tłumaczenie",
 
         "user_panel": "Panel Użytkownika",
         "login_with_github": "Zaloguj się przez GitHub",

@@ -176,6 +176,10 @@
             notesToggle.addEventListener('click', () => {
                 noteMode = !noteMode;
                 document.body.classList.toggle('note-mode', noteMode);
+                if (noteMode && window.showAlert) {
+                    const msg = window.getLocale ? window.getLocale('click_verse_to_add_note') : null;
+                    window.showAlert(msg || 'Click a verse to add a note', 3000);
+                }
             });
         }
 

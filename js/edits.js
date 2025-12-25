@@ -205,6 +205,10 @@
             editToggle.addEventListener('click', () => {
                 noteMode = !noteMode;
                 document.body.classList.toggle('edit-mode', noteMode);
+                if (noteMode && window.showAlert) {
+                    const msg = window.getLocale ? window.getLocale('click_translated_verse_to_edit_translation') : null;
+                    window.showAlert(msg || 'Click a translated verse to edit the translation', 3000);
+                }
             });
         }
 
