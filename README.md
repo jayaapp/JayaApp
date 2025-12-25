@@ -6,7 +6,9 @@ The main goal of the app is to support you in learning Sanskrit by gradually exp
 
 ## Prerequisites
 
-To use the AI assistant features (your Sanskrit teacher), you need a free <a href="https://ollama.com/" target="_blank" rel="noopener noreferrer">Ollama Cloud account</a>. You can then use a number of predefined, learning-oriented help commands for whole verses or individual words, allowing you to gradually discover and internalize Sanskrit grammar and vocabulary as you read.
+To use the AI assistant features (your Sanskrit teacher), you need a free <a href="https://ollama.com/" target="_blank" rel="noopener noreferrer">Ollama Cloud account</a>. You will also need a free in-app registered <a href="https://trueheartapps.com" target="_blank" rel="noopener noreferrer">True❤️Apps</a> or a [GitHub](https://github.com) account to store the API key (see in-app setup instructions).
+
+You can then use a number of predefined, learning-oriented help commands for whole verses or individual words, allowing you to gradually discover and internalize Sanskrit grammar and vocabulary as you read.
 
 ## Contributing
 
