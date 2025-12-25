@@ -484,6 +484,7 @@ async function performTrueHeartSync() {
     });
 
     if (eventsToAppend.length > 0) {
+        console.debug('TrueHeart: appending events:', eventsToAppend.map(e=>({id:e.event_id,type:e.type,payload:e.payload,created_at:e.created_at}))); 
         try { await window.trueheartSync.appendEvents(eventsToAppend); } catch (err) { console.warn('Failed to append events:', err); }
     }
 
@@ -491,7 +492,9 @@ async function performTrueHeartSync() {
     let deletedItems = { bookmarks: [], notes: [], edits: [] };
     let eventsRes = null;
     try {
-        eventsRes = await window.trueheartSync.fetchEvents(0, 10000);
+        const eventsSince = (remoteResult && remoteResult.last_modified) ? remoteResult.last_modified : 0;
+        console.debug('TrueHeart: fetching events since', eventsSince);
+        eventsRes = await window.trueheartSync.fetchEvents(eventsSince, 10000);
         if (eventsRes && eventsRes.success && Array.isArray(eventsRes.events)) {
             eventsRes.events.forEach(ev => {
                 const type = ev.type || 'patch';
@@ -535,29 +538,77 @@ async function performTrueHeartSync() {
                         return removed;
                     }
 
+                    const evCreated = ev && ev.created_at ? (typeof ev.created_at === 'number' ? ev.created_at : Date.parse(ev.created_at)) : Date.now();
+
                     if (target === 'note') {
-                        const removed = removeIdFromNested(mergedData.notes || {}, id);
-                        if (removed) deletedItems.notes.push({ id });
+                        // For notes, the stored item has a timestamp field; skip delete if note is newer than deletion event
+                        const parts = (id || '').split(':');
+                        if (parts.length === 3) {
+                            const [b, c, v] = parts;
+                            const noteObj = mergedData.notes && mergedData.notes[b] && mergedData.notes[b][c] && mergedData.notes[b][c][v];
+                            const noteTs = noteObj && noteObj.timestamp ? new Date(noteObj.timestamp).getTime() : 0;
+                            if (noteTs > evCreated) {
+                                console.debug('TrueHeart: skipping delete for note newer than event', id, noteTs, evCreated);
+                            } else {
+                                const removed = removeIdFromNested(mergedData.notes || {}, id);
+                                if (removed) deletedItems.notes.push({ id });
+                            }
+                        } else {
+                            const removed = removeIdFromNested(mergedData.notes || {}, id);
+                            if (removed) deletedItems.notes.push({ id });
+                        }
                     } else if (target === 'editedVerse') {
                         const parts = (id || '').split(':');
                         if (parts.length === 3) {
                             const [b, c, v] = parts;
                             if (mergedData.edits && mergedData.edits[b] && mergedData.edits[b][c] && mergedData.edits[b][c][v]) {
-                                delete mergedData.edits[b][c][v];
-                                deletedItems.edits.push({ id, bookIndex: b, chapter: c, verse: v });
-                                if (Object.keys(mergedData.edits[b][c]).length === 0) delete mergedData.edits[b][c];
-                                if (Object.keys(mergedData.edits[b]).length === 0) delete mergedData.edits[b];
+                                // edited verses have timestamp in each lang entry; choose conservative approach: remove only if no edit newer than event
+                                let latestTs = 0;
+                                const cell = mergedData.edits[b][c][v];
+                                Object.keys(cell).forEach(lang => {
+                                    const t = new Date(cell[lang].timestamp || 0).getTime();
+                                    if (t > latestTs) latestTs = t;
+                                });
+                                if (latestTs > evCreated) {
+                                    console.debug('TrueHeart: skipping delete for editedVerse newer than event', id, latestTs, evCreated);
+                                } else {
+                                    delete mergedData.edits[b][c][v];
+                                    deletedItems.edits.push({ id, bookIndex: b, chapter: c, verse: v });
+                                    if (Object.keys(mergedData.edits[b][c]).length === 0) delete mergedData.edits[b][c];
+                                    if (Object.keys(mergedData.edits[b]).length === 0) delete mergedData.edits[b];
+                                }
                             }
                         }
                     } else if (target === 'prompt') {
-                        if (mergedData.prompts && mergedData.prompts[id]) {
-                            delete mergedData.prompts[id];
-                            deletedItems.prompts = deletedItems.prompts || [];
-                            deletedItems.prompts.push({ id });
+                        // For prompts, compare updatedAt
+                        const promptObj = mergedData.prompts && mergedData.prompts[id];
+                        const promptTs = promptObj && (promptObj.updatedAt || promptObj.updated_at) ? new Date(promptObj.updatedAt || promptObj.updated_at).getTime() : 0;
+                        if (promptTs > evCreated) {
+                            console.debug('TrueHeart: skipping delete for prompt newer than event', id, promptTs, evCreated);
+                        } else {
+                            if (mergedData.prompts && mergedData.prompts[id]) {
+                                delete mergedData.prompts[id];
+                                deletedItems.prompts = deletedItems.prompts || [];
+                                deletedItems.prompts.push({ id });
+                            }
                         }
                     } else {
-                        const removed = removeIdFromNested(mergedData.bookmarks || {}, id);
-                        if (removed) deletedItems.bookmarks.push({ id });
+                        // bookmarks: id like book:chapter:verse
+                        const parts = (id || '').split(':');
+                        if (parts.length === 3) {
+                            const [b, c, v] = parts;
+                            const bObj = mergedData.bookmarks && mergedData.bookmarks[b] && mergedData.bookmarks[b][c] && mergedData.bookmarks[b][c][v];
+                            const bTs = bObj && bObj.timestamp ? new Date(bObj.timestamp).getTime() : 0;
+                            if (bTs > evCreated) {
+                                console.debug('TrueHeart: skipping delete for bookmark newer than event', id, bTs, evCreated);
+                            } else {
+                                const removed = removeIdFromNested(mergedData.bookmarks || {}, id);
+                                if (removed) deletedItems.bookmarks.push({ id });
+                            }
+                        } else {
+                            const removed = removeIdFromNested(mergedData.bookmarks || {}, id);
+                            if (removed) deletedItems.bookmarks.push({ id });
+                        }
                     }
                 }
             });
