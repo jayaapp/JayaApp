@@ -85,6 +85,9 @@
         "missing_content": "No content available",
         "error_loading_data": "Error loading data. Please try again.",
 
+        "reader_mode": "Reader Mode",
+        "hide_ai_chat": "Hide AI Chat Panel",
+
         "close": "Close",
         "add_note": "Add Note",
         "edit_note": "Edit Note",
@@ -379,6 +382,9 @@
         "maha_pl": "Przekład SI na polski",
         "missing_content": "Brak dostępnej treści",
         "error_loading_data": "Błąd ładowania danych. Spróbuj ponownie.",
+
+        "reader_mode": "Tryb Czytelnika",
+        "hide_ai_chat": "Ukryj panel czatu AI",
 
         "close": "Zamknij",
         "add_note": "Dodaj notatkę",

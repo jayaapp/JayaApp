@@ -1017,6 +1017,27 @@ function initSettingsPanel() {
         applyLocalization();
     });
 
+    // Reader Mode: hide/show AI Chat Panel
+    // Persisted under localStorage key 'hideAIChat' ("true"|"false")
+    const hideAiCheckbox = document.getElementById('hide-ai-chat-checkbox');
+    function applyReaderMode() {
+        try {
+            const enabled = localStorage.getItem('hideAIChat') === 'true';
+            if (enabled) document.body.classList.add('hide-ai-chat'); else document.body.classList.remove('hide-ai-chat');
+            // Notify other modules in case they need to react/layout
+            document.dispatchEvent(new CustomEvent('readerModeChanged', { detail: { enabled } }));
+        } catch (e) { /* ignore */ }
+    }
+    if (hideAiCheckbox) {
+        try { hideAiCheckbox.checked = localStorage.getItem('hideAIChat') === 'true'; } catch (e) { /* ignore */ }
+        hideAiCheckbox.addEventListener('change', function () {
+            try { localStorage.setItem('hideAIChat', this.checked ? 'true' : 'false'); } catch (e) { /* ignore */ }
+            applyReaderMode();
+        });
+    }
+    // Apply on init
+    applyReaderMode();
+
     initFontControls();
 
     initThemeColorControls();

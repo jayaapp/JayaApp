@@ -138,6 +138,25 @@ body {
     cursor: row-resize;
 }
 
+/* Reader Mode: hide AI Chat panel and handle when enabled */
+body.hide-ai-chat .right-panel,
+body.hide-ai-chat .bottom-panel,
+body.hide-ai-chat .horizontal .right-panel,
+body.hide-ai-chat .vertical .bottom-panel {
+    display: none !important;
+}
+
+body.hide-ai-chat .split-handle {
+    display: none !important;
+}
+
+/* Make the remaining panel take full space */
+body.hide-ai-chat .left-panel,
+body.hide-ai-chat .top-panel {
+    flex: 1 0 100% !important;
+    width: 100% !important;
+}
+
 /* Media query for vertical layout on smaller screens */
 @media (orientation: portrait) {
     .horizontal {
