@@ -494,7 +494,7 @@ function initTextRenderingControls()
 
     // Populate selects with safe defaults and persisted values
     populateSelect(originalText, originalOptions, storageKeys.original, 'sanskrit-multi');
-    populateSelect(firstTranslation, firstOptions, storageKeys.first, 'disable');
+    populateSelect(firstTranslation, firstOptions, storageKeys.first, 'maha_en');
     populateSelect(secondTranslation, secondOptions, storageKeys.second, 'disable');
 
     // Emit event with current selections
