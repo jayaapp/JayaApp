@@ -38,6 +38,8 @@
         if (!b[B][C]) b[B][C] = {};
         b[B][C][V] = { timestamp: timestamp || new Date().toISOString() };
         saveBookmarks(b);
+        // Schedule sync for new/updated bookmark
+        try { if (window.syncController && typeof window.syncController.scheduleSync === 'function') window.syncController.scheduleSync('bookmark'); } catch (e) { /* ignore */ }
     }
 
     function removeBookmark(book, chapter, verse) {
@@ -105,6 +107,8 @@
                 const itemId = `${book}:${chapter}:${verse}`;
                 window.syncUI.addDeletionEvent(itemId, 'bookmark');
             }
+            // schedule sync so backend receives the change quickly
+            try { if (window.syncController && typeof window.syncController.scheduleSync === 'function') window.syncController.scheduleSync('bookmark'); } catch (e) { /* ignore */ }
             if (window.updateText) window.updateText();
         });
     }

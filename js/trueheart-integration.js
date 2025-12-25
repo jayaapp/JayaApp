@@ -209,8 +209,11 @@ class TrueHeartSyncClient {
         });
         
         if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.error || 'Sync save failed');
+            let body = null;
+            try { body = await response.json(); } catch (e) { body = await response.text().catch(()=>null); }
+            console.error('TrueHeartSync: save failed', response.status, body);
+            const errMsg = body && body.error ? body.error : `Sync save failed (status ${response.status})`;
+            throw new Error(errMsg);
         }
         
         return await response.json();
@@ -354,28 +357,58 @@ async function performTrueHeartSync() {
         return keys.every(k => !v[k] || (typeof v[k] === 'object' && Object.keys(v[k]).length === 0));
     }
 
-    // Always merge bookmarks and notes per-item to avoid one-client snapshot overwriting another.
-    function mergeListsById(localObj = {}, remoteObj = {}) {
+    // Merge bookmarks represented as nested maps { book: { chapter: { verse: { timestamp }}}}
+    function mergeNestedMapsByTimestamp(local = {}, remote = {}) {
         const out = {};
-        const bookIndexes = new Set([...Object.keys(localObj), ...Object.keys(remoteObj)]);
-        bookIndexes.forEach(bi => {
-            const localArr = (localObj[bi] || []).slice();
-            const remoteArr = (remoteObj[bi] || []).slice();
-            const byId = Object.create(null);
-            localArr.concat(remoteArr).forEach(item => {
-                if (!item || !item.id) return;
-                const existing = byId[item.id];
-                if (!existing) byId[item.id] = item;
-                else {
-                    const exT = new Date(existing.timestamp || 0).getTime();
-                    const itT = new Date(item.timestamp || 0).getTime();
-                    if (itT > exT) byId[item.id] = item;
-                }
+        const books = new Set([...Object.keys(local || {}), ...Object.keys(remote || {})]);
+        books.forEach(b => {
+            const localBook = local[b] || {};
+            const remoteBook = remote[b] || {};
+            const chapters = new Set([...Object.keys(localBook), ...Object.keys(remoteBook)]);
+            chapters.forEach(c => {
+                const localChap = localBook[c] || {};
+                const remoteChap = remoteBook[c] || {};
+                const verses = new Set([...Object.keys(localChap), ...Object.keys(remoteChap)]);
+                verses.forEach(v => {
+                    const l = localChap[v];
+                    const r = remoteChap[v];
+                    if (!l && !r) return;
+                    // If either side is present, pick the one with the newest timestamp
+                    const lt = new Date((l && l.timestamp) || 0).getTime();
+                    const rt = new Date((r && r.timestamp) || 0).getTime();
+                    const chosen = (lt >= rt) ? l : r;
+                    if (!out[b]) out[b] = {};
+                    if (!out[b][c]) out[b][c] = {};
+                    out[b][c][v] = chosen;
+                });
             });
-            out[bi] = Object.values(byId).sort((a,b) => new Date(a.timestamp || 0) - new Date(b.timestamp || 0));
         });
         return out;
     }
+
+    // Notes are similar but include text; merge by timestamp and preserve most recent text
+    function mergeNotesNested(local = {}, remote = {}) {
+        return mergeNestedMapsByTimestamp(local, remote);
+    }
+
+    // Prompts: stored as object keyed by prompt key. Merge by `updatedAt` field when present, otherwise prefer local.
+    function mergePrompts(local = {}, remote = {}) {
+        const out = {};
+        const keys = new Set([...(Object.keys(local || {})), ...(Object.keys(remote || {}))]);
+        keys.forEach(k => {
+            const l = local[k];
+            const r = remote[k];
+            if (!l && !r) return;
+            if (!l) { out[k] = r; return; }
+            if (!r) { out[k] = l; return; }
+            const lt = new Date(l.updatedAt || 0).getTime();
+            const rt = new Date(r.updatedAt || 0).getTime();
+            out[k] = (lt >= rt) ? l : r;
+        });
+        return out;
+    }
+
+    // Always merge bookmarks and notes per-item to avoid one-client snapshot overwriting another.
 
     // Merge edited verses structure (book -> chapter -> verse -> lang -> {text,timestamp})
     function mergeEdits(local = {}, remote = {}) {
@@ -418,12 +451,19 @@ async function performTrueHeartSync() {
     }
 
     // include edits in initial merge (per-language, per-verse merges)
-    let mergedData = {
-        bookmarks: mergeListsById(localData.bookmarks, remoteData?.bookmarks),
-        notes: mergeListsById(localData.notes, remoteData?.notes),
-        edits: mergeEdits(localData.edits, remoteData?.edits),
-        timestamp: new Date(Math.max(new Date(localData.timestamp || 0).getTime(), new Date(remoteData?.timestamp || 0).getTime())).toISOString()
-    }; 
+    let mergedData;
+    try {
+        mergedData = {
+            bookmarks: mergeNestedMapsByTimestamp(localData.bookmarks, remoteData?.bookmarks),
+            notes: mergeNotesNested(localData.notes, remoteData?.notes),
+            edits: mergeEdits(localData.edits, remoteData?.edits),
+            prompts: mergePrompts(localPrompts, remoteData?.prompts || {}),
+            timestamp: new Date(Math.max(new Date(localData.timestamp || 0).getTime(), new Date(remoteData?.timestamp || 0).getTime())).toISOString()
+        };
+    } catch (mergeErr) {
+        console.error('TrueHeart: merge failed', mergeErr);
+        throw mergeErr;
+    };
 
     // Gather pending deletions from compatibility stubs
     const pendingTrueHeartDeletions = JSON.parse(localStorage.getItem('trueheart-deletions') || '[]');
@@ -466,14 +506,39 @@ async function performTrueHeartSync() {
                 if (type === 'delete') {
                     const target = payload.target || 'bookmark';
                     const id = payload.id;
-                    if (target === 'note') {
-                        Object.keys(mergedData.notes || {}).forEach(bookIndex => {
-                            const beforeCount = (mergedData.notes[bookIndex] || []).length;
-                            mergedData.notes[bookIndex] = (mergedData.notes[bookIndex] || []).filter(n => n.id !== id);
-                            if ((mergedData.notes[bookIndex] || []).length < beforeCount) deletedItems.notes.push({ id, bookIndex });
+                    if (!id) return;
+
+                    // Helper to remove an id from nested map {book:{chapter:{verse:...}}} or array-of-objects
+                    function removeIdFromNested(objMap, idStr) {
+                        // If id looks like 'book:chapter:verse', remove nested key
+                        const parts = (idStr || '').split(':');
+                        if (parts.length === 3) {
+                            const [b, c, v] = parts;
+                            if (objMap && objMap[b] && objMap[b][c] && objMap[b][c][v]) {
+                                delete objMap[b][c][v];
+                                if (Object.keys(objMap[b][c]).length === 0) delete objMap[b][c];
+                                if (Object.keys(objMap[b]).length === 0) delete objMap[b];
+                                return true;
+                            }
+                            return false;
+                        }
+                        // Otherwise assume array-of-objects per book with .id property
+                        let removed = false;
+                        Object.keys(objMap || {}).forEach(bookIndex => {
+                            const arr = objMap[bookIndex] || [];
+                            if (Array.isArray(arr)) {
+                                const before = arr.length;
+                                objMap[bookIndex] = arr.filter(x => x.id !== idStr);
+                                if (objMap[bookIndex].length < before) removed = true;
+                            }
                         });
+                        return removed;
+                    }
+
+                    if (target === 'note') {
+                        const removed = removeIdFromNested(mergedData.notes || {}, id);
+                        if (removed) deletedItems.notes.push({ id });
                     } else if (target === 'editedVerse') {
-                        // id expected as 'book:chapter:verse'
                         const parts = (id || '').split(':');
                         if (parts.length === 3) {
                             const [b, c, v] = parts;
@@ -484,12 +549,15 @@ async function performTrueHeartSync() {
                                 if (Object.keys(mergedData.edits[b]).length === 0) delete mergedData.edits[b];
                             }
                         }
+                    } else if (target === 'prompt') {
+                        if (mergedData.prompts && mergedData.prompts[id]) {
+                            delete mergedData.prompts[id];
+                            deletedItems.prompts = deletedItems.prompts || [];
+                            deletedItems.prompts.push({ id });
+                        }
                     } else {
-                        Object.keys(mergedData.bookmarks || {}).forEach(bookIndex => {
-                            const beforeCount = (mergedData.bookmarks[bookIndex] || []).length;
-                            mergedData.bookmarks[bookIndex] = (mergedData.bookmarks[bookIndex] || []).filter(b => b.id !== id);
-                            if ((mergedData.bookmarks[bookIndex] || []).length < beforeCount) deletedItems.bookmarks.push({ id, bookIndex });
-                        });
+                        const removed = removeIdFromNested(mergedData.bookmarks || {}, id);
+                        if (removed) deletedItems.bookmarks.push({ id });
                     }
                 }
             });
@@ -529,19 +597,21 @@ async function performTrueHeartSync() {
                     mergedData.bookmarks = reload.data.bookmarks || {};
                     mergedData.notes = reload.data.notes || {};
                     mergedData.edits = reload.data.edits || {};
+                    mergedData.prompts = reload.data.prompts || {};
                     try {
                         localStorage.setItem('jayaapp:bookmarks', JSON.stringify(mergedData.bookmarks || {}));
                         localStorage.setItem('jayaapp:notes', JSON.stringify(mergedData.notes || {}));
                         localStorage.setItem('jayaapp:edits', JSON.stringify(mergedData.edits || {}));
+                        localStorage.setItem('jayaapp:prompts', JSON.stringify(mergedData.prompts || {}));
                     } catch (e) { console.warn('TrueHeart: failed to update local storage after reload', e); }
-                    window.dispatchEvent(new CustomEvent('syncDataUpdated', { detail: { bookmarks: mergedData.bookmarks || {}, notes: mergedData.notes || {}, edits: mergedData.edits || {} } }));
-                    console.info('TrueHeart: local bookmarks/notes/edits refreshed from server after empty-merge guard');
+                    window.dispatchEvent(new CustomEvent('syncDataUpdated', { detail: { bookmarks: mergedData.bookmarks || {}, notes: mergedData.notes || {}, edits: mergedData.edits || {}, prompts: mergedData.prompts || {} } }));
+                    console.info('TrueHeart: local bookmarks/notes/edits/prompts refreshed from server after empty-merge guard');
                 } else {
                     console.warn('TrueHeart: reload returned no data after empty-merge guard');
                 }
             } catch (reloadErr) { console.error('TrueHeart: failed to reload server snapshot after empty-merge guard', reloadErr); }
         } else {
-            const syncPayload = { bookmarks: mergedData.bookmarks || {}, notes: mergedData.notes || {}, edits: mergedData.edits || {}, timestamp: mergedData.timestamp || new Date().toISOString() };
+            const syncPayload = { bookmarks: mergedData.bookmarks || {}, notes: mergedData.notes || {}, edits: mergedData.edits || {}, prompts: mergedData.prompts || {}, timestamp: mergedData.timestamp || new Date().toISOString() };
             await window.trueheartSync.save(syncPayload);
         }
     } catch (err) {
@@ -553,13 +623,15 @@ async function performTrueHeartSync() {
                     mergedData.bookmarks = reload.data.bookmarks || {};
                     mergedData.notes = reload.data.notes || {};
                     mergedData.edits = reload.data.edits || {};
+                    mergedData.prompts = reload.data.prompts || {};
                     try {
                         localStorage.setItem('jayaapp:bookmarks', JSON.stringify(mergedData.bookmarks || {}));
                         localStorage.setItem('jayaapp:notes', JSON.stringify(mergedData.notes || {}));
                         localStorage.setItem('jayaapp:edits', JSON.stringify(mergedData.edits || {}));
+                        localStorage.setItem('jayaapp:prompts', JSON.stringify(mergedData.prompts || {}));
                     } catch (e) { console.warn('TrueHeart: failed to update local storage after reload', e); }
-                    window.dispatchEvent(new CustomEvent('syncDataUpdated', { detail: { bookmarks: mergedData.bookmarks || {}, notes: mergedData.notes || {}, edits: mergedData.edits || {} } }));
-                    console.info('TrueHeart: local bookmarks/notes/edits refreshed from server after rejected empty save');
+                    window.dispatchEvent(new CustomEvent('syncDataUpdated', { detail: { bookmarks: mergedData.bookmarks || {}, notes: mergedData.notes || {}, edits: mergedData.edits || {}, prompts: mergedData.prompts || {} } }));
+                    console.info('TrueHeart: local bookmarks/notes/edits/prompts refreshed from server after rejected empty save');
                 }
             } catch (reloadErr) { console.error('TrueHeart: failed to reload server snapshot after empty save rejection', reloadErr); }
         } else {
@@ -567,14 +639,15 @@ async function performTrueHeartSync() {
         }
     }
 
-    // Update local storage with merged data (bookmarks, notes & edits)
+    // Update local storage with merged data (bookmarks, notes, edits and prompts)
     try {
         localStorage.setItem('jayaapp:bookmarks', JSON.stringify(mergedData.bookmarks));
         localStorage.setItem('jayaapp:notes', JSON.stringify(mergedData.notes));
         localStorage.setItem('jayaapp:edits', JSON.stringify(mergedData.edits || {}));
-    } catch (err) { console.warn('Could not update bookmarks/notes/edits in local storage:', err); }
+        localStorage.setItem('jayaapp:prompts', JSON.stringify(mergedData.prompts || {}));
+    } catch (err) { console.warn('Could not update bookmarks/notes/edits/prompts in local storage:', err); }
 
-    window.dispatchEvent(new CustomEvent('syncDataUpdated', { detail: { bookmarks: mergedData.bookmarks || {}, notes: mergedData.notes || {}, edits: mergedData.edits || {}, deletedItems: deletedItems } }));
+    window.dispatchEvent(new CustomEvent('syncDataUpdated', { detail: { bookmarks: mergedData.bookmarks || {}, notes: mergedData.notes || {}, edits: mergedData.edits || {}, prompts: mergedData.prompts || {}, deletedItems: deletedItems } }));
     window.dispatchEvent(new CustomEvent('trueheart-sync-complete'));
     return mergedData;
 }

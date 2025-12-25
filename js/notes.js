@@ -101,6 +101,8 @@
             const text = textarea.value.trim();
             if (text.length) {
                 setNote(current.book, current.chapter, current.verse, text);
+                // schedule sync for new/updated note
+                try { if (window.syncController && typeof window.syncController.scheduleSync === 'function') window.syncController.scheduleSync('note'); } catch (e) { /* ignore */ }
             } else {
                 removeNote(current.book, current.chapter, current.verse);
                 // Track deletion for sync
@@ -108,6 +110,7 @@
                     const itemId = `${current.book}:${current.chapter}:${current.verse}`;
                     window.syncUI.addDeletionEvent(itemId, 'note');
                 }
+                try { if (window.syncController && typeof window.syncController.scheduleSync === 'function') window.syncController.scheduleSync('note'); } catch (e) { /* ignore */ }
             }
             hideEditor();
             // re-render icons

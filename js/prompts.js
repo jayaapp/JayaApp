@@ -440,9 +440,12 @@
                 return; // ignore save since it's identical to predefined
             }
         }
-        // Otherwise save/update as user prompt
-        user[key] = { name, type, language, appLanguage, color, text };
+        // Otherwise save/update as user prompt (include updatedAt timestamp)
+        const now = new Date().toISOString();
+        user[key] = { name, type, language, appLanguage, color, text, updatedAt: now };
         saveUserPrompts(user);
+        // schedule sync after prompt save
+        try { if (window.syncController && typeof window.syncController.scheduleSync === 'function') window.syncController.scheduleSync('prompt'); } catch (e) { /* ignore */ }
         // after save revert to select mode
         nameSelect.classList.remove('hidden'); nameInput.classList.add('hidden');
         typeSelect.disabled = true; langSelect.disabled = true;
@@ -471,6 +474,7 @@
             if (window.syncUI && window.syncUI.addDeletionEvent) {
                 window.syncUI.addDeletionEvent(key, 'prompt');
             }
+            try { if (window.syncController && typeof window.syncController.scheduleSync === 'function') window.syncController.scheduleSync('prompt'); } catch (e) { /* ignore */ }
             renderNames();
         }
     }
@@ -491,6 +495,7 @@
             if (window.syncUI && window.syncUI.addDeletionEvent) {
                 window.syncUI.addDeletionEvent(ukey, 'prompt');
             }
+            try { if (window.syncController && typeof window.syncController.scheduleSync === 'function') window.syncController.scheduleSync('prompt'); } catch (e) { /* ignore */ }
             renderNames(ukey);
         }
     }
@@ -543,9 +548,12 @@
         if (!json.appLanguage) json.appLanguage = 'All';
         const key = `${json.name}||${json.type}||${json.language}||${json.appLanguage}`;
         const user = loadUserPrompts();
-        // overwrite or add
-        user[key] = { name: json.name, type: json.type, language: json.language, appLanguage: json.appLanguage, color: json.color || '#ff7f50', text: json.text || '' };
+        // include updatedAt if present or set now
+        const now = new Date().toISOString();
+        user[key] = { name: json.name, type: json.type, language: json.language, appLanguage: json.appLanguage, color: json.color || '#ff7f50', text: json.text || '', updatedAt: json.updatedAt || now };
         saveUserPrompts(user);
+        // schedule sync for imported prompt
+        try { if (window.syncController && typeof window.syncController.scheduleSync === 'function') window.syncController.scheduleSync('prompt'); } catch (e) { /* ignore */ }
     }
 
     // expose API for help panel integration (e.g., to build choices when clicking a word)
@@ -554,6 +562,15 @@
         loadUserPrompts,
         saveUserPrompts,
         promptKey
+    };
+
+    // Backwards-compatible helper used by TrueHeart loader to refresh prompts after sync
+    window.loadPrompts = function() {
+        try {
+            // If the panel is initialized, re-render names so UI reflects current storage
+            renderNames();
+            if (typeof window.updateText === 'function') window.updateText();
+        } catch (e) { /* ignore */ }
     };
 
     function initPrompts(attempts=6) {
