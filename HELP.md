@@ -2,11 +2,11 @@
 
 _Ucz się sanskrytu, czytając Mahabharatę w JayaApp!_
 
-Głównym celem aplikacji jest wspieranie nauki sanskrytu poprzez stopniowe poznawanie Mahabharaty i interakcję z każdym wersem oraz każdym słowem poprzez rozbudowany system pomocy AI.
+Głównym celem aplikacji jest wspieranie nauki sanskrytu poprzez stopniowe poznawanie Mahabharaty i interakcję z każdym wersem oraz każdym słowem poprzez rozbudowany system pomocy.
 
-## Czat AI
+## System Pomocy
 
-### Pamiętaj, aby skonfigurować (darmowe) konto Ollama - umożliwi to korzystanie z czatu AI
+### Pamiętaj, aby skonfigurować (darmowe) konto Ollama - umożliwi to korzystanie z pomocy AI
 
 Instrukcje są dostępne w oknie czatu, jeśli jeszcze nie skonfigurowałeś(-aś) konta.
 
@@ -18,7 +18,7 @@ Kliknij słowo sanskryckie lub obszar wersetu, aby dodać ich treść do promptu
 
 Kliknij przycisk „Pomóż mi”, a następnie kliknij słowo sanskryckie, słowo tłumaczenia lub obszar wersetu. Kontekstowe menu pomocy pojawi się i umożliwi uruchomienie wcześniej zdefiniowanych promptów, które mają zastosowanie w danym kontekście.
 
-## Analiza statyczna
+### Wbudowana analiza słów
 
 Aplikacja wyświetla algorytmiczną analize budowy słowa oraz wpis leksykonu, które stają się dostępne po kliknięciu słowa w notacji Devanagari lub IAST.
 
@@ -42,11 +42,11 @@ Kod źródłowy aplikacji oraz jej backend dostępne są na licencji <a href="ht
 
 _Learn Sanskrit by reading the Mahabharata in JayaApp!_
 
-The main goal of the app is to support you in learning Sanskrit by gradually exploring the Mahabharata and interacting with each verse and each word through an extensive AI help system.
+The main goal of the app is to support you in learning Sanskrit by gradually exploring the Mahabharata and interacting with each verse and each word through an extensive help system.
 
-## AI Chat
+## Help System
 
-### Remember to configure your (free) Ollama account to use AI chat
+### Remember to configure your (free) Ollama account to use AI help
 
 Instructions are available in the chat window if you haven't configured your account yet.
 
@@ -58,7 +58,7 @@ Click on a Sanskrit word or verse area to add its content to the prompt.
 
 Click the "Help Me" button and then click a Sanskrit word, a word from a translation, or a verse area. A contextual help menu will appear and help launch predefined prompts that apply to the given context.
 
-## Static analysis
+### Builtin word analysis
 
 The app displays algorithmic word formation analysis and a lexicon entry for the clicked word; these are available when you click a word shown in Devanagari or IAST.
 
