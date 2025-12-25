@@ -61,6 +61,13 @@
             if (Object.keys(notes[b][c]).length === 0) delete notes[b][c];
             if (Object.keys(notes[b]).length === 0) delete notes[b];
             saveNotes(notes);
+
+            // Record deletion for sync and schedule a sync so deletion is sent promptly
+            try {
+                const itemId = `${b}:${c}:${v}`;
+                if (window.syncUI && window.syncUI.addDeletionEvent) window.syncUI.addDeletionEvent(itemId, 'note');
+            } catch (e) { /* ignore */ }
+            try { if (window.syncController && typeof window.syncController.scheduleSync === 'function') window.syncController.scheduleSync('note'); } catch (e) { /* ignore */ }
         }
     }
 
