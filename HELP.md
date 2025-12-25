@@ -18,6 +18,10 @@ Kliknij słowo sanskryckie lub obszar wersetu, aby dodać ich treść do promptu
 
 Kliknij przycisk „Pomóż mi”, a następnie kliknij słowo sanskryckie, słowo tłumaczenia lub obszar wersetu. Kontekstowe menu pomocy pojawi się i umożliwi uruchomienie wcześniej zdefiniowanych promptów, które mają zastosowanie w danym kontekście.
 
+## Analiza statyczna
+
+Aplikacja wyświetla algorytmiczną analize budowy słowa oraz wpis leksykonu, które stają się dostępne po kliknięciu słowa w notacji Devanagari lub IAST.
+
 ## Podziękowania
 
 Chciałbym wyrazić wdzięczność Boskiej Matce za zainspirowanie pracy nad tą aplikacją.
@@ -53,6 +57,10 @@ Click on a Sanskrit word or verse area to add its content to the prompt.
 ### Using the "Help Me" system
 
 Click the "Help Me" button and then click a Sanskrit word, a word from a translation, or a verse area. A contextual help menu will appear and help launch predefined prompts that apply to the given context.
+
+## Static analysis
+
+The app displays algorithmic word formation analysis and a lexicon entry for the clicked word; these are available when you click a word shown in Devanagari or IAST.
 
 ## Acknowledgments
 
