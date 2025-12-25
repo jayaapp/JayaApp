@@ -1,10 +1,12 @@
 # Polski
 
-JayaApp jest aplikacją wspierającą naukę sanskrytu poprzez rozbudowany system pomocy AI.
+_Ucz się sanskrytu, czytając Mahabharatę w JayaApp!_
 
-## Chat AI
+Głównym celem aplikacji jest wspieranie nauki sanskrytu poprzez stopniowe poznawanie Mahabharaty i interakcję z każdym wersem oraz każdym słowem poprzez rozbudowany system pomocy AI.
 
-### Pamiętaj, aby skonfigurować konto Ollama - umożliwi to korzystanie z czatu AI
+## Czat AI
+
+### Pamiętaj, aby skonfigurować (darmowe) konto Ollama - umożliwi to korzystanie z czatu AI
 
 Instrukcje są dostępne w oknie czatu, jeśli jeszcze nie skonfigurowałeś(-aś) konta.
 
@@ -30,15 +32,17 @@ Kod źródłowy aplikacji oraz jej backend dostępne są na licencji <a href="ht
 
 ## Copyright
 
-© {YEAR} [True❤️Apps](https://trueheartapps.com)
+© {YEAR} <a href="https://trueheartapps.com" target="_blank" rel="noopener noreferrer">True❤️Apps</a>
 
 # English
 
-JayaApp is an application supporting Sanskrit learning through an extensive AI help system.
+_Learn Sanskrit by reading the Mahabharata in JayaApp!_
+
+The main goal of the app is to support you in learning Sanskrit by gradually exploring the Mahabharata and interacting with each verse and each word through an extensive AI help system.
 
 ## AI Chat
 
-### Remember to configure your Ollama account to use AI chat
+### Remember to configure your (free) Ollama account to use AI chat
 
 Instructions are available in the chat window if you haven't configured your account yet.
 
@@ -64,4 +68,4 @@ The application's source code and backend are available under the <a href="https
 
 ## Copyright
 
-© {YEAR} [True❤️Apps](https://trueheartapps.com)
+© {YEAR} <a href="https://trueheartapps.com" target="_blank" rel="noopener noreferrer">True❤️Apps</a>
