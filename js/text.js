@@ -7,19 +7,27 @@ function renderWhenReady(container) {
 
     // Reset line elements
     lineElements = [];
+    // Abort early if controls or data aren't ready yet
+    if (!bookSelect || !chapterSelect || !originalText || !firstTranslation || !secondTranslation) return;
+    // if select controls haven't been populated yet, skip rendering
+    if (!bookSelect.value || !chapterSelect.value) return;
+
     const bookIndex = bookSelect.value;
     const chapterIndex = chapterSelect.value;
     const bookKey = String(Number(bookIndex));
     const chapterKey = String(Number(chapterIndex));
 
+    // wait until the requested book/chapter is available in the loaded data
+    if (!window.mahabharata?.[bookKey]?.[chapterKey]) return;
+
     // Render verses only if at least one view is enabled
     if (originalText.value !== 'disable' || firstTranslation.value !== 'disable' || secondTranslation.value !== 'disable') {
-        const devanagari = window.mahabharata[bookKey]?.[chapterKey]?.['devanagari'] || [];
-        const iast = window.mahabharata[bookKey]?.[chapterKey]?.['iast'] || [];
+        const devanagari = window.mahabharata?.[bookKey]?.[chapterKey]?.['devanagari'] || [];
+        const iast = window.mahabharata?.[bookKey]?.[chapterKey]?.['iast'] || [];
         const firstTr = firstTranslation.value !== 'disable' ? 
-                    window.translation[firstTranslation.value][bookKey]?.[chapterKey] : null;
+                    window.translation?.[firstTranslation.value]?.[bookKey]?.[chapterKey] : null;
         const secondTr = secondTranslation.value !== 'disable' ? 
-                    window.translation[secondTranslation.value][bookKey]?.[chapterKey] : null;
+                    window.translation?.[secondTranslation.value]?.[bookKey]?.[chapterKey] : null;
         
         container.innerHTML = '';
         devanagari.forEach((phrase, index) => {
