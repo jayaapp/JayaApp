@@ -45,7 +45,7 @@
     "name": "Sandhi breakdown & rebuild",
     "type": "Word",
     "language": "Sanskrit",
-    "text": "Explain all sandhi operations that produce the form **{Word}** in Mahabharata **{BCVW}**.\n\n1. Show the unsandhied components.\n2. Show step-by-step sandhi formation.\n3. Provide a small reconstruction exercise for a **{Student_Level} level** learner.\n\nUse Markdown for clarity."
+    "text": "Explain all sandhi operations that produce the form **{Word}** as it appears in Mahabharata **{BCVW}**.\n\n1. Distinguish between internal sandhi and external sandhi (if applicable).\n2. Show the unsandhied components.\n3. Show step-by-step sandhi formation.\n4. If external sandhi is involved, explicitly reference the surrounding words from the verse.\n5. Provide a small reconstruction exercise for a **{Student_Level} level** learner.\n\nVerse for context:\n\n{Devanagari_Verse}\n{IAST_Verse}\n\nUse Markdown for clarity."
   },
   {
       "name": "Compound analysis (samāsa)",
@@ -75,7 +75,7 @@
     "name": "Semantic field explorer",
     "type": "Word",
     "language": "Sanskrit",
-    "text": "Explore the semantic field of the Sanskrit word **{Word}** as used in Mahabharata **{BCVW}**. Include related roots, synonyms, antonyms, conceptual associations, and context-dependent variations. Present it at a level suitable for a **{Student_Level} level** student."
+    "text": "Explore the semantic field of the Sanskrit word **{Word}** as used in Mahabharata **{BCVW}**.\n\nInclude:\n- related roots and derivations,\n- synonyms and near-synonyms,\n- antonyms or contrastive terms,\n- conceptual and cultural associations,\n- context-dependent variations in meaning based on the verse.\n\nVerse for context:\n\n{Devanagari_Verse}\n{IAST_Verse}\n\nPresent the explanation at a level suitable for a **{Student_Level} level** student. Use Markdown if helpful."
   },
   {
     "name": "Metaphysics insights for word",

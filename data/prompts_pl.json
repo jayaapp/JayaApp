@@ -45,7 +45,7 @@
     "name": "Sandhi: rozbiór i rekonstrukcja",
     "type": "Word",
     "language": "Sanskrit",
-    "text": "Wyjaśnij wszystkie operacje sandhi, które prowadzą do formy **{Word}** w Mahabharacie **{BCVW}**.\n\n1. Pokaż formy bez sandhi.\n2. Pokaż krok po kroku powstawanie sandhi.\n3. Dodaj krótkie ćwiczenie rekonstrukcyjne dla poziomu studenta: **{Student_Level}**."
+    "text": "Wyjaśnij wszystkie operacje sandhi, które prowadzą do formy **{Word}**, tak jak występuje ona w Mahabharacie **{BCVW}**.\n\n1. Rozróżnij sandhi wewnętrzne i sandhi zewnętrzne (jeśli występuje).\n2. Pokaż formy bez sandhi.\n3. Pokaż krok po kroku proces powstawania sandhi.\n4. Jeśli występuje sandhi zewnętrzne, wyraźnie odnieś się do sąsiadujących słów z wersetu.\n5. Dodaj krótkie ćwiczenie rekonstrukcyjne odpowiednie dla poziomu **{Student_Level} level**.\n\nWerset dla kontekstu:\n\n{Devanagari_Verse}\n{IAST_Verse}\n\nMożesz używać Markdown dla przejrzystości."
   },
   {
       "name": "Analiza złożenia (samāsa)",
@@ -75,7 +75,7 @@
     "name": "Eksplorator pola semantycznego",
     "type": "Word",
     "language": "Sanskrit",
-    "text": "Przedstaw pole semantyczne sanskryckiego słowa **{Word}** z Mahabharaty **{BCVW}**. Uwzględnij rdzeń, wyrazy pokrewne, synonimy, przeciwieństwa i warianty znaczeniowe. Dopasuj komentarz do poziomu studenta: **{Student_Level}**."
+    "text": "Przedstaw pole semantyczne sanskryckiego słowa **{Word}**, tak jak jest użyte w Mahabharacie **{BCVW}**.\n\nUwzględnij:\n- powiązane rdzenie i derywacje,\n- synonimy i wyrazy bliskoznaczne,\n- antonimy lub pojęcia kontrastowe,\n- skojarzenia pojęciowe i kulturowe,\n- zmiany znaczenia zależne od kontekstu wersetu.\n\nWerset dla kontekstu:\n\n{Devanagari_Verse}\n{IAST_Verse}\n\nDopasuj poziom objaśnienia do ucznia na poziomie **{Student_Level} level**. Możesz używać Markdown."
   },
   {
     "name": "Metafizyczne ujęcie słowa",
