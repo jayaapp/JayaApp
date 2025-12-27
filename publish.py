@@ -111,6 +111,16 @@ def collect_data_files(data_dir: Path) -> Set[str]:
     return files
 
 
+def collect_html_files(html_dir: Path) -> Set[str]:
+    """Collect all HTML templates from the html directory."""
+    files = set()
+    if html_dir.exists():
+        for html_file in html_dir.rglob('*.html'):
+            # Store path relative to SOURCE_DIR with forward slashes
+            files.add(str(html_file.relative_to(SOURCE_DIR)).replace('\\', '/'))
+    return files
+
+
 def collect_all_deployment_files() -> Set[str]:
     """Collect all files that should be deployed."""
     all_files = set()
@@ -133,6 +143,11 @@ def collect_all_deployment_files() -> Set[str]:
     data_files = collect_data_files(SOURCE_DIR / 'data')
     all_files.update(data_files)
     print(f"Found {len(data_files)} files in data/")
+
+    # Add html templates
+    template_files = collect_html_files(SOURCE_DIR / 'html')
+    all_files.update(template_files)
+    print(f"Found {len(template_files)} files in html/")
     
     # Add always-include files
     all_files.update(ALWAYS_INCLUDE)
