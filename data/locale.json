@@ -169,6 +169,10 @@
         "prompt_color_label": "Color",
         "prompt_app_language_label": "App Language",
         "prompt_text_placeholder": "Prompt text... (use placeholders like {Word}, {Verse} — check help)",
+        "prompt_enabled_label": "Enabled",
+        "enabled": "Enabled",
+        "disabled": "Disabled",
+
         "prompt_option_verse": "Verse",
         "prompt_option_word": "Word",
         "prompt_option_sanskrit": "Sanskrit",
@@ -474,6 +478,10 @@
         "prompt_color_label": "Kolor",
         "prompt_app_language_label": "Język aplikacji",
         "prompt_text_placeholder": "Tekst promptu... (używaj zmiennych jak {Word}, {Verse} — sprawdź pomoc)",
+        "prompt_enabled_label": "Włączony",
+        "enabled": "Włączony",
+        "disabled": "Wyłączony",
+
         "prompt_option_verse": "Werset",
         "prompt_option_word": "Słowo",
         "prompt_option_sanskrit": "Sanskryt",

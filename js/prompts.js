@@ -36,8 +36,8 @@
     function saveUserPrompts(obj) { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); } catch(e){} }
 
     // merge lists: returns array of prompt objects with a flag `predefined` and `overridden` if user changed predefined
-    // Filters by appLanguage: returns prompts where appLanguage === 'All' OR matches current app language
-    function getAllPrompts() {
+    // Returns prompts matching current appLanguage; enabled/disabled is respected by public API
+    function getAllPromptsRaw() {
         const currentAppLang = localStorage.getItem('appLang') || 'English';
         const user = loadUserPrompts();
         const list = [];
@@ -45,9 +45,12 @@
             const key = `${p.name}||${p.type}||${p.language}||${p.appLanguage}`;
             const userCopy = user[key];
             if (userCopy) {
+                // ensure enabled defaults to true when missing
+                if (userCopy.enabled === undefined) userCopy.enabled = true;
                 list.push(Object.assign({}, p, userCopy, { predefined: true, overridden: true }));
             } else {
-                list.push(Object.assign({}, p, { predefined: true, overridden: false }));
+                // predefined prompts are enabled by default
+                list.push(Object.assign({}, p, { predefined: true, overridden: false, enabled: true }));
             }
         });
         // add user-only prompts
@@ -58,6 +61,7 @@
             const found = PREDEFINED.find(p => p.name === parts[0] && p.type === parts[1] && p.language === parts[2] && p.appLanguage === parts[3]);
             if (found) continue;
             const up = user[k];
+            if (up.enabled === undefined) up.enabled = true;
             list.push(Object.assign({}, up, { predefined: false, overridden: false }));
         }
         // Filter by appLanguage: show only prompts matching current app language or 'All'
@@ -67,11 +71,16 @@
         });
     }
 
+    // Public API: return only enabled prompts
+    function getAllPrompts() {
+        return getAllPromptsRaw().filter(p => p.enabled !== false);
+    }
+
     // Utilities
     function promptKey(obj) { return `${obj.name}||${obj.type}||${obj.language}||${obj.appLanguage || 'All'}`; }
 
     // UI bindings
-    let overlay, panel, nameSelect, nameInput, typeSelect, langSelect, colorInput, appLanguageSelect, textArea;
+    let overlay, panel, nameSelect, nameInput, typeSelect, langSelect, colorInput, appLanguageSelect, promptEnabled, textArea;
     let exportBtn, importBtn, restoreBtn, newBtn, deleteBtn, cancelBtn, saveBtn;
     let discardBtn;
     let tabs;
@@ -85,7 +94,21 @@
         langSelect = document.getElementById('prompt-language');
         colorInput = document.getElementById('prompt-color');
         appLanguageSelect = document.getElementById('prompt-app-language');
+        promptEnabled = document.getElementById('prompt-enabled');
         textArea = document.getElementById('prompt-text');
+
+        // populate placeholder texts from locale (placeholders are not covered by simple textContent replacement)
+        try {
+            if (window.getLocale) {
+                if (nameInput) nameInput.placeholder = window.getLocale('prompt_name_placeholder') || 'Enter prompt name';
+                if (textArea) textArea.placeholder = window.getLocale('prompt_text_placeholder') || 'Prompt text... (use placeholders like {Word}, {Verse} — check help)';
+                if (promptEnabled) {
+                    promptEnabled.querySelector('option[value="true"]').textContent = window.getLocale ? (window.getLocale('enabled') || 'Enabled') : 'Enabled';
+                    promptEnabled.querySelector('option[value="false"]').textContent = window.getLocale ? (window.getLocale('disabled') || 'Disabled') : 'Disabled';
+                }
+                // Do not set a localized title on the cross icon; keep it as a simple decorative control.
+            }
+        } catch (e) { /* ignore */ }
 
         exportBtn = document.getElementById('prompts-export');
         importBtn = document.getElementById('prompts-import');
@@ -125,7 +148,7 @@
         saveBtn?.addEventListener('click', onSave);
 
         // update Save button when user edits fields so Save is enabled for changes
-        const touchFields = [colorInput, textArea, nameInput, typeSelect, langSelect, appLanguageSelect];
+        const touchFields = [colorInput, textArea, nameInput, typeSelect, langSelect, appLanguageSelect, promptEnabled];
         touchFields.forEach(f => {
             if (!f) return;
             f.addEventListener('input', () => { evaluateSaveState(); });
@@ -228,20 +251,25 @@
     }
 
     function renderNames(selectedKey) {
-        const list = getAllPrompts();
+        const list = getAllPromptsRaw();
+        // sort: enabled first (alphabetical), disabled last (alphabetical)
+        const enabledList = list.filter(p => p.enabled !== false).sort((a,b)=> a.name.localeCompare(b.name));
+        const disabledList = list.filter(p => p.enabled === false).sort((a,b)=> a.name.localeCompare(b.name));
+        const combined = enabledList.concat(disabledList);
         nameSelect.innerHTML = '';
-        list.forEach(p => {
+        combined.forEach(p => {
             const opt = document.createElement('option');
             const key = promptKey(p);
             opt.value = key;
             // Mark user prompts with * at beginning, modified predefined with * at end
-            const prefix = (!p.predefined) ? '* ' : '';
+            const userPrefix = (!p.predefined) ? '* ' : '';
+            const disabledPrefix = (p.enabled === false) ? '(-) ' : '';
             const suffix = (p.predefined && p.overridden) ? ' *' : '';
-            opt.textContent = prefix + p.name + ' — ' + p.type + ' / ' + p.language + suffix;
+            opt.textContent = disabledPrefix + userPrefix + p.name + ' — ' + p.type + ' / ' + p.language + suffix;
             nameSelect.appendChild(opt);
         });
         if (selectedKey) nameSelect.value = selectedKey;
-        // if empty, add placeholder
+        // if empty, select first option
         if (!nameSelect.value && nameSelect.options.length) nameSelect.selectedIndex = 0;
         onSelectChange();
     }
@@ -249,13 +277,14 @@
     // Returns true if the current form values exactly match the given prompt object
     function formMatchesPrompt(promptObj) {
         if (!promptObj) return false;
-        const name = nameSelect && !nameSelect.classList.contains('hidden') ? (nameSelect.options[nameSelect.selectedIndex].text.replace(/^\* /, '').split(' — ')[0].replace(/ \*$/, '')) : nameInput.value.trim();
+        const name = nameSelect && !nameSelect.classList.contains('hidden') ? (nameSelect.options[nameSelect.selectedIndex].text.replace(/^(?:\(-\)\s*|\*\s*)+/,'').split(' — ')[0].replace(/ \*$/, '')) : nameInput.value.trim();
         const type = typeSelect.value;
         const language = langSelect.value;
         const color = colorInput.value;
         const appLanguage = appLanguageSelect ? appLanguageSelect.value : 'All';
+        const enabled = promptEnabled ? (promptEnabled.value === 'true') : true;
         const text = textArea.value || '';
-        return promptObj.name === name && promptObj.type === type && promptObj.language === language && (promptObj.appLanguage || 'All') === appLanguage && (promptObj.color || '') === (color || '') && (promptObj.text || '') === (text || '');
+        return promptObj.name === name && promptObj.type === type && promptObj.language === language && (promptObj.appLanguage || 'All') === appLanguage && (promptObj.color || '') === (color || '') && (promptObj.text || '') === (text || '') && ((promptObj.enabled === undefined ? true : promptObj.enabled) === enabled);
     }
 
     function evaluateSaveState() {
@@ -281,7 +310,8 @@
         const key = nameSelect.value;
         if (!key) return;
         const parts = key.split('||');
-        const prompts = getAllPrompts();
+        // Use raw list (including disabled prompts) to populate form fields correctly
+        const prompts = getAllPromptsRaw();
         const p = prompts.find(x => promptKey(x) === key);
         if (!p) return;
         // populate fields
@@ -290,6 +320,7 @@
         langSelect.value = p.language;
         colorInput.value = p.color || '#ff7f50';
         if (appLanguageSelect) appLanguageSelect.value = p.appLanguage || 'All';
+        if (promptEnabled) promptEnabled.value = (p.enabled === false) ? 'false' : 'true';
         textArea.value = p.text || '';
         // set readonly state
         nameSelect.classList.remove('hidden'); nameInput.classList.add('hidden');
@@ -350,7 +381,7 @@
             const currentAppLang = localStorage.getItem('appLang') || 'English';
             appLanguageSelect.value = currentAppLang;
         }
-        colorInput.value = '#ff7f50'; textArea.value = '';
+        colorInput.value = '#ff7f50'; textArea.value = ''; if (promptEnabled) promptEnabled.value = 'true';
         // disable other action buttons while creating new prompt
         setActionButtonsEnabled(false);
         // show discard
@@ -402,11 +433,12 @@
 
     function onSave() {
         const isNew = !nameSelect || nameSelect.classList.contains('hidden');
-        const name = isNew ? nameInput.value.trim() : nameSelect.options[nameSelect.selectedIndex].text.replace(/^\* /, '').split(' — ')[0].replace(/ \*$/, '');
+        const name = isNew ? nameInput.value.trim() : nameSelect.options[nameSelect.selectedIndex].text.replace(/^(?:\(-\)\s*|\*\s*)+/, '').split(' — ')[0].replace(/ \*$/, '');
         const type = typeSelect.value;
         const language = langSelect.value;
         const color = colorInput.value;
         const appLanguage = appLanguageSelect ? appLanguageSelect.value : 'All';
+        const enabled = promptEnabled ? (promptEnabled.value === 'true') : true;
         const text = textArea.value || '';
         if (!name) { if (window.showAlert) window.showAlert('Prompt must have a name'); return; }
         // Enforce name length limit for new prompts
@@ -420,7 +452,8 @@
         const foundPre = PREDEFINED.find(p => p.name === name && p.type === type && p.language === language && p.appLanguage === appLanguage);
         const user = loadUserPrompts();
         if (foundPre) {
-            const sameAsPre = ( (foundPre.color || '') === (color || '') ) && ( (foundPre.text || '') === (text || '') );
+            const preEnabled = (foundPre.enabled === undefined ? true : foundPre.enabled);
+            const sameAsPre = ( (foundPre.color || '') === (color || '') ) && ( (foundPre.text || '') === (text || '') ) && (preEnabled === enabled);
             if (sameAsPre) {
                 // If a user override existed, remove it to truly restore predefined state.
                 if (user[key]) {
@@ -442,7 +475,7 @@
         }
         // Otherwise save/update as user prompt (include updatedAt timestamp)
         const now = new Date().toISOString();
-        user[key] = { name, type, language, appLanguage, color, text, updatedAt: now };
+        user[key] = { name, type, language, appLanguage, color, text, enabled: enabled, updatedAt: now };
         saveUserPrompts(user);
         // schedule sync after prompt save
         try { if (window.syncController && typeof window.syncController.scheduleSync === 'function') window.syncController.scheduleSync('prompt'); } catch (e) { /* ignore */ }
@@ -506,7 +539,9 @@
         const prompts = getAllPrompts();
         const p = prompts.find(x => promptKey(x) === key);
         if (!p) return;
-        const blob = new Blob([JSON.stringify(p, null, 2)], { type: 'application/json' });
+        // Ensure exported JSON includes enabled flag (default true)
+        const exportObj = Object.assign({}, p, { enabled: p.enabled === false ? false : true });
+        const blob = new Blob([JSON.stringify(exportObj, null, 2)], { type: 'application/json' });
         const a = document.createElement('a');
         const nameSafe = p.name.replace(/[^a-z0-9\-_]+/ig,'_');
         const ts = Date.now();
@@ -546,11 +581,12 @@
         if (!json || !json.name || !json.type || !json.language) return;
         // Ensure appLanguage is set for imported prompts
         if (!json.appLanguage) json.appLanguage = 'All';
+        if (json.enabled === undefined) json.enabled = true;
         const key = `${json.name}||${json.type}||${json.language}||${json.appLanguage}`;
         const user = loadUserPrompts();
         // include updatedAt if present or set now
         const now = new Date().toISOString();
-        user[key] = { name: json.name, type: json.type, language: json.language, appLanguage: json.appLanguage, color: json.color || '#ff7f50', text: json.text || '', updatedAt: json.updatedAt || now };
+        user[key] = { name: json.name, type: json.type, language: json.language, appLanguage: json.appLanguage, color: json.color || '#ff7f50', text: json.text || '', enabled: json.enabled, updatedAt: json.updatedAt || now };
         saveUserPrompts(user);
         // schedule sync for imported prompt
         try { if (window.syncController && typeof window.syncController.scheduleSync === 'function') window.syncController.scheduleSync('prompt'); } catch (e) { /* ignore */ }
