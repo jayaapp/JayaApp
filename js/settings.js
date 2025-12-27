@@ -7,9 +7,37 @@ function applyLocalization() {
     
     elements.forEach(el => {
         let key = el.getAttribute('locale-id');
-        if (window.localeData && window.localeData[currentLang] && window.localeData[currentLang][key]) {
-            el.textContent = window.localeData[currentLang][key];
-        }
+        try {
+            if (!window.localeData || !window.localeData[currentLang]) return;
+            const localized = window.localeData[currentLang][key];
+            if (!localized) return;
+            const tag = el.tagName && el.tagName.toUpperCase();
+            // For form controls, prefer setting placeholder
+            if (tag === 'INPUT' || tag === 'TEXTAREA') {
+                el.placeholder = localized;
+            } else if (el.tagName === 'OPTION') {
+                el.textContent = localized;
+            } else {
+                el.textContent = localized;
+            }
+        } catch (e) { /* ignore localization errors */ }
+    });
+
+    // Handle explicit placeholder attributes (locale-placeholder)
+    const placeholderEls = document.querySelectorAll('[locale-placeholder]');
+    placeholderEls.forEach(el => {
+        const key = el.getAttribute('locale-placeholder');
+        try {
+            if (!window.localeData || !window.localeData[currentLang]) return;
+            const localized = window.localeData[currentLang][key];
+            if (!localized) return;
+            if (el.tagName && (el.tagName.toUpperCase() === 'INPUT' || el.tagName.toUpperCase() === 'TEXTAREA')) {
+                el.placeholder = localized;
+            } else {
+                // set as title for non-inputs
+                el.title = localized;
+            }
+        } catch (e) { /* ignore */ }
     });
 
     // Apply TrueHeart-specific localization (with placeholders)

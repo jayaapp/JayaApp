@@ -131,6 +131,13 @@
         "open_github_auth": "Open GitHub Authorization",
         "waiting_for_auth": "Waiting for authorization...",
         "as_logged_user": "As a logged-in user you can:",
+
+        "login": "Log In",
+        "register": "Register",
+        "forgot_password": "Forgot Password?",
+        "last_sync": "Last sync:",
+
+
         "benefit_use_ollama_cloud": "• store API keys and use Ollama Cloud for AI chat",
         "benefit_report_bugs": "• report bugs",
         "benefit_request_features": "• request features",
@@ -429,6 +436,13 @@
         "open_github_auth": "Otwórz autoryzację GitHub",
         "waiting_for_auth": "Oczekiwanie na autoryzację...",
         "as_logged_user": "Jako zalogowany użytkownik możesz:",
+
+        "login": "Zaloguj się",
+        "register": "Zarejestruj się",
+        "forgot_password": "Zapomniałeś hasła?",
+        "last_sync": "Ostatnia synchronizacja:",
+
+
         "benefit_use_ollama_cloud": "• przechowywać klucze API i korzystać z Ollama Cloud do czatu AI",
         "benefit_report_bugs": "• zgłaszać błędy",
         "benefit_request_features": "• prosić o nowe funkcje",
