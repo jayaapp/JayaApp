@@ -62,11 +62,16 @@ class DonationManager {
         this.currency = (this.definition?.payment?.default_currency || 'USD').toUpperCase();
       }
 
-      // Formatting helper
-      this.formatCurrency = (amount) => {
+      // Formatting helper (uses Intl.NumberFormat when available)
+      this.formatCurrency = (amount, currency = this.currency) => {
         const amt = Number(amount) || 0;
-        const sym = (this.currency === 'USD') ? '$' : (this.currency === 'PLN' ? 'PLN ' : this.currency + ' ');
-        return `${sym}${amt.toFixed(2)}`;
+        const locale = (this.language === 'pl') ? 'pl-PL' : 'en-US';
+        try {
+          return new Intl.NumberFormat(locale, { style: 'currency', currency }).format(amt);
+        } catch (e) {
+          const sym = (currency === 'USD') ? '$' : (currency === 'PLN' ? 'PLN ' : currency + ' ');
+          return `${sym}${amt.toFixed(2)}`;
+        }
       };
       
       // Create and inject panel
@@ -303,7 +308,7 @@ class DonationManager {
       <div class="thd-progress-container">
         <div class="thd-progress-bar">
           <div class="thd-progress-fill" data-progress-fill style="width: 0%"></div>
-          <div class="thd-progress-text" data-progress-text>${this.formatCurrency(0)} / ${this.formatCurrency(category.target_amount_usd || 0)}</div>
+          <div class="thd-progress-text" data-progress-text>${this.formatCurrency(0)} / ${this.formatCurrency(category.target_amount_usd || 0, 'USD')}</div>
         </div>
       </div>
       <div class="thd-completed hidden" data-completed>
@@ -336,7 +341,7 @@ class DonationManager {
   
   async loadCampaigns() {
     try {
-      const response = await fetch(`${this.apiBase}/campaigns?app_id=${this.appId}`);
+      const response = await fetch(`${this.apiBase}/campaigns?app_id=${this.appId}&currency=${this.currency}`);
       if (!response.ok) return;
       
       const result = await response.json();
@@ -346,20 +351,22 @@ class DonationManager {
       result.campaigns.forEach(campaign => {
         const section = this.panel.querySelector(`[data-category-id="${campaign.id}"]`);
         if (!section) return;
-        
-        const current = campaign.current_amount_usd || 0;
-        const target = campaign.target_amount_usd || 1;
-        const percentage = Math.min((current / target) * 100, 100);
-        const isComplete = current >= target && !campaign.allow_exceed_target;
-        
+
+        const currentNum = (campaign.current_amount_local != null) ? Number(campaign.current_amount_local) : Number(campaign.current_amount_usd || 0);
+        const targetNum = (campaign.target_amount_local != null) ? Number(campaign.target_amount_local) : Number(campaign.target_amount_usd || 1);
+        const percentage = Math.min((currentNum / (targetNum || 1)) * 100, 100);
+        const isComplete = currentNum >= targetNum && !campaign.allow_exceed_target;
+
         const fill = section.querySelector('[data-progress-fill]');
         const text = section.querySelector('[data-progress-text]');
         const completed = section.querySelector('[data-completed]');
         const amountRow = section.querySelector('[data-amount-row]');
-        
+
+        const currencyToUse = campaign.target_currency || 'USD';
+
         if (fill) fill.style.width = `${percentage}%`;
-        if (text) text.textContent = `${isComplete ? '✓ ' : ''}${this.formatCurrency(current)} / ${this.formatCurrency(target)}`;
-        
+        if (text) text.textContent = `${isComplete ? '✓ ' : ''}${this.formatCurrency(currentNum, currencyToUse)} / ${this.formatCurrency(targetNum, currencyToUse)}`;
+
         if (isComplete) {
           if (completed) completed.classList.remove('hidden');
           if (amountRow) amountRow.classList.add('hidden');
