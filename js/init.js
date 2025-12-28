@@ -22,6 +22,30 @@
         } catch (e) { /* ignore */ }
     }
 
+    // Set CSS --vh variable using visualViewport when available and debounce updates
+    function setVh() {
+        try {
+            const height = (window.visualViewport && window.visualViewport.height) ? window.visualViewport.height : window.innerHeight;
+            const vh = height * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        } catch (e) {}
+    }
+
+    function debounce(fn, wait) {
+        let t;
+        return function(...args) {
+            clearTimeout(t);
+            t = setTimeout(() => fn.apply(this, args), wait);
+        };
+    }
+
+    // Initialize and keep in sync on resize/orientation changes (debounced)
+    const updateVh = debounce(setVh, 100);
+    setVh();
+    window.addEventListener('resize', updateVh);
+    if (window.visualViewport) window.visualViewport.addEventListener('resize', updateVh);
+    window.addEventListener('orientationchange', updateVh);
+
     // Determine orientation and retrieve saved split percentage
     function setSplit() {
         var isVertical = window.matchMedia('(orientation: portrait)').matches;
