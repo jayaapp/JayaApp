@@ -228,3 +228,45 @@
     border: 1px solid var(--panel-border-color, rgba(0,0,0,0.08));
     appearance: none; /* simpler appearance across browsers */
 }
+
+/* Responsive tweaks: allow select controls to sit inline with their labels on narrow screens */
+@media (max-width: 520px) {
+    .setting-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .setting-item label {
+        /* allow the label to shrink instead of enforcing a large fixed column */
+        min-width: 0;
+        width: auto;
+        flex: 0 0 auto;
+        margin-right: 10px;
+    }
+    /* Make inputs/selects shrink instead of overflowing */
+    .setting-item select,
+    .setting-item input[type="text"],
+    .setting-item textarea,
+    .setting-item input[type="range"] {
+        flex: 1 1 auto;
+        min-width: 0; /* needed for flex items to shrink properly */
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+/* On very narrow screens wrap the label above the control for readability */
+@media (max-width: 360px) {
+    .setting-item {
+        flex-wrap: wrap;
+    }
+    .setting-item label {
+        width: 100%;
+        margin-bottom: 6px;
+    }
+    .setting-item select,
+    .setting-item input[type="text"],
+    .setting-item textarea {
+        width: calc(100% - 10px);
+    }
+}
