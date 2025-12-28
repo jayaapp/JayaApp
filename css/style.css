@@ -253,6 +253,9 @@ body.hide-ai-chat .top-panel {
 .bottom-toolbar .icon-left,
 .bottom-toolbar .icon-middle,
 .bottom-toolbar .icon-right {
-    margin-bottom: 8px;
+    margin-bottom: 0;
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
 }
 
