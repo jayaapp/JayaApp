@@ -687,7 +687,7 @@ function initOllamaSettings() {
 
     function getServerType() {
         if (serverTypeSelect) return serverTypeSelect.value;
-        return localStorage.getItem('ollamaServerType') || 'local';
+        return localStorage.getItem('ollamaServerType') || 'cloud';
     }
 
     function getServerUrl() {
@@ -860,7 +860,7 @@ function initOllamaSettings() {
     }
 
     function loadSettingsToForm() {
-        const serverType = localStorage.getItem('ollamaServerType') || 'local';
+        const serverType = localStorage.getItem('ollamaServerType') || 'cloud';
         const serverUrl = localStorage.getItem('ollamaServerUrl') || 'http://localhost:11434';
         const model = localStorage.getItem('ollamaModel') || '';
         const systemPrompt = localStorage.getItem('ollamaSystemPrompt') || 'You are an assistant helping with the Mahabharata and Sanskrit studies. Respond in the language of the user\'s query.';
