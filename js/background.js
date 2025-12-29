@@ -100,14 +100,11 @@ class OrnamentedBackground {
         document.addEventListener('backgroundSettingsChanged', (event) => {
             this.updateSettings(event.detail);
         });
-        
+
         // Listen for view changes
-        document.addEventListener('viewSettingsChanged', () => {
+        document.addEventListener('readerModeChanged', () => {
             if (this.settings.enabled) {
-                // Small delay to ensure layout is updated
-                setTimeout(() => {
-                    this.applyBackgroundToAllPanels();
-                }, 355);
+                this.applyBackgroundToAllPanels();
             }
         });
         
