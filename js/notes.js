@@ -65,7 +65,7 @@
             // Record deletion for sync and schedule a sync so deletion is sent promptly
             try {
                 const itemId = `${b}:${c}:${v}`;
-                if (window.syncUI && window.syncUI.addDeletionEvent) window.syncUI.addDeletionEvent(itemId, 'note');
+                if (window.syncController && window.syncController.addDeletionEvent) window.syncController.addDeletionEvent(itemId, 'note');
             } catch (e) { /* ignore */ }
             try { if (window.syncController && typeof window.syncController.scheduleSync === 'function') window.syncController.scheduleSync('note'); } catch (e) { /* ignore */ }
         }
@@ -113,9 +113,9 @@
             } else {
                 removeNote(current.book, current.chapter, current.verse);
                 // Track deletion for sync
-                if (window.syncUI && window.syncUI.addDeletionEvent) {
+                if (window.syncController && window.syncController.addDeletionEvent) {
                     const itemId = `${current.book}:${current.chapter}:${current.verse}`;
-                    window.syncUI.addDeletionEvent(itemId, 'note');
+                    window.syncController.addDeletionEvent(itemId, 'note');
                 }
                 try { if (window.syncController && typeof window.syncController.scheduleSync === 'function') window.syncController.scheduleSync('note'); } catch (e) { /* ignore */ }
             }
@@ -142,9 +142,9 @@
                 if (!current) return;
                 removeNote(current.book, current.chapter, current.verse);
                 // Track deletion for sync
-                if (window.syncUI && window.syncUI.addDeletionEvent) {
+                if (window.syncController && window.syncController.addDeletionEvent) {
                     const itemId = `${current.book}:${current.chapter}:${current.verse}`;
-                    window.syncUI.addDeletionEvent(itemId, 'note');
+                    window.syncController.addDeletionEvent(itemId, 'note');
                 }
                 hideEditor();
                 if (window.updateText) window.updateText();

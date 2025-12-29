@@ -468,11 +468,8 @@ async function performTrueHeartSync() {
     };
 
     // Gather pending deletions from compatibility stubs
-    const pendingTrueHeartDeletions = JSON.parse(localStorage.getItem('trueheart-deletions') || '[]');
-    const pendingOldDeletions = JSON.parse(localStorage.getItem('jayaapp-pending-deletions') || '[]');
-    const pendingDeletions = [...pendingTrueHeartDeletions, ...pendingOldDeletions];
-    if (pendingTrueHeartDeletions.length > 0) localStorage.removeItem('trueheart-deletions');
-    if (pendingOldDeletions.length > 0) localStorage.removeItem('jayaapp-pending-deletions');
+    const pendingDeletions = JSON.parse(localStorage.getItem('trueheart-deletions') || '[]');
+    if (pendingDeletions.length > 0) localStorage.removeItem('trueheart-deletions');
 
     // Convert deletions into events and append them
     const eventsToAppend = [];
@@ -721,6 +718,14 @@ class SyncController {
         this.lastToastShown = false;
     }
 
+    addDeletionEvent(key, type) {
+        // Track deletions in localStorage for sync
+        const deletions = JSON.parse(localStorage.getItem('trueheart-deletions') || '[]');
+        deletions.push({ key, type, timestamp: Date.now() });
+        localStorage.setItem('trueheart-deletions', JSON.stringify(deletions));
+        console.log('📝 TrueHeart: Deletion tracked:', type, key);
+    }
+
     scheduleSync(reason) {
         this.pendingChanges = true;
         if (!window.trueheartState?.isAuthenticated) {
@@ -751,7 +756,6 @@ class SyncController {
         this.isSyncing = true;
         this.pendingChanges = false;
         try {
-            if (window.syncUI && typeof window.syncUI.setState === 'function') window.syncUI.setState('syncing');
             if (window.showAlert) window.showAlert('Syncing...', 1200);
             await performTrueHeartSync();
             if (window.showAlert) window.showAlert('Sync completed', 2000);
@@ -760,13 +764,11 @@ class SyncController {
             if (window.showAlert) window.showAlert('Sync failed: ' + (err.message || err), 4000);
         } finally {
             this.isSyncing = false;
-            if (window.syncUI && typeof window.syncUI.setState === 'function') window.syncUI.setState('connected');
         }
     }
 }
 
 window.syncController = new SyncController();
-window.syncManager = window.trueheartSync;
 
 // Initialize on load
 window.addEventListener('load', initTrueHeart);

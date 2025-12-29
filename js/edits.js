@@ -167,9 +167,9 @@
                 if (Object.keys(edits[b]).length === 0) delete edits[b];
                 saveEdits(edits);
                 // Track deletion for sync only if entire verse edit is deleted
-                if (isVerseFullyDeleted && window.syncUI && window.syncUI.addDeletionEvent) {
+                if (isVerseFullyDeleted && window.syncController && window.syncController.addDeletionEvent) {
                     const itemId = `${b}:${c}:${v}`;
-                    window.syncUI.addDeletionEvent(itemId, 'editedVerse');
+                    window.syncController.addDeletionEvent(itemId, 'editedVerse');
                     // schedule a sync for edits so deletion is propagated faster
                     if (window.syncController && typeof window.syncController.scheduleSync === 'function') {
                         try { window.syncController.scheduleSync('edit'); } catch (e) { /* ignore */ }

@@ -206,21 +206,6 @@ Here's the complete integration from JayaApp:
         // Refresh other UI components as needed
     });
 })();
-
-// Backwards compatibility stubs
-window.syncUI = {
-    addDeletionEvent: function(key, type) {
-        const deletions = JSON.parse(localStorage.getItem('trueheart-deletions') || '[]');
-        deletions.push({ key, type, timestamp: Date.now() });
-        localStorage.setItem('trueheart-deletions', JSON.stringify(deletions));
-    },
-    performCompleteSync: async function() {
-        if (window.trueheartState.isAuthenticated && window.trueheartAPI) {
-            await window.trueheartAPI.performTrueHeartSync();
-            window.dispatchEvent(new CustomEvent('trueheart-sync-complete'));
-        }
-    }
-};
 ```
 
 ### Localization Integration
@@ -749,20 +734,6 @@ If your application uses a different sync solution and you want to migrate to Tr
 3. Test sync and account flows across all target devices and browsers.
 4. Note: users will start with a TrueHeart account; data migration is not automatic.
 5. Once tests pass, you may remove the commented-out sync code.
-
-### Backwards Compatibility
-
-TrueHeart loader provides stubs for compatibility with older sync call sites:
-
-```javascript
-window.syncUI = {
-    addDeletionEvent(key, type) { ... },
-    performCompleteSync() { ... }
-};
-```
-
-This ensures existing code referencing `window.syncUI` continues to work while you're
-transitioning to the TrueHeart APIs.
 
 ## Backend Setup
 

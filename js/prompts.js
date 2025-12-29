@@ -459,7 +459,7 @@
                 if (user[key]) {
                     delete user[key];
                     saveUserPrompts(user);
-                    if (window.syncUI && window.syncUI.addDeletionEvent) window.syncUI.addDeletionEvent(key, 'prompt');
+                    if (window.syncController && window.syncController.addDeletionEvent) window.syncController.addDeletionEvent(key, 'prompt');
                 }
                 // revert UI to select mode and refresh list without creating a new override
                 nameSelect.classList.remove('hidden'); nameInput.classList.add('hidden');
@@ -504,8 +504,8 @@
             delete user[key];
             saveUserPrompts(user);
             // Track deletion for sync
-            if (window.syncUI && window.syncUI.addDeletionEvent) {
-                window.syncUI.addDeletionEvent(key, 'prompt');
+            if (window.syncController && window.syncController.addDeletionEvent) {
+                window.syncController.addDeletionEvent(key, 'prompt');
             }
             try { if (window.syncController && typeof window.syncController.scheduleSync === 'function') window.syncController.scheduleSync('prompt'); } catch (e) { /* ignore */ }
             renderNames();
@@ -525,8 +525,8 @@
             delete user[ukey];
             saveUserPrompts(user);
             // Track deletion for sync (removing override)
-            if (window.syncUI && window.syncUI.addDeletionEvent) {
-                window.syncUI.addDeletionEvent(ukey, 'prompt');
+            if (window.syncController && window.syncController.addDeletionEvent) {
+                window.syncController.addDeletionEvent(ukey, 'prompt');
             }
             try { if (window.syncController && typeof window.syncController.scheduleSync === 'function') window.syncController.scheduleSync('prompt'); } catch (e) { /* ignore */ }
             renderNames(ukey);

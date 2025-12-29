@@ -275,22 +275,22 @@
                     if (type === 'notes' && window.notesAPI && window.notesAPI.removeNote) {
                         window.notesAPI.removeNote(b,c,v);
                         // Track deletion for sync
-                        if (window.syncUI && window.syncUI.addDeletionEvent) {
-                            window.syncUI.addDeletionEvent(itemId, 'note');
+                        if (window.syncController && window.syncController.addDeletionEvent) {
+                            window.syncController.addDeletionEvent(itemId, 'note');
                         }
                     }
                     if (type === 'verses' && window.editsAPI && window.editsAPI.removeEdit) {
                         window.editsAPI.removeEdit(b,c,v);
                         // Track deletion for sync
-                        if (window.syncUI && window.syncUI.addDeletionEvent) {
-                            window.syncUI.addDeletionEvent(itemId, 'editedVerse');
+                        if (window.syncController && window.syncController.addDeletionEvent) {
+                            window.syncController.addDeletionEvent(itemId, 'editedVerse');
                         }
                     }
                     if (type === 'bookmarks' && window.bookmarksAPI && window.bookmarksAPI.removeBookmark) {
                         window.bookmarksAPI.removeBookmark(b,c,v);
                         // Track deletion for sync
-                        if (window.syncUI && window.syncUI.addDeletionEvent) {
-                            window.syncUI.addDeletionEvent(itemId, 'bookmark');
+                        if (window.syncController && window.syncController.addDeletionEvent) {
+                            window.syncController.addDeletionEvent(itemId, 'bookmark');
                         }
                     }
                 });

@@ -86,9 +86,9 @@
             if (getBookmark(book, chapter, verse)) {
                 removeBookmark(book, chapter, verse);
                 // Track deletion for sync
-                if (window.syncUI && window.syncUI.addDeletionEvent) {
+                if (window.syncController && window.syncController.addDeletionEvent) {
                     const itemId = `${book}:${chapter}:${verse}`;
-                    window.syncUI.addDeletionEvent(itemId, 'bookmark');
+                    window.syncController.addDeletionEvent(itemId, 'bookmark');
                 }
             } else {
                 setBookmark(book, chapter, verse);
@@ -107,9 +107,9 @@
             const verse = icon.dataset.verse;
             removeBookmark(book, chapter, verse);
             // Track deletion for sync
-            if (window.syncUI && window.syncUI.addDeletionEvent) {
+            if (window.syncController && window.syncController.addDeletionEvent) {
                 const itemId = `${book}:${chapter}:${verse}`;
-                window.syncUI.addDeletionEvent(itemId, 'bookmark');
+                window.syncController.addDeletionEvent(itemId, 'bookmark');
             }
             // schedule sync so backend receives the change quickly
             try { if (window.syncController && typeof window.syncController.scheduleSync === 'function') window.syncController.scheduleSync('bookmark'); } catch (e) { /* ignore */ }

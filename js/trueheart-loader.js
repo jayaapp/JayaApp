@@ -4,18 +4,8 @@
  * and user account features for the application.
  */
 
-(async function initTrueHeartLoader() {
+function initTrueHeartLoader() {
     console.log('🔷 TrueHeart Loader: Initializing...');
-
-    // Wait for DOM to be ready
-    if (document.readyState === 'loading') {
-        await new Promise(resolve => {
-            document.addEventListener('DOMContentLoaded', resolve);
-        });
-    }
-
-    // Wait a bit for settings panel to be injected
-    await new Promise(resolve => setTimeout(resolve, 500));
 
     // Find the sync placeholder in settings panel
     const syncContainer = document.getElementById('sync-placeholder');
@@ -23,13 +13,6 @@
     if (!syncContainer) {
         console.warn('🔷 TrueHeart: sync-placeholder not found in settings panel');
         return;
-    }
-
-    // Wait for TrueHeart API to be initialized
-    let attempts = 0;
-    while (!window.trueheartUser && attempts < 10) {
-        await new Promise(resolve => setTimeout(resolve, 200));
-        attempts++;
     }
 
     if (!window.trueheartUser) {
@@ -86,54 +69,4 @@
             </div>
         `;
     }
-})();
-
-// Provide stub functions for backwards compatibility with older sync calls
-// These ensure the app doesn't break if legacy sync code is still present
-
-window.syncUI = {
-    addDeletionEvent: function(key, type) {
-        // Track deletions in localStorage for sync
-        const deletions = JSON.parse(localStorage.getItem('trueheart-deletions') || '[]');
-        deletions.push({ key, type, timestamp: Date.now() });
-        localStorage.setItem('trueheart-deletions', JSON.stringify(deletions));
-        console.log('📝 TrueHeart: Deletion tracked:', type, key);
-    },
-    
-    onSyncManagerStateChange: function(connected) {
-        console.log('ℹ️  TrueHeart: Sync state changed:', connected ? 'connected' : 'disconnected');
-    },
-    
-    onSyncManagerReady: function() {
-        console.log('✅ TrueHeart: Sync manager ready');
-    },
-    
-    onSyncManagerFailed: function() {
-        console.warn('⚠️ TrueHeart: Sync manager failed');
-    },
-    
-    setState: function(state) {
-        console.log('ℹ️  TrueHeart: State change:', state);
-    },
-    
-    performCompleteSync: async function() {
-        console.log('🔄 TrueHeart: Manual sync triggered');
-        if (window.trueheartState.isAuthenticated && window.trueheartAPI) {
-            try {
-                if (window.syncController && typeof window.syncController.immediateSync === 'function') {
-                    await window.syncController.immediateSync('manual');
-                } else {
-                    await window.trueheartAPI.performTrueHeartSync();
-                }
-                console.log('✅ TrueHeart: Sync completed');
-                // completion event emitted centrally by performTrueHeartSync()
-            } catch (error) {
-                console.error('❌ TrueHeart: Sync failed:', error);
-            }
-        } else {
-            console.warn('⚠️ TrueHeart: Not authenticated, cannot sync');
-        }
-    }
-};
-
-console.log('✅ TrueHeart Loader: Compatibility stubs installed');
+}
