@@ -484,7 +484,28 @@ async function performTrueHeartSync() {
 
     if (eventsToAppend.length > 0) {
         console.debug('TrueHeart: appending events:', eventsToAppend.map(e=>({id:e.event_id,type:e.type,payload:e.payload,created_at:e.created_at}))); 
-        try { await window.trueheartSync.appendEvents(eventsToAppend); } catch (err) { console.warn('Failed to append events:', err); }
+        try {
+            await window.trueheartSync.appendEvents(eventsToAppend);
+            // After appending events (deletions), reload the canonical server snapshot
+            // and recompute mergedData so that newly-appended deletes are visible
+            try {
+                const reloadAfterAppend = await window.trueheartSync.load();
+                if (reloadAfterAppend && reloadAfterAppend.data) {
+                    console.debug('TrueHeart: reload after appendEvents returned fresh snapshot');
+                    const remoteAfter = reloadAfterAppend.data;
+                    // Recompute mergedData using the fresh remote snapshot
+                    mergedData = {
+                        bookmarks: mergeNestedMapsByTimestamp(localData.bookmarks, remoteAfter?.bookmarks),
+                        notes: mergeNotesNested(localData.notes, remoteAfter?.notes),
+                        edits: mergeEdits(localData.edits, remoteAfter?.edits),
+                        prompts: mergePrompts(localPrompts, remoteAfter?.prompts || {}),
+                        timestamp: new Date(Math.max(new Date(localData.timestamp || 0).getTime(), new Date(remoteAfter?.timestamp || 0).getTime())).toISOString()
+                    };
+                }
+            } catch (reloadErr) {
+                console.warn('TrueHeart: reload-after-append failed', reloadErr);
+            }
+        } catch (err) { console.warn('Failed to append events:', err); }
     }
 
     // Fetch and apply events (replay)
