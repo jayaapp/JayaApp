@@ -205,7 +205,10 @@ class ChatSession {
 
         try {
             // create AI placeholder message for this request so UI has a stable bubble to update
-            this.addMessage('ai', '', false, { requestId });
+            // Determine initial meta from options to store for retries
+            const initialMeta = (options && options.meta) ? options.meta : { prompt_source: 'free_text' };
+            // Store retryData (userMessage + client_meta) so both success and failure UI can retry
+            this.addMessage('ai', '', false, { requestId, retryData: { userMessage, meta: initialMeta } });
             if (caller && typeof caller.addThinkingIndicator === 'function') caller.addThinkingIndicator();
 
             // Resolve settings (prefer window.ollamaSettings if available)
@@ -379,11 +382,12 @@ class ChatSession {
                 }
             } catch (err) {
                 console.warn('Error while reading response stream:', err);
-                this.updateMessage(requestId, fullResponse || ('Error: ' + (err && err.message ? err.message : String(err))));
+                this.updateMessage(requestId, fullResponse || ('Error: ' + (err && err.message ? err.message : String(err))), { _isError: true });
             }
         } catch (error) {
             console.error('fetchResponse error:', error);
-            this.updateMessage(requestId, `Error: ${error.message}`);
+            // mark message as error and retain retryData so UI can retry
+            this.updateMessage(requestId, `Error: ${error.message}`, { _isError: true });
         } finally {
             // Clean up pending request and thinking indicator
             try {
@@ -400,18 +404,23 @@ class ChatSession {
     }
 
     // Update an existing AI placeholder message identified by requestId.
-    updateMessage(requestId, text) {
+    updateMessage(requestId, text, meta = {}) {
         // Find the message with matching requestId
         const msg = this.messages.find(m => m && m.requestId === requestId);
         if (msg) {
             msg.text = text;
+            // merge meta fields into message (e.g., _isError, retryData)
+            try { Object.assign(msg, meta); } catch (e) { /* ignore */ }
             // notify subscribers with an update envelope
             this.subscribers.forEach(cb => {
                 try { cb({ update: true, requestId, text }); } catch (e) { console.error('chat subscriber error', e); }
             });
         } else {
             // fallback: append a new AI message
-            this.addMessage('ai', text);
+            const opts = {};
+            if (meta && meta.retryData) opts.retryData = meta.retryData;
+            if (meta && meta._isError) opts._isError = true;
+            this.addMessage('ai', text, false, Object.assign({ requestId }, opts));
         }
     }
 
@@ -427,6 +436,9 @@ class ChatSession {
     addMessage(type, text, fetchResponse = true, opts = {}) {
         const msg = { type, text, timestamp: Date.now() };
         if (opts && opts.requestId) msg.requestId = opts.requestId;
+        // preserve retry data if provided so UI can retry this answer later
+        if (opts && opts.retryData) msg.retryData = opts.retryData;
+        if (opts && opts._isError) msg._isError = true;
         this.messages.push(msg);
         this.subscribers.forEach(cb => {
             try { cb(msg); } catch (e) { console.error('chat subscriber error', e); }
@@ -452,6 +464,17 @@ class ChatSession {
             try { cb({ clear: true }); } catch (e) { /* silent */ }
         });
     }
+
+    // Remove a message by its requestId and notify views to remove corresponding DOM
+    removeMessage(requestId) {
+        const idx = this.messages.findIndex(m => m && m.requestId === requestId);
+        if (idx >= 0) this.messages.splice(idx, 1);
+        this.subscribers.forEach(cb => {
+            try { cb({ removed: true, requestId }); } catch (e) { /* ignore */ }
+        });
+    }
+
+    getMessageByRequestId(requestId) { return this.messages.find(m => m && m.requestId === requestId); }
 
     getMessages() { return this.messages.slice(); }
 
@@ -615,6 +638,15 @@ class ChatView {
             if (msg && msg.clear) {
                 // session cleared
                 this.conversation.innerHTML = '';
+            } else if (msg && msg.removed && msg.requestId) {
+                // remove DOM element for removed message
+                try {
+                    const el = this.conversation.querySelector(`[data-request-id="${msg.requestId}"]`);
+                    if (el && el.parentNode) el.parentNode.removeChild(el);
+                    // also remove any standalone retry button tied to this request
+                    const btn = this.conversation.querySelector(`.chat-retry-button[data-request-id="${msg.requestId}"]`);
+                    if (btn && btn.parentNode) btn.parentNode.removeChild(btn);
+                } catch (e) { /* ignore */ }
             } else if (msg) {
                 // support update envelopes from session.updateMessage
                 if (msg.update && msg.requestId) {
@@ -629,6 +661,9 @@ class ChatView {
                             if (bubble) {
                                 // Parse markdown in real-time during streaming
                                 bubble.innerHTML = this.parseMarkdown(msg.text || '');
+                                // After update, attach retry UI as appropriate
+                                const messageObj = this.session.getMessageByRequestId(msg.requestId);
+                                this._attachRetryUIToMessage(el, messageObj);
                             }
                             // keep scroll bottom
                             this.conversation.scrollTop = this.conversation.scrollHeight;
@@ -1027,6 +1062,8 @@ class ChatView {
         if (requestId) msg.setAttribute('data-request-id', String(requestId));
         const bubble = document.createElement('div');
         bubble.className = 'chat-bubble';
+        // Ensure bubble is positioned so icons can be absolute-positioned inside
+        bubble.style.position = 'relative';
         // Render messages: system as HTML, user/AI with markdown parsing, others escaped
         try {
             if (type === 'system') {
@@ -1044,6 +1081,13 @@ class ChatView {
         }
         msg.appendChild(bubble);
         this.conversation.appendChild(msg);
+
+        // Attach retry UI if needed (for success messages with retryData we add small icon)
+        try {
+            const messageObj = this.session.getMessageByRequestId(requestId);
+            this._attachRetryUIToMessage(msg, messageObj);
+        } catch (e) { /* ignore */ }
+
         // keep scroll bottom
         this.conversation.scrollTop = this.conversation.scrollHeight;
     }
@@ -1081,6 +1125,92 @@ class ChatView {
             this.thinkingEl.parentNode.removeChild(this.thinkingEl);
             this.thinkingEl = null;
         }
+    }
+
+    // Attach retry UI controls for a message element based on message metadata
+    _attachRetryUIToMessage(domMsgEl, messageObj) {
+        try {
+            if (!domMsgEl || !messageObj || !messageObj.requestId) return;
+            const rid = String(messageObj.requestId);
+            // remove any old retry icon/button for this request
+            const existingBtn = this.conversation.querySelector(`.chat-retry-button[data-request-id="${rid}"]`);
+            if (existingBtn && existingBtn.parentNode) existingBtn.parentNode.removeChild(existingBtn);
+            const existingIcon = domMsgEl.querySelector('.chat-retry-icon');
+            if (existingIcon && existingIcon.parentNode) existingIcon.parentNode.removeChild(existingIcon);
+            // remove any spacing classes previously applied to the bubble
+            try {
+                const b = domMsgEl.querySelector('.chat-bubble');
+                if (b && b.classList) {
+                    b.classList.remove('has-retry-icon', 'has-retry-icon-fullwidth');
+                }
+            } catch (e) { /* ignore */ }
+
+            // Error case: render an explicit Retry button *outside* the bubble
+            if (messageObj._isError) {
+                const retryBtn = document.createElement('button');
+                retryBtn.className = 'chat-retry-button';
+                retryBtn.setAttribute('data-request-id', rid);
+                retryBtn.type = 'button';
+                retryBtn.title = 'Retry';
+                retryBtn.innerHTML = `<span class="material-symbols-outlined" aria-hidden="true" style="vertical-align:middle; margin-right:6px;">replay</span> Retry`;
+                // Append after the message element
+                domMsgEl.parentNode.insertBefore(retryBtn, domMsgEl.nextSibling);
+                // click handler: remove error message and retry
+                retryBtn.addEventListener('click', (ev) => {
+                    try {
+                        const rd = messageObj.retryData || {};
+                        const um = rd.userMessage;
+                        const meta = rd.meta || {};
+                        // remove the error message
+                        this.session.removeMessage(messageObj.requestId);
+                        // initiate a new fetch for the same message
+                        if (um) {
+                            const newReqId = ++this.session.requestCounter;
+                            this.session.fetchResponse(um, { caller: this, requestId: newReqId, meta });
+                        }
+                    } catch (e) { console.error('Retry button failed', e); }
+                });
+                return;
+            }
+
+            // Success case: small icon inside the bubble at lower-right
+            if (messageObj.retryData && (!messageObj._isError) && messageObj.text && String(messageObj.text).trim()) {
+                const icon = document.createElement('button');
+                icon.className = 'chat-retry-icon';
+                icon.type = 'button';
+                icon.title = 'Retry';
+                icon.innerHTML = `<span class="material-symbols-outlined" aria-hidden="true">replay</span>`; 
+                // click handler: add another reply (do not remove current)
+                icon.addEventListener('click', (ev) => {
+                    try {
+                        const rd = messageObj.retryData || {};
+                        const um = rd.userMessage;
+                        const meta = rd.meta || {};
+                        if (um) {
+                            const newReqId = ++this.session.requestCounter;
+                            this.session.fetchResponse(um, { caller: this, requestId: newReqId, meta });
+                        }
+                    } catch (e) { console.error('Retry icon failed', e); }
+                });
+                // style and append inside bubble
+                const bubble = domMsgEl.querySelector('.chat-bubble');
+                if (bubble) {
+                    bubble.appendChild(icon);
+                    // mark bubble as having retry icon so CSS can reserve horizontal space
+                    try { bubble.classList.add('has-retry-icon'); } catch (e) { /* ignore */ }
+                    // If bubble occupies full width of the conversation, add extra bottom padding
+                    try {
+                        const parentWidth = (this.conversation && this.conversation.clientWidth) ? this.conversation.clientWidth : (domMsgEl.parentNode ? domMsgEl.parentNode.clientWidth : 0);
+                        const bubbleRect = bubble.getBoundingClientRect();
+                        if (parentWidth && Math.abs(bubbleRect.width - parentWidth) <= 2) {
+                            bubble.classList.add('has-retry-icon-fullwidth');
+                        } else {
+                            bubble.classList.remove('has-retry-icon-fullwidth');
+                        }
+                    } catch (e) { /* ignore measurement errors */ }
+                }
+            }
+        } catch (e) { /* ignore attach failures */ }
     }
 
     reset() {

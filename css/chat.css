@@ -158,3 +158,54 @@ body.dark-theme .ai-message .chat-bubble {
     white-space: nowrap !important;
     border: 0 !important;
 }
+
+/* Retry UI: button shown after an error response */
+.chat-retry-button {
+    margin-top: 6px;
+    margin-left: 8px;
+    padding: 6px 10px;
+    font-size: 13px;
+    border-radius: 8px;
+    border: 1px solid var(--panel-border-color);
+    /* Use current theme background blended with a light mask for tone adjustment */
+    background: color-mix(in srgb, var(--bg-color) 88%, rgba(0,0,0,0.06) 12%);
+    /* Button text uses the app text color so it follows theme overrides */
+    color: var(--text-color);
+    cursor: pointer;
+}
+.chat-retry-button:hover { filter: brightness(1.04); }
+
+/* Small retry icon inside the bubble (lower-right) for successful replies */
+.chat-bubble { position: relative; }
+.chat-retry-icon {
+    position: absolute;
+    right: 6px;
+    bottom: 6px;
+    width: 22px;
+    height: 22px;
+    padding: 2px;
+    border-radius: 12px;
+    border: none;
+    /* Subtle background based on theme background to ensure visibility */
+    background: color-mix(in srgb, var(--bg-color) 92%, rgba(0,0,0,0.04) 8%);
+    color: var(--text-color);
+    opacity: 0.6;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.chat-retry-icon:hover { opacity: 0.95; background: color-mix(in srgb, var(--bg-color) 86%, rgba(0,0,0,0.08) 14%); }
+
+/* Size material symbol appropriately inside retry icon/button */
+.chat-retry-icon .material-symbols-outlined { font-size: 14px; line-height: 1; pointer-events: none; }
+.chat-retry-button .material-symbols-outlined { font-size: 16px; vertical-align: middle; margin-right: 6px; pointer-events: none; }
+
+/* Reserve horizontal space inside bubble when retry icon is present so text doesn't collide */
+.chat-bubble.has-retry-icon { padding-right: 40px; }
+
+/* If bubble occupies full width, add a little bottom padding so icon is clearly visible */
+.chat-bubble.has-retry-icon-fullwidth { padding-bottom: 8px; }
+
+/* Ensure icon/button colors respect current theme variables; fallbacks kept minimal */
+.chat-retry-button, .chat-retry-icon { transition: background 120ms ease, opacity 120ms ease; }
