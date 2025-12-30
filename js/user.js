@@ -139,7 +139,9 @@ class UserManager {
         try {
             this.showLoginLoading(true);
             
-            const response = await fetch(`${GITHUB_CONFIG.serverURL}/auth/login`);
+            // Include `next` so server can choose correct frontend redirect for this flow
+            const next = encodeURIComponent(window.location.origin + '/?auth=callback');
+            const response = await fetch(`${GITHUB_CONFIG.serverURL}/auth/login?next=${next}`);
             const data = await response.json();
             
             if (data.status === 'success') {
