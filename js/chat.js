@@ -34,8 +34,9 @@ class ChatSession {
         try { this.ensureOllamaWarning && this.ensureOllamaWarning(); } catch (e) { /* ignore */ }
 
         // Register a persistent authChanged listener so this session always
-        // re-checks Ollama config when login/logout happens. This complements
-        // the temporary listeners used inside ensureOllamaWarning().
+        // re-checks Ollama config when login/logout happens as well as Ollama
+        // settings save. This complements the temporary listeners used inside
+        // ensureOllamaWarning().
         try {
             if (!this.persistentAuthListenerAdded) {
                 this.persistentAuthListener = async (ev) => {
@@ -44,6 +45,7 @@ class ChatSession {
                     } catch (e) { /* ignore */ }
                 };
                 document.addEventListener('authChanged', this.persistentAuthListener);
+                document.addEventListener('ollamaSettingsChanged', this.persistentAuthListener);
                 this.persistentAuthListenerAdded = true;
             }
         } catch (e) { /* ignore */ }
@@ -536,9 +538,14 @@ class ChatSession {
             };
 
             const checkAndUpdate = async () => {
-                const ok = await this.isOllamaConfigured();
+                let ok = await this.isOllamaConfigured();
+                if (ok && window.testOllamaConnection) {
+                    ok = await window.testOllamaConnection();
+                }
                 const localized = getLocalized();
                 if (!ok) {
+                    // disable toolbar input while not configured
+                    document.dispatchEvent(new CustomEvent('updateToolbarState', { detail: { enabled: false } }));
                     // ensure warning present
                     if (!warningExists()) {
                         const msg = { type: 'system', text: localized, timestamp: Date.now(), _isOllamaWarning: true };
@@ -567,6 +574,8 @@ class ChatSession {
                         }
                     }
                 } else {
+                    // enable toolbar input
+                    document.dispatchEvent(new CustomEvent('updateToolbarState', { detail: { enabled: true } }));
                     // remove existing warning(s) and replay messages
                     if (warningExists()) {
                         this.messages = this.messages.filter(m => !(m && m.type === 'system' && m._isOllamaWarning));
@@ -783,12 +792,13 @@ class ChatView {
         // Put conversation and toolbar into container
         this.container.appendChild(this.conversation);
         this.container.appendChild(this.toolbar);
-        // Initialize toolbar enabled/disabled state based on Ollama config
-        try { this.updateToolbarEnabledState && this.updateToolbarEnabledState(); } catch (e) { /* ignore */ }
-        // Start a short polling loop to re-check settings in case settings
-        // initialization runs after the chat view; this avoids a persistent
-        // disabled toolbar due to load-order races.
-        try { this.startToolbarRecheckPolling && this.startToolbarRecheckPolling(); } catch (e) { /* ignore */ }
+
+        // Serve the toolbar update event
+        document.addEventListener('updateToolbarState', (e) => {
+            const detail = e.detail || {};
+            const enabled = (typeof detail.enabled === 'boolean') ? detail.enabled : true;
+            this.updateToolbarEnabledState(enabled);
+        });
     }
 
     bindEvents() {
@@ -940,18 +950,14 @@ class ChatView {
                 window.getLocale('help_me') || 'Help me' : 'Help me';
             this.sendBtn.innerHTML = window.getLocale ?
                 window.getLocale('send') || 'Send' : 'Send';
-            try { this.updateToolbarEnabledState && this.updateToolbarEnabledState(); } catch (e) { /* ignore */ }
         });
-        // Re-check Ollama configuration when auth changes so toolbar toggles immediately
-        try { document.addEventListener('authChanged', () => { this.updateToolbarEnabledState && this.updateToolbarEnabledState(); }); } catch (e) { /* ignore */ }
     }
 
     // Enable or disable the lower toolbar depending on whether Ollama is configured
-    async updateToolbarEnabledState() {
+    updateToolbarEnabledState(Ollama_is_configured) {
         try {
-            const ok = await this.session.isOllamaConfigured();
             if (!this.toolbar) return;
-            if (ok) {
+            if (Ollama_is_configured) {
                 this.toolbar.classList.remove('disabled');
                 try { this.resetBtn.disabled = false; } catch (e) {}
                 try { this.helpMeBtn.disabled = false; } catch (e) {}
@@ -964,35 +970,6 @@ class ChatView {
                 try { this.sendBtn.disabled = true; } catch (e) {}
                 try { this.input.disabled = true; this.input.readOnly = true; } catch (e) {}
             }
-        } catch (e) { /* ignore */ }
-    }
-
-    // Poll a few times shortly after init to handle load-order races where
-    // the settings module initializes after the chat view. Stops early when
-    // toolbar becomes enabled.
-    startToolbarRecheckPolling() {
-        try {
-            if (this._toolbarRecheckTimer) return;
-            let attempts = 8; // ~8 * 250ms = 2s
-            this._toolbarRecheckTimer = setInterval(async () => {
-                try {
-                    attempts -= 1;
-                    await this.updateToolbarEnabledState();
-                    const toolbar = this.toolbar;
-                    if (toolbar && !toolbar.classList.contains('disabled')) {
-                        clearInterval(this._toolbarRecheckTimer);
-                        this._toolbarRecheckTimer = null;
-                        return;
-                    }
-                    if (attempts <= 0) {
-                        clearInterval(this._toolbarRecheckTimer);
-                        this._toolbarRecheckTimer = null;
-                    }
-                } catch (e) {
-                    clearInterval(this._toolbarRecheckTimer);
-                    this._toolbarRecheckTimer = null;
-                }
-            }, 250);
         } catch (e) { /* ignore */ }
     }
 

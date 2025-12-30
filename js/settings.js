@@ -897,25 +897,25 @@ function initOllamaSettings() {
     async function testConnection() {
         const serverType = getServerType();
         const serverUrl = getServerUrl();
-        if (!modelSelect) { showSettingsStatus(L('error_loading_data', 'Configuration fields are missing!'), 'error'); return; }
+        if (!modelSelect) { showSettingsStatus(L('error_loading_data', 'Configuration fields are missing!'), 'error'); return false; }
         const model = modelSelect.value.trim();
-        if (!serverUrl || !model) { showSettingsStatus(L('error_loading_data', 'Please enter both server URL and model name.'), 'error'); return; }
+        if (!serverUrl || !model) { showSettingsStatus(L('error_loading_data', 'Please enter both server URL and model name.'), 'error'); return false; }
 
         try {
             showSettingsStatus(L('key_status_checking', 'Checking API key...'), 'info');
             const headers = {};
             if (serverType === 'cloud') {
-                if (!isAuthenticated()) { showSettingsStatus(L('login_for_cloud', 'Please login to use cloud features'), 'error'); return; }
+                if (!isAuthenticated()) { showSettingsStatus(L('login_for_cloud', 'Please login to use cloud features'), 'error'); return false; }
                 try {
                     const getKeyHeaders = await getAuthHeaders();
                     const keyResp = await fetch(`${GITHUB_CONFIG.serverURL}/ollama/get-key`, { headers: getKeyHeaders });
                     const keyData = await keyResp.json();
-                    if (!keyData.has_key) { showSettingsStatus(L('no_key_saved', 'Please save your Ollama API key in settings first'), 'error'); return; }
+                    if (!keyData.has_key) { showSettingsStatus(L('no_key_saved', 'Please save your Ollama API key in settings first'), 'error'); return false; }
                     headers['Authorization'] = `Bearer ${keyData.api_key}`;
-                } catch (err) { showSettingsStatus(L('session_expired_cloud', 'Session expired. Please login again to use cloud features.'), 'error'); return; }
+                } catch (err) { showSettingsStatus(L('session_expired_cloud', 'Session expired. Please login again to use cloud features.'), 'error'); return false; }
                 // For cloud, just verify model selection
-                if (model && model.length > 0) { showSettingsStatus(L('ollama_server_settings_verified', 'Cloud configuration verified!'), 'success'); } else { showSettingsStatus(L('error_loading_data', 'Please select a cloud model'), 'error'); }
-                return;
+                if (model && model.length > 0) { showSettingsStatus(L('ollama_server_settings_verified', 'Cloud configuration verified!'), 'success'); return true; }
+                else { showSettingsStatus(L('error_loading_data', 'Please select a cloud model'), 'error'); return false; }
             }
 
             // Local mode: test /api/tags
@@ -923,10 +923,18 @@ function initOllamaSettings() {
             if (!resp.ok) throw new Error(`${resp.status} ${resp.statusText}`);
             const data = await resp.json();
             const modelExists = data.models && data.models.some(m => m.name.includes(model));
-            if (modelExists) { showSettingsStatus(L('connection_test_successful', 'Connection test successful!'), 'success'); if (modelSelect) await populateModelsDropdown(modelSelect, serverUrl, model); }
-            else { showSettingsStatus(L('model_not_found', `Model '${model}' not found on server.`), 'error'); }
+            if (modelExists) {
+                showSettingsStatus(L('connection_test_successful', 'Connection test successful!'), 'success');
+                if (modelSelect) await populateModelsDropdown(modelSelect, serverUrl, model);
+                return true;
+            } else {
+                showSettingsStatus(L('model_not_found', `Model '${model}' not found on server.`), 'error');
+                return false;
+            }
         } catch (error) { console.error('Ollama connection test failed:', error); showSettingsStatus(L('connection_test_failed', `Connection test failed: ${error.message}`), 'error'); }
+        return false;
     }
+
 
     function handleServerTypeChange() {
         const st = getServerType();
@@ -962,6 +970,9 @@ function initOllamaSettings() {
     if (deleteKeyBtn) deleteKeyBtn.addEventListener('click', handleDeleteApiKey);
     if (testBtn) testBtn.addEventListener('click', testConnection);
     if (saveSettingsBtn) saveSettingsBtn.addEventListener('click', saveSettings);
+
+    // Expose test connection function for console testing
+    window.testOllamaConnection = testConnection; // expose for console testing
 
     // Refresh cloud key UI when settings panel opens
     document.addEventListener('settingsOpened', () => {
