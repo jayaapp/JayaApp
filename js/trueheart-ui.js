@@ -10,8 +10,16 @@ class TrueHeartUI {
         this.render();
         this.attachEventListeners();
         
-        // Check initial auth state
-        this.updateAuthState();
+        // Check initial auth state and notify when TrueHeart UI/API is ready
+        try {
+            this.updateAuthState().then(() => {
+                try { document.dispatchEvent(new Event('trueheart-ready')); } catch (e) { /* silent */ }
+            }).catch(() => {
+                try { document.dispatchEvent(new Event('trueheart-ready')); } catch (e) { /* silent */ }
+            });
+        } catch (e) {
+            try { document.dispatchEvent(new Event('trueheart-ready')); } catch (ee) { /* silent */ }
+        }
     }
 
     // Helper to get localized message

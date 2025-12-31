@@ -232,4 +232,14 @@
     // expose init in case main wants to run it after HTML modules are injected
     window.initNotes = initNotes;
 
+    // React to remote sync updates: when `syncDataUpdated` arrives, localStorage
+    // has been updated by the sync routine; refresh UI if needed.
+    window.addEventListener('syncDataUpdated', (e) => {
+        try {
+            if (e && e.detail && e.detail.notes) {
+                if (typeof window.updateText === 'function') window.updateText();
+            }
+        } catch (err) { /* silent */ }
+    });
+
 })();

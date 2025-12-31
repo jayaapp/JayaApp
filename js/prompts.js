@@ -600,14 +600,18 @@
         promptKey
     };
 
-    // Backwards-compatible helper used by TrueHeart loader to refresh prompts after sync
-    window.loadPrompts = function() {
+    // Prefer canonical `syncDataUpdated` handling: when sync updates prompts
+    // localStorage is already updated by the sync routine; re-render names.
+    window.addEventListener('syncDataUpdated', (e) => {
         try {
-            // If the panel is initialized, re-render names so UI reflects current storage
-            renderNames();
-            if (typeof window.updateText === 'function') window.updateText();
-        } catch (e) { /* ignore */ }
-    };
+            if (e && e.detail && e.detail.prompts) {
+                // Refresh predefined list and UI
+                loadPredefinedPrompts();
+                renderNames();
+                if (typeof window.updateText === 'function') window.updateText();
+            }
+        } catch (err) { /* silent */ }
+    });
 
     function initPrompts(attempts=6) {
         loadPredefinedPrompts();

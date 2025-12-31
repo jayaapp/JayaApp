@@ -61,6 +61,18 @@
         loadBookmarks
     };
 
+    // React to remote sync updates: when `syncDataUpdated` arrives, localStorage
+    // is already updated by the sync routine; refresh UI if needed.
+    window.addEventListener('syncDataUpdated', (e) => {
+        try {
+            if (e && e.detail && e.detail.bookmarks) {
+                // UI widgets (icons, lists) read from storage; trigger updates.
+                if (typeof window.updateText === 'function') window.updateText();
+                // If lists panel is open and uses bookmarksAPI.loadBookmarks(), it will read updated storage when rendering.
+            }
+        } catch (err) { /* silent */ }
+    });
+
     function bind() {
         // toggle button
         const toggle = document.getElementById('bookmark-toggle');
