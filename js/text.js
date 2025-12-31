@@ -427,6 +427,17 @@ function gotToBookChapterVerse(book, chapter, verse) {
             return;
         }
         try {
+            // Mark we're performing an internal programmatic navigation so
+            // the generic bookChapterChanged handler doesn't rewind us to verse 1.
+            try {
+                window._jayaapp_internalNavigation = true;
+                if (window._jayaapp_internalNavigationTimeout) clearTimeout(window._jayaapp_internalNavigationTimeout);
+                window._jayaapp_internalNavigationTimeout = setTimeout(() => {
+                    try { window._jayaapp_internalNavigation = false; } catch (e) {}
+                    try { delete window._jayaapp_internalNavigationTimeout; } catch (e) {}
+                }, 5000);
+            } catch (e) { /* ignore */ }
+
             // Set book and chapter
             selectBook(book);
             chapterSelect.value = String(Number(chapter));
@@ -492,6 +503,15 @@ function gotToBookChapterVerse(book, chapter, verse) {
                     // persist last position when we successfully navigated
                     try { saveLastPosition(book, chapter, verse); } catch (e) { /* silent */ }
 
+                    // Clear internal-navigation guard now that we've completed the jump
+                    try {
+                        if (window._jayaapp_internalNavigationTimeout) {
+                            clearTimeout(window._jayaapp_internalNavigationTimeout);
+                            delete window._jayaapp_internalNavigationTimeout;
+                        }
+                        window._jayaapp_internalNavigation = false;
+                    } catch (e) { /* ignore */ }
+
                     // If an internal navigation helper performed this jump, clear
                     // any deep-link params (so they don't persist as the active
                     // starting position in the address bar). This ensures subsequent
@@ -519,6 +539,14 @@ function gotToBookChapterVerse(book, chapter, verse) {
                     setTimeout(tryScroll, 150);
                 } else {
                     console.warn('Target verse not found after retries', book, chapter, verse);
+                    // clear internal-navigation guard on failure so future handlers run normally
+                    try {
+                        if (window._jayaapp_internalNavigationTimeout) {
+                            clearTimeout(window._jayaapp_internalNavigationTimeout);
+                            delete window._jayaapp_internalNavigationTimeout;
+                        }
+                        window._jayaapp_internalNavigation = false;
+                    } catch (e) { /* ignore */ }
                 }
             };
             setTimeout(tryScroll, 160);
@@ -536,6 +564,9 @@ function updateText() {
 }
 
 document.addEventListener('bookChapterChanged', () => {
+    // If an internal programmatic navigation is in progress, skip the generic
+    // rewind-to-verse-1 behavior which would otherwise undo the explicit jump.
+    try { if (window._jayaapp_internalNavigation) return; } catch (e) { /* ignore */ }
     // Ensure that when the user (or app) transitions to a different book/chapter,
     // the view starts at verse 1. We wait for the verses to be rendered and then
     // scroll the first verse into view and persist verse=1 as the last position.
