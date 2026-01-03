@@ -61,6 +61,12 @@ function renderWhenReady(container) {
             verseNumberSpan.className = 'verse-number';
             verseNumberSpan.textContent = `${index + 1}:`;
             
+            // Add click handler to copy verse URL (with debouncing)
+            verseNumberSpan.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent word click handler
+                copyVerseURL(bookKey, chapterKey, index + 1);
+            });
+            
             // Add verse number
             lineDiv.appendChild(verseNumberSpan);
             lineDiv.appendChild(document.createElement('br'));
@@ -621,3 +627,57 @@ document.addEventListener('textRenderingChanged', () => {
 document.addEventListener('backgroundSettingsChanged', () => {
     updateText();
 });
+
+// Debouncing mechanism for verse number clicks
+let lastVerseClickTime = 0;
+const VERSE_CLICK_DEBOUNCE_MS = 2000;
+
+/**
+ * Copy verse URL to clipboard when verse number is clicked
+ * Includes fallback for browsers without clipboard API support
+ */
+function copyVerseURL(book, chapter, verse) {
+    try {
+        // Debounce: prevent multiple rapid clicks
+        const now = Date.now();
+        if (now - lastVerseClickTime < VERSE_CLICK_DEBOUNCE_MS) {
+            return; // Skip if clicked too soon
+        }
+        lastVerseClickTime = now;
+
+        // Build URL dynamically from current location
+        const baseUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
+        const verseUrl = `${baseUrl}?book=${book}&chapter=${chapter}&verse=${verse}`;
+        
+        // Try modern Clipboard API first
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(verseUrl).then(() => {
+                // Show localized success message (2 seconds)
+                const message = window.getLocale ? window.getLocale('verse_link_copied') : 'Verse link copied to clipboard';
+                if (window.showAlert) window.showAlert(message, 2000);
+            }).catch(err => {
+                console.warn('Clipboard API failed, using fallback:', err);
+                showVerseLinkFallback(verseUrl);
+            });
+        } else {
+            // Fallback for browsers without Clipboard API
+            showVerseLinkFallback(verseUrl);
+        }
+    } catch (err) {
+        console.error('Error in copyVerseURL:', err);
+    }
+}
+
+/**
+ * Fallback method to display verse URL when clipboard API is unavailable
+ * Shows 10-second alert with the URL that users can manually copy
+ */
+function showVerseLinkFallback(verseUrl) {
+    try {
+        const prefix = window.getLocale ? window.getLocale('verse_link_fallback') : 'Link to verse location';
+        const message = `${prefix}: ${verseUrl}`;
+        if (window.showAlert) window.showAlert(message, 10000);
+    } catch (err) {
+        console.error('Error showing verse link fallback:', err);
+    }
+}

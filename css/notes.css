@@ -218,6 +218,11 @@
     padding: 2px;
 }
 
+/* Verse number hover cursor for clickable link copying */
+.verse-number:hover {
+    cursor: pointer;
+}
+
 /* Edit icon for translations */
 .translation-edit-icon {
     display: inline-flex;
