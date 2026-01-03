@@ -362,7 +362,7 @@ class WordFormationAnalyzer {
             // Vowel marks (matras)
             'ा': 'vowel_mark', 'ि': 'vowel_mark', 'ी': 'vowel_mark', 'ु': 'vowel_mark', 'ू': 'vowel_mark',
             'ृ': 'vowel_mark', 'ॄ': 'vowel_mark', 'ॢ': 'vowel_mark', 'े': 'vowel_mark', 'ै': 'vowel_mark',
-            'ो': 'vowel_mark', 'ौ': 'vowel_mark',
+            'ो': 'vowel_mark', 'ॊ': 'vowel_mark', 'ौ': 'vowel_mark',
             
             // Special marks
             '्': 'halant', 'ं': 'anusvara', 'ः': 'visarga', 'ँ': 'candrabindu'
@@ -398,6 +398,7 @@ class WordFormationAnalyzer {
             'े': () => `${this.t('changes_to')} /e/ - ${this.t('long_sound')} 'e' ${this.t('sound')}`,
             'ै': () => `${this.t('changes_to')} /ai/ - ${this.t('diphthong')}`,
             'ो': () => `${this.t('changes_to')} /o/ - ${this.t('long_sound')} 'o' ${this.t('sound')}`,
+            'ॊ': () => `${this.t('changes_to')} /o/ - ${this.t('short_sound')} 'o' ${this.t('sound')}`,
             'ौ': () => `${this.t('changes_to')} /au/ - ${this.t('diphthong')}`
         };
         
@@ -646,7 +647,7 @@ class WordFormationAnalyzer {
         const mapping = {
             'ा': 'ā', 'ि': 'i', 'ी': 'ī', 'ु': 'u', 'ू': 'ū',
             'ृ': 'ṛ', 'ॄ': 'ṝ', 'ॢ': 'ḷ', 'े': 'e', 'ै': 'ai',
-            'ो': 'o', 'ौ': 'au'
+            'ो': 'o', 'ॊ': 'o', 'ौ': 'au'
         };
         return mapping[mark] || mark;
     }
