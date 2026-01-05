@@ -214,6 +214,7 @@
                 }
 
                 // Apply localization and initialize panels
+                try { initMain(); } catch (e) { console.error('initMain error', e); }
                 try { applyLocalization(); } catch (e) { console.error('applyLocalization error', e); }
                 try { initSettingsPanel(); } catch (e) { console.error('initSettingsPanel error', e); }
                 try { initBackground(); } catch (e) { console.error('initBackground error', e); }   

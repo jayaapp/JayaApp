@@ -30,7 +30,7 @@ function debounce(fn, delay) {
 }
 
 // Split view functionality
-document.addEventListener('DOMContentLoaded', () => {
+function initMain() {
     // Initially render content in panels
     for (const orientation of ['-horizontal', '-vertical']) {
         renderText(document.getElementById('text-panel' + orientation));
@@ -199,4 +199,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } catch (e) { /* ignore */ }
     }, 100)); // 100ms debounce
-});
+}
