@@ -22,6 +22,10 @@ Kliknij przycisk „Pomóż mi”, a następnie kliknij słowo sanskryckie, sło
 
 Aplikacja wyświetla algorytmiczną analize budowy słowa oraz wpis leksykonu, które stają się dostępne po kliknięciu słowa w notacji Devanagari lub IAST.
 
+### Rozmiar okna czatu
+
+Przytrzymaj i przeciągnij pasek rozdzielający okno czytnika tekstu od okna czatu aby zmienić rozmiar obu okien.
+
 ## Podziękowania
 
 Chciałbym wyrazić wdzięczność Boskiej Matce za zainspirowanie pracy nad tą aplikacją.
@@ -61,6 +65,10 @@ Click the "Help Me" button and then click a Sanskrit word, a word from a transla
 ### Builtin word analysis
 
 The app displays algorithmic word formation analysis and a lexicon entry for the clicked word; these are available when you click a word shown in Devanagari or IAST.
+
+### Chat window resizing
+
+Hold and drag the divider bar between the text reader window and the chat window to resize both windows.
 
 ## Acknowledgments
 
